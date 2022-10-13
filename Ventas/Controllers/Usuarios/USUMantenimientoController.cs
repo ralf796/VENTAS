@@ -26,10 +26,10 @@ namespace Ventas.Controllers.Usuarios
          */
 
 
-        private List<Usuarios_BE> GuardarUsuario(Usuarios_BE item)
+        private List<Usuarios_BE> GetDatosUsuario_(Usuarios_BE item)
         {
             List<Usuarios_BE> lista = new List<Usuarios_BE>();
-            lista = Usuarios_BLL.GuardarUsuario(item);
+            lista = Usuarios_BLL.GetDatosUsuario(item);
             return lista;
         }
 
@@ -56,7 +56,7 @@ namespace Ventas.Controllers.Usuarios
                 item.PASSWORD = new Encryption().Encrypt(password.Trim());
                 item.ID_ROL = idRol;
 
-                var lista = GuardarUsuario(item);
+                var lista = GetDatosUsuario_(item);
 
                 if (lista.Count > 0)
                 {
@@ -66,6 +66,22 @@ namespace Ventas.Controllers.Usuarios
                     }
                 }
                 return Json(new { State = 1 }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                return Json(new { State = -1, Message = ex.Message }, JsonRequestBehavior.AllowGet);
+            }
+        }
+
+        public JsonResult GetLists(int tipo)
+        {
+            try
+            {
+                var item = new Usuarios_BE();
+                item.MTIPO = tipo;
+
+                var lista = GetDatosUsuario_(item);
+                return Json(new { State = 1, data = lista }, JsonRequestBehavior.AllowGet);
             }
             catch (Exception ex)
             {

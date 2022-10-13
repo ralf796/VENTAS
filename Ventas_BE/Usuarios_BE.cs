@@ -18,8 +18,11 @@ namespace Ventas_BE
         public string EMAIL { get; set; }
         public int ID_TIPO_EMPLEADO { get; set; }
         public int ID_ROL { get; set; }
+        public int MTIPO { get; set; }
         public string RESPUESTA { get; set; }
         public string USUARIO { get; set; }
         public string PASSWORD { get; set; }
+        public string NOMBRE { get; set; }
+        public string DESCRIPCION { get; set; }
     }
 }
