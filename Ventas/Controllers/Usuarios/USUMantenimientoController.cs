@@ -25,14 +25,12 @@ namespace Ventas.Controllers.Usuarios
         PASS: Xml1234#
          */
 
-
         private List<Usuarios_BE> GetDatosUsuario_(Usuarios_BE item)
         {
             List<Usuarios_BE> lista = new List<Usuarios_BE>();
             lista = Usuarios_BLL.GetDatosUsuario(item);
             return lista;
         }
-
 
         /*
          * https://localhost:44302/USUMantenimiento/GuardarUsuario?primerNombre=&segundoNombre=&primerApellido=&segundoApellido=&telefono=&direccion=&idTipoEmpleado=1&email=&creadoPor=RALOPEZ&usuario=new&password=1234&idRol=1
