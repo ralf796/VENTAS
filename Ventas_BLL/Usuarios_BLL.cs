@@ -11,12 +11,12 @@ namespace Ventas_BLL
     public class Usuarios_BLL:IDisposable
     {
         public void Dispose() { }
-        public static List<Usuarios_BE> GetDatosUsuario(Usuarios_BE item)
+        public static List<Usuarios_BE> GetSPUsuario(Usuarios_BE item)
         {
             List<Usuarios_BE> data = null;
             using (var model = new Usuarios_DAL())
             {
-                data = model.GetDatosUsuario(item);
+                data = model.GetSPUsuario(item);
             }
             return data;
         }

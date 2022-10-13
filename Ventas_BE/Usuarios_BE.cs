@@ -13,6 +13,7 @@ namespace Ventas_BE
         public string PRIMER_APELLIDO { get; set; }
         public string SEGUNDO_APELLIDO { get; set; }
         public string DIRECCION { get; set; }
+        public string CELULAR { get; set; }
         public string TELEFONO { get; set; }
         public string CREADO_POR { get; set; }
         public string EMAIL { get; set; }

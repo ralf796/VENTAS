@@ -10,7 +10,7 @@ namespace Ventas_DAL
     public class Usuarios_DAL:IDisposable
     {
         public void Dispose() { }
-        public List<Usuarios_BE> GetDatosUsuario(Usuarios_BE item)
+        public List<Usuarios_BE> GetSPUsuario(Usuarios_BE item)
         {
             List<Usuarios_BE> result = new List<Usuarios_BE>();
             using (var model = new Base_SQL("sp_guardar_usuario"))
