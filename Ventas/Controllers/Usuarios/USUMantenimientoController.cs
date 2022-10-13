@@ -1,4 +1,5 @@
-﻿using System;
+﻿using GenesysOracleSV.Clases;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
@@ -34,9 +35,9 @@ namespace Ventas.Controllers.Usuarios
 
 
         /*
-         * https://localhost:44302/USUMantenimiento/GuardarUsuario?primerNombre=&segundoNombre=&primerApellido=&segundoApellido=&telefono=&direccion=&idTipoEmpleado=1&email=&creadoPor=RALOPEZ
+         * https://localhost:44302/USUMantenimiento/GuardarUsuario?primerNombre=&segundoNombre=&primerApellido=&segundoApellido=&telefono=&direccion=&idTipoEmpleado=1&email=&creadoPor=RALOPEZ&usuario=new&password=1234&idRol=1
          * */
-        public JsonResult GuardarUsuario(string primerNombre = "", string segundoNombre = "", string primerApellido = "", string segundoApellido = "", string telefono = "", string direccion = "", int idTipoEmpleado = 0, string email = "", string creadoPor = "")
+        public JsonResult GuardarUsuario(string primerNombre = "", string segundoNombre = "", string primerApellido = "", string segundoApellido = "", string telefono = "", string direccion = "", int idTipoEmpleado = 0, string email = "", string creadoPor = "", string usuario = "", string password = "", int idRol = 0)
         {
             try
             {
@@ -51,6 +52,9 @@ namespace Ventas.Controllers.Usuarios
                 item.ID_TIPO_EMPLEADO = idTipoEmpleado;
                 item.EMAIL = email;
                 item.CREADO_POR = creadoPor;
+                item.USUARIO = usuario;
+                item.PASSWORD = new Encryption().Encrypt(password.Trim());
+                item.ID_ROL = idRol;
 
                 var lista = GuardarUsuario(item);
 
@@ -61,7 +65,6 @@ namespace Ventas.Controllers.Usuarios
                         respuesta = lista.FirstOrDefault().RESPUESTA;
                     }
                 }
-
                 return Json(new { State = 1 }, JsonRequestBehavior.AllowGet);
             }
             catch (Exception ex)

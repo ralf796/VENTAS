@@ -24,6 +24,9 @@ namespace Ventas_DAL
                 model.Command.Parameters.AddWithValue("@ID_TIPO_EMPLEADO", item.ID_TIPO_EMPLEADO);
                 model.Command.Parameters.AddWithValue("@EMAIL", item.EMAIL);
                 model.Command.Parameters.AddWithValue("@CREADO_POR", item.CREADO_POR);
+                model.Command.Parameters.AddWithValue("@USUARIO", item.USUARIO);
+                model.Command.Parameters.AddWithValue("@PASSWORD", item.PASSWORD);
+                model.Command.Parameters.AddWithValue("@ID_ROL", item.ID_ROL);
                 result = model.GetData<Usuarios_BE>();
             }
             return result;
