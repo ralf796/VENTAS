@@ -120,6 +120,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\Inventario\INVGeneralController.cs" />
+    <Compile Include="Controllers\Usuarios\USUMantenimientoController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -173,9 +174,24 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Controllers\Usuarios\" />
+    <Folder Include="Controllers\Caja\" />
+    <Folder Include="Controllers\Clientes\" />
+    <Folder Include="Controllers\Proveedores\" />
+    <Folder Include="Controllers\Reportes\" />
+    <Folder Include="Controllers\Ventas\" />
     <Folder Include="Models\" />
     <Folder Include="Views\Login\" />
+    <Folder Include="Views\USUMantenimiento\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Ventas_BE\Ventas_BE.csproj">
+      <Project>{065247BE-0BCB-4C13-B320-A321700A1124}</Project>
+      <Name>Ventas_BE</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Ventas_BLL\Ventas_BLL.csproj">
+      <Project>{CA3FEBD2-A1C9-4DF2-A8F9-CB883DBA7CFA}</Project>
+      <Name>Ventas_BLL</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

@@ -154,3 +154,9 @@ C:\Users\raul.lopez\source\repos\VENTAS\Ventas\obj\Debug\Ventas.csproj.CoreCompi
 C:\Users\raul.lopez\source\repos\VENTAS\Ventas\obj\Debug\Ventas.csproj.CopyComplete
 C:\Users\raul.lopez\source\repos\VENTAS\Ventas\obj\Debug\Ventas.dll
 C:\Users\raul.lopez\source\repos\VENTAS\Ventas\obj\Debug\Ventas.pdb
+C:\Users\raul.lopez\source\repos\VENTAS\Ventas\bin\Ventas_BE.dll
+C:\Users\raul.lopez\source\repos\VENTAS\Ventas\bin\Ventas_BLL.dll
+C:\Users\raul.lopez\source\repos\VENTAS\Ventas\bin\Ventas_DAL.dll
+C:\Users\raul.lopez\source\repos\VENTAS\Ventas\bin\Ventas_BE.pdb
+C:\Users\raul.lopez\source\repos\VENTAS\Ventas\bin\Ventas_BLL.pdb
+C:\Users\raul.lopez\source\repos\VENTAS\Ventas\bin\Ventas_DAL.pdb

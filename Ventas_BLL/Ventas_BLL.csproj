@@ -50,5 +50,15 @@
     <Compile Include="Usuarios_BLL.cs" />
     <Compile Include="Ventas_BLL.cs" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Ventas_BE\Ventas_BE.csproj">
+      <Project>{065247BE-0BCB-4C13-B320-A321700A1124}</Project>
+      <Name>Ventas_BE</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Ventas_DAL\Ventas_DAL.csproj">
+      <Project>{517B32AB-2FB0-4943-8E6A-F6DE09410B8C}</Project>
+      <Name>Ventas_DAL</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

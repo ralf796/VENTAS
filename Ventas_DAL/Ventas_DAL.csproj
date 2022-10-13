@@ -32,6 +32,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -41,6 +42,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Base_SQL.cs" />
     <Compile Include="Caja_DAL.cs" />
     <Compile Include="Clientes_DAL.cs" />
     <Compile Include="Inventario_DAL.cs" />
@@ -49,6 +51,12 @@
     <Compile Include="Reportes_DAL.cs" />
     <Compile Include="Usuarios_DAL.cs" />
     <Compile Include="Ventas_DAL.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Ventas_BE\Ventas_BE.csproj">
+      <Project>{065247BE-0BCB-4C13-B320-A321700A1124}</Project>
+      <Name>Ventas_BE</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
