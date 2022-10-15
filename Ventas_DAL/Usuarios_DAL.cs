@@ -32,5 +32,20 @@ namespace Ventas_DAL
             }
             return result;
         }
+
+        public List<Usuarios_BE> GetSPLogin(Usuarios_BE item)
+        {
+            List<Usuarios_BE> result = new List<Usuarios_BE>();
+            using (var model = new Base_SQL("sp_login"))
+            {
+                model.Command.Parameters.AddWithValue("@USUARIO", item.USUARIO);
+                model.Command.Parameters.AddWithValue("@PASSWORD", item.PASSWORD);
+                model.Command.Parameters.AddWithValue("@MTIPO", item.MTIPO);
+                result = model.GetData<Usuarios_BE>();
+            }
+            return result;
+        }
+
+
     }
 }

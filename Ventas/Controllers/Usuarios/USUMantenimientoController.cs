@@ -28,7 +28,6 @@ namespace Ventas.Controllers.Usuarios
          * https://localhost:44302/USUMantenimiento/GuardarUsuario?primerNombre=&segundoNombre=&primerApellido=&segundoApellido=&telefono=&direccion=&idTipoEmpleado=1&email=&creadoPor=RALOPEZ&usuario=new&password=1234&idRol=1
          * */
 
-
         private List<Usuarios_BE> GetDatosUsuario_(Usuarios_BE item)
         {
             List<Usuarios_BE> lista = new List<Usuarios_BE>();
@@ -36,7 +35,7 @@ namespace Ventas.Controllers.Usuarios
             return lista;
         }
 
-        public JsonResult GuardarUsuario(string primerNombre = "", string segundoNombre = "", string primerApellido = "", string segundoApellido = "", string celular="",
+        public JsonResult GuardarUsuario(string primerNombre = "", string segundoNombre = "", string primerApellido = "", string segundoApellido = "", string celular = "",
             string telefono = "", string direccion = "", int idTipoEmpleado = 0, string email = "", string usuario = "", string password = "", int idRol = 0)
         {
             try
@@ -53,7 +52,7 @@ namespace Ventas.Controllers.Usuarios
                 item.ID_TIPO_EMPLEADO = idTipoEmpleado;
                 item.EMAIL = email;
                 item.CREADO_POR = "RALOPEZ";
-                item.USUARIO = "TEST";
+                item.USUARIO = "RALOPEZ";
                 item.PASSWORD = new Encryption().Encrypt(password.Trim());
                 item.ID_ROL = idRol;
                 item.MTIPO = 1;

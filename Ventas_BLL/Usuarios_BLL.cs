@@ -20,5 +20,14 @@ namespace Ventas_BLL
             }
             return data;
         }
+        public static List<Usuarios_BE> GetSPLogin(Usuarios_BE item)
+        {
+            List<Usuarios_BE> data = null;
+            using (var model = new Usuarios_DAL())
+            {
+                data = model.GetSPLogin(item);
+            }
+            return data;
+        }
     }
 }
