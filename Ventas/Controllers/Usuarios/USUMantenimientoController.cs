@@ -24,18 +24,19 @@ namespace Ventas.Controllers.Usuarios
         USER: db_a8e200_dbsalesment_admin
         PASS: Xml1234#
          */
+        /*
+         * https://localhost:44302/USUMantenimiento/GuardarUsuario?primerNombre=&segundoNombre=&primerApellido=&segundoApellido=&telefono=&direccion=&idTipoEmpleado=1&email=&creadoPor=RALOPEZ&usuario=new&password=1234&idRol=1
+         * */
 
         private List<Usuarios_BE> GetDatosUsuario_(Usuarios_BE item)
         {
             List<Usuarios_BE> lista = new List<Usuarios_BE>();
-            lista = Usuarios_BLL.GetDatosUsuario(item);
+            lista = Usuarios_BLL.GetSPUsuario(item);
             return lista;
         }
 
-        /*
-         * https://localhost:44302/USUMantenimiento/GuardarUsuario?primerNombre=&segundoNombre=&primerApellido=&segundoApellido=&telefono=&direccion=&idTipoEmpleado=1&email=&creadoPor=RALOPEZ&usuario=new&password=1234&idRol=1
-         * */
-        public JsonResult GuardarUsuario(string primerNombre = "", string segundoNombre = "", string primerApellido = "", string segundoApellido = "", string telefono = "", string direccion = "", int idTipoEmpleado = 0, string email = "", string creadoPor = "", string usuario = "", string password = "", int idRol = 0)
+        public JsonResult GuardarUsuario(string primerNombre = "", string segundoNombre = "", string primerApellido = "", string segundoApellido = "", string celular = "",
+            string telefono = "", string direccion = "", int idTipoEmpleado = 0, string email = "", string usuario = "", string password = "", int idRol = 0)
         {
             try
             {
@@ -46,13 +47,15 @@ namespace Ventas.Controllers.Usuarios
                 item.PRIMER_APELLIDO = primerApellido;
                 item.SEGUNDO_APELLIDO = segundoApellido;
                 item.DIRECCION = direccion;
+                item.CELULAR = celular;
                 item.TELEFONO = telefono;
                 item.ID_TIPO_EMPLEADO = idTipoEmpleado;
                 item.EMAIL = email;
-                item.CREADO_POR = creadoPor;
-                item.USUARIO = usuario;
+                item.CREADO_POR = "RALOPEZ";
+                item.USUARIO = "RALOPEZ";
                 item.PASSWORD = new Encryption().Encrypt(password.Trim());
                 item.ID_ROL = idRol;
+                item.MTIPO = 1;
 
                 var lista = GetDatosUsuario_(item);
 
