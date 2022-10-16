@@ -13,7 +13,7 @@ namespace Ventas_DAL
         public List<Usuarios_BE> GetSPUsuario(Usuarios_BE item)
         {
             List<Usuarios_BE> result = new List<Usuarios_BE>();
-            using (var model = new Base_SQL("sp_guardar_usuario"))
+            using (var model = new Base_SQL("sp_usuarios"))
             {
                 model.Command.Parameters.AddWithValue("@PRIMER_NOMBRE", item.PRIMER_NOMBRE);
                 model.Command.Parameters.AddWithValue("@SEGUNDO_NOMBRE", item.SEGUNDO_NOMBRE);
