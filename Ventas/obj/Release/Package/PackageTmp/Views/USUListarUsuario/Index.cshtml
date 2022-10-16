@@ -1,0 +1,33 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+@section scripts{
+    <script src="~/Scripts/Usuarios/USUListarUsuario.js"></script>
+}
+
+<div class="card">
+    <span class="badge badge-pill badge-secondary">LISTADO DE USUARIOS</span>
+    <div class="card-body">
+        <table class="table-striped display nowrap scroll" style="width:100%" id="tblUsuarios">
+            <thead class="headColor">
+                <tr>
+                    <th class="border text-center">USUARIO</th>
+                    <th class="border text-center">ROL</th>
+                    <th class="border text-center">TIPO EMPLEADO</th>
+                    <th class="border text-center">NOMBRE COMPLETO</th>
+                    <th class="border text-center">TELÉFONO</th>
+                    <th class="border text-center">DIRECCIÓN</th>
+                    <th class="border text-center">MÓDULO</th>
+                    <th class="border text-center">EMAIL</th>
+                    <th class="border text-center">ESTADO</th>
+                    <th class="border text-center">ACCIONES</th>
+                </tr>
+            </thead>
+            <tbody id="tbodyUsuarios">
+            </tbody>
+        </table>
+
+    </div>
+</div>
