@@ -7,7 +7,7 @@ using Ventas_BE;
 
 namespace Ventas_DAL
 {
-    public class Usuarios_DAL:IDisposable
+    public class Usuarios_DAL : IDisposable
     {
         public void Dispose() { }
         public List<Usuarios_BE> GetSPUsuario(Usuarios_BE item)
@@ -45,7 +45,6 @@ namespace Ventas_DAL
             }
             return result;
         }
-
 
     }
 }
