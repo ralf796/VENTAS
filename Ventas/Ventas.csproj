@@ -2285,6 +2285,10 @@
     <Content Include="Content\Site.css" />
     <Content Include="Content\site.fonts.css" />
     <Content Include="Global.asax" />
+    <Content Include="Scripts\Inventario\Bodega.js" />
+    <Content Include="Scripts\Inventario\Categoria.js" />
+    <Content Include="Scripts\Inventario\Modelo.js" />
+    <Content Include="Scripts\Inventario\Tipo.js" />
     <Content Include="Scripts\Login\HomeLogin.js" />
     <Content Include="Scripts\Usuarios\USUCrearUsuario.js" />
     <Content Include="Web.config" />
@@ -2293,7 +2297,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Class\Encryption.cs" />
     <Compile Include="Controllers\HomeController.cs" />
-    <Compile Include="Controllers\Inventario\INVGeneralController.cs" />
+    <Compile Include="Controllers\Inventario\INVMantenimientoController.cs" />
     <Compile Include="Controllers\Usuarios\USUCrearUsuarioController.cs" />
     <Compile Include="Controllers\Usuarios\USUListarUsuarioController.cs" />
     <Compile Include="Global.asax.cs">
@@ -2882,9 +2886,12 @@
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
-    <Content Include="Views\INVGeneral\Index.cshtml" />
     <Content Include="Views\USUCrearUsuario\Index.cshtml" />
     <Content Include="Views\USUListarUsuario\Index.cshtml" />
+    <Content Include="Views\INVMantenimiento\IndexCategoria.cshtml" />
+    <Content Include="Views\INVMantenimiento\IndexModelo.cshtml" />
+    <Content Include="Views\INVMantenimiento\IndexMantenimiento.cshtml" />
+    <Content Include="Views\INVMantenimiento\IndexBodega.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -2902,7 +2909,6 @@
     <Folder Include="Models\" />
     <Folder Include="Scripts\Caja\" />
     <Folder Include="Scripts\Clientes\" />
-    <Folder Include="Scripts\Inventario\" />
     <Folder Include="Scripts\Proveedores\" />
     <Folder Include="Scripts\Reportes\" />
     <Folder Include="Scripts\Ventas\" />

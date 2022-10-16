@@ -14,41 +14,42 @@
                 var lista = data["data"];
                 var state = data["State"];
                 if (state == 1) {
-                    $.each(lista, function (i, l) {
-                        var estatus = '', buttons = '';
-                        if (l.ESTADO == 1) {
-                            estatus = '<span class="badge badge-success">ACTIVO</span>';
-                            buttons = '<button class="btn btn-sm btn-circle btn-outline-primary"><i class="far fa-pencil-alt"></i></button><button style="margin-left:5px;" class="btn btn-sm btn-circle btn-outline-danger"><i class="far fa-trash-alt"></i></button>';
-                        }
-                        else
-                            estatus = '<span class="badge badge-danger">INACTIVO</span>';
-
-
-
-                        $('#tbodyUsuarios').append('<tr class="table">' +
-                            '<td>' + l.USUARIO + '</td>' +
-                            '<td>' + l.NOMBRE_ROL + '</td>' +
-                            '<td>' + l.NOMBRE_TIPO_EMPLEADO + '</td>' +
-                            '<td>' + l.PRIMER_NOMBRE + ' ' + l.SEGUNDO_NOMBRE + ' ' + l.PRIMER_APELLIDO + ' ' + l.SEGUNDO_APELLIDO + '</td>' +
-                            '<td>' + l.TELEFONO + '</td>' +
-                            '<td>' + l.DIRECCION + '</td>' +
-                            '<td>' + l.URL_PANTALLA + '</td>' +
-                            '<td>' + l.EMAIL + '</td>' +
-                            '<td class="text-center">' + estatus + '</td>' +
-                            '<td class="text-center">' + buttons + '</td>' +
-                            '</tr>'
-                        );
-                    });
-                    CallTable();
+                    AddRows(lista);
+                    DatatableActive();
                 }
                 else if (state == -1)
                     alert(data["Message"])
             }
         });
     }
-    function CallTable() {
+    function AddRows(lista) {
+        $.each(lista, function (i, l) {
+            var estatus = '', buttons = '';
+            if (l.ESTADO == 1) {
+                estatus = '<span class="badge badge-success">ACTIVO</span>';
+                buttons = '<button class="btn btn-sm btn-circle btn-outline-primary"><i class="far fa-pencil-alt"></i></button><button style="margin-left:5px;" class="btn btn-sm btn-circle btn-outline-danger"><i class="far fa-trash-alt"></i></button>';
+            }
+            else
+                estatus = '<span class="badge badge-danger">INACTIVO</span>';
+
+            $('#tbodyUsuarios').append('<tr class="table">' +
+                '<td>' + l.USUARIO + '</td>' +
+                '<td>' + l.NOMBRE_ROL + '</td>' +
+                '<td>' + l.NOMBRE_TIPO_EMPLEADO + '</td>' +
+                '<td>' + l.PRIMER_NOMBRE + ' ' + l.SEGUNDO_NOMBRE + ' ' + l.PRIMER_APELLIDO + ' ' + l.SEGUNDO_APELLIDO + '</td>' +
+                '<td>' + l.TELEFONO + '</td>' +
+                '<td>' + l.DIRECCION + '</td>' +
+                '<td>' + l.URL_PANTALLA + '</td>' +
+                '<td>' + l.EMAIL + '</td>' +
+                '<td class="text-center">' + estatus + '</td>' +
+                '<td class="text-center">' + buttons + '</td>' +
+                '</tr>'
+            );
+        });
+    }
+    function DatatableActive() {
         tablaIni = $("#tblUsuarios").DataTable({
-            scrollY: '400px',
+            scrollY: (window.innerHeight - 200) + 'px',
             scrollX: true,
             scrollCollapse: true,
             fixedHeader: true,
