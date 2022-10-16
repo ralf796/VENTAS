@@ -7,13 +7,13 @@ using Ventas_BE;
 
 namespace Ventas_DAL
 {
-    public class Usuarios_DAL:IDisposable
+    public class Usuarios_DAL : IDisposable
     {
         public void Dispose() { }
         public List<Usuarios_BE> GetSPUsuario(Usuarios_BE item)
         {
             List<Usuarios_BE> result = new List<Usuarios_BE>();
-            using (var model = new Base_SQL("sp_guardar_usuario"))
+            using (var model = new Base_SQL("sp_usuarios"))
             {
                 model.Command.Parameters.AddWithValue("@PRIMER_NOMBRE", item.PRIMER_NOMBRE);
                 model.Command.Parameters.AddWithValue("@SEGUNDO_NOMBRE", item.SEGUNDO_NOMBRE);
@@ -45,7 +45,6 @@ namespace Ventas_DAL
             }
             return result;
         }
-
 
     }
 }
