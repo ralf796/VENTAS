@@ -1,6 +1,8 @@
 ﻿using GenesysOracleSV.Clases;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Web;
@@ -36,10 +38,11 @@ namespace Ventas.Controllers.Usuarios
         }
 
         public JsonResult GuardarUsuario(string primerNombre = "", string segundoNombre = "", string primerApellido = "", string segundoApellido = "", string celular = "",
-            string telefono = "", string direccion = "", int idTipoEmpleado = 0, string email = "", string usuario = "", string password = "", int idRol = 0)
+            string telefono = "", string direccion = "", int idTipoEmpleado = 0, string email = "", string usuario = "", string password = "", int idRol = 0, string urlFoto = "")
         {
             try
             {
+                urlFoto = urlFoto.Replace("\\fakepath","");
                 string respuesta = "";
                 var item = new Usuarios_BE();
                 item.PRIMER_NOMBRE = primerNombre;
@@ -52,17 +55,21 @@ namespace Ventas.Controllers.Usuarios
                 item.ID_TIPO_EMPLEADO = idTipoEmpleado;
                 item.EMAIL = email;
                 item.CREADO_POR = "RALOPEZ";
-                item.USUARIO = "RALOPEZ";
+                item.USUARIO = usuario;
                 item.PASSWORD = new Encryption().Encrypt(password.Trim());
                 item.ID_ROL = idRol;
+                item.URL_FOTOGRAFIA = urlFoto;
                 item.MTIPO = 1;
-
                 var lista = GetDatosUsuario_(item);
 
                 if (lista.Count > 0)
                 {
                     if (lista.FirstOrDefault().RESPUESTA != "")
                     {
+                        string fileName = Server.MapPath(@"~\Content\Fotografias\imgtest.png");
+                        Image image = Image.FromFile(item.URL_FOTOGRAFIA);
+                        image.Save(fileName);
+
                         respuesta = lista.FirstOrDefault().RESPUESTA;
                     }
                 }
