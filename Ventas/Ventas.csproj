@@ -2890,7 +2890,7 @@
     <Content Include="Views\USUListarUsuario\Index.cshtml" />
     <Content Include="Views\INVMantenimiento\IndexCategoria.cshtml" />
     <Content Include="Views\INVMantenimiento\IndexModelo.cshtml" />
-    <Content Include="Views\INVMantenimiento\IndexMantenimiento.cshtml" />
+    <Content Include="Views\INVMantenimiento\IndexTipo.cshtml" />
     <Content Include="Views\INVMantenimiento\IndexBodega.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
