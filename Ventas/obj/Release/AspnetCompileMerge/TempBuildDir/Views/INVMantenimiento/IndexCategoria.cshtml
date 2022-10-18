@@ -6,13 +6,12 @@
     <script src="~/Scripts/Inventario/Categoria.js"></script>
 }
 
-
 <div class="card">
     <span class="badge badge-pill badge-secondary">LISTADO DE CATEGORÍAS</span>
     <div class="card-body">
         <div class="row">
             <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 text-right">
-                <button type="button" class="btn btn-primary" data-toggle="modal" id="btnAbrirModal">
+                <button type="button" class="btn btn-primary" data-toggle="modal" id="btnAbrirModal" data-target="#modalDatos">
                     <i class="far fa-plus-circle"></i> NUEVO
                 </button>
             </div>
@@ -35,10 +34,9 @@
     </div>
 </div>
 
-
 <input id="hfOpcion" type="hidden" />
 <input id="hfID" type="hidden" />
-<div class="modal fade" id="modalDatos" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+@*<div class="modal fade" id="modalDatos" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -67,4 +65,41 @@
             </div>
         </div>
     </div>
+</div>*@
+
+<button type="button" class="btn btn-info" data-toggle="modal" data-target="#modalDatos">
+    Launch Info Modal
+</button>
+
+<div class="modal fade" id="modalDatos">
+    <div class="modal-dialog">
+        <div class="modal-content  bg-secondary">
+            <div class="modal-header">
+                <h5 class="modal-title" id="titleModal"></h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="form-row">
+                        <div class="form-group col-md-12">
+                            <label for="inputCity">NOMBRE</label>
+                            <input type="text" class="form-control" id="txtNombre">
+                        </div>
+                        <div class="form-group col-md-12">
+                            <label for="inputCity">DESCRIPCION</label>
+                            <input type="text" class="form-control" id="txtDescripcion">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer justify-content-between">
+                <button type="button" class="btn btn-danger" data-dismiss="modal">CERRAR</button>
+                <button type="button" class="btn btn-success" id="btnProcesar">PROCESAR</button>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
 </div>

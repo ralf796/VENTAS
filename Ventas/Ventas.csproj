@@ -2296,6 +2296,7 @@
   <ItemGroup>
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Class\Encryption.cs" />
+    <Compile Include="Controllers\DefaultController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\Inventario\INVMantenimientoController.cs" />
     <Compile Include="Controllers\Usuarios\USUCrearUsuarioController.cs" />
@@ -2892,6 +2893,7 @@
     <Content Include="Views\INVMantenimiento\IndexModelo.cshtml" />
     <Content Include="Views\INVMantenimiento\IndexTipo.cshtml" />
     <Content Include="Views\INVMantenimiento\IndexBodega.cshtml" />
+    <Content Include="Views\Default\Index.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

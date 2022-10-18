@@ -48,6 +48,7 @@ namespace Ventas.Controllers
                     Session["segundo_nombre"] = item.SEGUNDO_NOMBRE.ToUpper();
                     Session["primer_apellido"] = item.PRIMER_APELLIDO.ToUpper();
                     Session["segundo_apellido"] = item.SEGUNDO_APELLIDO.ToUpper();
+                    Session["url_fotografia"] = item.PATH;
 
                     var urlBuilder = new System.UriBuilder(Request.Url.AbsoluteUri) { Path = Url.Content(@"~\"), Query = null, };
                     url = urlBuilder.ToString() + item.URL_PANTALLA;
