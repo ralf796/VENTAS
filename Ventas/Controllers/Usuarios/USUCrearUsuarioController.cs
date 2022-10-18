@@ -42,20 +42,75 @@ namespace Ventas.Controllers.Usuarios
         {
             try
             {
+                string primerNombre = Request.Form["primerNombre"].ToString();
+                string segundoNombre = Request.Form["segundoNombre"].ToString();
+                string primerApellido = Request.Form["primerApellido"].ToString();
+                string segundoApellido = Request.Form["segundoApellido"].ToString();
+                string celular = Request.Form["celular"].ToString();
+                string telefono = Request.Form["telefono"].ToString();
+                string direccion = Request.Form["direccion"].ToString();
+                int idTipoEmpleado = Convert.ToInt16(Request.Form["idTipoEmpleado"]);
+                string email = Request.Form["email"].ToString();
+                string usuario = Request.Form["usuario"].ToString();
+                string password = Request.Form["password"].ToString();
+                int idRol = Convert.ToInt16(Request.Form["idRol"]);
+                string urlFoto = Request.Form["urlFoto"].ToString();
+
                 int estado = 1;
+                var randomNumber = new Random().Next(0, 100);
+                string path = "", url="";
+
                 //int tipo = Convert.ToInt32(Request.Form["tipo"]);
                 HttpPostedFileBase file = Request.Files["foto"];
                 if ((file != null) && (file.ContentLength > 0) && !string.IsNullOrEmpty(file.FileName))
                 {
                     string fileName = file.FileName;
-                    string[] separarExtension = fileName.Split('.');
-                    string extension = separarExtension[1];
-
+                    string[] separarNombre = fileName.Split('.');
+                    string extension = separarNombre[1];
                     Bitmap filee = new Bitmap(file.InputStream);
-                    string rut = @"C:\Users\raul.lopez\Documents\REPOSSV\" + file.FileName;
-                    filee.Save(rut);
+                    //string rut = @"C:\Users\raul.lopez\Documents\REPOSSV\" + file.FileName;
+                    //string rut = @"C:\Users\raul.lopez\source\repos\VENTAS\Ventas\Content\Fotografias\" + file.FileName;
+                    path = Server.MapPath(@"~\Content\Fotografias\" + separarNombre[0] + randomNumber + ".png");
+                    filee.Save(path);
+
+
+
+                    var urlBuilder = new System.UriBuilder(Request.Url.AbsoluteUri) { Path = Url.Content(@"~\Content\Fotografias\" + separarNombre[0] + randomNumber + ".png"), Query = null, };
+                    Uri uri = urlBuilder.Uri;
+                    url = urlBuilder.ToString();
                 }
-                return Json(new { State = estado }, JsonRequestBehavior.AllowGet);
+
+                string respuesta = "";
+                var item = new Usuarios_BE();
+                item.PRIMER_NOMBRE = primerNombre;
+                item.SEGUNDO_NOMBRE = segundoNombre;
+                item.PRIMER_APELLIDO = primerApellido;
+                item.SEGUNDO_APELLIDO = segundoApellido;
+                item.DIRECCION = direccion;
+                item.CELULAR = celular;
+                item.TELEFONO = telefono;
+                item.ID_TIPO_EMPLEADO = idTipoEmpleado;
+                item.EMAIL = email;
+                item.CREADO_POR = "RALOPEZ";
+                item.USUARIO = usuario;
+                item.PASSWORD = new Encryption().Encrypt(password.Trim());
+                item.ID_ROL = idRol;
+                item.PATH = url;
+                item.MTIPO = 1;
+                var lista = GetDatosUsuario_(item);
+
+                if (lista != null)
+                {
+                    if (lista.FirstOrDefault().RESPUESTA != "")
+                    {
+                        respuesta = lista.FirstOrDefault().RESPUESTA;
+                    }
+                    else
+                        estado = 2;
+                }
+                else
+                    estado = 2;
+                return Json(new { State = estado, path_foto = url, respuesta = respuesta }, JsonRequestBehavior.AllowGet);
             }
             catch (Exception ex)
             {

@@ -102,8 +102,45 @@
 
 
     function GuardarUsuarioFoto() {
+        var primerNombre = $('#txtGuardarPrimerNombre').val();
+        var segundoNombre = $('#txtGuardarSegundoNombre').val();
+        var primerApellido = $('#txtGuardarPrimerApellido').val();
+        var segundoApellido = $('#txtGuardarSegundoApellido').val();
+        var celular = $('#txtGuardarCelular').val();
+        var telefono = $('#txtGuardarTelCasa').val();
+        var direccion = $('#txtGuardarDireccion').val();
+        var idTipoEmpleado = $('#selGuardarTipoEmpleado').val();
+        var email = $('#txtGuardarEmail').val();
+        var usuario = $('#txtGuardarUsuario').val();
+        var password = $('#txtGuardarPassword').val();
+        var urlFoto = $('#idFotografia').val();
+        var idRol = $('#selGuardarRol').val();
+
+        if (idTipoEmpleado == '' || idTipoEmpleado == null) {
+            ShowAlertMessage('warning', '¡DEBES SELECCIONAR EL TIPO DE EMPLEADO!');
+            $('#selGuardarTipoEmpleado').focus();
+            return;
+        }
+        if (idRol == '' || idRol == null) {
+            ShowAlertMessage('warning', '¡DEBES SELECCIONAR EL ROL DE ACCESOS!');
+            $('#selGuardarRol').focus();
+            return;
+        }
+
         var formData = new FormData();
-        //formData.append('tipo', tipo);
+        formData.append('primerNombre', primerNombre);
+        formData.append('segundoNombre', segundoNombre);
+        formData.append('primerApellido', primerApellido);
+        formData.append('segundoApellido', segundoApellido);
+        formData.append('celular', celular);
+        formData.append('telefono', telefono);
+        formData.append('direccion', direccion);
+        formData.append('idTipoEmpleado', idTipoEmpleado);
+        formData.append('email', email);
+        formData.append('usuario', usuario);
+        formData.append('password', password);
+        formData.append('idRol', idRol);
+        formData.append('urlFoto', urlFoto);
         if ($('#idFotografia')[0].files != undefined) {
             let files = $('#idFotografia')[0].files;
             formData.append('foto', files[0]);
@@ -117,11 +154,25 @@
             success: function (data) {
                 //----------------ERROR CATCH----------------
                 if (data["State"] == -1)
-                    alert(data["State"])
+                    ShowAlertMessage('warning', data['Message'])
                 else if (data["State"] == 1) {
-                    $('#uploadPhotoProfile').val('');
-                    $('#photoProfile').attr('src', data['Response']);
-                    alert(1)
+                    console.log(data['path_foto'])
+                    $('#idFotografia').val('');
+                    $('#imgModal').attr('src', data['path_foto']);
+
+                    ShowAlertMessage('success', 'Datos ingresados correctamente')
+                    //$('#txtGuardarPrimerNombre').val('');
+                    //$('#txtGuardarSegundoNombre').val('');
+                    //$('#txtGuardarPrimerApellido').val('');
+                    //$('#txtGuardarSegundoApellido').val('');
+                    //$('#txtGuardarCelular').val('');
+                    //$('#txtGuardarTelCasa').val('');
+                    //$('#txtGuardarDireccion').val('');
+                    //$('#selGuardarTipoEmpleado').val(-1);
+                    //$('#txtGuardarEmail').val('');
+                    //$('#txtGuardarUsuario').val('');
+                    //$('#txtGuardarPassword').val('');
+                    //$('#selGuardarRol').val(-1);
                 }
             }
         });

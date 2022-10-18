@@ -100,7 +100,6 @@ namespace Ventas.Controllers.Inventario
                 return Json(new { State = -1, Message = ex.Message }, JsonRequestBehavior.AllowGet);
             }
         }
-
         public JsonResult GetDatosTable()
         {
             try

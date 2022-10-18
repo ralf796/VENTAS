@@ -93,7 +93,8 @@
             var estatus = '', buttons = '';
             if (l.ESTADO == 1) {
                 estatus = '<span class="badge badge-success">ACTIVO</span>';
-                buttons = '<button class="btn btn-sm btn-circle btn-outline-primary edit"><i class="far fa-pencil-alt"></i></button><button style="margin-left:5px;" class="btn btn-sm btn-circle btn-outline-danger remove"><i class="far fa-trash-alt"></i></button>';
+                buttons = '<button class="btn btn-sm btn-circle btn-outline-primary edit" data-toggle="modal" data-target="#modalDatos"><i class="far fa-pencil-alt"></i></button>' +
+                    '<button style="margin-left:5px;" class="btn btn-sm btn-circle btn-outline-danger remove" ><i class="far fa-trash-alt"></i></button>';
             }
             else
                 estatus = '<span class="badge badge-danger">INACTIVO</span>';
@@ -194,6 +195,4 @@
         }
     });
 
-
-    
 });
