@@ -10,10 +10,10 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
   </PropertyGroup>
   <ItemGroup>
     <File Include="bin/App_global.asax.compiled">
-      <publishTime>10/18/2022 11:37:38</publishTime>
+      <publishTime>10/18/2022 13:28:12</publishTime>
     </File>
     <File Include="bin/App_global.asax.dll">
-      <publishTime>10/18/2022 11:37:38</publishTime>
+      <publishTime>10/18/2022 13:28:12</publishTime>
     </File>
     <File Include="bin/es/System.Web.Helpers.resources.dll">
       <publishTime>10/12/2022 10:19:03</publishTime>
@@ -205,10 +205,10 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>10/12/2022 10:19:03</publishTime>
     </File>
     <File Include="bin/Ventas.dll">
-      <publishTime>10/18/2022 11:37:31</publishTime>
+      <publishTime>10/18/2022 13:28:05</publishTime>
     </File>
     <File Include="bin/Ventas.pdb">
-      <publishTime>10/18/2022 11:37:31</publishTime>
+      <publishTime>10/18/2022 13:28:05</publishTime>
     </File>
     <File Include="bin/Ventas_BE.dll">
       <publishTime>10/17/2022 16:22:38</publishTime>
@@ -9382,7 +9382,7 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>10/12/2022 10:56:44</publishTime>
     </File>
     <File Include="PrecompiledApp.config">
-      <publishTime>10/18/2022 11:37:35</publishTime>
+      <publishTime>10/18/2022 13:28:09</publishTime>
     </File>
     <File Include="Scripts/Inventario/Bodega.js">
       <publishTime>10/17/2022 13:05:32</publishTime>
@@ -9400,13 +9400,16 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>10/17/2022 13:05:32</publishTime>
     </File>
     <File Include="Scripts/Usuarios/USUCrearUsuario.js">
-      <publishTime>10/18/2022 11:36:27</publishTime>
+      <publishTime>10/18/2022 11:47:44</publishTime>
     </File>
     <File Include="Scripts/Usuarios/USUListarUsuario.js">
       <publishTime>10/17/2022 13:05:32</publishTime>
     </File>
     <File Include="Scripts/Usuarios/USUMantenimiento.js">
       <publishTime>10/14/2022 19:27:22</publishTime>
+    </File>
+    <File Include="Views/Default/Index.cshtml">
+      <publishTime>10/18/2022 13:07:22</publishTime>
     </File>
     <File Include="Views/Home/Index.cshtml">
       <publishTime>10/17/2022 13:05:32</publishTime>
@@ -9430,13 +9433,13 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>10/17/2022 13:11:45</publishTime>
     </File>
     <File Include="Views/Shared/_Layout.cshtml">
-      <publishTime>10/18/2022 11:34:43</publishTime>
+      <publishTime>10/18/2022 13:02:07</publishTime>
     </File>
     <File Include="Views/USUCrearUsuario/Index.cshtml">
       <publishTime>10/18/2022 10:57:07</publishTime>
     </File>
     <File Include="Views/USUListarUsuario/Index.cshtml">
-      <publishTime>10/17/2022 13:05:32</publishTime>
+      <publishTime>10/18/2022 13:17:51</publishTime>
     </File>
     <File Include="Views/USUMantenimiento/Index.cshtml">
       <publishTime>10/14/2022 17:29:17</publishTime>
@@ -9448,7 +9451,7 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>10/17/2022 13:05:32</publishTime>
     </File>
     <File Include="Web.config">
-      <publishTime>10/18/2022 11:37:33</publishTime>
+      <publishTime>10/18/2022 13:28:07</publishTime>
     </File>
   </ItemGroup>
 </Project>

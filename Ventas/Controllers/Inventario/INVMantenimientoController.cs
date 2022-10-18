@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Data.Common;
 using System.Linq;
 using System.Web;
@@ -31,6 +32,16 @@ namespace Ventas.Controllers.Inventario
         {
             return View();
         }
+        // GET: BODEGA
+        public ActionResult IndexCrearProducto()
+        {
+            return View();
+        }
+        // GET: BODEGA
+        public ActionResult IndexListarProductos()
+        {
+            return View();
+        }
 
         private List<Inventario_BE> GetDatosInventario_(Inventario_BE item)
         {
@@ -39,7 +50,7 @@ namespace Ventas.Controllers.Inventario
             return lista;
         }
 
-        public JsonResult Guardar(string nombre = "", string descripcion = "", int tipo = 0)
+        public JsonResult Guardar(string nombre = "", string descripcion = "", int tipo = 0, int estanteria = 0, int nivel = 0)
         {
             try
             {
@@ -49,6 +60,8 @@ namespace Ventas.Controllers.Inventario
                 item.DESCRIPCION = descripcion;
                 item.CREADO_POR = "RALOPEZ";
                 item.MTIPO = tipo;
+                item.ESTANTERIA = estanteria;
+                item.NIVEL = nivel;
 
                 var lista = GetDatosInventario_(item);
 
@@ -66,7 +79,43 @@ namespace Ventas.Controllers.Inventario
                 return Json(new { State = -1, Message = ex.Message }, JsonRequestBehavior.AllowGet);
             }
         }
-        public JsonResult Update_Delete(string nombre = "", string descripcion = "", int tipo = 0, int id = 0)
+        public JsonResult GuardarProducto(int ID_CATEGORIA = 0, int ID_MODELO = 0, int ID_TIPO = 0, int ID_BODEGA = 0, string NOMBRE = "", string DESCRIPCION = "",
+            decimal PRECIO_COSTO = 0, decimal PRECIO_VENTA = 0, int STOCK = 0, int ANIO_FABRICADO = 0, string CODIGO = "")
+        {
+            try
+            {
+                string respuesta = "";
+                var item = new Inventario_BE();
+                item.MTIPO = 17;
+                item.ID_CATEGORIA = ID_CATEGORIA;
+                item.ID_MODELO = ID_MODELO;
+                item.ID_TIPO = ID_TIPO;
+                item.ID_BODEGA = ID_BODEGA;
+                item.NOMBRE = NOMBRE;
+                item.DESCRIPCION = DESCRIPCION;
+                item.PRECIO_COSTO = PRECIO_COSTO;
+                item.PRECIO_VENTA = PRECIO_VENTA;
+                item.STOCK = STOCK;
+                item.ANIO_FABRICADO = ANIO_FABRICADO;
+                item.CODIGO = CODIGO;
+                item.CREADO_POR = "RALOPEZ";
+
+                var lista = GetDatosInventario_(item);
+                if (lista.Count > 0)
+                {
+                    if (lista.FirstOrDefault().RESPUESTA != "")
+                    {
+                        respuesta = lista.FirstOrDefault().RESPUESTA;
+                    }
+                }
+                return Json(new { State = 1 }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                return Json(new { State = -1, Message = ex.Message }, JsonRequestBehavior.AllowGet);
+            }
+        }
+        public JsonResult Update_Delete(string nombre = "", string descripcion = "", int tipo = 0, int id = 0, int estanteria = 0, int nivel = 0)
         {
             try
             {
@@ -75,6 +124,8 @@ namespace Ventas.Controllers.Inventario
                 item.NOMBRE = nombre;
                 item.DESCRIPCION = descripcion;
                 item.MTIPO = tipo;
+                item.ESTANTERIA = estanteria;
+                item.NIVEL = nivel;
 
                 if (tipo >= 1 && tipo <= 4)
                     item.ID_CATEGORIA = id;
@@ -100,12 +151,46 @@ namespace Ventas.Controllers.Inventario
                 return Json(new { State = -1, Message = ex.Message }, JsonRequestBehavior.AllowGet);
             }
         }
-        public JsonResult GetDatosTable()
+        public JsonResult Update_Delete_Producto(int id = 0, int tipo = 0, int ID_CATEGORIA = 0, int ID_MODELO = 0, int ID_TIPO = 0, int ID_BODEGA = 0, string NOMBRE = "", string DESCRIPCION = "", decimal PRECIO_COSTO = 0, decimal PRECIO_VENTA = 0, int STOCK = 0, int ANIO_FABRICADO = 0, string CODIGO = "")
+        {
+            try
+            {
+                string respuesta = "";
+                var item = new Inventario_BE();
+                item.ID_PRODUCTO = id;
+                item.MTIPO = tipo;
+                item.ID_CATEGORIA = ID_CATEGORIA;
+                item.ID_MODELO = ID_MODELO;
+                item.ID_TIPO = ID_TIPO;
+                item.ID_BODEGA = ID_BODEGA; ;
+                item.NOMBRE = NOMBRE;
+                item.DESCRIPCION = DESCRIPCION;
+                item.PRECIO_COSTO = PRECIO_COSTO;
+                item.PRECIO_VENTA = PRECIO_VENTA;
+                item.STOCK = STOCK;
+                item.ANIO_FABRICADO = ANIO_FABRICADO;
+                item.CODIGO = CODIGO;
+                var lista = GetDatosInventario_(item);
+                if (lista.Count > 0)
+                {
+                    if (lista.FirstOrDefault().RESPUESTA != "")
+                    {
+                        respuesta = lista.FirstOrDefault().RESPUESTA;
+                    }
+                }
+                return Json(new { State = 1 }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                return Json(new { State = -1, Message = ex.Message }, JsonRequestBehavior.AllowGet);
+            }
+        }
+        public JsonResult GetDatosTable(int tipo = 0)
         {
             try
             {
                 var item = new Inventario_BE();
-                item.MTIPO = 4;
+                item.MTIPO = tipo;
                 var lista = GetDatosInventario_(item);
                 return Json(new { State = 1, data = lista }, JsonRequestBehavior.AllowGet);
             }
