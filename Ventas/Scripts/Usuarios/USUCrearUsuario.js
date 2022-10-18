@@ -47,6 +47,7 @@
         var email = $('#txtGuardarEmail').val();
         var usuario = $('#txtGuardarUsuario').val();
         var password = $('#txtGuardarPassword').val();
+        var urlFoto = $('#idFotografia').val();
         var idRol = $('#selGuardarRol').val();
 
         if (idTipoEmpleado == '' || idTipoEmpleado == null) {
@@ -66,25 +67,25 @@
             contentType: "application/json; charset=utf-8",
             dataType: 'json',
             data: {
-                primerNombre, segundoNombre, primerApellido, segundoApellido, celular, telefono, direccion, idTipoEmpleado, email, usuario, password, idRol
+                primerNombre, segundoNombre, primerApellido, segundoApellido, celular, telefono, direccion, idTipoEmpleado, email, usuario, password, idRol, urlFoto
             },
             cache: false,
             success: function (data) {
                 var state = data["State"];
                 if (state == 1) {
                     ShowAlertMessage('success', 'Datos ingresados correctamente')
-                    $('#txtGuardarPrimerNombre').val('');
-                    $('#txtGuardarSegundoNombre').val('');
-                    $('#txtGuardarPrimerApellido').val('');
-                    $('#txtGuardarSegundoApellido').val('');
-                    $('#txtGuardarCelular').val('');
-                    $('#txtGuardarTelCasa').val('');
-                    $('#txtGuardarDireccion').val('');
-                    $('#selGuardarTipoEmpleado').val(-1);
-                    $('#txtGuardarEmail').val('');
-                    $('#txtGuardarUsuario').val('');
-                    $('#txtGuardarPassword').val('');
-                    $('#selGuardarRol').val(-1);
+                    //$('#txtGuardarPrimerNombre').val('');
+                    //$('#txtGuardarSegundoNombre').val('');
+                    //$('#txtGuardarPrimerApellido').val('');
+                    //$('#txtGuardarSegundoApellido').val('');
+                    //$('#txtGuardarCelular').val('');
+                    //$('#txtGuardarTelCasa').val('');
+                    //$('#txtGuardarDireccion').val('');
+                    //$('#selGuardarTipoEmpleado').val(-1);
+                    //$('#txtGuardarEmail').val('');
+                    //$('#txtGuardarUsuario').val('');
+                    //$('#txtGuardarPassword').val('');
+                    //$('#selGuardarRol').val(-1);
                 }
                 else if (state == -1) {
                     ShowAlertMessage('warning', data['Message'])
@@ -95,7 +96,34 @@
 
     $('#formGuardarEmpleadoUsuario').submit(function (e) {
         e.preventDefault();
-        GuardarUsuario();
+        //GuardarUsuario();
+        GuardarUsuarioFoto();
     });
 
+
+    function GuardarUsuarioFoto() {
+        var formData = new FormData();
+        //formData.append('tipo', tipo);
+        if ($('#idFotografia')[0].files != undefined) {
+            let files = $('#idFotografia')[0].files;
+            formData.append('foto', files[0]);
+        }
+        $.ajax({
+            type: 'POST',
+            url: '/USUCrearUsuario/GuardarUsuarioFoto',
+            data: formData,
+            contentType: false,
+            processData: false,
+            success: function (data) {
+                //----------------ERROR CATCH----------------
+                if (data["State"] == -1)
+                    alert(data["State"])
+                else if (data["State"] == 1) {
+                    $('#uploadPhotoProfile').val('');
+                    $('#photoProfile').attr('src', data['Response']);
+                    alert(1)
+                }
+            }
+        });
+    }
 });

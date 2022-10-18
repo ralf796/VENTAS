@@ -30,6 +30,8 @@ namespace Ventas_BE
         public string URL_PANTALLA { get; set; }
         public string NOMBRE_ROL { get; set; }
         public string NOMBRE_TIPO_EMPLEADO { get; set; }
+        public string PATH { get; set; }
+        //public string URL_FOTOGRAFIA { get; set; }
         public int ESTADO { get; set; }
     }
 }
