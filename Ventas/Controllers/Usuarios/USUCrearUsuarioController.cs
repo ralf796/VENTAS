@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -37,12 +38,37 @@ namespace Ventas.Controllers.Usuarios
             return lista;
         }
 
+        public JsonResult GuardarUsuarioFoto(FormCollection formCollection)
+        {
+            try
+            {
+                int estado = 1;
+                //int tipo = Convert.ToInt32(Request.Form["tipo"]);
+                HttpPostedFileBase file = Request.Files["foto"];
+                if ((file != null) && (file.ContentLength > 0) && !string.IsNullOrEmpty(file.FileName))
+                {
+                    string fileName = file.FileName;
+                    string[] separarExtension = fileName.Split('.');
+                    string extension = separarExtension[1];
+
+                    Bitmap filee = new Bitmap(file.InputStream);
+                    string rut = @"C:\Users\raul.lopez\Documents\REPOSSV\" + file.FileName;
+                    filee.Save(rut);
+                }
+                return Json(new { State = estado }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                return Json(new { State = -1, Message = ex.Message.ToString() }, JsonRequestBehavior.AllowGet);
+            }
+        }
+
         public JsonResult GuardarUsuario(string primerNombre = "", string segundoNombre = "", string primerApellido = "", string segundoApellido = "", string celular = "",
             string telefono = "", string direccion = "", int idTipoEmpleado = 0, string email = "", string usuario = "", string password = "", int idRol = 0, string urlFoto = "")
         {
             try
             {
-                urlFoto = urlFoto.Replace("\\fakepath","");
+                urlFoto = urlFoto.Replace("\\fakepath", "");
                 string respuesta = "";
                 var item = new Usuarios_BE();
                 item.PRIMER_NOMBRE = primerNombre;
@@ -58,7 +84,7 @@ namespace Ventas.Controllers.Usuarios
                 item.USUARIO = usuario;
                 item.PASSWORD = new Encryption().Encrypt(password.Trim());
                 item.ID_ROL = idRol;
-                item.URL_FOTOGRAFIA = urlFoto;
+                item.PATH = urlFoto;
                 item.MTIPO = 1;
                 var lista = GetDatosUsuario_(item);
 
@@ -67,7 +93,7 @@ namespace Ventas.Controllers.Usuarios
                     if (lista.FirstOrDefault().RESPUESTA != "")
                     {
                         string fileName = Server.MapPath(@"~\Content\Fotografias\imgtest.png");
-                        Image image = Image.FromFile(item.URL_FOTOGRAFIA);
+                        Image image = Image.FromFile(item.PATH);
                         image.Save(fileName);
 
                         respuesta = lista.FirstOrDefault().RESPUESTA;

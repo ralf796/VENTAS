@@ -96,7 +96,34 @@
 
     $('#formGuardarEmpleadoUsuario').submit(function (e) {
         e.preventDefault();
-        GuardarUsuario();
+        //GuardarUsuario();
+        GuardarUsuarioFoto();
     });
 
+
+    function GuardarUsuarioFoto() {
+        var formData = new FormData();
+        //formData.append('tipo', tipo);
+        if ($('#idFotografia')[0].files != undefined) {
+            let files = $('#idFotografia')[0].files;
+            formData.append('foto', files[0]);
+        }
+        $.ajax({
+            type: 'POST',
+            url: '/USUCrearUsuario/GuardarUsuarioFoto',
+            data: formData,
+            contentType: false,
+            processData: false,
+            success: function (data) {
+                //----------------ERROR CATCH----------------
+                if (data["State"] == -1)
+                    alert(data["State"])
+                else if (data["State"] == 1) {
+                    $('#uploadPhotoProfile').val('');
+                    $('#photoProfile').attr('src', data['Response']);
+                    alert(1)
+                }
+            }
+        });
+    }
 });

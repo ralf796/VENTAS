@@ -119,7 +119,7 @@
                 "zeroRecords": "No existen registros",
                 "info": "Pagina _PAGE_ de _PAGES_",
                 "infoEmpty": "No existen registros",
-                "search": "<strong>Buscar por nombre de cliente</strong>",
+                "search": "<strong>Buscar...</strong>",
                 "paginate": {
                     "first": "Primero",
                     "last": "Ultimo",
@@ -131,7 +131,7 @@
             ordering: false,
             info: false,
             paginate: false,
-            searching: false,
+            searching: true,
             paging: false,
             searching: false,
             destroy: true
@@ -139,8 +139,11 @@
     }
     function GetOpcion(opcion) {
         $('#hfOpcion').val(opcion);
-        if (opcion == 1)
+        if (opcion == 1) {
+            $('#txtNombre').val('');
+            $('#txtDescripcion').val('');
             $('#titleModal').html('CREAR CATEGORIA')
+        }
         else if (opcion == 2)
             $('#titleModal').html('MODIFICAR CATEGORIA')
 
@@ -190,4 +193,7 @@
             Update_Delete(nombre, descripcion, 2, id);
         }
     });
+
+
+    
 });

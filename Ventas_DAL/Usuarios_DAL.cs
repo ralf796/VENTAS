@@ -27,7 +27,7 @@ namespace Ventas_DAL
                 model.Command.Parameters.AddWithValue("@USUARIO", item.USUARIO);
                 model.Command.Parameters.AddWithValue("@PASSWORD", item.PASSWORD);
                 model.Command.Parameters.AddWithValue("@ID_ROL", item.ID_ROL);
-                model.Command.Parameters.AddWithValue("@URL_FOTOGRAFIA", item.URL_FOTOGRAFIA);
+                model.Command.Parameters.AddWithValue("@URL_FOTOGRAFIA", item.PATH);
                 model.Command.Parameters.AddWithValue("@MTIPO", item.MTIPO);
                 result = model.GetData<Usuarios_BE>();
             }
