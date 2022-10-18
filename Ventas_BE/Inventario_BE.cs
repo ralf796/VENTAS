@@ -12,13 +12,23 @@ namespace Ventas_BE
         public string DESCRIPCION { get; set; }
         public int? ESTANTERIA { get; set; }
         public int? NIVEL { get; set; }
+        public int? ID_PRODUCTO { get; set; }
         public int? ID_CATEGORIA { get; set; }
         public int? ID_MODELO { get; set; }
         public int? ID_TIPO { get; set; }
         public int? ID_BODEGA { get; set; }
         public int MTIPO { get; set; }
         public int ESTADO { get; set; }
-        public string CREADO_POR{ get; set; }
-        public string RESPUESTA{ get; set; }
+        public string CREADO_POR { get; set; }
+        public string RESPUESTA { get; set; }
+        public decimal PRECIO_COSTO { get; set; }
+        public decimal PRECIO_VENTA { get; set; }
+        public int STOCK { get; set; }
+        public int ANIO_FABRICADO { get; set; }
+        public string CODIGO { get; set; }
+        public string NOMBRE_CATEGORIA { get; set; }
+        public string NOMBRE_MODELO { get; set; }
+        public string NOMBRE_TIPO { get; set; }
+        public string NOMBRE_BODEGA { get; set; }
     }
 }

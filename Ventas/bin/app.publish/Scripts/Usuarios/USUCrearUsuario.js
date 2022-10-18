@@ -154,7 +154,7 @@
             success: function (data) {
                 //----------------ERROR CATCH----------------
                 if (data["State"] == -1)
-                    alert(data["State"])
+                    ShowAlertMessage('warning', data['Message'])
                 else if (data["State"] == 1) {
                     console.log(data['path_foto'])
                     $('#idFotografia').val('');
