@@ -35,6 +35,7 @@
         });
     }
     function Update_Delete(nombre, descripcion, tipo, id) {
+        var mensaje = 'Se inactivó el item seleccionado';
         if (tipo != 3) {
             if (nombre == '' || nombre == null) {
                 ShowAlertMessage('warning', '¡DEBES INGRESAR UN NOMBRE!');
@@ -44,6 +45,7 @@
                 ShowAlertMessage('warning', '¡DEBES INGRESAR UNA DESCRIPCIÓN!');
                 return;
             }
+            mensaje = 'Datos actualizados correctamente';
         }
         $.ajax({
             type: 'GET',
@@ -57,7 +59,7 @@
             success: function (data) {
                 var state = data["State"];
                 if (state == 1) {
-                    ShowAlertMessage('success', 'Datos actualizados correctamente')
+                    ShowAlertMessage('success', mensaje)
                     GetDatos()
                 }
                 else if (state == -1) {
@@ -67,13 +69,14 @@
         });
     }
     function GetDatos() {
+        var tipo = 4;
         $('#tbodyDatos').empty();
         $.ajax({
             type: 'GET',
             url: '/INVMantenimiento/GetDatosTable',
             contentType: "application/json; charset=utf-8",
             dataType: 'json',
-            data: {},
+            data: {tipo},
             cache: false,
             success: function (data) {
                 var lista = data["data"];
@@ -100,7 +103,7 @@
                 estatus = '<span class="badge badge-danger">INACTIVO</span>';
 
             $('#tbodyDatos').append('<tr class="table">' +
-                '<td>' + l.ID_CATEGORIA + '</td>' +
+                '<td class="d-none">' + l.ID_CATEGORIA + '</td>' +
                 '<td>' + l.NOMBRE + '</td>' +
                 '<td>' + l.DESCRIPCION + '</td>' +
                 '<td class="text-center">' + estatus + '</td>' +

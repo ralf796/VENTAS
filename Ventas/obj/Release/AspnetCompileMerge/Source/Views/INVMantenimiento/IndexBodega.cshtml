@@ -1,7 +1,115 @@
-﻿
-@{
-    ViewBag.Title = "IndexBodega";
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>IndexBodega</h2>
+@section scripts{
+    <script src="~/Scripts/Inventario/Bodega.js"></script>
+    <script src="~/Scripts/DevExtreme/21.1.5/dx.all.js"></script>
+    <script src="~/Scripts/DevExtreme/21.1.5/localization/dx.messages.es.js"></script>
+    <link href="~/Content/DevExtreme/21.1.5/dx.material.orange.light.css" rel="stylesheet" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-polyfill/7.4.0/polyfill.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/exceljs/3.3.1/exceljs.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/1.3.8/FileSaver.min.js"></script>
 
+}
+
+<style>
+    #gridContainer span.current-value {
+        display: inline-block;
+        margin-right: 5px;
+    }
+
+    #gridContainer span.diff {
+        width: 50px;
+        display: inline-block;
+    }
+
+</style>
+
+<div class="card">
+    <span class="badge badge-pill badge-secondary">LISTADO DE BODEGAS</span>
+    <div class="card-body">
+        <div class="row">
+            <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 text-right">
+                <button type="button" class="btn btn-primary" data-toggle="modal" id="btnAbrirModal" data-target="#modalDatos">
+                    <i class="far fa-plus-circle"></i> NUEVO
+                </button>
+            </div>
+            <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                <div class="demo-container">
+                    <div id="exportButton"></div>
+                    <div id="gridContainer"></div>
+                </div>
+                <table class="d-none table-striped display nowrap scroll" style="width:100%" id="tblDatos">
+                    <thead class="headColor">
+                        <tr>
+                            <th class="border text-center d-none">ID</th>
+                            <th class="border text-center">NOMBRE</th>
+                            <th class="border text-center">ESTANTERIA</th>
+                            <th class="border text-center">NIVEL</th>
+                            <th class="border text-center">ESTADO</th>
+                            <th class="border text-center" style="width:130px">ACCIONES</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tbodyDatos">
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<input id="hfOpcion" type="hidden" />
+<input id="hfID" type="hidden" />
+<div class="modal fade" id="modalDatos">
+    <div class="modal-dialog">
+        <div class="modal-content  bg-secondary">
+            <div class="modal-header">
+                <h5 class="modal-title" id="titleModal"></h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="form-row">
+                        <div class="form-group col-md-12">
+                            <label for="inputCity">NOMBRE</label>
+                            <input type="text" class="form-control" id="txtNombre">
+                        </div>
+                        <div class="form-group col-md-12">
+                            <div class="input-group mb-12">
+                                <div class="input-group-prepend">
+                                    <label class="input-group-text" for="selEstanteria">ESTANTERÍA</label>
+                                </div>
+                                <select class="custom-select" id="selEstanteria">
+                                    <option selected disabled>SELECCIONE</option>
+                                    <option value="1">1</option>
+                                    <option value="2">2</option>
+                                    <option value="3">3</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group col-md-12">
+                            <div class="input-group mb-12">
+                                <div class="input-group-prepend">
+                                    <label class="input-group-text" for="selNivel">NIVEL</label>
+                                </div>
+                                <select class="custom-select" id="selNivel">
+                                    <option selected disabled>SELECCIONE</option>
+                                    <option value="1">1</option>
+                                    <option value="2">2</option>
+                                    <option value="3">3</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer justify-content-between">
+                <button type="button" class="btn btn-danger" data-dismiss="modal">CERRAR</button>
+                <button type="button" class="btn btn-success" id="btnProcesar">PROCESAR</button>
+            </div>
+        </div>
+    </div>
+</div>
