@@ -6,6 +6,18 @@
     <script src="~/Scripts/Inventario/Categoria.js"></script>
 }
 
+<style>
+    #gridContainer span.current-value {
+        display: inline-block;
+        margin-right: 5px;
+    }
+
+    #gridContainer span.diff {
+        width: 50px;
+        display: inline-block;
+    }
+</style>
+
 <div class="card">
     <span class="badge badge-pill badge-secondary">LISTADO DE CATEGORÍAS</span>
     <div class="card-body">
@@ -16,19 +28,10 @@
                 </button>
             </div>
             <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
-                <table class="table-striped display nowrap scroll" style="width:100%" id="tblDatos">
-                    <thead class="headColor">
-                        <tr>
-                            <th class="border text-center">ID</th>
-                            <th class="border text-center">NOMBRE</th>
-                            <th class="border text-center">DESCRIPCIÓN</th>
-                            <th class="border text-center">ESTADO</th>
-                            <th class="border text-center" style="width:130px">ACCIONES</th>
-                        </tr>
-                    </thead>
-                    <tbody id="tbodyDatos">
-                    </tbody>
-                </table>
+                <div class="demo-container">
+                    <div id="exportButton"></div>
+                    <div id="gridContainer"></div>
+                </div>                
             </div>
         </div>
     </div>
@@ -36,41 +39,6 @@
 
 <input id="hfOpcion" type="hidden" />
 <input id="hfID" type="hidden" />
-@*<div class="modal fade" id="modalDatos" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="titleModal"></h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <div class="row">
-                    <div class="form-row">
-                        <div class="form-group col-md-12">
-                            <label for="inputCity">NOMBRE</label>
-                            <input type="text" class="form-control" id="txtNombre">
-                        </div>
-                        <div class="form-group col-md-12">
-                            <label for="inputCity">DESCRIPCION</label>
-                            <input type="text" class="form-control" id="txtDescripcion">
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="modal-footer text-center">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">CERRAR</button>
-                <button id="btnProcesar" type="button" class="btn btn-primary">GUARDAR</button>
-            </div>
-        </div>
-    </div>
-</div>*@
-
-<button type="button" class="btn btn-info" data-toggle="modal" data-target="#modalDatos">
-    Launch Info Modal
-</button>
-
 <div class="modal fade" id="modalDatos">
     <div class="modal-dialog">
         <div class="modal-content  bg-secondary">
@@ -99,7 +67,5 @@
                 <button type="button" class="btn btn-success" id="btnProcesar">PROCESAR</button>
             </div>
         </div>
-        <!-- /.modal-content -->
     </div>
-    <!-- /.modal-dialog -->
 </div>

@@ -161,18 +161,18 @@
                     $('#imgModal').attr('src', data['path_foto']);
 
                     ShowAlertMessage('success', 'Datos ingresados correctamente')
-                    //$('#txtGuardarPrimerNombre').val('');
-                    //$('#txtGuardarSegundoNombre').val('');
-                    //$('#txtGuardarPrimerApellido').val('');
-                    //$('#txtGuardarSegundoApellido').val('');
-                    //$('#txtGuardarCelular').val('');
-                    //$('#txtGuardarTelCasa').val('');
-                    //$('#txtGuardarDireccion').val('');
-                    //$('#selGuardarTipoEmpleado').val(-1);
-                    //$('#txtGuardarEmail').val('');
-                    //$('#txtGuardarUsuario').val('');
-                    //$('#txtGuardarPassword').val('');
-                    //$('#selGuardarRol').val(-1);
+                    $('#txtGuardarPrimerNombre').val('');
+                    $('#txtGuardarSegundoNombre').val('');
+                    $('#txtGuardarPrimerApellido').val('');
+                    $('#txtGuardarSegundoApellido').val('');
+                    $('#txtGuardarCelular').val('');
+                    $('#txtGuardarTelCasa').val('');
+                    $('#txtGuardarDireccion').val('');
+                    $('#selGuardarTipoEmpleado').val(-1);
+                    $('#txtGuardarEmail').val('');
+                    $('#txtGuardarUsuario').val('');
+                    $('#txtGuardarPassword').val('');
+                    $('#selGuardarRol').val(-1);
                 }
             }
         });

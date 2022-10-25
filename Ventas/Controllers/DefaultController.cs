@@ -1,4 +1,5 @@
-﻿using System;
+﻿using GenesysOracleSV.Clases;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -9,6 +10,7 @@ namespace Ventas.Controllers
     public class DefaultController : Controller
     {
         // GET: Default
+        //[SessionExpireFilterAttribute]
         public ActionResult Index()
         {
             return View();
