@@ -6,6 +6,19 @@
     <script src="~/Scripts/Inventario/Bodega.js"></script>
 }
 
+<style>
+    #gridContainer span.current-value {
+        display: inline-block;
+        margin-right: 5px;
+    }
+
+    #gridContainer span.diff {
+        width: 50px;
+        display: inline-block;
+    }
+
+</style>
+
 <div class="card">
     <span class="badge badge-pill badge-secondary">LISTADO DE BODEGAS</span>
     <div class="card-body">
@@ -16,7 +29,11 @@
                 </button>
             </div>
             <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
-                <table class="table-striped display nowrap scroll" style="width:100%" id="tblDatos">
+                <div class="demo-container">
+                    <div id="exportButton"></div>
+                    <div id="gridContainer"></div>
+                </div>
+                <table class="d-none table-striped display nowrap scroll" style="width:100%" id="tblDatos">
                     <thead class="headColor">
                         <tr>
                             <th class="border text-center d-none">ID</th>
@@ -52,10 +69,6 @@
                         <div class="form-group col-md-12">
                             <label for="inputCity">NOMBRE</label>
                             <input type="text" class="form-control" id="txtNombre">
-                        </div>
-                        <div class="form-group col-md-12">
-                            <label for="inputCity">DESCRIPCION</label>
-                            <input type="text" class="form-control" id="txtDescripcion">
                         </div>
                         <div class="form-group col-md-12">
                             <div class="input-group mb-12">

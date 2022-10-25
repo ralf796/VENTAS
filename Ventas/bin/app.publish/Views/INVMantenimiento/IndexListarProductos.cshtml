@@ -1,0 +1,157 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section scripts{
+    <script src="~/Scripts/Inventario/ListarProductos.js"></script>
+}
+
+
+@section styles{
+    <style>
+        .col-form-label {
+            padding-top: 10px;
+            padding-right: 1px;
+            text-align: right;
+            font-size: 10.6px;
+            /*color: gray;*/
+            font-weight: bold;
+            width: 115px;
+            /*border: 1px solid;
+            background-color: darkseagreen;*/
+        }
+    </style>
+}
+
+<div class="card">
+    <span class="badge badge-pill badge-secondary">LISTADO DE PRODUCTOS</span>
+    <div class="card-body">
+        <div class="row">
+            <div class="col-12 col-md-12 col-xl-12">
+                <div class="table-responsive">
+
+                    <table id="tblProductos" width="100%">
+                        <thead class="headColor">
+                            <tr>
+                                <th class="border text-center pl-2 pr-2 d-none">ID_PRODUCTO</th>
+                                <th class="border text-center pl-2 pr-2">NOMBRE</th>
+                                <th class="border text-center pl-2 pr-2">DESCRIPCION</th>
+                                <th class="border text-center pl-2 pr-2">P/COSTO</th>
+                                <th class="border text-center pl-2 pr-2">P/VENTA</th>
+                                <th class="border text-center pl-2 pr-2">STOCK</th>
+                                <th class="border text-center pl-2 pr-2">FABRICACION</th>
+                                <th class="border text-center pl-2 pr-2">CODIGO</th>
+                                <th class="border text-center pl-2 pr-2 d-none">ID CATEGORIA</th>
+                                <th class="border text-center pl-2 pr-2">CATEGORIA</th>
+                                <th class="border text-center pl-2 pr-2 d-none">ID MODELO</th>
+                                <th class="border text-center pl-2 pr-2">MODELO</th>
+                                <th class="border text-center pl-2 pr-2 d-none">ID TIPO</th>
+                                <th class="border text-center pl-2 pr-2">TIPO</th>
+                                <th class="border text-center pl-2 pr-2 d-none">ID BODEGA</th>
+                                <th class="border text-center pl-2 pr-2">BODEGA</th>
+                                <th class="border text-center pl-2 pr-2">ESTADO</th>
+                                <th class="border text-center pl-2 pr-2">ACCIONES</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tbodyProductos">
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<input type="hidden" id="hfIdProducto" />
+<div class="modal fade" id="modalDatos">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content  bg-light">
+            <div class="modal-header">
+                <h5 class="modal-title">MODIFICAR PRODUCTO</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="formGuardarProducto">
+                    <div class="row">
+                        <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 pt-1">
+                            <div class="input-group text-right">
+                                <span class="col-form-label">NOMBRE:</span>
+                                <input type="text" class="form-control" id="txtNombre" name="txtNombre" required>
+                            </div>
+                        </div>
+                        <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 pt-1">
+                            <div class="input-group text-right">
+                                <span class="col-form-label">DESCRIPCIÓN:</span>
+                                <input type="text" class="form-control" id="txtDescripcion" name="txtDescripcion">
+                            </div>
+                        </div>
+                        <div class="col-12 col-sm-12 col-md-6 col-lg-6 col-xl-4 pt-1">
+                            <div class="input-group text-right">
+                                <span class="col-form-label">PRECIO COSTO:</span>
+                                <input type="number" class="form-control text-right" id="txtPrecioCosto" name="txtPrecioCosto" required>
+                            </div>
+                        </div>
+                        <div class="col-12 col-sm-12 col-md-6 col-lg-6 col-xl-4 pt-1">
+                            <div class="input-group text-right">
+                                <span class="col-form-label">PRECIO VENTA:</span>
+                                <input type="number" class="form-control text-right" id="txtPrecioVenta" name="txtPrecioVenta">
+                            </div>
+                        </div>
+                        <div class="col-12 col-sm-12 col-md-6 col-lg-6 col-xl-4 pt-1">
+                            <div class="input-group text-right">
+                                <span class="col-form-label">STOCK:</span>
+                                <input type="number" class="form-control text-center" id="txtStock" name="txtStock" required>
+                            </div>
+                        </div>
+                        <div class="col-12 col-sm-12 col-md-6 col-lg-6 col-xl-4 pt-1">
+                            <div class="input-group text-right">
+                                <span class="col-form-label">ANIO FABRICACIÓN:</span>
+                                <input type="number" class="form-control text-center" id="txtAnioFabricacion" name="txtAnioFabricacion">
+                            </div>
+                        </div>
+                        <div class="col-12 col-sm-12 col-md-6 col-lg-6 col-xl-4 pt-1">
+                            <div class="input-group text-right">
+                                <span class="col-form-label">CÓDIGO:</span>
+                                <input type="text" class="form-control text-center" id="txtCodigo" name="txtCodigo" required>
+                            </div>
+                        </div>
+                        <div class="col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6 pt-1">
+                            <div class="input-group text-right">
+                                <span class="col-form-label">CATEGORÍA:</span>
+                                <select class="form-control select2bs4" id="selCategoria" name="selCategoria" required>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6 pt-1">
+                            <div class="input-group">
+                                <span class="col-form-label">MODELO:</span>
+                                <select class="form-control select2bs4" id="selModelo" name="selModelo" required>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6 pt-1">
+                            <div class="input-group text-right">
+                                <span class="col-form-label">TIPO:</span>
+                                <select class="form-control select2bs4" id="selTipo" name="selTipo" required>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6 pt-1">
+                            <div class="input-group">
+                                <span class="col-form-label">BODEGA:</span>
+                                <select class="form-control select2bs4" id="selBodega" name="selBodega" required>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer justify-content-center">
+                        <button type="button" class="btn btn-danger" data-dismiss="modal">CERRAR</button>
+                        <button type="submit" class="btn btn-success" id="btnProcesar">PROCESAR</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
