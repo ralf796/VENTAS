@@ -1,33 +1,10 @@
 ﻿$(document).ready(function () {
     DevExpress.localization.locale(navigator.language);
 
-
     GetDatos()
 
     function GetDatos() {
         var tipo = 7;
-        /*
-        $('#tbodyDatos').empty();
-        $.ajax({
-            type: 'GET',
-            url: '/INVMantenimiento/GetDatosTable',
-            contentType: "application/json; charset=utf-8",
-            dataType: 'json',
-            data: { tipo },
-            cache: false,
-            success: function (data) {
-                var lista = data["data"];
-                var state = data["State"];
-                if (state == 1) {
-                    AddRows(lista);
-                    $('#modalDatos').modal('hide');
-                    //DatatableActive();
-                }
-                else if (state == -1)
-                    alert(data["Message"])
-            }
-        });
-        */
         var customStore = new DevExpress.data.CustomStore({
             load: function (loadOptions) {
                 var d = $.Deferred();
@@ -68,7 +45,7 @@
             },
             searchPanel: {
                 visible: true,
-                width: 500,
+                width: 240,
                 placeholder: "Buscar..."
             },
             headerFilter: {
@@ -167,6 +144,7 @@
                     ShowAlertMessage('success', 'Datos creados correctamente')
                     $('#txtNombre').val('');
                     $('#txtDescripcion').val('');
+                    $('#modalDatos').modal('hide');
                     GetDatos()
                 }
                 else if (state == -1) {
@@ -328,7 +306,6 @@
         var opcion = $('#hfOpcion').val();
         var id = $('#hfID').val();
         var nombre = $('#txtNombre').val();
-        var descripcion = '';
         var estanteria = $('#selEstanteria').val();
         var nivel = $('#selNivel').val();
         if (opcion == 1) {

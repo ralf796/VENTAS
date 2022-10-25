@@ -38,5 +38,6 @@ namespace Ventas_BE
         public int ANIO_INICIAL{ get; set; }
         public int ANIO_FINAL{ get; set; }
         public int ID_DELETE { get; set; }
+        public int ID_UPDATE { get; set; }
     }
 }

@@ -72,16 +72,22 @@ namespace Ventas.Controllers.Inventario
             lista = Inventario_BLL.GetInventario_select(item);
             return lista;
         }
-        private List<Inventario_BE> GetInventario_delete_(Inventario_BE item)
-        {
-            List<Inventario_BE> lista = new List<Inventario_BE>();
-            lista = Inventario_BLL.GetInventario_delete(item);
-            return lista;
-        }
         private List<Inventario_BE> GetInventario_create_(Inventario_BE item)
         {
             List<Inventario_BE> lista = new List<Inventario_BE>();
             lista = Inventario_BLL.GetInventario_create(item);
+            return lista;
+        }
+        private List<Inventario_BE> GetInventario_update_(Inventario_BE item)
+        {
+            List<Inventario_BE> lista = new List<Inventario_BE>();
+            lista = Inventario_BLL.GetInventario_update(item);
+            return lista;
+        }
+        private List<Inventario_BE> GetInventario_delete_(Inventario_BE item)
+        {
+            List<Inventario_BE> lista = new List<Inventario_BE>();
+            lista = Inventario_BLL.GetInventario_delete(item);
             return lista;
         }
 
@@ -192,6 +198,7 @@ namespace Ventas.Controllers.Inventario
                 return Json(new { State = -1, Message = ex.Message }, JsonRequestBehavior.AllowGet);
             }
         }
+        
         public JsonResult GetDatosTable(int tipo = 0)
         {
             try
@@ -206,8 +213,64 @@ namespace Ventas.Controllers.Inventario
                 return Json(new { State = -1, Message = ex.Message }, JsonRequestBehavior.AllowGet);
             }
         }
+        public JsonResult Guardar(string nombre = "", string descripcion = "", int tipo = 0, int estanteria = 0, int nivel = 0, int anioI=0, int anioF=0)
+        {
+            try
+            {
+                string respuesta = "";
+                var item = new Inventario_BE();
+                item.NOMBRE = nombre;
+                item.DESCRIPCION = descripcion;
+                item.CREADO_POR = "RALOPEZ";
+                item.ANIO_INICIAL = anioI;
+                item.ANIO_FINAL = anioF;
+                item.MTIPO = tipo;
 
+                var lista = GetInventario_create_(item);
 
+                if (lista!=null)
+                    {
+                    if (lista.FirstOrDefault().RESPUESTA != "")
+                    {
+                        respuesta = lista.FirstOrDefault().RESPUESTA;
+                    }
+                }
+                return Json(new { State = 1 }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                return Json(new { State = -1, Message = ex.Message }, JsonRequestBehavior.AllowGet);
+            }
+        }
+        public JsonResult Update(int tipo = 0, int id = 0, string nombre = "",  int estanteria = 0, int nivel = 0)
+        {
+            try
+            {
+                string respuesta = "";
+                var item = new Inventario_BE();
+                item.NOMBRE = nombre;
+                item.CREADO_POR = "RALOPEZ";
+                item.MTIPO = tipo;
+                item.ESTANTERIA = estanteria;
+                item.NIVEL = nivel;
+                item.ID_UPDATE = id;
+
+                var lista = GetInventario_update_(item);
+
+                if (lista!=null)
+                {
+                    if (lista.FirstOrDefault().RESPUESTA != "")
+                    {
+                        respuesta = lista.FirstOrDefault().RESPUESTA;
+                    }
+                }
+                return Json(new { State = 1 }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                return Json(new { State = -1, Message = ex.Message }, JsonRequestBehavior.AllowGet);
+            }
+        }
         public JsonResult Delete(int id = 0, int tipo=0)
         {
             try
@@ -230,36 +293,6 @@ namespace Ventas.Controllers.Inventario
             {
                 return Json(new { State = -1, Message = ex.Message }, JsonRequestBehavior.AllowGet);
             }
-        }
-
-        public JsonResult Guardar(string nombre = "", string descripcion = "", int tipo = 0, int estanteria = 0, int nivel = 0)
-        {
-            try
-            {
-                string respuesta = "";
-                var item = new Inventario_BE();
-                item.NOMBRE = nombre;
-                item.DESCRIPCION = descripcion;
-                item.CREADO_POR = "RALOPEZ";
-                item.MTIPO = tipo;
-                item.ESTANTERIA = estanteria;
-                item.NIVEL = nivel;
-
-                var lista = GetInventario_create_(item);
-
-                if (lista!=null)
-                {
-                    if (lista.FirstOrDefault().RESPUESTA != "")
-                    {
-                        respuesta = lista.FirstOrDefault().RESPUESTA;
-                    }
-                }
-                return Json(new { State = 1 }, JsonRequestBehavior.AllowGet);
-            }
-            catch (Exception ex)
-            {
-                return Json(new { State = -1, Message = ex.Message }, JsonRequestBehavior.AllowGet);
-            }
-        }
+        }    
     }
 }

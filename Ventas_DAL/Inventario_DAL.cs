@@ -49,17 +49,6 @@ namespace Ventas_DAL
             }
             return result;
         }
-        public List<Inventario_BE> GetInventario_delete(Inventario_BE item)
-        {
-            List<Inventario_BE> result = new List<Inventario_BE>();
-            using (var model = new Base_SQL("sp_inventario_delete"))
-            {
-                model.Command.Parameters.AddWithValue("@ID", item.ID_DELETE);
-                model.Command.Parameters.AddWithValue("@MTIPO", item.MTIPO);
-                result = model.GetData<Inventario_BE>();
-            }
-            return result;
-        }
         public List<Inventario_BE> GetInventario_create(Inventario_BE item)
         {
             List<Inventario_BE> result = new List<Inventario_BE>();
@@ -74,6 +63,36 @@ namespace Ventas_DAL
                 model.Command.Parameters.AddWithValue("@CREADO_POR", item.CREADO_POR);
                 model.Command.Parameters.AddWithValue("@ID_CATEGORIA", item.ID_CATEGORIA);
                 model.Command.Parameters.AddWithValue("@ID_MARCA_VEHICULO", item.ID_MARCA_VEHICULO);
+                model.Command.Parameters.AddWithValue("@MTIPO", item.MTIPO);
+                result = model.GetData<Inventario_BE>();
+            }
+            return result;
+        }
+        public List<Inventario_BE> GetInventario_update(Inventario_BE item)
+        {
+            List<Inventario_BE> result = new List<Inventario_BE>();
+            using (var model = new Base_SQL("sp_inventario_create"))
+            {
+                model.Command.Parameters.AddWithValue("@NOMBRE", item.NOMBRE);
+                model.Command.Parameters.AddWithValue("@DESCRIPCION", item.DESCRIPCION);
+                model.Command.Parameters.AddWithValue("@ESTANTE", item.ESTANTERIA);
+                model.Command.Parameters.AddWithValue("@NIVEL", item.NIVEL);
+                model.Command.Parameters.AddWithValue("@ANIO_INICIAL", item.ANIO_INICIAL);
+                model.Command.Parameters.AddWithValue("@ANIO_FINAL", item.ANIO_FINAL);
+                model.Command.Parameters.AddWithValue("@CREADO_POR", item.CREADO_POR);
+                model.Command.Parameters.AddWithValue("@ID_CATEGORIA", item.ID_CATEGORIA);
+                model.Command.Parameters.AddWithValue("@ID_MARCA_VEHICULO", item.ID_MARCA_VEHICULO);
+                model.Command.Parameters.AddWithValue("@MTIPO", item.MTIPO);
+                result = model.GetData<Inventario_BE>();
+            }
+            return result;
+        }
+        public List<Inventario_BE> GetInventario_delete(Inventario_BE item)
+        {
+            List<Inventario_BE> result = new List<Inventario_BE>();
+            using (var model = new Base_SQL("sp_inventario_delete"))
+            {
+                model.Command.Parameters.AddWithValue("@ID", item.ID_DELETE);
                 model.Command.Parameters.AddWithValue("@MTIPO", item.MTIPO);
                 result = model.GetData<Inventario_BE>();
             }
