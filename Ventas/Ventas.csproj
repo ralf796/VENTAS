@@ -2476,6 +2476,7 @@
     <Content Include="Content\Site.css" />
     <Content Include="Content\site.fonts.css" />
     <Content Include="Global.asax" />
+    <Content Include="Scripts\Clientes\CLIListarClientes.js" />
     <Content Include="Scripts\DevExtreme\21.1.5\dx-quill.min.js" />
     <Content Include="Scripts\DevExtreme\21.1.5\dx.all.js" />
     <Content Include="Scripts\DevExtreme\21.1.5\localization\dx.messages.en.js" />
@@ -2497,6 +2498,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Class\Encryption.cs" />
     <Compile Include="Class\SessionExpireFilterAttribute.cs" />
+    <Compile Include="Controllers\Clientes\CLIListarClientesController.cs" />
     <Compile Include="Controllers\DefaultController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\Inventario\INVMantenimientoController.cs" />
@@ -3116,6 +3118,7 @@
     <Content Include="Views\INVMantenimiento\IndexProveedor.cshtml" />
     <Content Include="Views\INVMantenimiento\IndexMarcaRepuesto.cshtml" />
     <Content Include="Views\INVMantenimiento\IndexMarcaVehiculo.cshtml" />
+    <Content Include="Views\CLIListarClientes\Index.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -3127,13 +3130,11 @@
     <Folder Include="App_Data\" />
     <Folder Include="Content\Fotografias\" />
     <Folder Include="Controllers\Caja\" />
-    <Folder Include="Controllers\Clientes\" />
     <Folder Include="Controllers\Proveedores\" />
     <Folder Include="Controllers\Reportes\" />
     <Folder Include="Controllers\Ventas\" />
     <Folder Include="Models\" />
     <Folder Include="Scripts\Caja\" />
-    <Folder Include="Scripts\Clientes\" />
     <Folder Include="Scripts\Proveedores\" />
     <Folder Include="Scripts\Reportes\" />
     <Folder Include="Scripts\Ventas\" />
