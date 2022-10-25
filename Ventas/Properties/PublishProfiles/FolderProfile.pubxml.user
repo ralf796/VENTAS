@@ -10,10 +10,10 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
   </PropertyGroup>
   <ItemGroup>
     <File Include="bin/App_global.asax.compiled">
-      <publishTime>10/22/2022 18:49:58</publishTime>
+      <publishTime>10/24/2022 22:27:13</publishTime>
     </File>
     <File Include="bin/App_global.asax.dll">
-      <publishTime>10/22/2022 18:49:58</publishTime>
+      <publishTime>10/24/2022 22:27:13</publishTime>
     </File>
     <File Include="bin/es/System.Web.Helpers.resources.dll">
       <publishTime>11/28/2018 12:04:36</publishTime>
@@ -205,28 +205,28 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>11/28/2018 12:04:24</publishTime>
     </File>
     <File Include="bin/Ventas.dll">
-      <publishTime>10/22/2022 18:49:46</publishTime>
+      <publishTime>10/24/2022 22:27:06</publishTime>
     </File>
     <File Include="bin/Ventas.pdb">
-      <publishTime>10/22/2022 18:49:46</publishTime>
+      <publishTime>10/24/2022 22:27:06</publishTime>
     </File>
     <File Include="bin/Ventas_BE.dll">
-      <publishTime>10/22/2022 18:49:45</publishTime>
+      <publishTime>10/24/2022 22:27:05</publishTime>
     </File>
     <File Include="bin/Ventas_BE.pdb">
-      <publishTime>10/22/2022 18:49:45</publishTime>
+      <publishTime>10/24/2022 22:27:05</publishTime>
     </File>
     <File Include="bin/Ventas_BLL.dll">
-      <publishTime>10/22/2022 18:49:45</publishTime>
+      <publishTime>10/24/2022 22:27:06</publishTime>
     </File>
     <File Include="bin/Ventas_BLL.pdb">
-      <publishTime>10/22/2022 18:49:45</publishTime>
+      <publishTime>10/24/2022 22:27:06</publishTime>
     </File>
     <File Include="bin/Ventas_DAL.dll">
-      <publishTime>10/22/2022 18:49:45</publishTime>
+      <publishTime>10/24/2022 22:27:06</publishTime>
     </File>
     <File Include="bin/Ventas_DAL.pdb">
-      <publishTime>10/22/2022 18:49:45</publishTime>
+      <publishTime>10/24/2022 22:27:06</publishTime>
     </File>
     <File Include="Content/Admin LTE 3.2/.babelrc.js">
       <publishTime>09/02/2022 16:46:53</publishTime>
@@ -10000,7 +10000,7 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>10/13/2022 19:10:26</publishTime>
     </File>
     <File Include="PrecompiledApp.config">
-      <publishTime>10/22/2022 18:49:53</publishTime>
+      <publishTime>10/24/2022 22:27:09</publishTime>
     </File>
     <File Include="Scripts/DevExtreme/21.1.5/dx-quill.min.js">
       <publishTime>10/14/2021 15:39:43</publishTime>
@@ -10018,10 +10018,10 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>10/14/2021 15:39:43</publishTime>
     </File>
     <File Include="Scripts/Inventario/Bodega.js">
-      <publishTime>10/22/2022 18:47:52</publishTime>
+      <publishTime>10/24/2022 21:36:20</publishTime>
     </File>
     <File Include="Scripts/Inventario/Categoria.js">
-      <publishTime>10/22/2022 15:31:45</publishTime>
+      <publishTime>10/24/2022 21:42:54</publishTime>
     </File>
     <File Include="Scripts/Inventario/CrearProducto.js">
       <publishTime>10/22/2022 15:31:45</publishTime>
@@ -10030,13 +10030,13 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>10/22/2022 15:31:45</publishTime>
     </File>
     <File Include="Scripts/Inventario/MarcaRepuesto.js">
-      <publishTime>10/22/2022 15:59:48</publishTime>
+      <publishTime>10/24/2022 22:10:10</publishTime>
     </File>
     <File Include="Scripts/Inventario/MarcaVehiculo.js">
-      <publishTime>10/22/2022 15:59:58</publishTime>
+      <publishTime>10/24/2022 22:21:38</publishTime>
     </File>
     <File Include="Scripts/Inventario/Modelo.js">
-      <publishTime>10/22/2022 15:31:45</publishTime>
+      <publishTime>10/24/2022 21:54:24</publishTime>
     </File>
     <File Include="Scripts/Inventario/Proveedor.js">
       <publishTime>10/22/2022 16:00:32</publishTime>
@@ -10069,10 +10069,10 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>10/13/2022 19:16:32</publishTime>
     </File>
     <File Include="Views/INVMantenimiento/IndexBodega.cshtml">
-      <publishTime>10/22/2022 18:34:23</publishTime>
+      <publishTime>10/24/2022 20:41:18</publishTime>
     </File>
     <File Include="Views/INVMantenimiento/IndexCategoria.cshtml">
-      <publishTime>10/22/2022 15:31:45</publishTime>
+      <publishTime>10/24/2022 21:45:45</publishTime>
     </File>
     <File Include="Views/INVMantenimiento/IndexCrearProducto.cshtml">
       <publishTime>10/22/2022 15:31:45</publishTime>
@@ -10084,13 +10084,13 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>10/15/2022 23:03:04</publishTime>
     </File>
     <File Include="Views/INVMantenimiento/IndexMarcaRepuesto.cshtml">
-      <publishTime>10/22/2022 15:55:57</publishTime>
+      <publishTime>10/24/2022 22:12:08</publishTime>
     </File>
     <File Include="Views/INVMantenimiento/IndexMarcaVehiculo.cshtml">
-      <publishTime>10/22/2022 15:56:08</publishTime>
+      <publishTime>10/24/2022 22:16:00</publishTime>
     </File>
     <File Include="Views/INVMantenimiento/IndexModelo.cshtml">
-      <publishTime>10/22/2022 15:31:45</publishTime>
+      <publishTime>10/24/2022 22:11:46</publishTime>
     </File>
     <File Include="Views/INVMantenimiento/IndexProveedor.cshtml">
       <publishTime>10/22/2022 15:55:42</publishTime>
@@ -10102,7 +10102,7 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>10/17/2022 13:11:45</publishTime>
     </File>
     <File Include="Views/Shared/_Layout.cshtml">
-      <publishTime>10/22/2022 18:29:31</publishTime>
+      <publishTime>10/24/2022 22:10:51</publishTime>
     </File>
     <File Include="Views/USUCrearUsuario/Index.cshtml">
       <publishTime>10/22/2022 15:31:45</publishTime>
@@ -10120,7 +10120,7 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>10/14/2022 16:49:56</publishTime>
     </File>
     <File Include="Web.config">
-      <publishTime>10/22/2022 18:49:49</publishTime>
+      <publishTime>10/24/2022 22:27:08</publishTime>
     </File>
   </ItemGroup>
 </Project>

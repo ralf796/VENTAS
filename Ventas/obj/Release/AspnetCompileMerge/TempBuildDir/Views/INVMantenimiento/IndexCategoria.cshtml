@@ -6,6 +6,18 @@
     <script src="~/Scripts/Inventario/Categoria.js"></script>
 }
 
+<style>
+    #gridContainer span.current-value {
+        display: inline-block;
+        margin-right: 5px;
+    }
+
+    #gridContainer span.diff {
+        width: 50px;
+        display: inline-block;
+    }
+</style>
+
 <div class="card">
     <span class="badge badge-pill badge-secondary">LISTADO DE CATEGORÍAS</span>
     <div class="card-body">
@@ -16,19 +28,10 @@
                 </button>
             </div>
             <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
-                <table class="table-striped display nowrap scroll" style="width:100%" id="tblDatos">
-                    <thead class="headColor">
-                        <tr>
-                            <th class="border text-center d-none">ID</th>
-                            <th class="border text-center">NOMBRE</th>
-                            <th class="border text-center">DESCRIPCIÓN</th>
-                            <th class="border text-center">ESTADO</th>
-                            <th class="border text-center" style="width:130px">ACCIONES</th>
-                        </tr>
-                    </thead>
-                    <tbody id="tbodyDatos">
-                    </tbody>
-                </table>
+                <div class="demo-container">
+                    <div id="exportButton"></div>
+                    <div id="gridContainer"></div>
+                </div>                
             </div>
         </div>
     </div>
