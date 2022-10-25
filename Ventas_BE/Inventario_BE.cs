@@ -31,7 +31,7 @@ namespace Ventas_BE
         public string NOMBRE_TIPO { get; set; }
         public string NOMBRE_BODEGA { get; set; }
         public int ID_SUBCATEGORIA{ get; set; }
-        public int ID_PROVEEDOR{ get; set; }
+        public Int64 ID_PROVEEDOR{ get; set; }
         public int ID_MARCA_REPUESTO{ get; set; }
         public int ID_MARCA_VEHICULO{ get; set; }
         public int ID_SERIE_VEHICULO{ get; set; }
@@ -39,5 +39,8 @@ namespace Ventas_BE
         public int ANIO_FINAL{ get; set; }
         public int ID_DELETE { get; set; }
         public int ID_UPDATE { get; set; }
+        public string TELEFONO { get; set; }
+        public string DIRECCION { get; set; }
+        public string CONTACTO { get; set; }
     }
 }
