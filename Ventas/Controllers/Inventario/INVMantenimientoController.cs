@@ -49,6 +49,11 @@ namespace Ventas.Controllers.Inventario
         {
             return View();
         }
+        // GET: SERIE VEHICULO
+        public ActionResult IndexSerieVehiculo()
+        {
+            return View();
+        }
         // GET: CREAR PRODUCTO
         public ActionResult IndexCrearProducto()
         {
@@ -213,7 +218,7 @@ namespace Ventas.Controllers.Inventario
                 return Json(new { State = -1, Message = ex.Message }, JsonRequestBehavior.AllowGet);
             }
         }
-        public JsonResult Guardar(string nombre = "", string descripcion = "", int tipo = 0, int estanteria = 0, int nivel = 0, int anioI = 0, int anioF = 0, int categoria = 0, string telefono = "", string direccion = "", string contacto = "")
+        public JsonResult Guardar(string nombre = "", string descripcion = "", int tipo = 0, int estanteria = 0, int nivel = 0, int anioI = 0, int anioF = 0, int categoria = 0, string telefono = "", string direccion = "", string contacto = "", int marca=0)
         {
             try
             {
@@ -229,6 +234,7 @@ namespace Ventas.Controllers.Inventario
                 item.TELEFONO = telefono;
                 item.DIRECCION = telefono;
                 item.CONTACTO = contacto;
+                item.ID_MARCA_VEHICULO = marca;
 
                 var lista = GetInventario_create_(item);
 

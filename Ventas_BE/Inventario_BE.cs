@@ -42,5 +42,6 @@ namespace Ventas_BE
         public string TELEFONO { get; set; }
         public string DIRECCION { get; set; }
         public string CONTACTO { get; set; }
+        public string NOMBRE_MARCA_VEHICULO { get; set; }
     }
 }
