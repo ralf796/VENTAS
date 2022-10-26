@@ -2473,6 +2473,16 @@
     <Content Include="Content\fontawesome\webfonts\fa-light-300.svg" />
     <Content Include="Content\fontawesome\webfonts\fa-regular-400.svg" />
     <Content Include="Content\fontawesome\webfonts\fa-solid-900.svg" />
+    <Content Include="Content\Fotografias\profile hombre11.png" />
+    <Content Include="Content\Fotografias\profile hombre24.png" />
+    <Content Include="Content\Fotografias\profile hombre32.png" />
+    <Content Include="Content\Fotografias\profile hombre47.png" />
+    <Content Include="Content\Fotografias\profile hombre57.png" />
+    <Content Include="Content\Fotografias\profile hombre59.png" />
+    <Content Include="Content\Fotografias\profile hombre75.png" />
+    <Content Include="Content\Fotografias\profile hombre89.png" />
+    <Content Include="Content\Fotografias\profile hombre95.png" />
+    <Content Include="Content\Fotografias\profile mujer85.png" />
     <Content Include="Content\Site.css" />
     <Content Include="Content\site.fonts.css" />
     <Content Include="Global.asax" />
@@ -2489,9 +2499,11 @@
     <Content Include="Scripts\Inventario\MarcaRepuesto.js" />
     <Content Include="Scripts\Inventario\Modelo.js" />
     <Content Include="Scripts\Inventario\Proveedor.js" />
+    <Content Include="Scripts\Inventario\SerieVehiculo.js" />
     <Content Include="Scripts\Inventario\Subcategoria.js" />
     <Content Include="Scripts\Login\HomeLogin.js" />
     <Content Include="Scripts\Usuarios\USUCrearUsuario.js" />
+    <Content Include="Scripts\Ventas\VENCrearVenta.js" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
@@ -2504,6 +2516,7 @@
     <Compile Include="Controllers\Inventario\INVMantenimientoController.cs" />
     <Compile Include="Controllers\Usuarios\USUCrearUsuarioController.cs" />
     <Compile Include="Controllers\Usuarios\USUListarUsuarioController.cs" />
+    <Compile Include="Controllers\Ventas\VENCrearVentaController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -3119,6 +3132,8 @@
     <Content Include="Views\INVMantenimiento\IndexMarcaRepuesto.cshtml" />
     <Content Include="Views\INVMantenimiento\IndexMarcaVehiculo.cshtml" />
     <Content Include="Views\CLIListarClientes\Index.cshtml" />
+    <Content Include="Views\INVMantenimiento\IndexSerieVehiculo.cshtml" />
+    <Content Include="Views\VENCrearVenta\Index.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -3128,16 +3143,11 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Content\Fotografias\" />
     <Folder Include="Controllers\Caja\" />
-    <Folder Include="Controllers\Proveedores\" />
     <Folder Include="Controllers\Reportes\" />
-    <Folder Include="Controllers\Ventas\" />
     <Folder Include="Models\" />
     <Folder Include="Scripts\Caja\" />
-    <Folder Include="Scripts\Proveedores\" />
     <Folder Include="Scripts\Reportes\" />
-    <Folder Include="Scripts\Ventas\" />
     <Folder Include="Views\Login\" />
   </ItemGroup>
   <ItemGroup>

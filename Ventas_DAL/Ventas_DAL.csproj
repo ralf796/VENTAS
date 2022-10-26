@@ -47,7 +47,6 @@
     <Compile Include="Clientes_DAL.cs" />
     <Compile Include="Inventario_DAL.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Proveedores_DAL.cs" />
     <Compile Include="Reportes_DAL.cs" />
     <Compile Include="Usuarios_DAL.cs" />
     <Compile Include="Ventas_DAL.cs" />

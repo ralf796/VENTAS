@@ -45,7 +45,6 @@
     <Compile Include="Clientes_BE.cs" />
     <Compile Include="Inventario_BE.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Proveedores_BE.cs" />
     <Compile Include="Reportes_BE.cs" />
     <Compile Include="Respuesta.cs" />
     <Compile Include="Usuarios_BE.cs" />

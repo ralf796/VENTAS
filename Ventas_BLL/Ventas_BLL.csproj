@@ -45,7 +45,6 @@
     <Compile Include="Clientes_BLL.cs" />
     <Compile Include="Inventario_BLL.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Proveedores_BLL.cs" />
     <Compile Include="Reportes_BLL.cs" />
     <Compile Include="Usuarios_BLL.cs" />
     <Compile Include="Ventas_BLL.cs" />
