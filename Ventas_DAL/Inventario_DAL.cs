@@ -63,6 +63,9 @@ namespace Ventas_DAL
                 model.Command.Parameters.AddWithValue("@CREADO_POR", item.CREADO_POR);
                 model.Command.Parameters.AddWithValue("@ID_CATEGORIA", item.ID_CATEGORIA);
                 model.Command.Parameters.AddWithValue("@ID_MARCA_VEHICULO", item.ID_MARCA_VEHICULO);
+                model.Command.Parameters.AddWithValue("@TELEFONO", item.TELEFONO);
+                model.Command.Parameters.AddWithValue("@DIRECCION", item.DIRECCION);
+                model.Command.Parameters.AddWithValue("@CONTACTO", item.CONTACTO);
                 model.Command.Parameters.AddWithValue("@MTIPO", item.MTIPO);
                 result = model.GetData<Inventario_BE>();
             }

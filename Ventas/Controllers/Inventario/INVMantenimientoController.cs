@@ -49,6 +49,11 @@ namespace Ventas.Controllers.Inventario
         {
             return View();
         }
+        // GET: SERIE VEHICULO
+        public ActionResult IndexSerieVehiculo()
+        {
+            return View();
+        }
         // GET: CREAR PRODUCTO
         public ActionResult IndexCrearProducto()
         {
@@ -91,7 +96,7 @@ namespace Ventas.Controllers.Inventario
             return lista;
         }
 
-        
+
         public JsonResult GuardarProducto(int ID_CATEGORIA = 0, int ID_MODELO = 0, int ID_TIPO = 0, int ID_BODEGA = 0, string NOMBRE = "", string DESCRIPCION = "",
             decimal PRECIO_COSTO = 0, decimal PRECIO_VENTA = 0, int STOCK = 0, int ANIO_FABRICADO = 0, string CODIGO = "")
         {
@@ -198,7 +203,7 @@ namespace Ventas.Controllers.Inventario
                 return Json(new { State = -1, Message = ex.Message }, JsonRequestBehavior.AllowGet);
             }
         }
-        
+
         public JsonResult GetDatosTable(int tipo = 0)
         {
             try
@@ -213,7 +218,7 @@ namespace Ventas.Controllers.Inventario
                 return Json(new { State = -1, Message = ex.Message }, JsonRequestBehavior.AllowGet);
             }
         }
-        public JsonResult Guardar(string nombre = "", string descripcion = "", int tipo = 0, int estanteria = 0, int nivel = 0, int anioI=0, int anioF=0)
+        public JsonResult Guardar(string nombre = "", string descripcion = "", int tipo = 0, int estanteria = 0, int nivel = 0, int anioI = 0, int anioF = 0, int categoria = 0, string telefono = "", string direccion = "", string contacto = "", int marca=0)
         {
             try
             {
@@ -225,11 +230,16 @@ namespace Ventas.Controllers.Inventario
                 item.ANIO_INICIAL = anioI;
                 item.ANIO_FINAL = anioF;
                 item.MTIPO = tipo;
+                item.ID_CATEGORIA = categoria;
+                item.TELEFONO = telefono;
+                item.DIRECCION = telefono;
+                item.CONTACTO = contacto;
+                item.ID_MARCA_VEHICULO = marca;
 
                 var lista = GetInventario_create_(item);
 
-                if (lista!=null)
-                    {
+                if (lista != null)
+                {
                     if (lista.FirstOrDefault().RESPUESTA != "")
                     {
                         respuesta = lista.FirstOrDefault().RESPUESTA;
@@ -242,7 +252,7 @@ namespace Ventas.Controllers.Inventario
                 return Json(new { State = -1, Message = ex.Message }, JsonRequestBehavior.AllowGet);
             }
         }
-        public JsonResult Update(int tipo = 0, int id = 0, string nombre = "",  int estanteria = 0, int nivel = 0)
+        public JsonResult Update(int tipo = 0, int id = 0, string nombre = "", int estanteria = 0, int nivel = 0)
         {
             try
             {
@@ -257,7 +267,7 @@ namespace Ventas.Controllers.Inventario
 
                 var lista = GetInventario_update_(item);
 
-                if (lista!=null)
+                if (lista != null)
                 {
                     if (lista.FirstOrDefault().RESPUESTA != "")
                     {
@@ -271,7 +281,7 @@ namespace Ventas.Controllers.Inventario
                 return Json(new { State = -1, Message = ex.Message }, JsonRequestBehavior.AllowGet);
             }
         }
-        public JsonResult Delete(int id = 0, int tipo=0)
+        public JsonResult Delete(int id = 0, int tipo = 0)
         {
             try
             {
@@ -280,7 +290,7 @@ namespace Ventas.Controllers.Inventario
                 item.ID_DELETE = id;
                 item.MTIPO = tipo;
                 var lista = GetInventario_delete_(item);
-                if (lista !=null)
+                if (lista != null)
                 {
                     if (lista.FirstOrDefault().RESPUESTA != "")
                     {
@@ -293,6 +303,6 @@ namespace Ventas.Controllers.Inventario
             {
                 return Json(new { State = -1, Message = ex.Message }, JsonRequestBehavior.AllowGet);
             }
-        }    
+        }
     }
 }

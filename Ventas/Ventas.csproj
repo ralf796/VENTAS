@@ -2489,6 +2489,7 @@
     <Content Include="Scripts\Inventario\MarcaRepuesto.js" />
     <Content Include="Scripts\Inventario\Modelo.js" />
     <Content Include="Scripts\Inventario\Proveedor.js" />
+    <Content Include="Scripts\Inventario\SerieVehiculo.js" />
     <Content Include="Scripts\Inventario\Subcategoria.js" />
     <Content Include="Scripts\Login\HomeLogin.js" />
     <Content Include="Scripts\Usuarios\USUCrearUsuario.js" />
@@ -3119,6 +3120,7 @@
     <Content Include="Views\INVMantenimiento\IndexMarcaRepuesto.cshtml" />
     <Content Include="Views\INVMantenimiento\IndexMarcaVehiculo.cshtml" />
     <Content Include="Views\CLIListarClientes\Index.cshtml" />
+    <Content Include="Views\INVMantenimiento\IndexSerieVehiculo.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
