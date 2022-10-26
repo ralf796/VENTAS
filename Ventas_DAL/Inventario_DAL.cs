@@ -16,24 +16,19 @@ namespace Ventas_DAL
             using (var model = new Base_SQL("sp_inventario"))
             {
                 model.Command.Parameters.AddWithValue("@NOMBRE", item.NOMBRE);
-                model.Command.Parameters.AddWithValue("@DESCRIPCION", item.DESCRIPCION);
-                model.Command.Parameters.AddWithValue("@ESTANTE", item.ESTANTERIA);
-                model.Command.Parameters.AddWithValue("@NIVEL", item.NIVEL);
+                model.Command.Parameters.AddWithValue("@DESCRIPCION", item.DESCRIPCION);                
                 model.Command.Parameters.AddWithValue("@CREADO_POR", item.CREADO_POR);
-                model.Command.Parameters.AddWithValue("@ID_PRODUCTO", item.ID_PRODUCTO);
-                model.Command.Parameters.AddWithValue("@ID_CATEGORIA", item.ID_CATEGORIA);
+                model.Command.Parameters.AddWithValue("@ID_PRODUCTO", item.ID_PRODUCTO);                
                 model.Command.Parameters.AddWithValue("@ID_MODELO", item.ID_MODELO);
                 model.Command.Parameters.AddWithValue("@ID_BODEGA", item.ID_BODEGA);
-                model.Command.Parameters.AddWithValue("@PRECIO_COSTO", item.PRECIO_COSTO);
-                model.Command.Parameters.AddWithValue("@PRECIO_VENTA", item.PRECIO_VENTA);
-                model.Command.Parameters.AddWithValue("@STOCK", item.STOCK);
-                model.Command.Parameters.AddWithValue("@CODIGO", item.CODIGO);
                 model.Command.Parameters.AddWithValue("@ID_SUBCATEGORIA", item.ID_SUBCATEGORIA);
                 model.Command.Parameters.AddWithValue("@ID_PROVEEDOR", item.ID_PROVEEDOR);
                 model.Command.Parameters.AddWithValue("@ID_MARCA_REPUESTO", item.ID_MARCA_REPUESTO);
                 model.Command.Parameters.AddWithValue("@ID_SERIE_VEHICULO", item.ID_SERIE_VEHICULO);
-                model.Command.Parameters.AddWithValue("@ANIO_INICIAL", item.ANIO_INICIAL);
-                model.Command.Parameters.AddWithValue("@ANIO_FINAL", item.ANIO_FINAL);
+                model.Command.Parameters.AddWithValue("@PRECIO_COSTO", item.PRECIO_COSTO);
+                model.Command.Parameters.AddWithValue("@PRECIO_VENTA", item.PRECIO_VENTA);
+                model.Command.Parameters.AddWithValue("@STOCK", item.STOCK);
+                model.Command.Parameters.AddWithValue("@CODIGO", item.CODIGO);
                 model.Command.Parameters.AddWithValue("@MTIPO", item.MTIPO);
                 result = model.GetData<Inventario_BE>();
             }
@@ -45,6 +40,7 @@ namespace Ventas_DAL
             using (var model = new Base_SQL("sp_inventario_select"))
             {
                 model.Command.Parameters.AddWithValue("@MTIPO", item.MTIPO);
+                model.Command.Parameters.AddWithValue("@ID", item.ID_UPDATE);
                 result = model.GetData<Inventario_BE>();
             }
             return result;
