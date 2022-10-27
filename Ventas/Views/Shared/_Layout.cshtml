@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>SALESMENT</title>
+    <title></title>
 
     <!-- Google Font: Source Sans Pro -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
@@ -45,7 +45,6 @@
             font-family: Salesment-normal;
         }
 
-
         .headColor {
             background-color: dimgray;
             color: white;
@@ -59,7 +58,6 @@
         .circular--square {
             border-radius: 50%;
         }
-
     </style>
 
 
@@ -75,7 +73,7 @@
         </div>
 
         <!-- Navbar -->
-        <nav class="main-header navbar navbar-expand navbar-white navbar-light">
+        <nav class="main-header navbar navbar-expand navbar-white navbar-light d-none">
             <!-- Left navbar links -->
             <ul class="navbar-nav">
                 <li class="nav-item">
@@ -216,46 +214,46 @@
 
             <!-- Brand Logo -->
             @*<a href="#" class="brand-link ">
-            <img class="circular--square" src="@Session["url_fotografia"]"  width="70"/>
-                <span class="brand-text font-weight-light">@Session["usuario"]</span><br />
-            </a>*@
+                <img class="circular--square" src="@Session["url_fotografia"]"  width="70"/>
+                    <span class="brand-text font-weight-light">@Session["usuario"]</span><br />
+                </a>*@
             <!-- Sidebar -->
             <div class="sidebar">
                 <!-- Sidebar user panel (optional) -->
                 <div class="user-panel mt-3 pb-3 mb-3 d-flex d-none">
-                <div class="image">
-                    @*<img src="~/Content/Admin LTE 3.2/dist/img/user2-160x160.jpg" class="img-circle elevation-2" alt="User Image">*@
-                    <img src="@Session["url_fotografia"]" class="img-circle elevation-2" alt="User Image" style="width:70px; height:70px">
+                    <div class="image">
+                        @*<img src="~/Content/Admin LTE 3.2/dist/img/user2-160x160.jpg" class="img-circle elevation-2" alt="User Image">*@
+                        <img src="@Session["url_fotografia"]" class="img-circle elevation-2" alt="User Image" style="width:70px; height:70px">
+                    </div>
+                    <div class="info">
+                        <p class="text-white" style="margin-top:14px">@Session["primer_nombre"] @Session["primer_apellido"]</p>
+                    </div>
                 </div>
-                <div class="info">
-                    <p class="text-white" style="margin-top:14px">@Session["primer_nombre"] @Session["primer_apellido"]</p>
-                </div>
-            </div>
 
                 <!-- SidebarSearch Form -->
                 @*<div class="form-inline">
-                <div class="input-group" data-widget="sidebar-search">
-                    <input class="form-control form-control-sidebar" type="search" placeholder="Search" aria-label="Search">
-                    <div class="input-group-append">
-                        <button class="btn btn-sidebar">
-                            <i class="fas fa-search fa-fw"></i>
-                        </button>
-                    </div>
-                </div>
-            </div>*@
+                        <div class="input-group" data-widget="sidebar-search">
+                            <input class="form-control form-control-sidebar" type="search" placeholder="Search" aria-label="Search">
+                            <div class="input-group-append">
+                                <button class="btn btn-sidebar">
+                                    <i class="fas fa-search fa-fw"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>*@
 
                 <!-- Sidebar Menu -->
                 <nav class="mt-2">
                     <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
                         <!--<li class="nav-item">
-                <a href="~/USUMantenimiento/Index" class="nav-link">
-                    <i class="nav-icon fas fa-th"></i>
-                    <p>
-                        USUARIOS-->
+                        <a href="~/USUMantenimiento/Index" class="nav-link">
+                            <i class="nav-icon fas fa-th"></i>
+                            <p>
+                                USUARIOS-->
                         @*<span class="right badge badge-danger">New</span>*@
                         <!--</p>
-                    </a>
-                </li>-->
+                            </a>
+                        </li>-->
                         <li class="nav-item">
                             <a href="#" class="nav-link">
                                 <i class="far fa-users"></i>    @*https://fontawesome.com/v5/icons/trash-alt?s=regular&f=classic    version 5 *@
@@ -385,8 +383,8 @@
                             </ul>
                         </li>
                         <li class="nav-item">
-                            <a href="pages/widgets.html" class="nav-link">
-                                <i class="fad fa-sack-dollar"></i>
+                            <a href="~/VENCrearVenta/Index" class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
                                 <p>
                                     VENTAS
                                 </p>
@@ -409,136 +407,136 @@
                             </a>
                         </li>
                         @*<li class="nav-item">
-                        <a href="#" class="nav-link">
-                            <i class="nav-icon fas fa-copy"></i>
-                            <p>
-                                Layout Options
-                                <i class="fas fa-angle-left right"></i>
-                                <span class="badge badge-info right">6</span>
-                            </p>
-                        </a>
-                        <ul class="nav nav-treeview">
-                            <li class="nav-item">
-                                <a href="pages/layout/top-nav.html" class="nav-link">
-                                    <i class="far fa-circle nav-icon"></i>
-                                    <p>Top Navigation</p>
-                                </a>
-                            </li>
-                        </ul>
-                    </li>
-                    <li class="nav-item">
-                        <a href="#" class="nav-link">
-                            <i class="nav-icon fas fa-chart-pie"></i>
-                            <p>
-                                Charts
-                                <i class="right fas fa-angle-left"></i>
-                            </p>
-                        </a>
-                        <ul class="nav nav-treeview">
-                            <li class="nav-item">
-                                <a href="pages/charts/chartjs.html" class="nav-link">
-                                    <i class="far fa-circle nav-icon"></i>
-                                    <p>ChartJS</p>
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a href="pages/charts/flot.html" class="nav-link">
-                                    <i class="far fa-circle nav-icon"></i>
-                                    <p>Flot</p>
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a href="pages/charts/inline.html" class="nav-link">
-                                    <i class="far fa-circle nav-icon"></i>
-                                    <p>Inline</p>
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a href="pages/charts/uplot.html" class="nav-link">
-                                    <i class="far fa-circle nav-icon"></i>
-                                    <p>uPlot</p>
-                                </a>
-                            </li>
-                        </ul>
-                    </li>
-                    <li class="nav-header">MULTI LEVEL EXAMPLE</li>
-                    <li class="nav-item">
-                        <a href="#" class="nav-link">
-                            <i class="fas fa-circle nav-icon"></i>
-                            <p>Level 1</p>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="#" class="nav-link">
-                            <i class="nav-icon fas fa-circle"></i>
-                            <p>
-                                Level 1
-                                <i class="right fas fa-angle-left"></i>
-                            </p>
-                        </a>
-                        <ul class="nav nav-treeview">
-                            <li class="nav-item">
                                 <a href="#" class="nav-link">
-                                    <i class="far fa-circle nav-icon"></i>
-                                    <p>Level 2</p>
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a href="#" class="nav-link">
-                                    <i class="far fa-circle nav-icon"></i>
+                                    <i class="nav-icon fas fa-copy"></i>
                                     <p>
-                                        Level 2
-                                        <i class="right fas fa-angle-left"></i>
+                                        Layout Options
+                                        <i class="fas fa-angle-left right"></i>
+                                        <span class="badge badge-info right">6</span>
                                     </p>
                                 </a>
                                 <ul class="nav nav-treeview">
                                     <li class="nav-item">
-                                        <a href="#" class="nav-link">
-                                            <i class="far fa-dot-circle nav-icon"></i>
-                                            <p>Level 3</p>
-                                        </a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a href="#" class="nav-link">
-                                            <i class="far fa-dot-circle nav-icon"></i>
-                                            <p>Level 3</p>
-                                        </a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a href="#" class="nav-link">
-                                            <i class="far fa-dot-circle nav-icon"></i>
-                                            <p>Level 3</p>
+                                        <a href="pages/layout/top-nav.html" class="nav-link">
+                                            <i class="far fa-circle nav-icon"></i>
+                                            <p>Top Navigation</p>
                                         </a>
                                     </li>
                                 </ul>
                             </li>
                             <li class="nav-item">
                                 <a href="#" class="nav-link">
-                                    <i class="far fa-circle nav-icon"></i>
-                                    <p>Level 2</p>
+                                    <i class="nav-icon fas fa-chart-pie"></i>
+                                    <p>
+                                        Charts
+                                        <i class="right fas fa-angle-left"></i>
+                                    </p>
+                                </a>
+                                <ul class="nav nav-treeview">
+                                    <li class="nav-item">
+                                        <a href="pages/charts/chartjs.html" class="nav-link">
+                                            <i class="far fa-circle nav-icon"></i>
+                                            <p>ChartJS</p>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="pages/charts/flot.html" class="nav-link">
+                                            <i class="far fa-circle nav-icon"></i>
+                                            <p>Flot</p>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="pages/charts/inline.html" class="nav-link">
+                                            <i class="far fa-circle nav-icon"></i>
+                                            <p>Inline</p>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="pages/charts/uplot.html" class="nav-link">
+                                            <i class="far fa-circle nav-icon"></i>
+                                            <p>uPlot</p>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li class="nav-header">MULTI LEVEL EXAMPLE</li>
+                            <li class="nav-item">
+                                <a href="#" class="nav-link">
+                                    <i class="fas fa-circle nav-icon"></i>
+                                    <p>Level 1</p>
                                 </a>
                             </li>
-                        </ul>
-                    </li>
-                    <li class="nav-header">LABELS</li>
-                    <li class="nav-item">
-                        <a href="#" class="nav-link">
-                            <i class="nav-icon far fa-circle text-danger"></i>
-                            <p class="text">Important</p>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="#" class="nav-link">
-                            <i class="nav-icon far fa-circle text-warning"></i>
-                            <p>Warning</p>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="#" class="nav-link">
-                            <i class="nav-icon far fa-circle text-info"></i>
-                            <p>Informational</p>
-                        </a>
-                    </li>*@
+                            <li class="nav-item">
+                                <a href="#" class="nav-link">
+                                    <i class="nav-icon fas fa-circle"></i>
+                                    <p>
+                                        Level 1
+                                        <i class="right fas fa-angle-left"></i>
+                                    </p>
+                                </a>
+                                <ul class="nav nav-treeview">
+                                    <li class="nav-item">
+                                        <a href="#" class="nav-link">
+                                            <i class="far fa-circle nav-icon"></i>
+                                            <p>Level 2</p>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="#" class="nav-link">
+                                            <i class="far fa-circle nav-icon"></i>
+                                            <p>
+                                                Level 2
+                                                <i class="right fas fa-angle-left"></i>
+                                            </p>
+                                        </a>
+                                        <ul class="nav nav-treeview">
+                                            <li class="nav-item">
+                                                <a href="#" class="nav-link">
+                                                    <i class="far fa-dot-circle nav-icon"></i>
+                                                    <p>Level 3</p>
+                                                </a>
+                                            </li>
+                                            <li class="nav-item">
+                                                <a href="#" class="nav-link">
+                                                    <i class="far fa-dot-circle nav-icon"></i>
+                                                    <p>Level 3</p>
+                                                </a>
+                                            </li>
+                                            <li class="nav-item">
+                                                <a href="#" class="nav-link">
+                                                    <i class="far fa-dot-circle nav-icon"></i>
+                                                    <p>Level 3</p>
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="#" class="nav-link">
+                                            <i class="far fa-circle nav-icon"></i>
+                                            <p>Level 2</p>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li class="nav-header">LABELS</li>
+                            <li class="nav-item">
+                                <a href="#" class="nav-link">
+                                    <i class="nav-icon far fa-circle text-danger"></i>
+                                    <p class="text">Important</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="#" class="nav-link">
+                                    <i class="nav-icon far fa-circle text-warning"></i>
+                                    <p>Warning</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="#" class="nav-link">
+                                    <i class="nav-icon far fa-circle text-info"></i>
+                                    <p>Informational</p>
+                                </a>
+                            </li>*@
                     </ul>
                 </nav>
                 <!-- /.sidebar-menu -->
@@ -554,12 +552,11 @@
         </div>
         <!-- /.content-wrapper -->
         <footer class="main-footer">
-            <strong>Copyright &copy; @DateTime.Now.Year.</strong>
+            <strong>Ingeniería IOS &copy; @DateTime.Now.Year.</strong>
             <div class="float-right d-none d-sm-inline-block">
                 <b>Version</b> 1.0
             </div>
         </footer>
-
         <!-- Control Sidebar -->
         <aside class="control-sidebar control-sidebar-dark">
             <!-- Control sidebar content goes here -->
@@ -618,18 +615,10 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/exceljs/3.3.1/exceljs.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/1.3.8/FileSaver.min.js"></script>
 
-
     @RenderSection("scripts", required: false)
 
     <script>
         $(function () {
-            //Datemask dd/mm/yyyy
-            //$('#datemask').inputmask('dd/mm/yyyy', { 'placeholder': 'dd/mm/yyyy' })
-            //Datemask2 mm/dd/yyyy
-            //$('#datemask2').inputmask('mm/dd/yyyy', { 'placeholder': 'mm/dd/yyyy' })
-            //Money Euro
-            //$('[data-mask]').inputmask()
-
             //Date picker
             $('#reservationdate').datetimepicker({
                 format: 'L'
@@ -689,65 +678,6 @@
             })
 
         })
-        // BS-Stepper Init
-        //document.addEventListener('DOMContentLoaded', function () {
-        //    window.stepper = new Stepper(document.querySelector('.bs-stepper'))
-        //})
-
-        // DropzoneJS Demo Code Start
-        //Dropzone.autoDiscover = false
-
-        //// Get the template HTML and remove it from the doumenthe template HTML and remove it from the doument
-        //var previewNode = document.querySelector("#template")
-        //previewNode.id = ""
-        //var previewTemplate = previewNode.parentNode.innerHTML
-        //previewNode.parentNode.removeChild(previewNode)
-
-        //var myDropzone = new Dropzone(document.body, { // Make the whole body a dropzone
-        //    url: "/target-url", // Set the url
-        //    thumbnailWidth: 80,
-        //    thumbnailHeight: 80,
-        //    parallelUploads: 20,
-        //    previewTemplate: previewTemplate,
-        //    autoQueue: false, // Make sure the files aren't queued until manually added
-        //    previewsContainer: "#previews", // Define the container to display the previews
-        //    clickable: ".fileinput-button" // Define the element that should be used as click trigger to select files.
-        //})
-
-        //myDropzone.on("addedfile", function (file) {
-        //    // Hookup the start button
-        //    file.previewElement.querySelector(".start").onclick = function () { myDropzone.enqueueFile(file) }
-        //})
-
-        //// Update the total progress bar
-        //myDropzone.on("totaluploadprogress", function (progress) {
-        //    document.querySelector("#total-progress .progress-bar").style.width = progress + "%"
-        //})
-
-        //myDropzone.on("sending", function (file) {
-        //    // Show the total progress bar when upload starts
-        //    document.querySelector("#total-progress").style.opacity = "1"
-        //    // And disable the start button
-        //    file.previewElement.querySelector(".start").setAttribute("disabled", "disabled")
-        //})
-
-        //// Hide the total progress bar when nothing's uploading anymore
-        //myDropzone.on("queuecomplete", function (progress) {
-        //    document.querySelector("#total-progress").style.opacity = "0"
-        //})
-
-        // Setup the buttons for all transfers
-        // The "add files" button doesn't need to be setup because the config
-        // `clickable` has already been specified.
-        //document.querySelector("#actions .start").onclick = function () {
-        //    myDropzone.enqueueFiles(myDropzone.getFilesWithStatus(Dropzone.ADDED))
-        //}
-        //document.querySelector("#actions .cancel").onclick = function () {
-        //    myDropzone.removeAllFiles(true)
-        //}
-        // DropzoneJS Demo Code End
-
-
         function ShowAlertMessage(icon, descripcion) {
             Swal.fire({
                 icon: icon,
@@ -756,6 +686,10 @@
                 cancelButtonText: 'Cerrar',
                 showConfirmButton: false,
             })
+        }
+
+        function formatNumber(num) {
+            return num.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')
         }
 
     </script>

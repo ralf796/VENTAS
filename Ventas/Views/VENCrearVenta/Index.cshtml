@@ -1,7 +1,210 @@
-﻿
-@{
-    ViewBag.Title = "Index";
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Index</h2>
+@section scripts{
+    <script src="~/Scripts/Ventas/VENCrearVenta.js"></script>
+}
 
+@section styles{
+    <style>
+        .headColor {
+            background-color: dimgray;
+            color: white;
+            font-size: 13px;
+        }
+
+        input {
+            margin-top: -10px;
+        }
+    </style>
+}
+
+<div class="card">
+    <div class="card-header">
+        <h3 class="card-title">Appended Buttons</h3>
+    </div>
+    <div class="card-body">
+        <div class="input-group mb-3">
+            <div class="input-group-prepend">
+                <button type="button" class="btn btn-danger">Action</button>
+            </div>
+            <input type="text" class="form-control">
+        </div>
+    </div>
+    <!-- /.card-body -->
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="card card-outline-secondary">
+            <div class="card-header">
+                <h3 class="mb-0">CREAR NUEVA VENTA</h3>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-12 col-sm-12 col-md-3 col-lg-3 col-xl-3">
+                        <label for="divNit">NIT</label>
+                        <div class="input-group mb-3" id="divNit">
+                            <div class="input-group-prepend">
+                                <button style="margin-top:-10px" type="button" class="btn btn-info"><i class="far fa-search"></i></button>
+                            </div>
+                            <input type="text" class="form-control" id="txtNit">
+                        </div>
+                    </div>
+                    <div class="col-12 col-sm-12 col-md-9 col-lg-9 col-xl-9">
+                        <label for="txtNombreCliente">CLIENTE</label>
+                        <input class="form-control" id="txtNombreCliente" name="txtNombreCliente" type="text" disabled>
+                        <input id="hfIdCliente" type="hidden">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12 col-sm-12 col-md-3 col-lg-3 col-xl-3">
+                        <label for="txtCodigo">Código #</label>
+                        <input class="form-control" id="txtCodigo" name="txtCodigo" type="text">
+                    </div>
+                    <div class="col-12 col-sm-12 col-md-9 col-lg-9 col-xl-9">
+                        <label for="txtNombreProducto">Producto</label>
+                        <input class="form-control" id="txtNombreProducto" name="txtNombreProducto" type="text">
+                        <input id="hfIdProducto" type="hidden">
+                    </div>
+                    <div class="col-12 col-sm-6 col-md-3 col-lg-3 col-xl-3">
+                        <label for="txtCantidad">Cantidad</label>
+                        <input class="form-control" id="txtCantidad" name="txtCantidad" type="number">
+                    </div>
+                    <div class="col-12 col-sm-6 col-md-3 col-lg-3 col-xl-3">
+                        <label for="txtStock">Stock</label>
+                        <input class="form-control" id="txtStock" name="txtStock" type="number">
+                    </div>
+                    <div class="col-12 col-sm-6 col-md-3 col-lg-3 col-xl-3">
+                        <label for="txtPrecio">Precio</label>
+                        <input class="form-control" id="txtPrecio" name="txtPrecio" type="number">
+                    </div>
+                    <div class="col-12 col-sm-6 col-md-3 col-lg-3 col-xl-3">
+                        <label for="txtDescuento">Descuento</label>
+                        <input class="form-control" id="txtDescuento" name="txtDescuento" type="number">
+                    </div>
+                    <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 text-right">
+                        <button style="margin-top:5px" class="btn btn-success" id="btnAgregarDetalle">Agregar</button>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                        <div class="table-responsive">
+                            <table id="tblVenta" width="100%">
+                                <thead class="headColor">
+                                    <tr>
+                                        <th class="border text-center pl-2 pr-2">#</th>
+                                        <th class="border text-center pl-2 pr-2">ID</th>
+                                        <th class="border text-center pl-2 pr-2">PRODUCTO</th>
+                                        <th class="border text-center pl-2 pr-2">CANTIDAD</th>
+                                        <th class="border text-center pl-2 pr-2">PRECIO</th>
+                                        <th class="border text-center pl-2 pr-2">DESCUENTO</th>
+                                        <th class="border text-center pl-2 pr-2">SUBTOTAL</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="tbodyDetalleVenta">
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card-footer">
+                <div class="float-right">
+                    <div class="input-group mb-3" id="divNit">
+                        <div class="input-group-prepend">
+                            <label style="margin-top:-10px" class="btn btn-info">TOTAL</label>
+                        </div>
+                        <input type="text" class="form-control" id="txtTotal">
+                    </div>
+                    <button class="btn btn-secondary" type="reset">CANCELAR</button>
+                    <button class="btn btn-primary" id="btnGuardarVenta">CREAR VENTA</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="modalProductos">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Extra Large Modal</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-12 col-md-12 col-xl-12">
+                        <div class="table-responsive">
+                            <div class="input-group bg-white">
+                                <i style="margin-top:10px; margin-left:10px" class='fa fa-search'></i>
+                                <input type="text" class="form-control text-left bg-white" id="txtFiltro" style="width:30%; padding-left:20px" />
+                            </div>
+                            <table id="tblProductos" width="100%">
+                                <thead class="headColor">
+                                    <tr>
+                                        <th class="border text-center pl-2 pr-2 d-none">ID_PRODUCTO</th>
+                                        <th class="border text-center pl-2 pr-2">NOMBRE</th>
+                                        <th class="border text-center pl-2 pr-2">DESCRIPCION</th>
+                                        <th class="border text-center pl-2 pr-2">P/VENTA</th>
+                                        <th class="border text-center pl-2 pr-2">STOCK</th>
+                                        <th class="border text-center pl-2 pr-2">CODIGO</th>
+                                        <th class="border text-center pl-2 pr-2 d-none">ID MODELO</th>
+                                        <th class="border text-center pl-2 pr-2">MODELO</th>
+                                        <th class="border text-center pl-2 pr-2 d-none">ID MARCA REPUESTO</th>
+                                        <th class="border text-center pl-2 pr-2">MARCA REPUESTO</th>
+                                        <th class="border text-center pl-2 pr-2 d-none">ID CATEGORIA</th>
+                                        <th class="border text-center pl-2 pr-2">CATEGORIA</th>
+                                        <th class="border text-center pl-2 pr-2 d-none">ID SUBCATEGORIA</th>
+                                        <th class="border text-center pl-2 pr-2">SUBCATEGORIA</th>
+                                        <th class="border text-center pl-2 pr-2 d-none">ID MARCA VEHICULO</th>
+                                        <th class="border text-center pl-2 pr-2">MARCA VEHICULO</th>
+                                        <th class="border text-center pl-2 pr-2 d-none">ID SERIE VEHICULO</th>
+                                        <th class="border text-center pl-2 pr-2">SERIE VEHICULO</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="tbodyProductos">
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer justify-content-center">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Save changes</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade" id="modalClientes">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header d-none">
+                <h4 class="modal-title">Extra Large Modal</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-12 col-md-12 col-xl-12">
+                        <div class="demo-container">
+                            <div id="exportButton"></div>
+                            <div id="gridContainer"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer justify-content-center">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Save changes</button>
+            </div>
+        </div>
+    </div>
+</div>

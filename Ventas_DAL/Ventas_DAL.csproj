@@ -49,7 +49,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Reportes_DAL.cs" />
     <Compile Include="Usuarios_DAL.cs" />
-    <Compile Include="Ventas_DAL.cs" />
+    <Compile Include="Ventas__DAL.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Ventas_BE\Ventas_BE.csproj">
