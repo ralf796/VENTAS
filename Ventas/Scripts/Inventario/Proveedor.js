@@ -1,6 +1,5 @@
 ﻿$(document).ready(function () {
     DevExpress.localization.locale(navigator.language);
-
     GetDatos()
 
     function GetDatos() {
@@ -57,32 +56,6 @@
             },
             columns: [
                 {
-                    dataField: "ID_PROVEEDOR",
-                    caption: "ID",
-                    alignment: "center",
-                    visible: false
-                },
-                {
-                    dataField: "NOMBRE",
-                    caption: "NOMBRE"
-                },
-                {
-                    dataField: "DESCRIPCION",
-                    caption: "DESCRIPCION"
-                },
-                {
-                    dataField: "TELEFONO",
-                    caption: "TELEFONO"
-                },
-                {
-                    dataField: "DIRECCION",
-                    caption: "DIRECCION"
-                },
-                {
-                    dataField: "CONTACTO",
-                    caption: "CONTACTO"
-                },
-                {
                     caption: "ESTADO",
                     alignment: "center",
                     cellTemplate: function (container, options) {
@@ -112,7 +85,8 @@
                             hint: "Editar",
                             icon: "edit",
                             onClick: function (e) {
-                                alert('en desarrollo')
+                                GetOpcion(2)
+                                GetInputsUpdate(e.row.data['ID_PROVEEDOR'], e.row.data['NOMBRE'], e.row.data['DESCRIPCION'], e.row.data['TELEFONO'], e.row.data['DIRECCION'], e.row.data['CONTACTO'])
                             }
                         },
                         {
@@ -129,28 +103,57 @@
                             }
                         }
                     ]
+                },
+                {
+                    dataField: "ID_PROVEEDOR",
+                    caption: "ID",
+                    alignment: "center",
+                    visible: false
+                },
+                {
+                    dataField: "NOMBRE",
+                    caption: "NOMBRE"
+                },
+                {
+                    dataField: "DESCRIPCION",
+                    caption: "DESCRIPCION"
+                },
+                {
+                    dataField: "TELEFONO",
+                    caption: "TELEFONO"
+                },
+                {
+                    dataField: "DIRECCION",
+                    caption: "DIRECCION"
+                },
+                {
+                    dataField: "CONTACTO",
+                    caption: "CONTACTO"
                 }
             ]
         }).dxDataGrid('instance');
     }
-    function Guardar(nombre, descripcion, tipo, telefono, direccion, contacto) {
+    function Procesar(nombre, descripcion, tipo, telefono, direccion, contacto, id, opcion) {
         $.ajax({
             type: 'GET',
             url: "/INVMantenimiento/Guardar",
             contentType: "application/json; charset=utf-8",
             dataType: 'json',
             data: {
-                nombre, descripcion, tipo, telefono, direccion, contacto
+                nombre, descripcion, tipo, telefono, direccion, id, contacto
             },
             cache: false,
             success: function (data) {
                 var state = data["State"];
                 if (state == 1) {
+                    if (opcion == 1)
+                        ShowAlertMessage('success', 'Datos creados correctamente')
+                    else
+                        ShowAlertMessage('success', 'Datos actualizados correctamente')
                     $('#txtNombre').val('');
                     $('#txtDescripcion').val('');
                     $('#modalDatos').modal('hide');
                     GetDatos()
-                    ShowAlertMessage('success', 'Datos creados correctamente')
                 }
                 else if (state == -1) {
                     ShowAlertMessage('warning', data['Message'])
@@ -178,7 +181,6 @@
             }
         });
     }
-
     function GetOpcion(opcion) {
         $('#hfOpcion').val(opcion);
         if (opcion == 1) {
@@ -186,10 +188,19 @@
             $('#txtDescripcion').val('');
             $('#titleModal').html('CREAR PROVEEDOR')
         }
-        else if (opcion == 2)
+        else if (opcion == 2) {
             $('#titleModal').html('MODIFICAR PROVEEDOR')
+        }
 
         $('#modalDatos').modal('show');
+    }
+    function GetInputsUpdate(id, nombre, descripcion, telefono, direccion, contacto) {
+        $('#hfID').val(id);
+        $('#txtNombre').val(nombre);
+        $('#txtDescripcion').val(descripcion);
+        $('#txtTelefono').val(telefono);
+        $('#txtDireccion').val(direccion);
+        $('#txtContacto').val(contacto);
     }
 
     $('#btnAbrirModal').on('click', function (e) {
@@ -207,10 +218,10 @@
         var contacto = $('#txtContacto').val();
 
         if (opcion == 1) {
-            Guardar(nombre, descripcion, 6, telefono, direccion, contacto);
+            Procesar(nombre, descripcion, 5, telefono, direccion, contacto, 0, opcion);
         }
         else if (opcion == 2) {
-            Update_Delete(nombre, 14, id, estanteria, nivel);
+            Procesar(nombre, descripcion, 6, telefono, direccion, contacto, id, opcion);
         }
     });
 

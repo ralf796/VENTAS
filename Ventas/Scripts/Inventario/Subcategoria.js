@@ -1,6 +1,5 @@
 ﻿$(document).ready(function () {
     DevExpress.localization.locale(navigator.language);
-
     GetDatos()
 
     function GetLists(selObject, tipo) {
@@ -29,7 +28,6 @@
             });
         });
     }
-
     function GetDatos() {
         var tipo = 3;
         var customStore = new DevExpress.data.CustomStore({
@@ -84,29 +82,6 @@
             },
             columns: [
                 {
-                    dataField: "ID_SUBCATEGORIA",
-                    caption: "ID",
-                    alignment: "center",
-                    visible: false
-                },
-                {
-                    dataField: "NOMBRE",
-                    caption: "NOMBRE"
-                },
-                {
-                    dataField: "DESCRIPCION",
-                    caption: "DESCRIPCION"
-                },
-                {
-                    dataField: "ID_CATEGORIA",
-                    caption: "ID_CATEGORIA",
-                    visible:false
-                },
-                {
-                    dataField: "NOMBRE_CATEGORIA",
-                    caption: "CATEGORIA"
-                },
-                {
                     caption: "ESTADO",
                     alignment: "center",
                     cellTemplate: function (container, options) {
@@ -136,7 +111,8 @@
                             hint: "Editar",
                             icon: "edit",
                             onClick: function (e) {
-                                alert('en desarrollo')
+                                GetOpcion(2)
+                                GetInputsUpdate(e.row.data['ID_PROVEEDOR'], e.row.data['NOMBRE'], e.row.data['DESCRIPCION'], e.row.data['ID_CATEGORIA'])
                             }
                         },
                         {
@@ -153,28 +129,55 @@
                             }
                         }
                     ]
-                }
+                },
+                {
+                    dataField: "ID_SUBCATEGORIA",
+                    caption: "ID",
+                    alignment: "center",
+                    visible: false
+                },
+                {
+                    dataField: "NOMBRE",
+                    caption: "NOMBRE"
+                },
+                {
+                    dataField: "DESCRIPCION",
+                    caption: "DESCRIPCION"
+                },
+                {
+                    dataField: "ID_CATEGORIA",
+                    caption: "ID_CATEGORIA",
+                    visible:false
+                },
+                {
+                    dataField: "NOMBRE_CATEGORIA",
+                    caption: "CATEGORIA"
+                }                
             ]
         }).dxDataGrid('instance');
     }
-    function Guardar(nombre, descripcion, categoria, tipo) {
+    function Procesar(nombre, descripcion, categoria, tipo, id, opcion) {
         $.ajax({
             type: 'GET',
             url: "/INVMantenimiento/Guardar",
             contentType: "application/json; charset=utf-8",
             dataType: 'json',
             data: {
-                nombre, descripcion, tipo, categoria
+                nombre, descripcion, tipo, categoria, id
             },
             cache: false,
             success: function (data) {
                 var state = data["State"];
                 if (state == 1) {
+                    if (opcion == 1)
+                        ShowAlertMessage('success', 'Datos creados correctamente')
+                    else
+                        ShowAlertMessage('success', 'Datos actualizados correctamente')
                     $('#txtNombre').val('');
                     $('#txtDescripcion').val('');
+                    $('#selCategoria').val(-1);
                     $('#modalDatos').modal('hide');
                     GetDatos()
-                    ShowAlertMessage('success', 'Datos creados correctamente')
                 }
                 else if (state == -1) {
                     ShowAlertMessage('warning', data['Message'])
@@ -202,7 +205,6 @@
             }
         });
     }
-
     function GetOpcion(opcion) {
         $('#hfOpcion').val(opcion);
         if (opcion == 1) {
@@ -214,6 +216,12 @@
             $('#titleModal').html('MODIFICAR SUBCATEGORIA')
 
         $('#modalDatos').modal('show');
+    }
+    function GetInputsUpdate(id, nombre, descripcion, categoria) {
+        $('#hfID').val(id);
+        $('#txtNombre').val(nombre);
+        $('#txtDescripcion').val(descripcion);
+        $('#selCategoria').val(categoria);
     }
 
     $('#btnAbrirModal').on('click', function (e) {
@@ -230,10 +238,10 @@
         var categoria = $('#selCategoria').val();
 
         if (opcion == 1) {
-            Guardar(nombre, descripcion, categoria, 2);
+            Procesar(nombre, descripcion, categoria, 11, 0, opcion);
         }
         else if (opcion == 2) {
-            Update_Delete(nombre, 14, id, estanteria, nivel);
+            Procesar(nombre, descripcion, categoria, 12, id, opcion);
         }
     });
 

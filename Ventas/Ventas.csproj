@@ -44,6 +44,10 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Select.Pdf, Version=20.1.0.0, Culture=neutral, PublicKeyToken=e0ae9f6e27a97018, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>Dll\Select.Pdf.20.1.0\lib\net40\Select.Pdf.dll</HintPath>
+    </Reference>
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
@@ -2188,6 +2192,9 @@
     <Content Include="Content\Admin LTE 3.2\plugins\uplot\uPlot.iife.min.js" />
     <Content Include="Content\Admin LTE 3.2\plugins\uplot\uPlot.min.css" />
     <Content Include="Content\Admin LTE 3.2\starter.html" />
+    <Content Include="Content\air-datepicker-3\dist\air-datepicker.css" />
+    <Content Include="Content\air-datepicker-3\dist\air-datepicker.js" />
+    <Content Include="Content\air-datepicker-3\dist\index.es.js" />
     <Content Include="Content\assets Material Design\css\material-dashboard.css" />
     <Content Include="Content\assets Material Design\css\material-dashboard.min.css" />
     <Content Include="Content\assets Material Design\css\partials\dashboard\core\bootstrap\scss\bootstrap-grid.css" />
@@ -2259,6 +2266,8 @@
     <Content Include="Content\assets Material Design\js\plugins\perfect-scrollbar.jquery.min.js" />
     <Content Include="Content\assets Material Design\js\plugins\sweetalert2.js" />
     <Content Include="Content\assets Material Design\scss\material-dashboard.css" />
+    <Content Include="Content\Barcode\jquery-barcode.js" />
+    <Content Include="Content\Barcode\jquery-barcode.min.js" />
     <Content Include="Content\DevExtreme\21.1.5\dx.material.orange.light.css" />
     <Content Include="Content\DevExtreme\21.1.5\icons\add-table.svg" />
     <Content Include="Content\DevExtreme\21.1.5\icons\add.svg" />
@@ -2473,18 +2482,93 @@
     <Content Include="Content\fontawesome\webfonts\fa-light-300.svg" />
     <Content Include="Content\fontawesome\webfonts\fa-regular-400.svg" />
     <Content Include="Content\fontawesome\webfonts\fa-solid-900.svg" />
-    <Content Include="Content\Fotografias\profile hombre11.png" />
-    <Content Include="Content\Fotografias\profile hombre24.png" />
-    <Content Include="Content\Fotografias\profile hombre32.png" />
-    <Content Include="Content\Fotografias\profile hombre47.png" />
-    <Content Include="Content\Fotografias\profile hombre57.png" />
-    <Content Include="Content\Fotografias\profile hombre59.png" />
-    <Content Include="Content\Fotografias\profile hombre75.png" />
-    <Content Include="Content\Fotografias\profile hombre89.png" />
-    <Content Include="Content\Fotografias\profile hombre95.png" />
-    <Content Include="Content\Fotografias\profile mujer85.png" />
+    <Content Include="Content\hover.css" />
     <Content Include="Content\Site.css" />
     <Content Include="Content\site.fonts.css" />
+    <Content Include="Content\toast\css\jquery.toast.css" />
+    <Content Include="Content\toast\css\jquery.toast.min.css" />
+    <Content Include="Content\toast\js\jquery.toast.js" />
+    <Content Include="Content\toast\js\jquery.toast.min.js" />
+    <Content Include="Dll\QRCoder.1.4.3\lib\net35\QRCoder.dll" />
+    <Content Include="Dll\QRCoder.1.4.3\lib\net40\QRCoder.dll" />
+    <Content Include="Dll\QRCoder.1.4.3\lib\net5.0-windows7.0\QRCoder.dll" />
+    <Content Include="Dll\QRCoder.1.4.3\lib\net5.0\QRCoder.dll" />
+    <Content Include="Dll\QRCoder.1.4.3\lib\net6.0-windows7.0\QRCoder.dll" />
+    <Content Include="Dll\QRCoder.1.4.3\lib\net6.0\QRCoder.dll" />
+    <Content Include="Dll\QRCoder.1.4.3\lib\netstandard1.3\QRCoder.dll" />
+    <Content Include="Dll\QRCoder.1.4.3\lib\netstandard2.0\QRCoder.dll" />
+    <Content Include="Dll\QRCoder.1.4.3\nuget-icon.png" />
+    <Content Include="Dll\Select.Pdf.20.1.0\images\icon.png" />
+    <Content Include="Dll\Select.Pdf.20.1.0\lib\net20\Select.Pdf.dll" />
+    <Content Include="Dll\Select.Pdf.20.1.0\lib\net20\Select.Pdf.xml" />
+    <Content Include="Dll\Select.Pdf.20.1.0\lib\net40\Select.Pdf.dll" />
+    <Content Include="Dll\Select.Pdf.20.1.0\lib\net40\Select.Pdf.xml" />
+    <Content Include="Dll\Select.Pdf.20.1.0\readme.txt" />
+    <Content Include="Dll\ZXing.Net.0.16.8\lib\native\zxing.XML" />
+    <Content Include="Dll\ZXing.Net.0.16.8\lib\net20-cf\zxing.ce2.0.dll" />
+    <Content Include="Dll\ZXing.Net.0.16.8\lib\net20-cf\zxing.ce2.0.xml" />
+    <Content Include="Dll\ZXing.Net.0.16.8\lib\net20\zxing.dll" />
+    <Content Include="Dll\ZXing.Net.0.16.8\lib\net20\zxing.XML" />
+    <Content Include="Dll\ZXing.Net.0.16.8\lib\net35-cf\zxing.ce3.5.dll" />
+    <Content Include="Dll\ZXing.Net.0.16.8\lib\net35-cf\zxing.ce3.5.xml" />
+    <Content Include="Dll\ZXing.Net.0.16.8\lib\net35\zxing.dll" />
+    <Content Include="Dll\ZXing.Net.0.16.8\lib\net35\zxing.XML" />
+    <Content Include="Dll\ZXing.Net.0.16.8\lib\net40\zxing.dll" />
+    <Content Include="Dll\ZXing.Net.0.16.8\lib\net40\zxing.presentation.dll" />
+    <Content Include="Dll\ZXing.Net.0.16.8\lib\net40\zxing.presentation.XML" />
+    <Content Include="Dll\ZXing.Net.0.16.8\lib\net40\zxing.XML" />
+    <Content Include="Dll\ZXing.Net.0.16.8\lib\net45\zxing.dll" />
+    <Content Include="Dll\ZXing.Net.0.16.8\lib\net45\zxing.presentation.dll" />
+    <Content Include="Dll\ZXing.Net.0.16.8\lib\net45\zxing.presentation.XML" />
+    <Content Include="Dll\ZXing.Net.0.16.8\lib\net45\zxing.XML" />
+    <Content Include="Dll\ZXing.Net.0.16.8\lib\net461\zxing.dll" />
+    <Content Include="Dll\ZXing.Net.0.16.8\lib\net461\zxing.presentation.dll" />
+    <Content Include="Dll\ZXing.Net.0.16.8\lib\net461\zxing.presentation.XML" />
+    <Content Include="Dll\ZXing.Net.0.16.8\lib\net461\zxing.XML" />
+    <Content Include="Dll\ZXing.Net.0.16.8\lib\net47\zxing.dll" />
+    <Content Include="Dll\ZXing.Net.0.16.8\lib\net47\zxing.presentation.dll" />
+    <Content Include="Dll\ZXing.Net.0.16.8\lib\net47\zxing.presentation.XML" />
+    <Content Include="Dll\ZXing.Net.0.16.8\lib\net47\zxing.XML" />
+    <Content Include="Dll\ZXing.Net.0.16.8\lib\net48\zxing.dll" />
+    <Content Include="Dll\ZXing.Net.0.16.8\lib\net48\zxing.presentation.dll" />
+    <Content Include="Dll\ZXing.Net.0.16.8\lib\net48\zxing.presentation.XML" />
+    <Content Include="Dll\ZXing.Net.0.16.8\lib\net48\zxing.XML" />
+    <Content Include="Dll\ZXing.Net.0.16.8\lib\net5.0\zxing.dll" />
+    <Content Include="Dll\ZXing.Net.0.16.8\lib\net5.0\zxing.XML" />
+    <Content Include="Dll\ZXing.Net.0.16.8\lib\net6.0\zxing.dll" />
+    <Content Include="Dll\ZXing.Net.0.16.8\lib\net6.0\zxing.XML" />
+    <Content Include="Dll\ZXing.Net.0.16.8\lib\netcoreapp3.0\zxing.dll" />
+    <Content Include="Dll\ZXing.Net.0.16.8\lib\netcoreapp3.0\zxing.xml" />
+    <Content Include="Dll\ZXing.Net.0.16.8\lib\netcoreapp3.1\zxing.dll" />
+    <Content Include="Dll\ZXing.Net.0.16.8\lib\netcoreapp3.1\zxing.xml" />
+    <Content Include="Dll\ZXing.Net.0.16.8\lib\netstandard1.0\zxing.dll" />
+    <Content Include="Dll\ZXing.Net.0.16.8\lib\netstandard1.0\zxing.xml" />
+    <Content Include="Dll\ZXing.Net.0.16.8\lib\netstandard1.1\zxing.dll" />
+    <Content Include="Dll\ZXing.Net.0.16.8\lib\netstandard1.1\zxing.xml" />
+    <Content Include="Dll\ZXing.Net.0.16.8\lib\netstandard1.3\zxing.dll" />
+    <Content Include="Dll\ZXing.Net.0.16.8\lib\netstandard1.3\zxing.xml" />
+    <Content Include="Dll\ZXing.Net.0.16.8\lib\netstandard2.0\zxing.dll" />
+    <Content Include="Dll\ZXing.Net.0.16.8\lib\netstandard2.0\zxing.xml" />
+    <Content Include="Dll\ZXing.Net.0.16.8\lib\netstandard2.1\zxing.dll" />
+    <Content Include="Dll\ZXing.Net.0.16.8\lib\netstandard2.1\zxing.xml" />
+    <Content Include="Dll\ZXing.Net.0.16.8\lib\portable-win+net40+sl4+sl5+wp7+wp71+wp8\zxing.portable.dll" />
+    <Content Include="Dll\ZXing.Net.0.16.8\lib\portable-win+net40+sl4+sl5+wp7+wp71+wp8\zxing.portable.XML" />
+    <Content Include="Dll\ZXing.Net.0.16.8\lib\sl3-wp\zxing.wp7.0.dll" />
+    <Content Include="Dll\ZXing.Net.0.16.8\lib\sl3-wp\zxing.wp7.0.XML" />
+    <Content Include="Dll\ZXing.Net.0.16.8\lib\sl4-wp71\zxing.wp7.1.dll" />
+    <Content Include="Dll\ZXing.Net.0.16.8\lib\sl4-wp71\zxing.wp7.1.XML" />
+    <Content Include="Dll\ZXing.Net.0.16.8\lib\sl4\zxing.sl4.dll" />
+    <Content Include="Dll\ZXing.Net.0.16.8\lib\sl4\zxing.sl4.XML" />
+    <Content Include="Dll\ZXing.Net.0.16.8\lib\sl5\zxing.sl5.dll" />
+    <Content Include="Dll\ZXing.Net.0.16.8\lib\sl5\zxing.sl5.XML" />
+    <Content Include="Dll\ZXing.Net.0.16.8\lib\uap10\zxing.dll" />
+    <Content Include="Dll\ZXing.Net.0.16.8\lib\uap10\zxing.xml" />
+    <Content Include="Dll\ZXing.Net.0.16.8\lib\windows8-managed\zxing.winrt.dll" />
+    <Content Include="Dll\ZXing.Net.0.16.8\lib\windows8-managed\zxing.winrt.XML" />
+    <Content Include="Dll\ZXing.Net.0.16.8\lib\windows8\zxing.XML" />
+    <Content Include="Dll\ZXing.Net.0.16.8\lib\wp8\zxing.wp8.0.dll" />
+    <Content Include="Dll\ZXing.Net.0.16.8\lib\wp8\zxing.wp8.0.XML" />
+    <Content Include="Dll\ZXing.Net.0.16.8\logo.jpg" />
     <Content Include="Global.asax" />
     <Content Include="Scripts\Clientes\CLIListarClientes.js" />
     <Content Include="Scripts\DevExtreme\21.1.5\dx-quill.min.js" />
@@ -3115,6 +3199,26 @@
     <Content Include="Content\DevExtreme\21.1.5\icons\dxiconsmaterial.ttf" />
     <Content Include="Content\DevExtreme\21.1.5\icons\dxiconsmaterial.woff" />
     <Content Include="Content\DevExtreme\21.1.5\icons\dxiconsmaterial.woff2" />
+    <Content Include="Content\air-datepicker-3\dist\package.json" />
+    <Content Include="Content\air-datepicker-3\dist\README.md" />
+    <Content Include="Dll\QRCoder.1.4.3\.signature.p7s" />
+    <Content Include="Dll\QRCoder.1.4.3\nuget-readme.md" />
+    <Content Include="Dll\QRCoder.1.4.3\QRCoder.1.4.3.nupkg" />
+    <Content Include="Dll\Select.Pdf.20.1.0\.signature.p7s" />
+    <Content Include="Dll\Select.Pdf.20.1.0\contentFiles\any\any\Select.Html.dep" />
+    <Content Include="Dll\Select.Pdf.20.1.0\contentFiles\any\any\Select.Tools.dep" />
+    <Content Include="Dll\Select.Pdf.20.1.0\lib\net20\Select.Html.dep" />
+    <Content Include="Dll\Select.Pdf.20.1.0\lib\net20\Select.Tools.dep" />
+    <Content Include="Dll\Select.Pdf.20.1.0\lib\net40\Select.Html.dep" />
+    <Content Include="Dll\Select.Pdf.20.1.0\lib\net40\Select.Tools.dep" />
+    <Content Include="Dll\Select.Pdf.20.1.0\Select.Pdf.20.1.0.nupkg" />
+    <Content Include="Dll\ZXing.Net.0.16.8\.signature.p7s" />
+    <Content Include="Dll\ZXing.Net.0.16.8\lib\native\zxing.pri" />
+    <Content Include="Dll\ZXing.Net.0.16.8\lib\native\zxing.winmd" />
+    <Content Include="Dll\ZXing.Net.0.16.8\lib\uap10\zxing.pri" />
+    <Content Include="Dll\ZXing.Net.0.16.8\lib\windows8\zxing.pri" />
+    <Content Include="Dll\ZXing.Net.0.16.8\lib\windows8\zxing.winmd" />
+    <Content Include="Dll\ZXing.Net.0.16.8\ZXing.Net.0.16.8.nupkg" />
     <None Include="packages.config" />
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
@@ -3143,6 +3247,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Content\Fotografias\" />
     <Folder Include="Controllers\Caja\" />
     <Folder Include="Controllers\Reportes\" />
     <Folder Include="Models\" />
@@ -3159,6 +3264,12 @@
       <Project>{CA3FEBD2-A1C9-4DF2-A8F9-CB883DBA7CFA}</Project>
       <Name>Ventas_BLL</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <TypeScriptCompile Include="Content\air-datepicker-3\dist\air-datepicker.d.ts" />
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

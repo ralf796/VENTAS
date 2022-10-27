@@ -27,10 +27,6 @@ namespace Ventas.Controllers.Usuarios
         USER: db_a8e200_dbsalesment_admin
         PASS: Xml1234#
          */
-        /*
-         * https://localhost:44302/USUMantenimiento/GuardarUsuario?primerNombre=&segundoNombre=&primerApellido=&segundoApellido=&telefono=&direccion=&idTipoEmpleado=1&email=&creadoPor=RALOPEZ&usuario=new&password=1234&idRol=1
-         * */
-
         private List<Usuarios_BE> GetDatosUsuario_(Usuarios_BE item)
         {
             List<Usuarios_BE> lista = new List<Usuarios_BE>();
@@ -58,7 +54,7 @@ namespace Ventas.Controllers.Usuarios
 
                 int estado = 1;
                 var randomNumber = new Random().Next(0, 100);
-                string path = "", url="";
+                string path = "", url = "";
 
                 //int tipo = Convert.ToInt32(Request.Form["tipo"]);
                 HttpPostedFileBase file = Request.Files["foto"];

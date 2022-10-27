@@ -1,6 +1,5 @@
 ﻿$(document).ready(function () {
     DevExpress.localization.locale(navigator.language);
-
     GetDatos()
 
     function GetLists(selObject, tipo) {
@@ -29,7 +28,6 @@
             });
         });
     }
-
     function GetDatos() {
         var tipo = 15;
         var customStore = new DevExpress.data.CustomStore({
@@ -84,29 +82,6 @@
             },
             columns: [
                 {
-                    dataField: "ID_SERIE_VEHICULO",
-                    caption: "ID",
-                    alignment: "center",
-                    visible: false
-                },
-                {
-                    dataField: "NOMBRE",
-                    caption: "NOMBRE"
-                },
-                {
-                    dataField: "DESCRIPCION",
-                    caption: "DESCRIPCION"
-                },
-                {
-                    dataField: "ID_MARCA_VEHICULO",
-                    caption: "ID_MARCA_VEHICULO",
-                    visible: false
-                },
-                {
-                    dataField: "NOMBRE_MARCA_VEHICULO",
-                    caption: "MARCA VEHICULO"
-                },
-                {
                     caption: "ESTADO",
                     alignment: "center",
                     cellTemplate: function (container, options) {
@@ -136,7 +111,8 @@
                             hint: "Editar",
                             icon: "edit",
                             onClick: function (e) {
-                                alert('en desarrollo')
+                                GetOpcion(2)
+                                GetInputsUpdate(e.row.data['ID_PROVEEDOR'], e.row.data['NOMBRE'], e.row.data['DESCRIPCION'], e.row.data['ID_MARCA_VEHICULO'])
                             }
                         },
                         {
@@ -153,28 +129,54 @@
                             }
                         }
                     ]
+                },
+                {
+                    dataField: "ID_SERIE_VEHICULO",
+                    caption: "ID",
+                    alignment: "center",
+                    visible: false
+                },
+                {
+                    dataField: "NOMBRE",
+                    caption: "NOMBRE"
+                },
+                {
+                    dataField: "DESCRIPCION",
+                    caption: "DESCRIPCION"
+                },
+                {
+                    dataField: "ID_MARCA_VEHICULO",
+                    caption: "ID_MARCA_VEHICULO",
+                    visible: false
+                },
+                {
+                    dataField: "NOMBRE_MARCA_VEHICULO",
+                    caption: "MARCA VEHICULO"
                 }
             ]
         }).dxDataGrid('instance');
     }
-    function Guardar(nombre, descripcion, marca, tipo) {
+    function Procesar(nombre, descripcion, marca, tipo, id, opcion) {
         $.ajax({
             type: 'GET',
             url: "/INVMantenimiento/Guardar",
             contentType: "application/json; charset=utf-8",
             dataType: 'json',
             data: {
-                nombre, descripcion, tipo, marca
+                nombre, descripcion, tipo, marca, id
             },
             cache: false,
             success: function (data) {
                 var state = data["State"];
                 if (state == 1) {
+                    if (opcion == 1)
+                        ShowAlertMessage('success', 'Datos creados correctamente')
+                    else
+                        ShowAlertMessage('success', 'Datos actualizados correctamente')
                     $('#txtNombre').val('');
                     $('#txtDescripcion').val('');
                     $('#modalDatos').modal('hide');
                     GetDatos()
-                    ShowAlertMessage('success', 'Datos creados correctamente')
                 }
                 else if (state == -1) {
                     ShowAlertMessage('warning', data['Message'])
@@ -202,7 +204,6 @@
             }
         });
     }
-
     function GetOpcion(opcion) {
         $('#hfOpcion').val(opcion);
         if (opcion == 1) {
@@ -214,6 +215,12 @@
             $('#titleModal').html('MODIFICAR SUBCATEGORIA')
 
         $('#modalDatos').modal('show');
+    }
+    function GetInputsUpdate(id, nombre, descripcion, marca) {
+        $('#hfID').val(id);
+        $('#txtNombre').val(nombre);
+        $('#txtDescripcion').val(descripcion);
+        $('#selMarcaVehiculo').val(marca);
     }
 
     $('#btnAbrirModal').on('click', function (e) {
@@ -229,13 +236,33 @@
         var descripcion = $('#txtDescripcion').val();
         var marca = $('#selMarcaVehiculo').val();
 
-        
+
         if (opcion == 1) {
-            Guardar(nombre, descripcion, marca, 9);
+            Procesar(nombre, descripcion, marca, 15, 0, opcion);
         }
         else if (opcion == 2) {
-            Update_Delete(nombre, 14, id, estanteria, nivel);
+            Procesar(nombre, descripcion, marca, 16, id, opcion);
         }
     });
 
 });
+
+
+/*
+1   -   BODEGA CREATE
+2   -   BODEGA UPDATE
+3   -   MODELO CREATE
+4   -   MODELO UPDATE
+5   -   PROVEEDOR CREATE
+6   -   PROVEEDOR UPDATE
+7   -   MARCA REPUESTO CREATE
+8   -   MARCA REPUESTO UPDATE
+9   -   CATEGORIA CREATE
+10  -   CATEGORIA UPDATE
+11  -   SUBCATEGORIA CREATE
+12  -   SUBCATEGORIA UPDATE
+13  -   MARCA VEHICULO CREATE
+14  -   MARCA VEHICULO UPDATE
+15  -   SERIE VEHICULO CREATE
+16  -   SERIE VEHICULO UPDATE
+ */

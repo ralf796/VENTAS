@@ -77,11 +77,11 @@
                     </div>
                     <div class="col-12 col-sm-6 col-md-3 col-lg-3 col-xl-3">
                         <label for="txtCantidad">CANTIDAD</label>
-                        <input class="form-control text-center" id="txtCantidad" name="txtCantidad" type="number">
+                        <input class="form-control text-center" id="txtCantidad" name="txtCantidad" onkeypress="return valideKey(event);" type="text">
                     </div>
                     <div class="col-12 col-sm-6 col-md-3 col-lg-3 col-xl-3">
                         <label for="txtStock">STOCK</label>
-                        <input class="form-control text-center" id="txtStock" name="txtStock" type="number" disabled>
+                        <input class="form-control text-center" id="txtStock" name="txtStock" type="text" disabled>
                     </div>
                     <div class="col-12 col-sm-6 col-md-3 col-lg-3 col-xl-3">
                         <label for="txtPrecio">PRECIO</label>
@@ -121,10 +121,13 @@
                 <div class="row justify-content-end text-right">
                     <div class="col-12 col-md-12 col-xl-12 justify-content-end text-right">
                         <span class="badge badge-pill badge-success" id="txtTotal" style="font-size:18px"></span>
+                        <input type="hidden" id="hfTotal" />
+                        <input type="hidden" id="hfTotalDescuento" />
+                        <input type="hidden" id="hfSubtotal" />
                     </div>
                 </div>
-                <div class="float-right" style="margin-top:3px">                    
-                    <button class="btn btn-secondary" type="reset">CANCELAR</button>
+                <div class="float-right" style="margin-top:3px">
+                    <button class="btn btn-secondary" type="reset" id="btnCancelarVenta">CANCELAR</button>
                     <button class="btn btn-primary" id="btnGuardarVenta">CREAR VENTA</button>
                 </div>
             </div>
@@ -193,12 +196,12 @@
 </div>
 
 <div class="modal fade" id="modalClientes">
-    <div class="modal-dialog modal-lg">
+    <div class="modal-dialog modal-xl">
         <div class="modal-content">
-            <div class="modal-header d-none">
-                <h4 class="modal-title">Extra Large Modal</h4>
+            <div class="modal-header">
+                <h5 class="modal-title">BUSQUEDA DE CLIENTES</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
+                    <span style="color:red" aria-hidden="true">&times;</span>
                 </button>
             </div>
             <div class="modal-body">
@@ -211,9 +214,92 @@
                     </div>
                 </div>
             </div>
-            <div class="modal-footer justify-content-center">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary">Save changes</button>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="modalCrearCliente">
+    <div class="modal-dialog">
+        <div class="modal-content  bg-secondary">
+            <div class="modal-header">
+                <h5 class="modal-title" id="titleModal">CREAR CLIENTE</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <input id="hfID" type="hidden" />
+                    <input id="hfOpcion" type="hidden" />
+                    <div class="col-lg-12">
+                        <label class="form-label" for="nombre">NOMBRE DEL CLIENTE:</label>
+                        <input type="text" name="nombre" class="form-control" value="" id="txtGuardarNombre" placeholder="NOMBRE" required />
+                    </div>
+                    <div class="col-lg-12">
+                        <label class="form-label" for="direccion">DIRECCION:</label>
+                        <input type="text" name="direccion" class="form-control" value="" id="txtGuardarDireccion" placeholder="DIRECCION" maxlength="150" />
+                    </div>
+                    <div class="col-lg-12">
+                        <label class="form-label" for="telefono">TELEFONO:</label>
+                        <input type="text" name="telefono" class="form-control text-center" onkeypress="return valideKey(event);" id="txtGuardarTelefono" placeholder="TELEFONO" maxlength="8" required />
+                    </div>
+                    <div class="col-lg-12">
+                        <label class="form-label" for="email">EMAIL:</label>
+                        <input type="text" name="email" class="form-control" value="" id="txtGuardarEmail" placeholder="EMAIL" maxlength="50" />
+                    </div>
+                    <div class="col-lg-12">
+                        <label class="form-label" for="nit">NIT:</label>
+                        <input type="text" name="nit" class="form-control text-center" value="" id="txtGuardarNit" placeholder="NIT" maxlength="10" />
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer justify-content-between">
+                <button type="button" class="btn btn-danger" data-dismiss="modal">CERRAR</button>
+                <button type="button" class="btn btn-success" id="btnGuardar">GUARDAR</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade" id="modalCrearCliente">
+    <div class="modal-dialog">
+        <div class="modal-content  bg-secondary">
+            <div class="modal-header">
+                <h5 class="modal-title">CREAR CLIENTE</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="form-row">
+                        <div class="form-group col-md-12">
+                            <label for="inputCity">NOMBRE</label>
+                            <input type="text" class="form-control" id="txtNombreCrear" maxlength="150">
+                        </div>
+                        <div class="form-group col-md-12">
+                            <label for="inputCity">DIRECCION</label>
+                            <input type="text" class="form-control" id="txtDireccionCrear" maxlength="150">
+                        </div>
+                        <div class="form-group col-md-12">
+                            <label for="inputCity">TELEFONO</label>
+                            <input type="text" class="form-control text-center" id="txtTelefonoCrear" onkeypress="return valideKey(event);" maxlength="8">
+                        </div>
+                        <div class="form-group col-md-12">
+                            <label for="inputCity">EMAIL</label>
+                            <input type="text" class="form-control" id="txtEmailCrear" maxlength="50">
+                        </div>
+                        <div class="form-group col-md-12">
+                            <label for="inputCity">NIT</label>
+                            <input type="text" class="form-control text-center" id="txtNitCrear" maxlength="50">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer justify-content-between">
+                <button type="button" class="btn btn-danger" data-dismiss="modal">CERRAR</button>
+                <button type="button" class="btn btn-success" id="btnGuardarCliente">GUARDAR</button>
             </div>
         </div>
     </div>
