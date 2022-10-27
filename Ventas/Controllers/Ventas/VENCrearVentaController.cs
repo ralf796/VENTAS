@@ -30,7 +30,7 @@ namespace Ventas.Controllers.Ventas
             {
                 var item = new Ventas__BE();
                 item.MTIPO = tipo;
-                item.NIT = nit;
+                item.NIT = nit.Trim();
                 item = GetDatosSP_(item).FirstOrDefault();
                 return Json(new { State = 1, data = item }, JsonRequestBehavior.AllowGet);
             }
@@ -39,12 +39,24 @@ namespace Ventas.Controllers.Ventas
                 return Json(new { State = -1, Message = ex.Message }, JsonRequestBehavior.AllowGet);
             }
         }
-        public JsonResult GetList(int tipo= 0)
+        public JsonResult GetList(int tipo = 0, int ID_MARCA_REPUESTO = 0, int ID_SUBCATEGORIA = 0, int ID_CATEGORIA = 0, int ID_SERIE_VEHICULO = 0, int ID_MARCA_VEHICULO = 0, int ID_MODELO = 0)
         {
             try
             {
                 var item = new Ventas__BE();
-                item.MTIPO = tipo;                
+                item.MTIPO = tipo;
+                if (ID_MARCA_REPUESTO != 0)
+                    item.ID_MARCA_REPUESTO = ID_MARCA_REPUESTO;
+                if (ID_SUBCATEGORIA != 0)
+                    item.ID_SUBCATEGORIA = ID_SUBCATEGORIA;
+                if (ID_CATEGORIA != 0)
+                    item.ID_CATEGORIA = ID_CATEGORIA;
+                if (ID_SERIE_VEHICULO != 0)
+                    item.ID_SERIE_VEHICULO = ID_SERIE_VEHICULO;
+                if (ID_MARCA_VEHICULO != 0)
+                    item.ID_MARCA_VEHICULO = ID_MARCA_VEHICULO;
+                if (ID_MODELO != 0)
+                    item.ID_MODELO = ID_MODELO;
                 var lista = GetDatosSP_(item);
                 return Json(new { State = 1, data = lista }, JsonRequestBehavior.AllowGet);
             }

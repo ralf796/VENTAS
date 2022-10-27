@@ -21,15 +21,32 @@
             background-color: darkseagreen;*/
         }
     </style>
+
+    <style>
+        #gridContainer span.current-value {
+            display: inline-block;
+            margin-right: 5px;
+        }
+
+        #gridContainer span.diff {
+            width: 50px;
+            display: inline-block;
+        }
+    </style>
 }
 
 <div class="card">
     <span class="badge badge-pill badge-secondary">LISTADO DE PRODUCTOS</span>
     <div class="card-body">
         <div class="row">
-            <div class="col-12 col-md-12 col-xl-12">
+            <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                <div class="demo-container">
+                    <div id="exportButton"></div>
+                    <div id="gridContainer"></div>
+                </div>
+            </div>
+            <div class="col-12 col-md-12 col-xl-12 d-none">
                 <div class="table-responsive">
-
                     <table id="tblProductos" width="100%">
                         <thead class="headColor">
                             <tr>
@@ -39,16 +56,24 @@
                                 <th class="border text-center pl-2 pr-2">P/COSTO</th>
                                 <th class="border text-center pl-2 pr-2">P/VENTA</th>
                                 <th class="border text-center pl-2 pr-2">STOCK</th>
-                                <th class="border text-center pl-2 pr-2">FABRICACION</th>
                                 <th class="border text-center pl-2 pr-2">CODIGO</th>
-                                <th class="border text-center pl-2 pr-2 d-none">ID CATEGORIA</th>
-                                <th class="border text-center pl-2 pr-2">CATEGORIA</th>
-                                <th class="border text-center pl-2 pr-2 d-none">ID MODELO</th>
-                                <th class="border text-center pl-2 pr-2">MODELO</th>
-                                <th class="border text-center pl-2 pr-2 d-none">ID TIPO</th>
-                                <th class="border text-center pl-2 pr-2">TIPO</th>
+                                <th class="border text-center pl-2 pr-2">CREADO POR</th>
                                 <th class="border text-center pl-2 pr-2 d-none">ID BODEGA</th>
                                 <th class="border text-center pl-2 pr-2">BODEGA</th>
+                                <th class="border text-center pl-2 pr-2 d-none">ID MODELO</th>
+                                <th class="border text-center pl-2 pr-2">MODELO</th>
+                                <th class="border text-center pl-2 pr-2 d-none">ID PROVEEDOR</th>
+                                <th class="border text-center pl-2 pr-2">PROVEEDOR</th>
+                                <th class="border text-center pl-2 pr-2 d-none">ID MARCA REPUESTO</th>
+                                <th class="border text-center pl-2 pr-2">MARCA REPUESTO</th>
+                                <th class="border text-center pl-2 pr-2 d-none">ID CATEGORIA</th>
+                                <th class="border text-center pl-2 pr-2">CATEGORIA</th>
+                                <th class="border text-center pl-2 pr-2 d-none">ID SUBCATEGORIA</th>
+                                <th class="border text-center pl-2 pr-2">SUBCATEGORIA</th>
+                                <th class="border text-center pl-2 pr-2 d-none">ID MARCA VEHICULO</th>
+                                <th class="border text-center pl-2 pr-2">MARCA VEHICULO</th>
+                                <th class="border text-center pl-2 pr-2 d-none">ID SERIE VEHICULO</th>
+                                <th class="border text-center pl-2 pr-2">SERIE VEHICULO</th>
                                 <th class="border text-center pl-2 pr-2">ESTADO</th>
                                 <th class="border text-center pl-2 pr-2">ACCIONES</th>
                             </tr>
