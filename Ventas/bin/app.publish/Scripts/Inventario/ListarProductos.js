@@ -13,7 +13,7 @@
             mensaje = 'Datos actualizados correctamente';
         else
             mensaje = 'Se inactivó el item seleccionado';
-        
+
         $.ajax({
             type: 'GET',
             url: "/INVMantenimiento/Update_Delete_Producto",
@@ -35,8 +35,9 @@
             }
         });
     }
+    /*
     function GetDatos() {
-        var tipo = 18;
+        var tipo = 20;
         $('#tbodyDatos').empty();
         $.ajax({
             type: 'GET',
@@ -58,6 +59,7 @@
             }
         });
     }
+    */
     function AddRows(lista) {
         $.each(lista, function (i, l) {
             var estatus = '', buttons = '';
@@ -76,16 +78,24 @@
                 '<td>' + l.PRECIO_COSTO + '</td>' +
                 '<td>' + l.PRECIO_VENTA + '</td>' +
                 '<td>' + l.STOCK + '</td>' +
-                '<td>' + l.ANIO_FABRICADO + '</td>' +
                 '<td>' + l.CODIGO + '</td>' +
-                '<td class="d-none">' + l.ID_CATEGORIA + '</td>' +
-                '<td>' + l.NOMBRE_CATEGORIA + '</td>' +
+                '<td>' + l.CREADO_POR + '</td>' +
+                '<td class="d-none">' + l.ID_BODEGA + '</td>' +
+                '<td>' + l.NOMBRE_BODEGA + '</td>' +                    //10
                 '<td class="d-none">' + l.ID_MODELO + '</td>' +
                 '<td>' + l.NOMBRE_MODELO + '</td>' +
-                '<td class="d-none">' + l.ID_TIPO + '</td>' +
-                '<td>' + l.NOMBRE_TIPO + '</td>' +
-                '<td class="d-none">' + l.ID_BODEGA + '</td>' +
-                '<td>' + l.NOMBRE_BODEGA + '</td>' +
+                '<td class="d-none">' + l.ID_PROVEEDOR + '</td>' +
+                '<td>' + l.NOMBRE_PROVEEDOR + '</td>' +
+                '<td class="d-none">' + l.ID_MARCA_REPUESTO + '</td>' + //15
+                '<td>' + l.NOMBRE_MARCA_REPUESTO + '</td>' +
+                '<td class="d-none">' + l.ID_CATEGORIA + '</td>' +
+                '<td>' + l.NOMBRE_CATEGORIA + '</td>' +
+                '<td class="d-none">' + l.ID_SUBCATEGORIA + '</td>' +
+                '<td>' + l.NOMBRE_SUBCATEGORIA + '</td>' +              //20
+                '<td class="d-none">' + l.ID_MARCA_VEHICULO + '</td>' +
+                '<td>' + l.NOMBRE_MARCA_VEHICULO + '</td>' +
+                '<td class="d-none">' + l.ID_SERIE_VEHICULO + '</td>' +
+                '<td>' + l.NOMBRE_SERIE_VEHICULO + '</td>' +
                 '<td class="text-center">' + estatus + '</td>' +
                 '<td class="text-center">' + buttons + '</td>' +
                 '</tr>'
@@ -207,7 +217,7 @@
     });
     $('#formGuardarProducto').submit(function (e) {
         e.preventDefault();
-        
+
         var ID_PRODUCTO = $('#hfIdProducto').val();
         var ID_CATEGORIA = $('#selCategoria').val();
         var ID_CATEGORIA = $('#selCategoria').val();
@@ -223,4 +233,216 @@
         var CODIGO = $('#txtCodigo').val();
         Update_Delete_Producto(ID_PRODUCTO, 19, ID_CATEGORIA, ID_MODELO, ID_TIPO, ID_BODEGA, NOMBRE, DESCRIPCION, PRECIO_COSTO, PRECIO_VENTA, STOCK, ANIO_FABRICADO, CODIGO);
     });
+
+    function GetDatos() {
+        var tipo = 20;
+        var customStore = new DevExpress.data.CustomStore({
+            load: function (loadOptions) {
+                var d = $.Deferred();
+                $.ajax({
+                    type: 'GET',
+                    url: '/INVMantenimiento/GetDatosTable',
+                    contentType: "application/json; charset=utf-8",
+                    dataType: 'json',
+                    data: { tipo },
+                    cache: false,
+                    success: function (data) {
+                        var state = data["State"];
+                        if (state == 1) {
+                            data = JSON && JSON.parse(JSON.stringify(data)) || $.parseJSON(data);
+                            d.resolve(data);
+                        }
+                        else if (state == -1)
+                            alert(data["Message"])
+                    },
+                    error: function (jqXHR, exception) {
+                        getErrorMessage(jqXHR, exception);
+                    }
+                });
+                return d.promise();
+            }
+        });
+        var salesPivotGrid = $("#gridContainer").dxDataGrid({
+            dataSource: new DevExpress.data.DataSource(customStore),
+            showBorders: true,
+            loadPanel: {
+                text: "Cargando..."
+            },
+            scrolling: {
+                useNative: false,
+                scrollByContent: true,
+                scrollByThumb: true,
+                showScrollbar: "always" // or "onScroll" | "always" | "never"
+            },
+            searchPanel: {
+                visible: true,
+                width: 240,
+                placeholder: "Buscar..."
+            },
+            headerFilter: {
+                visible: true
+            },
+            columnAutoWidth: true,
+            export: {
+                enabled: false
+            },
+            columns: [
+                {
+                    caption: "ACCIONES",
+                    type: "buttons",
+                    alignment: "center",
+                    buttons: [
+                        {
+                            visible: function (e) {
+                                var visible = false;
+                                if (e.row.data.ESTADO == 1)
+                                    visible = true;
+                                return visible;
+                            },
+                            hint: "Editar",
+                            icon: "edit",
+                            onClick: function (e) {
+                                alert('en desarrollo')
+                            }
+                        },
+                        {
+                            visible: function (e) {
+                                var visible = false;
+                                if (e.row.data.ESTADO == 1)
+                                    visible = true;
+                                return visible;
+                            },
+                            hint: "Inactivar",
+                            icon: "clear",
+                            onClick: function (e) {
+                                Delete(e.row.data['ID_PRODUCTO'], 2)
+                            }
+                        }
+                    ]
+                },
+                {
+                    caption: "ESTADO",
+                    alignment: "center",
+                    cellTemplate: function (container, options) {
+                        var fieldData = options.data;
+
+                        container.addClass(fieldData.ESTADO != 1 ? "dec" : "");
+
+                        if (fieldData.ESTADO == 1)
+                            $("<span>").addClass("badge badge-success").text('ACTIVO').appendTo(container);
+                        else
+                            $("<span>").addClass("badge badge-danger").text('INACTIVO').appendTo(container);
+
+                    }
+                },
+                {
+                    dataField: "ID_PRODUCTO",
+                    caption: "ID PRODUCTO",
+                    visible: false
+                },
+                {
+                    dataField: "NOMBRE",
+                    caption: "NOMBRE"
+                },
+                {
+                    dataField: "PRECIO_COSTO",
+                    caption: "PRECIO COSTO",
+                    alignment: "center"
+                },
+                {
+                    dataField: "PRECIO_VENTA",
+                    caption: "PRECIO VENTA",
+                    alignment: "center"
+                },
+                {
+                    dataField: "STOCK",
+                    caption: "STOCK",
+                    alignment: "center"
+                },
+                {
+                    dataField: "CODIGO",
+                    caption: "CODIGO",
+                    alignment: "center"
+                },
+                {
+                    dataField: "CREADO_POR",
+                    caption: "CREADO_POR",
+                    visible: false
+                },
+                {
+                    dataField: "ID_BODEGA",
+                    caption: "ID_BODEGA",
+                    visible: false
+                },
+                {
+                    dataField: "NOMBRE_BODEGA",
+                    caption: "BODEGA"
+                },
+                {
+                    dataField: "ID_MODELO",
+                    caption: "ID_MODELO",
+                    visible: false
+                },
+                {
+                    dataField: "NOMBRE_MODELO",
+                    caption: "NOMBRE_MODELO"
+                },
+                {
+                    dataField: "ID_PROVEEDOR",
+                    caption: "ID_PROVEEDOR",
+                    visible: false
+                },
+                {
+                    dataField: "NOMBRE_PROVEEDOR",
+                    caption: "PROVEEDOR"
+                },
+                {
+                    dataField: "ID_MARCA_REPUESTO",
+                    caption: "ID_MARCA_REPUESTO",
+                    visible: false
+                },
+                {
+                    dataField: "NOMBRE_MARCA_REPUESTO",
+                    caption: "MARCA REPUESTO"
+                },
+                {
+                    dataField: "ID_CATEGORIA",
+                    caption: "ID_CATEGORIA",
+                    visible: false
+                },
+                {
+                    dataField: "NOMBRE_CATEGORIA",
+                    caption: "CATEGORIA"
+                },
+                {
+                    dataField: "ID_SUBCATEGORIA",
+                    caption: "ID_SUBCATEGORIA",
+                    visible: false
+                },
+                {
+                    dataField: "NOMBRE_SUBCATEGORIA",
+                    caption: "SUBCATEGORIA"
+                },
+                {
+                    dataField: "ID_MARCA_VEHICULO",
+                    caption: "ID_MARCA_VEHICULO",
+                    visible: false
+                },
+                {
+                    dataField: "NOMBRE_MARCA_VEHICULO",
+                    caption: "MARCA VEHICULO"
+                },
+                {
+                    dataField: "ID_SERIE_VEHICULO",
+                    caption: "ID_SERIE_VEHICULO",
+                    visible: false
+                },
+                {
+                    dataField: "NOMBRE_SERIE_VEHICULO",
+                    caption: "SERIE VEHICULO"
+                }
+            ]
+        }).dxDataGrid('instance');
+
+    }
 });

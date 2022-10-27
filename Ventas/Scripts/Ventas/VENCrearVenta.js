@@ -3,6 +3,20 @@
         //$('#modalProductos').modal('show');
     });
 
+    function ClearCustomer() {
+        $('#hfIdCliente').val('');
+        $('#txtNombreCliente').val('');
+        $('#txtNit').val('');
+    }
+    function ClearProduct() {
+        $('#hfIdProducto').val('');
+        $('#txtCodigo').val('');
+        $('#txtNombreProducto').val('');
+        $('#txtCantidad').val(0);
+        $('#txtStock').val('');
+        $('#txtPrecio').val('');
+        $('#txtDescuento').val(0);
+    }
 
     var DetalleVenta = $("#tbodyDetalleVenta");
     function AddDetail(id, producto, cantidad, precio, descuento) {
@@ -14,16 +28,19 @@
             descuento = 0;
 
         var subtotal = (parseFloat(cantidad) * parseFloat(precio)) - parseFloat(descuento);
-        var remove = '<a title="Eliminar" class="btn btn-link btn-danger removeDetail" style="margin: 0 0 !important"><i class="far fa-times"></i></a>';
+        var remove = '<a title="Eliminar" class="btn btn-outline-danger removeDetail" style="margin-top:-10px"><i class="far fa-times"></i></a>';
         DetalleVenta.append('<tr>' +
             '<td class="text-center">' + remove + '</td>' +
-            '<td>' + id + '</td>' +
-            '<td>' + producto + '</td>' +
-            '<td class="text-center">' + cantidad + '</td>' +
-            '<td class="text-right">' + formatNumber(precio) + '</td>' +
-            '<td class="text-right">' + formatNumber(descuento) + '</td>' +
-            '<td class="text-right">' + formatNumber(subtotal) + '</td>' +
+            '<td class="d-none">' + id + '</td>' +
+            '<td class="pl-2">' + producto + '</td>' +
+            '<td class="pl-2 pr-2 text-center">' + cantidad + '</td>' +
+            '<td class="pl-2 pr-2 text-right">' + formatNumber(parseFloat(precio).toFixed(2)) + '</td>' +
+            '<td class="pl-2 pr-2 text-right">' + formatNumber(parseFloat(descuento).toFixed(2)) + '</td>' +
+            '<td class="pl-2 pr-2 text-right">' + formatNumber(parseFloat(subtotal).toFixed(2)) + '</td>' +
             '</tr>');
+
+        ClearProduct();
+        RefreshSum();
     }
 
     $('#btnAgregarDetalle').on('click', function (e) {
@@ -32,10 +49,21 @@
         var cantidad = $('#txtCantidad').val();
         var precio = $('#txtPrecio').val();
         var descuento = $('#txtDescuento').val();
+        var stock = $('#txtStock').val();
 
-        console.log(cantidad);
-        console.log(precio);
-        console.log(descuento);
+        if (id == '' || id == null) {
+            ShowAlertMessage('info', 'Debes seleccionar un producto.')
+            return;
+        }
+        if (cantidad == 0 || cantidad == '' || cantidad == null) {
+            ShowAlertMessage('info', 'Debes ingresar una cantidad válida.')
+            return;
+        }
+        if (parseFloat(cantidad) > parseFloat(stock)) {
+            ShowAlertMessage('info', 'La cantidad que solicita no puede ser mayor al stock(' + stock + ') disponible.')
+            return;
+        }
+
         AddDetail(id, producto, cantidad, precio, descuento);
     });
 
@@ -47,11 +75,10 @@
     function RefreshSum() {
         var total = 0
         $('#tbodyDetalleVenta tr').each(function () {
-            total = total + parseFloat($(this).find("td").eq(5).text().replace(",", ""));
+            total = total + parseFloat($(this).find("td").eq(6).text().replace(",", ""));
         });
-        $('#txtTotal').val(formatNumber(total));
+        $('#txtTotal').html('TOTAL: ' + formatNumber(parseFloat(total).toFixed(2)));
     }
-
 
     function ENCABEZADO(SERIE, CORRELATIVO, ID_CLIENTE, TOTAL, SUBTOTAL, TOTAL_IVA, TOTAL_DESCUENTO) {
         this.SERIE = SERIE;
@@ -104,26 +131,26 @@
     });
 
     function GetCliente(nit) {
+        var tipo = 2;
         $.ajax({
             type: 'GET',
             url: '/VENCrearVenta/GetCliente',
             contentType: "application/json; charset=utf-8",
             dataType: 'json',
-            data: { nit },
+            data: { nit, tipo },
             cache: false,
             success: function (data) {
                 var state = data["State"];
                 if (state == 1) {
                     var CLIENTE = data["data"];
-
+                    console.log(CLIENTE)
                     if (CLIENTE == null) {
                         ShowAlertMessage('warning', 'No existe el cliente con el nit ingresado.');
+                        ClearCustomer();
                     }
-                    else if (CLIENTE.codigo_respuesta == '01') {
+                    else {
+                        $('#hfIdCliente').val(CLIENTE.ID_CLIENTE);
                         $('#txtNombreCliente').val(CLIENTE.NOMBRE);
-                    }
-                    else if (CLIENTE.CODIGO_RESPUESTA != '00') {
-                        ShowAlertMessage('warning', CLIENTE.MENSAJE_RESPUESTA);
                     }
                 }
                 else if (state == -1) {
@@ -143,7 +170,7 @@
     });
 
     function GetListClientes() {
-        var tipo = 2;
+        var tipo = 3;
         var customStore = new DevExpress.data.CustomStore({
             load: function (loadOptions) {
                 var d = $.Deferred();
@@ -157,6 +184,7 @@
                     success: function (data) {
                         var state = data["State"];
                         if (state == 1) {
+                            $('#modalClientes').modal('show');
                             data = JSON && JSON.parse(JSON.stringify(data)) || $.parseJSON(data);
                             d.resolve(data);
                         }
@@ -221,24 +249,264 @@
                     alignment: "center"
                 }
             ],
-            onRowClick: function (e) {
-                //OBTAIN YOUR GRID DATA HERE
-                var grid = $("#gridContainer").dxDataGrid('instance');
-                var rows = grid.getSelectedRowsData();
-
-                if (clickTimer && lastRowCLickedId === e.rowIndex) {
-                    clearTimeout(clickTimer);
-                    clickTimer = null;
-                    lastRowCLickedId = e.rowIndex;
-                    //YOUR DOUBLE CLICK EVENT HERE
-                    alert('double clicked!');
-                } else {
-                    clickTimer = setTimeout(function () { }, 250);
-                }
-
-                lastRowCLickedId = e.rowIndex;
+            onRowDblClick: function (e) {
+                $('#hfIdCliente').val(e.data["ID_CLIENTE"]);
+                $('#txtNombreCliente').val(e.data["NOMBRE"]);
+                $('#txtNit').val(e.data["NIT"]);
+                $('#modalClientes').modal('hide');
             }
         }).dxDataGrid('instance');
-
     }
+    function GetListProductos() {
+        var tipo = 1;
+        var ID_MARCA_REPUESTO = $('#selMarcaRepuesto').val();
+        var ID_SUBCATEGORIA = $('#selSubcategoria').val();
+        var ID_CATEGORIA = $('#selCategoria').val();
+        var ID_SERIE_VEHICULO = $('#selSerieVehiculo').val();
+        var ID_MARCA_VEHICULO = $('#selMarcaVehiculo').val();
+        var ID_MODELO = $('#selModelo').val();
+
+        var customStore = new DevExpress.data.CustomStore({
+            load: function (loadOptions) {
+                var d = $.Deferred();
+                $.ajax({
+                    type: 'GET',
+                    url: '/VENCrearVenta/GetList',
+                    contentType: "application/json; charset=utf-8",
+                    dataType: 'json',
+                    data: { tipo, ID_MARCA_REPUESTO, ID_SUBCATEGORIA, ID_CATEGORIA, ID_SERIE_VEHICULO, ID_MARCA_VEHICULO, ID_MODELO },
+                    cache: false,
+                    success: function (data) {
+                        var state = data["State"];
+                        if (state == 1) {
+                            data = JSON && JSON.parse(JSON.stringify(data)) || $.parseJSON(data);
+                            d.resolve(data);
+                        }
+                        else if (state == -1)
+                            ShowAlertMessage('warning', data["Message"])
+                    },
+                    error: function (jqXHR, exception) {
+                        getErrorMessage(jqXHR, exception);
+                    }
+                });
+                return d.promise();
+            }
+        });
+        var salesPivotGrid = $("#gridProductos").dxDataGrid({
+            dataSource: new DevExpress.data.DataSource(customStore),
+            showBorders: true,
+            loadPanel: {
+                text: "Cargando..."
+            },
+            scrolling: {
+                useNative: false,
+                scrollByContent: true,
+                scrollByThumb: true,
+                showScrollbar: "always" // or "onScroll" | "always" | "never"
+            },
+            searchPanel: {
+                visible: true,
+                width: 240,
+                placeholder: "Buscar..."
+            },
+            headerFilter: {
+                visible: true
+            },
+            columnAutoWidth: true,
+            export: {
+                enabled: false
+            },
+            rowAlternationEnabled: true,
+
+            columns: [
+                {
+                    dataField: "ID_PRODUCTO",
+                    caption: "ID_PRODUCTO",
+                    visible: false
+                },
+                {
+                    dataField: "CODIGO",
+                    caption: "CODIGO"
+                },
+                {
+                    dataField: "NOMBRE",
+                    caption: "NOMBRE"
+                },
+                {
+                    dataField: "DESCRIPCION",
+                    caption: "DESCRIPCION"
+                },
+                {
+                    dataField: "PRECIO_VENTA",
+                    caption: "PRECIO"
+                },
+                {
+                    dataField: "STOCK",
+                    caption: "STOCK",
+                    alignment: "center"
+                },
+                {
+                    dataField: "NOMBRE_MARCA_REPUESTO",
+                    caption: "MARCA REPUESTO",
+                    visible: false
+                },
+                {
+                    dataField: "NOMBRE_CATEGORIA",
+                    caption: "CATEGORIA",
+                    visible: false
+                },
+                {
+                    dataField: "NOMBRE_SUBCATEGORIA",
+                    caption: "SUBCATEGORIA",
+                    visible: false
+                },
+                {
+                    dataField: "NOMBRE_MARCA_VEHICULO",
+                    caption: "MARCA VEHICULO",
+                    visible: false
+                },
+                {
+                    dataField: "NOMBRE_SERIE_VEHICULO",
+                    caption: "SERIE VEHICULO",
+                    visible: false
+                }
+            ],
+            onRowDblClick: function (e) {
+                $('#hfIdProducto').val(e.data["ID_PRODUCTO"]);
+                $('#txtCodigo').val(e.data["CODIGO"]);
+                $('#txtNombreProducto').val(e.data["NOMBRE"]);
+                $('#txtStock').val(e.data["STOCK"]);
+                $('#txtPrecio').val(e.data["PRECIO_VENTA"]);
+                $('#modalProductos').modal('hide');
+            }
+        }).dxDataGrid('instance');
+    }
+
+    $('#btnBuscarClientes').on('click', function (e) {
+        e.preventDefault();
+        GetListClientes();
+    });
+    $('#btnBuscarProductos').on('click', function (e) {
+        e.preventDefault();
+        //GetListProductos();
+        GetLists('#selMarcaRepuesto', 12)
+        GetLists('#selCategoria', 2)
+        GetLists('#selModelo', 6)
+        GetLists('#selMarcaVehiculo', 14)
+        $('#modalProductos').modal('show');
+    });
+    $('#txtNit').on('click', function (e) {
+        e.preventDefault();
+        ClearCustomer();
+    });
+
+    function GetLists(selObject, tipo) {
+        return new Promise((resolve, reject) => {
+            $.ajax({
+                type: 'GET',
+                url: '/INVMantenimiento/GetDatosTable',
+                contentType: "application/json; charset=utf-8",
+                dataType: 'json',
+                data: { tipo },
+                cache: false,
+                success: function (data) {
+                    var list = data["data"];
+                    var state = data["State"];
+                    if (state == 1) {
+                        $(selObject).empty();
+                        $(selObject).append('<option selected value="-1" disabled>Seleccione una opción</option>');
+                        $(selObject).append('<option value="0">Todos</option>');
+                        list.forEach(function (dato) {
+                            if (tipo == 8) {
+                                $(selObject).append('<option value="' + dato.ID_BODEGA + '">' + dato.NOMBRE + '</option>');
+                            }
+                            else if (tipo == 6) {
+                                $(selObject).append('<option class="text-center" value="' + dato.ID_MODELO + '">' + + dato.ANIO_INICIAL + ' - ' + dato.ANIO_FINAL + '</option>');
+                            }
+                            else if (tipo == 10) {
+                                $(selObject).append('<option value="' + dato.ID_PROVEEDOR + '">' + dato.NOMBRE + '</option>');
+                            }
+                            else if (tipo == 12) {
+                                $(selObject).append('<option value="' + dato.ID_MARCA_REPUESTO + '">' + dato.NOMBRE + '</option>');
+                            }
+                            else if (tipo == 2) {
+                                $(selObject).append('<option value="' + dato.ID_CATEGORIA + '">' + dato.NOMBRE + '</option>');
+                            }
+                            else if (tipo == 14) {
+                                $(selObject).append('<option value="' + dato.ID_MARCA_VEHICULO + '">' + dato.NOMBRE + '</option>');
+                            }
+                        });
+                        resolve(1);
+                    }
+                    else if (state == -1)
+                        alert(data["Message"])
+                }
+            });
+        });
+    }
+
+    function GetListsID(selObject, tipo, id) {
+        return new Promise((resolve, reject) => {
+            $.ajax({
+                type: 'GET',
+                url: '/INVMantenimiento/GetDatosTable',
+                contentType: "application/json; charset=utf-8",
+                dataType: 'json',
+                data: { tipo, id },
+                cache: false,
+                success: function (data) {
+                    var list = data["data"];
+                    var state = data["State"];
+                    if (state == 1) {
+                        $(selObject).empty();
+                        $(selObject).append('<option selected value="-1" disabled>Seleccione una opción</option>');
+                        $(selObject).append('<option value="0">Todos</option>');
+                        list.forEach(function (dato) {
+                            if (tipo == 4) {
+                                $(selObject).append('<option value="' + dato.ID_SUBCATEGORIA + '">' + dato.NOMBRE + '</option>');
+                            }
+                            else if (tipo == 16) {
+                                $(selObject).append('<option value="' + dato.ID_SERIE_VEHICULO + '">' + dato.NOMBRE + '</option>');
+                            }
+                        });
+                        resolve(1);
+                    }
+                    else if (state == -1)
+                        alert(data["Message"])
+                }
+            });
+        });
+    }
+
+    $('#selCategoria').on('change', function (e) {
+        e.preventDefault();
+        var id = $(this).val();
+        GetListsID('#selSubcategoria', 4, id)
+        GetListProductos();
+    });
+    $('#selMarcaVehiculo').on('change', function (e) {
+        e.preventDefault();
+        var id = $(this).val();
+        GetListsID('#selSerieVehiculo', 16, id)
+        GetListProductos();
+    });
+    $('#selMarcaRepuesto').on('change', function (e) {
+        e.preventDefault();
+        GetListProductos();
+    });
+    $('#selSubcategoria').on('change', function (e) {
+        e.preventDefault();
+        GetListProductos();
+    });
+    $('#selSerieVehiculo').on('change', function (e) {
+        e.preventDefault();
+        GetListProductos();
+    });
+    $('#selModelo').on('change', function (e) {
+        e.preventDefault();
+        GetListProductos();
+    });
+
+
+
 });
