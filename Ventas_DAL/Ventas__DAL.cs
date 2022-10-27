@@ -23,6 +23,14 @@ namespace Ventas_DAL
                 model.Command.Parameters.AddWithValue("@ID_SERIE_VEHICULO", item.ID_SERIE_VEHICULO);
                 model.Command.Parameters.AddWithValue("@ID_MARCA_VEHICULO", item.ID_MARCA_VEHICULO);
                 model.Command.Parameters.AddWithValue("@ID_MODELO", item.ID_MODELO);
+                model.Command.Parameters.AddWithValue("@ID_VENTA", item.ID_VENTA);
+                model.Command.Parameters.AddWithValue("@SERIE", item.SERIE);
+                model.Command.Parameters.AddWithValue("@CORRELATIVO", item.CORRELATIVO);
+                model.Command.Parameters.AddWithValue("@ID_CLIENTE", item.ID_CLIENTE);
+                model.Command.Parameters.AddWithValue("@TOTAL", item.TOTAL);
+                model.Command.Parameters.AddWithValue("@SUBTOTAL", item.SUBTOTAL);
+                model.Command.Parameters.AddWithValue("@TOTAL_DESCUENTO", item.TOTAL_DESCUENTO);
+                model.Command.Parameters.AddWithValue("@CREADO_POR", item.CREADO_POR);
                 result = model.GetData<Ventas__BE>();
             }
             return result;

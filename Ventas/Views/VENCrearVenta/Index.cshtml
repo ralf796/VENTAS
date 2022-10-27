@@ -121,6 +121,9 @@
                 <div class="row justify-content-end text-right">
                     <div class="col-12 col-md-12 col-xl-12 justify-content-end text-right">
                         <span class="badge badge-pill badge-success" id="txtTotal" style="font-size:18px"></span>
+                        <input type="hidden" id="hfTotal"/>
+                        <input type="hidden" id="hfTotalDescuento"/>
+                        <input type="hidden" id="hfSubtotal"/>
                     </div>
                 </div>
                 <div class="float-right" style="margin-top:3px">                    
@@ -193,12 +196,12 @@
 </div>
 
 <div class="modal fade" id="modalClientes">
-    <div class="modal-dialog modal-lg">
+    <div class="modal-dialog modal-xl">
         <div class="modal-content">
-            <div class="modal-header d-none">
-                <h4 class="modal-title">Extra Large Modal</h4>
+            <div class="modal-header">
+                <h5 class="modal-title">BUSQUEDA DE CLIENTES</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
+                    <span style="color:red" aria-hidden="true">&times;</span>
                 </button>
             </div>
             <div class="modal-body">
@@ -210,10 +213,6 @@
                         </div>
                     </div>
                 </div>
-            </div>
-            <div class="modal-footer justify-content-center">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary">Save changes</button>
             </div>
         </div>
     </div>

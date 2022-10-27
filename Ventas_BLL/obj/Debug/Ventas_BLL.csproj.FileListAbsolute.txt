@@ -9,14 +9,3 @@ C:\Users\raul.lopez\source\repos\VENTAS\Ventas_BLL\obj\Debug\Ventas_BLL.csproj.C
 C:\Users\raul.lopez\source\repos\VENTAS\Ventas_BLL\obj\Debug\Ventas_BLL.csproj.CopyComplete
 C:\Users\raul.lopez\source\repos\VENTAS\Ventas_BLL\obj\Debug\Ventas_BLL.dll
 C:\Users\raul.lopez\source\repos\VENTAS\Ventas_BLL\obj\Debug\Ventas_BLL.pdb
-C:\Development\Ventas\Ventas_BLL\bin\Debug\Ventas_BLL.dll
-C:\Development\Ventas\Ventas_BLL\bin\Debug\Ventas_BLL.pdb
-C:\Development\Ventas\Ventas_BLL\bin\Debug\Ventas_BE.dll
-C:\Development\Ventas\Ventas_BLL\bin\Debug\Ventas_DAL.dll
-C:\Development\Ventas\Ventas_BLL\bin\Debug\Ventas_BE.pdb
-C:\Development\Ventas\Ventas_BLL\bin\Debug\Ventas_DAL.pdb
-C:\Development\Ventas\Ventas_BLL\obj\Debug\Ventas_BLL.csproj.AssemblyReference.cache
-C:\Development\Ventas\Ventas_BLL\obj\Debug\Ventas_BLL.csproj.CoreCompileInputs.cache
-C:\Development\Ventas\Ventas_BLL\obj\Debug\Ventas_BLL.csproj.CopyComplete
-C:\Development\Ventas\Ventas_BLL\obj\Debug\Ventas_BLL.dll
-C:\Development\Ventas\Ventas_BLL\obj\Debug\Ventas_BLL.pdb

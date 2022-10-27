@@ -65,5 +65,33 @@ namespace Ventas.Controllers.Ventas
                 return Json(new { State = -1, Message = ex.Message }, JsonRequestBehavior.AllowGet);
             }
         }
+        /*         
+            insert into TBL_VENTA(ID_VENTA, serie, CORRELATIVO, FECHA, ID_CLIENTE, TOTAL, SUBTOTAL, TOTAL_IVA, TOTAL_DESCUENTO, CREADO_POR, ESTADO, FECHA_CREACION, ID_ESTADO_VENTA)
+            values (@ID_VENTA, @SERIE, @CORRELATIVO, GETDATE, @ID_CLIENTE, @TOTAL, @SUBTOTAL, 0, @TOTAL_DESCUENTO, @CREADO_POR, 1, GETDATE(), 1)
+         */
+
+
+        public JsonResult SaveOrder(int tipo = 0, int ID_CLIENTE = 0, decimal TOTAL = 0, decimal SUBTOTAL = 0, decimal TOTAL_DESCUENTO = 0)
+        {
+            try
+            {
+                var item = new Ventas__BE();
+                item.MTIPO = tipo;
+                item.ID_VENTA = 2;
+                item.SERIE = "SSS";
+                item.CORRELATIVO = 1;
+                item.ID_CLIENTE = ID_CLIENTE;
+                item.TOTAL = TOTAL;
+                item.SUBTOTAL = SUBTOTAL;
+                item.TOTAL_DESCUENTO = TOTAL_DESCUENTO;
+                item.CREADO_POR = "RALOPEZ";
+                var lista = GetDatosSP_(item);
+                return Json(new { State = 1, data = lista }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                return Json(new { State = -1, Message = ex.Message }, JsonRequestBehavior.AllowGet);
+            }
+        }
     }
 }
