@@ -1,4 +1,5 @@
 ﻿using GenesysOracleSV.Clases;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -150,13 +151,13 @@ namespace Ventas.Controllers.Ventas
         {
             try
             {
-                //var item = JsonConvert.DeserializeObject<Ventas__BE>(encabezado);
-                //List<Ventas__BE>itemDetail listaDetalles = JsonConvert.DeserializeObject<List<Ventas__BE>>(detalles);
+                var item = JsonConvert.DeserializeObject<Ventas__BE>(encabezado);
+                List<Ventas__BE> listaDetalles = JsonConvert.DeserializeObject<List<Ventas__BE>>(detalles);
                 string usuario = Session["usuario"].ToString();
                 int state = 1;
                 bool banderaDetail = false;
-                var item = new Ventas__BE();
-                List<Ventas__BE> listaDetalles = new List<Ventas__BE>();
+                //var item = new Ventas__BE();
+                //List<Ventas__BE> listaDetalles = new List<Ventas__BE>();
 
                 if (SaveHeader("SSS", 1, item.ID_CLIENTE, item.TOTAL, item.TOTAL_DESCUENTO, item.SUBTOTAL, usuario) == true)
                 {
