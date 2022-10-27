@@ -353,6 +353,28 @@
             });
         });
     }
+    function SaveCustomer(nombre, direccion, telefono, email, nit) {
+        $.ajax({
+            type: 'GET',
+            url: "/CLIListarClientes/GuardarCliente",
+            contentType: "application/json; charset=utf-8",
+            dataType: 'json',
+            data: {
+                nombre, direccion, telefono, email, nit
+            },
+            cache: false,
+            success: function (data) {
+                var state = data["State"];
+                if (state == 1) {
+                    ShowAlertMessage('success', 'Datos ingresados correctamente')
+                    GetCliente(nit);
+                }
+                else if (state == -1) {
+                    ShowAlertMessage('warning', data['Message'])
+                }
+            }
+        });
+    }
 
     function ENCABEZADO(SERIE, CORRELATIVO, ID_CLIENTE, TOTAL, SUBTOTAL, TOTAL_IVA, TOTAL_DESCUENTO) {
         this.SERIE = SERIE;
@@ -508,6 +530,10 @@
 
         AddDetail(id, producto, cantidad, precio, descuento);
     });
+    $('#btnAgregarCliente').on('click', function (e) {
+        e.preventDefault();
+        $('#modalCrearCliente').modal('show');
+    });
 
     $('#selCategoria').on('change', function (e) {
         e.preventDefault();
@@ -574,5 +600,14 @@
         else {
             SaveOrder(encabezado, listDetalles)
         }
+    });
+    $('#btnGuardarCliente').on('click', function (e) {
+        e.preventDefault();
+        var nombre = $('#txtNombreCrear').val();
+        var direccion = $('#txtDireccionCrear').val();
+        var telefono = $('#txtTelefonoCrear').val();
+        var email = $('#txtEmailCrear').val();
+        var nit = $('#txtNitCrear').val();
+        SaveCustomer(nombre, direccion, telefono, email, nit);
     });
 });
