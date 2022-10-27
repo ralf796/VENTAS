@@ -1,5 +1,5 @@
 ﻿<!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -45,6 +45,10 @@
 
     <!--AIR-->
     <link href="~/Content/air-datepicker-3/dist/air-datepicker.css" rel="stylesheet" />
+
+    <!--ALERTIFY-->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/AlertifyJS/1.13.1/css/alertify.min.css" integrity="sha512-IXuoq1aFd2wXs4NqGskwX2Vb+I8UJ+tGJEu/Dc0zwLNKeQ7CW3Sr6v0yU3z5OQWe3eScVIkER4J9L7byrgR/fA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
 
     <style>
         body {
@@ -284,27 +288,12 @@
                             </ul>
                         </li>
                         <li class="nav-item">
-                            <a href="pages/widgets.html" class="nav-link">
-                                <i class="far fa-user-plus"></i>
+                            <a href="~/CLIListarClientes/Index" class="nav-link">
+                                <i class="far fa-user"></i>
                                 <p>
                                     CLIENTES
-                                    <i class="right fas fa-angle-left"></i>
                                 </p>
                             </a>
-                            <ul class="nav nav-treeview">
-                                <li class="nav-item">
-                                    <a href="~/CLIListarClientes/Index" class="nav-link">
-                                        <i class="far fa-circle nav-icon"></i>
-                                        <p>VER CLIENTES</p>
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a href="~/USUCrearUsuario/Index" class="nav-link">
-                                        <i class="far fa-circle nav-icon"></i>
-                                        <p>CREAR CLIENTE</p>
-                                    </a>
-                                </li>
-                            </ul>
                         </li>
                         <li class="nav-item">
                             <a href="#" class="nav-link">
@@ -376,13 +365,13 @@
                                 </li>
                                 <li class="nav-item">
                                     <a href="~/INVMantenimiento/IndexListarProductos" class="nav-link">
-                                        <i class="far fa-circle nav-icon"></i>
+                                        <i class="far fa-check-double" style="color:green"></i>
                                         <p>LISTAR PRODUCTOS</p>
                                     </a>
                                 </li>
                                 <li class="nav-item">
                                     <a href="~/INVMantenimiento/IndexCrearProducto" class="nav-link">
-                                        <i class="far fa-circle nav-icon"></i>
+                                        <i class="far fa-check-double" style="color:green"></i>
                                         <p>CREAR PRODUCTO</p>
                                     </a>
                                 </li>
@@ -390,7 +379,7 @@
                         </li>
                         <li class="nav-item">
                             <a href="~/VENCrearVenta/Index" class="nav-link">
-                                <i class="far fa-circle nav-icon"></i>
+                                <i class="far fa-store"></i>
                                 <p>
                                     VENTAS
                                 </p>
@@ -622,6 +611,9 @@
     <!--AIR-->
     <script src="~/Content/air-datepicker-3/dist/air-datepicker.js"></script>
 
+    <!--ALERTIFY-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/AlertifyJS/1.13.1/alertify.min.js" integrity="sha512-JnjG+Wt53GspUQXQhc+c4j8SBERsgJAoHeehagKHlxQN+MtCCmFDghX9/AcbkkNRZptyZU4zC8utK59M5L45Iw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
     @RenderSection("scripts", required: false)
 
     <script>
@@ -636,6 +628,7 @@
 
         })
         function ShowAlertMessage(icon, descripcion) {
+            /*
             Swal.fire({
                 icon: icon,
                 html: descripcion,
@@ -643,6 +636,24 @@
                 cancelButtonText: 'Cerrar',
                 showConfirmButton: false,
             })
+            */
+            /*
+            $.toast({
+                text: descripcion,
+                textAlign: 'center',
+                position: 'bottom-center',
+                showHideTransition: 'slide', // fade, slide or plain
+                loader: false,  // Whether to show loader or not. True by default
+                loaderBg: '##CB4335',  // Background color of the toast loader
+                hideAfter: 2500, // false to make it sticky or number representing the miliseconds as time after which toast needs to be hidden
+            })
+            */
+
+            alertify.set('notifier', 'position', 'top-center');
+            if (icon == 'success')
+                alertify.success(descripcion, 'position')
+            else
+                alertify.error(descripcion, 'position');
         }
 
         function formatNumber(num) {
