@@ -2473,16 +2473,6 @@
     <Content Include="Content\fontawesome\webfonts\fa-light-300.svg" />
     <Content Include="Content\fontawesome\webfonts\fa-regular-400.svg" />
     <Content Include="Content\fontawesome\webfonts\fa-solid-900.svg" />
-    <Content Include="Content\Fotografias\profile hombre11.png" />
-    <Content Include="Content\Fotografias\profile hombre24.png" />
-    <Content Include="Content\Fotografias\profile hombre32.png" />
-    <Content Include="Content\Fotografias\profile hombre47.png" />
-    <Content Include="Content\Fotografias\profile hombre57.png" />
-    <Content Include="Content\Fotografias\profile hombre59.png" />
-    <Content Include="Content\Fotografias\profile hombre75.png" />
-    <Content Include="Content\Fotografias\profile hombre89.png" />
-    <Content Include="Content\Fotografias\profile hombre95.png" />
-    <Content Include="Content\Fotografias\profile mujer85.png" />
     <Content Include="Content\Site.css" />
     <Content Include="Content\site.fonts.css" />
     <Content Include="Global.asax" />
@@ -3143,6 +3133,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Content\Fotografias\" />
     <Folder Include="Controllers\Caja\" />
     <Folder Include="Controllers\Reportes\" />
     <Folder Include="Models\" />

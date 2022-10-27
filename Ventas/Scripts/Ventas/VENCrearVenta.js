@@ -277,7 +277,6 @@
             }
         }).dxDataGrid('instance');
     }
-
     function GetLists(selObject, tipo) {
         return new Promise((resolve, reject) => {
             $.ajax({
@@ -354,21 +353,6 @@
             });
         });
     }
-    function RefreshSum() {
-        var total = 0, subtotal = 0, descuento = 0;
-        $('#tbodyDetalleVenta tr').each(function () {
-            total = total + parseFloat($(this).find("td").eq(6).text().replace(",", ""));
-            subtotal = subtotal + parseFloat($(this).find("td").eq(6).text().replace(",", ""));
-            descuento = descuento + parseFloat($(this).find("td").eq(5).text().replace(",", ""));
-        });
-        $('#txtTotal').html('TOTAL: ' + formatNumber(parseFloat(total).toFixed(2)));
-
-        total = parseFloat(descuento) + parseFloat(subtotal);
-
-        $('#hfTotal').val(parseFloat(total).toFixed(2));
-        $('#hfTotalDescuento').val(parseFloat(descuento).toFixed(2));
-        $('#hfSubtotal').val(parseFloat(subtotal).toFixed(2));
-    }
 
     function ENCABEZADO(SERIE, CORRELATIVO, ID_CLIENTE, TOTAL, SUBTOTAL, TOTAL_IVA, TOTAL_DESCUENTO) {
         this.SERIE = SERIE;
@@ -388,7 +372,54 @@
         this.DESCUENTO = DESCUENTO;
         this.SUBTOTAL = SUBTOTAL;
     }
+    function SaveOrder(jsonEncabezado, jsonDetalles) {
+        $.ajax({
+            type: 'GET',
+            url: '/VENCrearVenta/SaveOrder',
+            contentType: "application/json; charset=utf-8",
+            dataType: 'json',
+            //data: { tipo, ID_CLIENTE, TOTAL, SUBTOTAL, TOTAL_DESCUENTO },
+            data: {
+                encabezado: JSON.stringify(jsonEncabezado),
+                detalle: JSON.stringify(jsonDetalles)
+            },
+            cache: false,
+            success: function (data) {
+                var state = data["State"];
+                var compra = data["data"];
+                if (state == 1 && compra != null) {
+                    ShowAlertMessage('success', 'Se creó la orden de compra: ' + compra.ID_VENTA)
+                    ClearCustomer();
+                    ClearProduct();
+                    $('#tbodyDetalleVenta').empty();
+                }
+                else if (state == -1) {
+                    ShowAlertMessage('warning', data['Message'])
+                    return;
+                }
+                else if (data == null) {
+                    ShowAlertMessage('warning', 'La orden de compra no se pudo procesar!!')
+                    return;
+                }
+            }
+        });
+    }
 
+    function RefreshSum() {
+        var total = 0, subtotal = 0, descuento = 0;
+        $('#tbodyDetalleVenta tr').each(function () {
+            total = total + parseFloat($(this).find("td").eq(6).text().replace(",", ""));
+            subtotal = subtotal + parseFloat($(this).find("td").eq(6).text().replace(",", ""));
+            descuento = descuento + parseFloat($(this).find("td").eq(5).text().replace(",", ""));
+        });
+        $('#txtTotal').html('TOTAL: ' + formatNumber(parseFloat(total).toFixed(2)));
+
+        total = parseFloat(descuento) + parseFloat(subtotal);
+
+        $('#hfTotal').val(parseFloat(total).toFixed(2));
+        $('#hfTotalDescuento').val(parseFloat(descuento).toFixed(2));
+        $('#hfSubtotal').val(parseFloat(subtotal).toFixed(2));
+    }
     var DetalleVenta = $("#tbodyDetalleVenta");
     function AddDetail(id, producto, cantidad, precio, descuento) {
         if (cantidad == '')
@@ -417,35 +448,31 @@
         RefreshSum();
     });
 
-    function SaveOrder(tipo, ID_CLIENTE, TOTAL, SUBTOTAL, TOTAL_DESCUENTO) {
-        $.ajax({
-            type: 'GET',
-            url: '/VENCrearVenta/SaveOrder',
-            contentType: "application/json; charset=utf-8",
-            dataType: 'json',
-            data: { tipo, ID_CLIENTE, TOTAL, SUBTOTAL, TOTAL_DESCUENTO },
-            cache: false,
-            success: function (data) {
-                var state = data["State"];
-                var compra = data["data"];
-                if (state == 1 && compra != null) {
-                    ShowAlertMessage('success', 'Se creó la orden de compra: ' + compra.ID_VENTA)
-                    ClearCustomer();
-                    ClearProduct();
-                    $('#tbodyDetalleVenta').empty();
-                }
-                else if (state == -1) {
-                    ShowAlertMessage('warning', data['Message'])
-                    return;
-                }
-                else if (data == null) {
-                    ShowAlertMessage('warning', 'La orden de compra no se pudo procesar!!')
-                    return;
-                }
-            }
-        });
-    }
-
+    $("#txtNit").keypress(function (e) {
+        var code = (e.keyCode ? e.keyCode : e.which);
+        if (code == 13) {
+            e.preventDefault();
+            var nit = $(this).val();
+            GetCliente(nit);
+        }
+    });
+    $('#txtNit').on('click', function (e) {
+        e.preventDefault();
+        ClearCustomer();
+    });
+    $('#btnBuscarClientes').on('click', function (e) {
+        e.preventDefault();
+        GetListClientes();
+    });
+    $('#btnBuscarProductos').on('click', function (e) {
+        e.preventDefault();
+        //GetListProductos();
+        GetLists('#selMarcaRepuesto', 12)
+        GetLists('#selCategoria', 2)
+        GetLists('#selModelo', 6)
+        GetLists('#selMarcaVehiculo', 14)
+        $('#modalProductos').modal('show');
+    });
     $('#btnAgregarDetalle').on('click', function (e) {
         var id = $('#hfIdProducto').val();
         var producto = $('#txtCodigo').val() + ' - ' + $('#txtNombreProducto').val();
@@ -481,62 +508,7 @@
 
         AddDetail(id, producto, cantidad, precio, descuento);
     });
-    $('#btnGuardarVenta').on('click', function (e) {
-        e.preventDefault();
-        var serie = '1';
-        var correlativo = '1';
-        var idCliente = 0;
-        var total = 10;
-        var subtotal = 9;
-        var totalIva = 1;
-        var totalDescuento = 2;
 
-        var encabezado = new ENCABEZADO(serie, correlativo, idCliente, total, subtotal, totalIva, totalDescuento);
-
-        var listDetalles = [];
-        $('#tbodyDetalleVenta tr').each(function () {
-            var vId = $(this).find("td").eq(1).text();
-            var vCantidad = $(this).find("td").eq(3).text();
-            var vPrecio = $(this).find("td").eq(4).text();
-            var vIva = 0;
-            var vDescuento = $(this).find("td").eq(5).text();
-            var vSubtotal = $(this).find("td").eq(6).text();
-            var vTotal = parseFloat(vIva) + parseFloat(vDescuento) + parseFloat(vSubtotal);
-            var listado = new DETALLE(vId, vCantidad, vPrecio, vTotal, vIva, vDescuento, vSubtotal);
-            listDetalles.push(listado);
-        });
-
-        if (listDetalles.length == 0)
-            ShowAlertMessage('info', 'Debes agregar al menos un producto.');
-        else {
-            GuardarParticipantes(encabezado, listDetalles)
-        }
-    });
-    $("#txtNit").keypress(function (e) {
-        var code = (e.keyCode ? e.keyCode : e.which);
-        if (code == 13) {
-            e.preventDefault();
-            var nit = $(this).val();
-            GetCliente(nit);
-        }
-    });
-    $('#btnBuscarClientes').on('click', function (e) {
-        e.preventDefault();
-        GetListClientes();
-    });
-    $('#btnBuscarProductos').on('click', function (e) {
-        e.preventDefault();
-        //GetListProductos();
-        GetLists('#selMarcaRepuesto', 12)
-        GetLists('#selCategoria', 2)
-        GetLists('#selModelo', 6)
-        GetLists('#selMarcaVehiculo', 14)
-        $('#modalProductos').modal('show');
-    });
-    $('#txtNit').on('click', function (e) {
-        e.preventDefault();
-        ClearCustomer();
-    });
     $('#selCategoria').on('change', function (e) {
         e.preventDefault();
         var id = $(this).val();
@@ -565,14 +537,42 @@
         e.preventDefault();
         GetListProductos();
     });
-    $('#btnGuardarVenta').on('click', function (e) {
-        var tipo = 4;
-        var ID_CLIENTE = $('#hfIdCliente').val();
-        var TOTAL = $('#hfTotal').val();
-        var SUBTOTAL = $('#hfSubtotal').val();
-        var TOTAL_DESCUENTO = $('#hfTotalDescuento').val();
-        SaveOrder(tipo, ID_CLIENTE, TOTAL, SUBTOTAL, TOTAL_DESCUENTO);
+
+    $('#btnCancelarVenta').on('click', function (e) {
+        e.preventDefault();
+        ClearCustomer();
+        ClearProduct();
+        $('#tbodyDetalleVenta').empty();
     });
+    $('#btnGuardarVenta').on('click', function (e) {
+        e.preventDefault();
+        var serie = '1';
+        var correlativo = '1';
+        var idCliente = $('#hfIdCliente').val();
+        var total = $('#hfTotal').val();
+        var subtotal = $('#hfSubtotal').val();
+        var totalIva = 0;
+        var totalDescuento = $('#hfTotalDescuento').val();
 
+        var encabezado = new ENCABEZADO(serie, correlativo, idCliente, total, subtotal, totalIva, totalDescuento);
 
+        var listDetalles = [];
+        $('#tbodyDetalleVenta tr').each(function () {
+            var vId = $(this).find("td").eq(1).text();
+            var vCantidad = $(this).find("td").eq(3).text();
+            var vPrecio = $(this).find("td").eq(4).text();
+            var vIva = 0;
+            var vDescuento = $(this).find("td").eq(5).text();
+            var vSubtotal = $(this).find("td").eq(6).text();
+            var vTotal = parseFloat(vIva) + parseFloat(vDescuento) + parseFloat(vSubtotal);
+            var listado = new DETALLE(vId, vCantidad, vPrecio, vTotal, vIva, vDescuento, vSubtotal);
+            listDetalles.push(listado);
+        });
+
+        if (listDetalles.length == 0)
+            ShowAlertMessage('info', 'Debes agregar al menos un producto.');
+        else {
+            SaveOrder(encabezado, listDetalles)
+        }
+    });
 });

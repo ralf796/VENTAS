@@ -41,5 +41,7 @@ namespace Ventas_BE
         public decimal TOTAL { get; set; }
         public decimal SUBTOTAL { get; set; }
         public decimal TOTAL_DESCUENTO { get; set; }
+        public decimal DESCUENTO { get; set; }
+        public int CANTIDAD { get; set; }
     }
 }

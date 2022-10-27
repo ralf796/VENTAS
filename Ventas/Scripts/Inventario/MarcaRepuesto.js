@@ -1,6 +1,5 @@
 ﻿$(document).ready(function () {
     DevExpress.localization.locale(navigator.language);
-
     GetDatos()
 
     function GetDatos() {
@@ -57,20 +56,6 @@
             },
             columns: [
                 {
-                    dataField: "ID_MARCA_REPUESTO",
-                    caption: "ID",
-                    alignment: "center",
-                    visible: false
-                },
-                {
-                    dataField: "NOMBRE",
-                    caption: "NOMBRE"
-                },
-                {
-                    dataField: "DESCRIPCION",
-                    caption: "DESCRIPCION"
-                },
-                {
                     caption: "ESTADO",
                     alignment: "center",
                     cellTemplate: function (container, options) {
@@ -100,7 +85,8 @@
                             hint: "Editar",
                             icon: "edit",
                             onClick: function (e) {
-                                alert('en desarrollo')
+                                GetOpcion(2)
+                                GetInputsUpdate(e.row.data['ID_PROVEEDOR'], e.row.data['NOMBRE'], e.row.data['DESCRIPCION'])
                             }
                         },
                         {
@@ -117,28 +103,45 @@
                             }
                         }
                     ]
+                },
+                {
+                    dataField: "ID_MARCA_REPUESTO",
+                    caption: "ID",
+                    alignment: "center",
+                    visible: false
+                },
+                {
+                    dataField: "NOMBRE",
+                    caption: "NOMBRE"
+                },
+                {
+                    dataField: "DESCRIPCION",
+                    caption: "DESCRIPCION"
                 }
             ]
         }).dxDataGrid('instance');
     }
-    function Guardar(nombre, descripcion, tipo) {
+    function Procesar(nombre, descripcion, tipo, id, opcion) {
         $.ajax({
             type: 'GET',
             url: "/INVMantenimiento/Guardar",
             contentType: "application/json; charset=utf-8",
             dataType: 'json',
             data: {
-                nombre, descripcion, tipo
+                nombre, descripcion, tipo, id
             },
             cache: false,
             success: function (data) {
                 var state = data["State"];
                 if (state == 1) {
+                    if (opcion == 1)
+                        ShowAlertMessage('success', 'Datos creados correctamente')
+                    else
+                        ShowAlertMessage('success', 'Datos actualizados correctamente')
                     $('#txtNombre').val('');
                     $('#txtDescripcion').val('');
                     $('#modalDatos').modal('hide');
                     GetDatos()
-                    ShowAlertMessage('success', 'Datos creados correctamente')
                 }
                 else if (state == -1) {
                     ShowAlertMessage('warning', data['Message'])
@@ -166,7 +169,6 @@
             }
         });
     }
-
     function GetOpcion(opcion) {
         $('#hfOpcion').val(opcion);
         if (opcion == 1) {
@@ -174,10 +176,16 @@
             $('#txtDescripcion').val('');
             $('#titleModal').html('CREAR MARCA DE REPUESTO')
         }
-        else if (opcion == 2)
+        else if (opcion == 2) {
             $('#titleModal').html('MODIFICAR MARCA DE REPUESTO')
+        }
 
         $('#modalDatos').modal('show');
+    }
+    function GetInputsUpdate(id, nombre, descripcion) {
+        $('#hfID').val(id);
+        $('#txtNombre').val(nombre);
+        $('#txtDescripcion').val(descripcion);
     }
 
     $('#btnAbrirModal').on('click', function (e) {
@@ -192,10 +200,10 @@
         var descripcion = $('#txtDescripcion').val();
 
         if (opcion == 1) {
-            Guardar(nombre, descripcion, 7);
+            Procesar(nombre, descripcion, 7, 0, opcion);
         }
         else if (opcion == 2) {
-            Update_Delete(nombre, 14, id, estanteria, nivel);
+            Procesar(nombre, descripcion, 8, id, opcion);
         }
     });
 
