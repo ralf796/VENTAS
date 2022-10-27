@@ -43,6 +43,18 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="EPPlus, Version=5.8.12.0, Culture=neutral, PublicKeyToken=ea159fdaa78159a1, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>Dll\EPPlus.5.8.12\lib\net45\EPPlus.dll</HintPath>
+    </Reference>
+    <Reference Include="EPPlus.Interfaces, Version=6.0.0.0, Culture=neutral, PublicKeyToken=a694d7f3b0907a61, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>Dll\EPPlus.Interfaces.6.0.0\lib\net452\EPPlus.Interfaces.dll</HintPath>
+    </Reference>
+    <Reference Include="EPPlus.System.Drawing, Version=6.0.0.0, Culture=neutral, PublicKeyToken=2308d35469c9bac0, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>Dll\EPPlus.System.Drawing.6.0.0\lib\net452\EPPlus.System.Drawing.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.13.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
@@ -2492,6 +2504,34 @@
     <Content Include="Content\toast\css\jquery.toast.min.css" />
     <Content Include="Content\toast\js\jquery.toast.js" />
     <Content Include="Content\toast\js\jquery.toast.min.js" />
+    <Content Include="Dll\EPPlus.5.8.12\EPPlusLogo.png" />
+    <Content Include="Dll\EPPlus.5.8.12\lib\net35\EPPlus.dll" />
+    <Content Include="Dll\EPPlus.5.8.12\lib\net35\EPPlus.xml" />
+    <Content Include="Dll\EPPlus.5.8.12\lib\net40\EPPlus.dll" />
+    <Content Include="Dll\EPPlus.5.8.12\lib\net40\EPPlus.xml" />
+    <Content Include="Dll\EPPlus.5.8.12\lib\net45\EPPlus.dll" />
+    <Content Include="Dll\EPPlus.5.8.12\lib\net45\EPPlus.xml" />
+    <Content Include="Dll\EPPlus.5.8.12\lib\net5.0\EPPlus.dll" />
+    <Content Include="Dll\EPPlus.5.8.12\lib\net5.0\EPPlus.xml" />
+    <Content Include="Dll\EPPlus.5.8.12\lib\netstandard2.0\EPPlus.dll" />
+    <Content Include="Dll\EPPlus.5.8.12\lib\netstandard2.0\EPPlus.xml" />
+    <Content Include="Dll\EPPlus.5.8.12\lib\netstandard2.1\EPPlus.dll" />
+    <Content Include="Dll\EPPlus.5.8.12\lib\netstandard2.1\EPPlus.xml" />
+    <Content Include="Dll\EPPlus.5.8.12\readme.txt" />
+    <Content Include="Dll\EPPlus.Interfaces.6.0.0\EPPlusLogo.png" />
+    <Content Include="Dll\EPPlus.Interfaces.6.0.0\lib\net35\EPPlus.Interfaces.dll" />
+    <Content Include="Dll\EPPlus.Interfaces.6.0.0\lib\net452\EPPlus.Interfaces.dll" />
+    <Content Include="Dll\EPPlus.Interfaces.6.0.0\lib\net5.0\EPPlus.Interfaces.dll" />
+    <Content Include="Dll\EPPlus.Interfaces.6.0.0\lib\net6.0\EPPlus.Interfaces.dll" />
+    <Content Include="Dll\EPPlus.Interfaces.6.0.0\lib\netstandard2.0\EPPlus.Interfaces.dll" />
+    <Content Include="Dll\EPPlus.Interfaces.6.0.0\lib\netstandard2.1\EPPlus.Interfaces.dll" />
+    <Content Include="Dll\EPPlus.System.Drawing.6.0.0\EPPlusLogo.png" />
+    <Content Include="Dll\EPPlus.System.Drawing.6.0.0\lib\net35\EPPlus.System.Drawing.dll" />
+    <Content Include="Dll\EPPlus.System.Drawing.6.0.0\lib\net452\EPPlus.System.Drawing.dll" />
+    <Content Include="Dll\EPPlus.System.Drawing.6.0.0\lib\net5.0\EPPlus.System.Drawing.dll" />
+    <Content Include="Dll\EPPlus.System.Drawing.6.0.0\lib\net6.0\EPPlus.System.Drawing.dll" />
+    <Content Include="Dll\EPPlus.System.Drawing.6.0.0\lib\netstandard2.0\EPPlus.System.Drawing.dll" />
+    <Content Include="Dll\EPPlus.System.Drawing.6.0.0\lib\netstandard2.1\EPPlus.System.Drawing.dll" />
     <Content Include="Dll\QRCoder.1.4.3\lib\net35\QRCoder.dll" />
     <Content Include="Dll\QRCoder.1.4.3\lib\net40\QRCoder.dll" />
     <Content Include="Dll\QRCoder.1.4.3\lib\net5.0-windows7.0\QRCoder.dll" />
@@ -3222,6 +3262,17 @@
     <Content Include="Dll\ZXing.Net.0.16.8\lib\windows8\zxing.pri" />
     <Content Include="Dll\ZXing.Net.0.16.8\lib\windows8\zxing.winmd" />
     <Content Include="Dll\ZXing.Net.0.16.8\ZXing.Net.0.16.8.nupkg" />
+    <Content Include="Dll\EPPlus.5.8.12\.signature.p7s" />
+    <Content Include="Dll\EPPlus.5.8.12\EPPlus.5.8.12.nupkg" />
+    <Content Include="Dll\EPPlus.5.8.12\license.md" />
+    <Content Include="Dll\EPPlus.Interfaces.6.0.0\.signature.p7s" />
+    <Content Include="Dll\EPPlus.Interfaces.6.0.0\EPPlus.Interfaces.6.0.0.nupkg" />
+    <Content Include="Dll\EPPlus.Interfaces.6.0.0\license.md" />
+    <Content Include="Dll\EPPlus.Interfaces.6.0.0\readme.md" />
+    <Content Include="Dll\EPPlus.System.Drawing.6.0.0\.signature.p7s" />
+    <Content Include="Dll\EPPlus.System.Drawing.6.0.0\EPPlus.System.Drawing.6.0.0.nupkg" />
+    <Content Include="Dll\EPPlus.System.Drawing.6.0.0\license.md" />
+    <Content Include="Dll\EPPlus.System.Drawing.6.0.0\readme.md" />
     <None Include="packages.config" />
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
