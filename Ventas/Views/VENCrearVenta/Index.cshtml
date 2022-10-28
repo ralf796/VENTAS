@@ -4,6 +4,83 @@
 
 @section scripts{
     <script src="~/Scripts/Ventas/VENCrearVenta.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            function ENCABEZADO(SERIE, CORRELATIVO, ID_CLIENTE, TOTAL, SUBTOTAL, TOTAL_IVA, TOTAL_DESCUENTO) {
+                this.SERIE = SERIE;
+                this.CORRELATIVO = CORRELATIVO;
+                this.ID_CLIENTE = ID_CLIENTE;
+                this.TOTAL = TOTAL;
+                this.SUBTOTAL = SUBTOTAL;
+                this.TOTAL_IVA = TOTAL_IVA;
+                this.TOTAL_DESCUENTO = TOTAL_DESCUENTO;
+            }
+            function DETALLE(ID_PRODUCTO, CANTIDAD, PRECIO_UNITARIO, TOTALTOTAL, IVA, DESCUENTO, SUBTOTAL) {
+                this.ID_PRODUCTO = ID_PRODUCTO;
+                this.CANTIDAD = CANTIDAD;
+                this.PRECIO_UNITARIO = PRECIO_UNITARIO;
+                this.TOTALTOTAL = TOTALTOTAL;
+                this.IVA = IVA;
+                this.DESCUENTO = DESCUENTO;
+                this.SUBTOTAL = SUBTOTAL;
+            }
+
+
+            function PDF() {
+                var serie = '1';
+                var correlativo = '1';
+                var idCliente = $('#hfIdCliente').val();
+                var total = $('#hfTotal').val();
+                var subtotal = $('#hfSubtotal').val();
+                var totalIva = 0;
+                var totalDescuento = $('#hfTotalDescuento').val();
+
+                var jsonEncabezado = new ENCABEZADO(serie, correlativo, idCliente, total, subtotal, totalIva, totalDescuento);
+
+                var jsonDetalles = [];
+                $('#tbodyDetalleVenta tr').each(function () {
+                    var vId = $(this).find("td").eq(1).text();
+                    var vCantidad = $(this).find("td").eq(3).text();
+                    var vPrecio = $(this).find("td").eq(4).text();
+                    var vIva = 0;
+                    var vDescuento = $(this).find("td").eq(5).text();
+                    var vSubtotal = $(this).find("td").eq(6).text();
+                    var vTotal = parseFloat(vIva) + parseFloat(vDescuento) + parseFloat(vSubtotal);
+                    var listado = new DETALLE(vId, vCantidad, vPrecio, vTotal, vIva, vDescuento, vSubtotal);
+                    jsonDetalles.push(listado);
+                });
+
+                if (jsonDetalles.length == 0) {
+                    ShowAlertMessage('info', 'Debes agregar al menos un producto.');
+                    return;
+                }
+                
+                $.post('@Url.Action("GetCotizacion")', {
+                    encabezado: JSON.stringify(jsonEncabezado),
+                    detalles: JSON.stringify(jsonDetalles)
+                }, function (result) {
+                    var pom = document.createElement('a');
+                    pom.setAttribute('href', 'data:' + result.MimeType + ';base64,' + result.File);
+                    pom.setAttribute('download', result.FileName);
+                    if (document.createEvent) {
+                        var event = document.createEvent('MouseEvents');
+                        event.initEvent('click', true, true);
+                        pom.dispatchEvent(event);
+                    }
+                    else {
+                        pom.click();
+                    }
+                    CallToast('Descarga realizada con éxito.', true, 2300, '#9EC600')
+                });
+            }
+
+            $('#btnCrearCotizacion').on('click', function (e) {
+                e.preventDefault();
+                PDF();
+            });
+        });
+    </script>
 }
 
 @section styles{
@@ -128,6 +205,7 @@
                 </div>
                 <div class="float-right" style="margin-top:3px">
                     <button class="btn btn-secondary" type="reset" id="btnCancelarVenta">CANCELAR</button>
+                    <button class="btn btn-primary" id="btnCrearCotizacion">CREAR COTIZACION</button>
                     <button class="btn btn-primary" id="btnGuardarVenta">CREAR VENTA</button>
                 </div>
             </div>

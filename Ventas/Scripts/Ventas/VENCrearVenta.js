@@ -1,5 +1,5 @@
 ﻿$(document).ready(function () {
-    CallLoadingFire('Cargandoo-.')
+    //CallLoadingFire('Cargandoo-.')
 
     function ClearCustomer() {
         $('#hfIdCliente').val('');
