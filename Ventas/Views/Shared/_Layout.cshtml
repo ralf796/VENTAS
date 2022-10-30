@@ -1,70 +1,13 @@
 ﻿<!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title></title>
-
-    <!-- Google Font: Source Sans Pro -->
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
-    <!-- Font Awesome -->
-    <link rel="stylesheet" href="~/Content/Admin LTE 3.2/plugins/fontawesome-free/css/all.min.css">
-    <!-- Ionicons -->
-    <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
-    <!-- Tempusdominus Bootstrap 4 -->
-    <link rel="stylesheet" href="~/Content/Admin LTE 3.2/plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css">
-    <!-- iCheck -->
-    <link rel="stylesheet" href="~/Content/Admin LTE 3.2/plugins/icheck-bootstrap/icheck-bootstrap.min.css">
-    <!-- JQVMap -->
-    <link rel="stylesheet" href="~/Content/Admin LTE 3.2/plugins/jqvmap/jqvmap.min.css">
-    <!-- Theme style -->
-    <link rel="stylesheet" href="~/Content/Admin LTE 3.2/dist/css/adminlte.min.css">
-    <!-- overlayScrollbars -->
-    <link rel="stylesheet" href="~/Content/Admin LTE 3.2/plugins/overlayScrollbars/css/OverlayScrollbars.min.css">
-    <!-- Daterange picker -->
-    <link rel="stylesheet" href="~/Content/Admin LTE 3.2/plugins/daterangepicker/daterangepicker.css">
-    <!-- summernote -->
-    <link rel="stylesheet" href="~/Content/Admin LTE 3.2/plugins/summernote/summernote-bs4.min.css">
-    <link href="~/Content/Admin LTE 3.2/plugins/dropzone/min/dropzone.min.css" rel="stylesheet" />
-    <!--FONTS-->
-    <link href="~/Content/site.fonts.css" rel="stylesheet" />
-
-    <!--FONTAWESOME-->
-    <link href="~/Content/fontawesome/css/all.css" rel="stylesheet" />  @*https://fontawesome.com/v5/icons/save?s=solid&f=classic*@
-
-    <!--SWEET ALERT-->
-    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
-    <link src="https://cdn.datatables.net/1.12.1/css/dataTables.bootstrap4.min.css" rel="stylesheet" />
-
-    <!--DEVEXTREME-->
-    <link href="~/Content/DevExtreme/21.1.5/dx.material.orange.light.css" rel="stylesheet" />
-
-    <style>
-        body {
-            font-family: Salesment-normal;
-        }
-
-        .headColor {
-            background-color: dimgray;
-            color: white;
-            font-size: 13px;
-        }
-
-        table {
-            font-size: 11px;
-        }
-
-        .circular--square {
-            border-radius: 50%;
-        }
-    </style>
-
-
-
-
+    @Html.Partial("_Head")
     @RenderSection("styles", required: false)
 </head>
+@Html.Partial("_LoadingFire")
 <body class="hold-transition sidebar-mini layout-fixed">
     <div class="wrapper">
         <!-- Preloader -->
@@ -73,7 +16,7 @@
         </div>
 
         <!-- Navbar -->
-        <nav class="main-header navbar navbar-expand navbar-white navbar-light ">
+        <nav class="main-header navbar navbar-expand navbar-white navbar-light d-none">
             <!-- Left navbar links -->
             <ul class="navbar-nav">
                 <li class="nav-item">
@@ -279,7 +222,7 @@
                         </li>
                         <li class="nav-item">
                             <a href="~/CLIListarClientes/Index" class="nav-link">
-                                <i class="far fa-user-plus"></i>
+                                <i class="far fa-user"></i>
                                 <p>
                                     CLIENTES
                                 </p>
@@ -355,13 +298,13 @@
                                 </li>
                                 <li class="nav-item">
                                     <a href="~/INVMantenimiento/IndexListarProductos" class="nav-link">
-                                        <i class="far fa-list" style="color:white"></i>
+                                        <i class="far fa-check-double" style="color:green"></i>
                                         <p>LISTAR PRODUCTOS</p>
                                     </a>
                                 </li>
                                 <li class="nav-item">
                                     <a href="~/INVMantenimiento/IndexCrearProducto" class="nav-link">
-                                        <i class="far fa-plus-square" style="color: white"></i>
+                                        <i class="far fa-check-double" style="color:green"></i>
                                         <p>CREAR PRODUCTO</p>
                                     </a>
                                 </li>
@@ -548,136 +491,8 @@
         </aside>
         <!-- /.control-sidebar -->
     </div>
-
-
-    <!-- ./wrapper -->
-    <!-- jQuery -->
-    <script src="~/Content/Admin LTE 3.2/plugins/jquery/jquery.min.js"></script>
-    <!-- jQuery UI 1.11.4 -->
-    <script src="~/Content/Admin LTE 3.2/plugins/jquery-ui/jquery-ui.min.js"></script>
-
-    @*<script src="~/Content/Admin LTE 3.2/plugins/jquery-validation/jquery.validate.min.js"></script>
-        <script src="~/Content/Admin LTE 3.2/plugins/jquery-validation/additional-methods.min.js"></script>*@
-
-    <!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
-    <script>
-        $.widget.bridge('uibutton', $.ui.button)
-    </script>
-    <!-- Bootstrap 4 -->
-    <script src="~/Content/Admin LTE 3.2/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
-    <!-- ChartJS -->
-    <script src="~/Content/Admin LTE 3.2/plugins/chart.js/Chart.min.js"></script>
-    <!-- Sparkline -->
-    <script src="~/Content/Admin LTE 3.2/plugins/sparklines/sparkline.js"></script>
-    <!-- JQVMap -->
-    <script src="~/Content/Admin LTE 3.2/plugins/jqvmap/jquery.vmap.min.js"></script>
-    <script src="~/Content/Admin LTE 3.2/plugins/jqvmap/maps/jquery.vmap.usa.js"></script>
-    <!-- jQuery Knob Chart -->
-    <script src="~/Content/Admin LTE 3.2/plugins/jquery-knob/jquery.knob.min.js"></script>
-    <!-- daterangepicker -->
-    <script src="~/Content/Admin LTE 3.2/plugins/moment/moment.min.js"></script>
-    <script src="~/Content/Admin LTE 3.2/plugins/daterangepicker/daterangepicker.js"></script>
-    <!-- Tempusdominus Bootstrap 4 -->
-    <script src="~/Content/Admin LTE 3.2/plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js"></script>
-    <!-- Summernote -->
-    <script src="~/Content/Admin LTE 3.2/plugins/summernote/summernote-bs4.min.js"></script>
-    <!-- overlayScrollbars -->
-    <script src="~/Content/Admin LTE 3.2/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js"></script>
-    <!-- AdminLTE App -->
-    <script src="~/Content/Admin LTE 3.2/dist/js/adminlte.js"></script>
-    <!-- AdminLTE for demo purposes -->
-    <script src="~/Content/Admin LTE 3.2/dist/js/demo.js"></script>
-    <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
-    <script src="~/Content/Admin LTE 3.2/dist/js/pages/dashboard.js"></script>
-
-    <script src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>
-    <script src="https://cdn.datatables.net/1.12.1/js/dataTables.bootstrap4.min.js"></script>
-
-    <!--DEVEXTREME-->
-    <script src="~/Scripts/DevExtreme/21.1.5/dx.all.js"></script>
-    <script src="~/Scripts/DevExtreme/21.1.5/localization/dx.messages.es.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-polyfill/7.4.0/polyfill.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/exceljs/3.3.1/exceljs.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/1.3.8/FileSaver.min.js"></script>
-
+    @Html.Partial("_JS")
     @RenderSection("scripts", required: false)
-
-    <script>
-        $(function () {
-            //Date picker
-            $('#reservationdate').datetimepicker({
-                format: 'L'
-            });
-
-            //Date and time picker
-            $('#reservationdatetime').datetimepicker({ icons: { time: 'far fa-clock' } });
-
-            //Date range picker
-            $('#reservation').daterangepicker()
-            //Date range picker with time picker
-            $('#reservationtime').daterangepicker({
-                timePicker: true,
-                timePickerIncrement: 30,
-                locale: {
-                    format: 'MM/DD/YYYY hh:mm A'
-                }
-            })
-            //Date range as a button
-            $('#daterange-btn').daterangepicker(
-                {
-                    ranges: {
-                        'Today': [moment(), moment()],
-                        'Yesterday': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
-                        'Last 7 Days': [moment().subtract(6, 'days'), moment()],
-                        'Last 30 Days': [moment().subtract(29, 'days'), moment()],
-                        'This Month': [moment().startOf('month'), moment().endOf('month')],
-                        'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
-                    },
-                    startDate: moment().subtract(29, 'days'),
-                    endDate: moment()
-                },
-                function (start, end) {
-                    $('#reportrange span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'))
-                }
-            )
-
-            //Timepicker
-            $('#timepicker').datetimepicker({
-                format: 'LT'
-            })
-
-            //Bootstrap Duallistbox
-            //$('.duallistbox').bootstrapDualListbox()
-
-            //Colorpicker
-            //$('.my-colorpicker1').colorpicker()
-            //color picker with addon
-            //$('.my-colorpicker2').colorpicker()
-
-            $('.my-colorpicker2').on('colorpickerChange', function (event) {
-                $('.my-colorpicker2 .fa-square').css('color', event.color.toString());
-            })
-
-            $("input[data-bootstrap-switch]").each(function () {
-                $(this).bootstrapSwitch('state', $(this).prop('checked'));
-            })
-
-        })
-        function ShowAlertMessage(icon, descripcion) {
-            Swal.fire({
-                icon: icon,
-                html: descripcion,
-                showCancelButton: true,
-                cancelButtonText: 'Cerrar',
-                showConfirmButton: false,
-            })
-        }
-
-        function formatNumber(num) {
-            return num.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')
-        }
-
-    </script>
 
 
 </body>

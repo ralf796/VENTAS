@@ -4,9 +4,3 @@ C:\Users\raul.lopez\source\repos\VENTAS\Ventas_BE\obj\Debug\Ventas_BE.csproj.Ass
 C:\Users\raul.lopez\source\repos\VENTAS\Ventas_BE\obj\Debug\Ventas_BE.csproj.CoreCompileInputs.cache
 C:\Users\raul.lopez\source\repos\VENTAS\Ventas_BE\obj\Debug\Ventas_BE.dll
 C:\Users\raul.lopez\source\repos\VENTAS\Ventas_BE\obj\Debug\Ventas_BE.pdb
-C:\Development\Ventas\Ventas_BE\bin\Debug\Ventas_BE.dll
-C:\Development\Ventas\Ventas_BE\bin\Debug\Ventas_BE.pdb
-C:\Development\Ventas\Ventas_BE\obj\Debug\Ventas_BE.csproj.AssemblyReference.cache
-C:\Development\Ventas\Ventas_BE\obj\Debug\Ventas_BE.csproj.CoreCompileInputs.cache
-C:\Development\Ventas\Ventas_BE\obj\Debug\Ventas_BE.dll
-C:\Development\Ventas\Ventas_BE\obj\Debug\Ventas_BE.pdb

@@ -1,6 +1,5 @@
 ﻿$(document).ready(function () {
     DevExpress.localization.locale(navigator.language);
-
     GetDatos()
 
     function GetDatos() {
@@ -57,20 +56,6 @@
             },
             columns: [
                 {
-                    dataField: "ID_MODELO",
-                    caption: "ID",
-                    alignment: "center",
-                    visible: false
-                },
-                {
-                    dataField: "ANIO_INICIAL",
-                    caption: "AÑO INICIAL"
-                },
-                {
-                    dataField: "ANIO_FINAL",
-                    caption: "AÑO FINAL"
-                },
-                {
                     caption: "ESTADO",
                     alignment: "center",
                     cellTemplate: function (container, options) {
@@ -100,7 +85,8 @@
                             hint: "Editar",
                             icon: "edit",
                             onClick: function (e) {
-                                alert('en desarrollo')
+                                GetOpcion(2)
+                                GetInputsUpdate(e.row.data['ID_MODELO'], e.row.data['ANIO_INICIAL'], e.row.data['ANIO_FINAL'])
                             }
                         },
                         {
@@ -117,28 +103,45 @@
                             }
                         }
                     ]
-                }
+                },
+                {
+                    dataField: "ID_MODELO",
+                    caption: "ID",
+                    alignment: "center",
+                    visible: false
+                },
+                {
+                    dataField: "ANIO_INICIAL",
+                    caption: "AÑO INICIAL"
+                },
+                {
+                    dataField: "ANIO_FINAL",
+                    caption: "AÑO FINAL"
+                }                
             ]
         }).dxDataGrid('instance');
     }
-    function Guardar(anioI, anioF, tipo) {
+    function Procesar(anioI, anioF, tipo, id, opcion) {
         $.ajax({
             type: 'GET',
             url: "/INVMantenimiento/Guardar",
             contentType: "application/json; charset=utf-8",
             dataType: 'json',
             data: {
-                anioI, anioF, tipo
+                anioI, anioF, tipo, id
             },
             cache: false,
             success: function (data) {
                 var state = data["State"];
                 if (state == 1) {
+                    if (opcion == 1)
+                        ShowAlertMessage('success', 'Datos creados correctamente')
+                    else
+                        ShowAlertMessage('success', 'Datos actualizados correctamente')
                     $('#txtAnioF').val('');
                     $('#txtAnioI').val('');
                     $('#modalDatos').modal('hide');
                     GetDatos()
-                    ShowAlertMessage('success', 'Datos creados correctamente')
                 }
                 else if (state == -1) {
                     ShowAlertMessage('warning', data['Message'])
@@ -166,18 +169,23 @@
             }
         });
     }
-
     function GetOpcion(opcion) {
         $('#hfOpcion').val(opcion);
         if (opcion == 1) {
-            $('#txtNombre').val('');
-            $('#txtDescripcion').val('');
+            $('#txtAnioI').val('');
+            $('#txtAnioF').val('');
             $('#titleModal').html('CREAR MODELO')
         }
-        else if (opcion == 2)
+        else if (opcion == 2) {
             $('#titleModal').html('MODIFICAR MODELO')
+        }
 
         $('#modalDatos').modal('show');
+    }
+    function GetInputsUpdate(id, anioI, anioF) {
+        $('#hfID').val(id);
+        $('#txtAnioI').val(anioI);
+        $('#txtAnioF').val(anioF);
     }
 
     $('#btnAbrirModal').on('click', function (e) {
@@ -192,10 +200,10 @@
         var anioF = $('#txtAnioF').val();
 
         if (opcion == 1) {
-            Guardar(anioI, anioF, 3);
+            Procesar(anioI, anioF, 3, 0, opcion);
         }
         else if (opcion == 2) {
-            Update_Delete(nombre, 14, id, estanteria, nivel);
+            Procesar(anioI, anioF, 4, id, opcion);
         }
     });
 

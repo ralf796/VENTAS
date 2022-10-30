@@ -149,5 +149,49 @@
         GuardarProducto(NOMBRE, DESCRIPCION, PRECIO_COSTO, PRECIO_VENTA, STOCK, CODIGO, ID_BODEGA, ID_MODELO, ID_PROVEEDOR, ID_MARCA_REPUESTO, ID_SUBCATEGORIA, ID_SERIE_VEHICULO, ID_PRODUCTO, tipo);
     });
 
-
+    $("#txtUploadExcel").change(function () {
+        Swal.fire({
+            title: '',
+            text: "Se cargaran todos los datos adjuntos en el archivo. ¿Quiere continuar con la carga?",
+            type: 'info',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Si',
+            cancelButtonText: 'No'
+        }).then((result) => {
+            if (result.value) {
+                ShowLoader();
+                var file = $("#txtUploadExcel").val();
+                var formData = new FormData();
+                var totalFiles = document.getElementById("txtUploadExcel").files.length;
+                for (var i = 0; i < totalFiles; i++) {
+                    var file = document.getElementById("txtUploadExcel").files[i];
+                    formData.append("FileUpload", file);
+                }
+                if (file != null && file != "") {
+                    $.ajax({
+                        type: "POST",
+                        url: "/INVMantenimiento/CargarExcel", // URL del CONTROLLER  ACTION  METHOD                        
+                        data: formData,
+                        dataType: 'json',
+                        contentType: false,
+                        processData: false,
+                        success: function (data) {
+                            var state = data['State'];
+                            if (state == 1)
+                                ShowAlertMessage('success', '¡Productos creados correctamente!');
+                            else if (state == -1)
+                                ShowAlertMessage('warning', data['Message']);
+                        },
+                        error: function (jqXHR, ex) {
+                            HideLoader();
+                            console.log(jqXHR);
+                            console.log(ex);
+                        }
+                    });
+                }
+            }
+        })
+    });
 });
