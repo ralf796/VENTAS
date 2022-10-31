@@ -115,15 +115,15 @@
                     caption: "NOMBRE"
                 },
                 {
-                    dataField: "ESTANTERIA",
-                    caption: "ESTANTERIA",
-                    alignment: "center"
-                },
-                {
                     dataField: "NIVEL",
                     caption: "NIVEL",
                     alignment: "center"
-                }                
+                },
+                {
+                    dataField: "ESTANTERIA",
+                    caption: "ESTANTERIA",
+                    alignment: "center"
+                }          
             ]
         }).dxDataGrid('instance');
 
@@ -206,6 +206,20 @@
         var nombre = $('#txtNombre').val();
         var estanteria = $('#selEstanteria').val();
         var nivel = $('#selNivel').val();
+
+        if (nombre == '') {
+            ShowAlertMessage('info', 'Debe ingresar un nombre.')
+            return;
+        }
+        if (nivel== '' || nivel<1) {
+            ShowAlertMessage('info', 'Debe seleccionar un nivel.')
+            return;
+        }
+        if (estanteria == '' || estanteria<1) {
+            ShowAlertMessage('info', 'Debe seleccionar una estanteria.')
+            return;
+        }
+
         if (opcion == 1) {
             Procesar(nombre, 0, 1, estanteria, nivel, opcion);
         }

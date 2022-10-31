@@ -112,7 +112,7 @@
                             icon: "edit",
                             onClick: function (e) {
                                 GetOpcion(2)
-                                GetInputsUpdate(e.row.data['ID_PROVEEDOR'], e.row.data['NOMBRE'], e.row.data['DESCRIPCION'], e.row.data['ID_MARCA_VEHICULO'])
+                                GetInputsUpdate(e.row.data['ID_SERIE_VEHICULO'], e.row.data['NOMBRE'], e.row.data['DESCRIPCION'], e.row.data['ID_MARCA_VEHICULO'])
                             }
                         },
                         {
@@ -195,7 +195,7 @@
             success: function (data) {
                 var state = data["State"];
                 if (state == 1) {
-                    ShowAlertMessage('success', 'La bodega seleccionada se inactivó correctamente.')
+                    ShowAlertMessage('success', 'La serie de vehiculo seleccionada se inactivó correctamente.')
                     GetDatos()
                 }
                 else if (state == -1) {
@@ -209,10 +209,10 @@
         if (opcion == 1) {
             $('#txtNombre').val('');
             $('#txtDescripcion').val('');
-            $('#titleModal').html('CREAR SUBCATEGORIA')
+            $('#titleModal').html('CREAR SERIE VEHICULO')
         }
         else if (opcion == 2)
-            $('#titleModal').html('MODIFICAR SUBCATEGORIA')
+            $('#titleModal').html('MODIFICAR SERIE VEHICULO')
 
         $('#modalDatos').modal('show');
     }
@@ -236,6 +236,18 @@
         var descripcion = $('#txtDescripcion').val();
         var marca = $('#selMarcaVehiculo').val();
 
+        if (nombre == '') {
+            ShowAlertMessage('info', 'Debe ingresar un nombre.')
+            return;
+        }
+        if (descripcion == '') {
+            ShowAlertMessage('info', 'Debe ingresar una descripcion.')
+            return;
+        }
+        if (marca == '' || marca < 1) {
+            ShowAlertMessage('info', 'Debe seleccionar una marca de vehiculo.')
+            return;
+        }
 
         if (opcion == 1) {
             Procesar(nombre, descripcion, marca, 15, 0, opcion);
@@ -246,23 +258,3 @@
     });
 
 });
-
-
-/*
-1   -   BODEGA CREATE
-2   -   BODEGA UPDATE
-3   -   MODELO CREATE
-4   -   MODELO UPDATE
-5   -   PROVEEDOR CREATE
-6   -   PROVEEDOR UPDATE
-7   -   MARCA REPUESTO CREATE
-8   -   MARCA REPUESTO UPDATE
-9   -   CATEGORIA CREATE
-10  -   CATEGORIA UPDATE
-11  -   SUBCATEGORIA CREATE
-12  -   SUBCATEGORIA UPDATE
-13  -   MARCA VEHICULO CREATE
-14  -   MARCA VEHICULO UPDATE
-15  -   SERIE VEHICULO CREATE
-16  -   SERIE VEHICULO UPDATE
- */

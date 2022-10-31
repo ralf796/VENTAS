@@ -1,11 +1,32 @@
-﻿$(document).ready(function () {
+﻿let fechaI;
+let fechaF;
+$(document).ready(function () {
 
     GetLists('#selBodega', 8)
     GetLists('#selModelo', 6)
     GetLists('#selProveedor', 10)
     GetLists('#selMarcaRepuesto', 12)
-    GetLists('#selCategoria', 2)
+    //GetLists('#selCategoria', 2)
     GetLists('#selMarcaVehiculo', 14)
+
+    fechaI = new AirDatepicker('#txtAnioI', {
+        autoClose: true,
+        autoClose: true,
+        view: 'years',
+        minView: 'years',
+        dateFormat: 'yyyy',
+        selectedDates: [new Date()],
+        //onSelect: GetDataTable
+    });
+    fechaF = new AirDatepicker('#txtAnioF', {
+        autoClose: true,
+        autoClose: true,
+        view: 'years',
+        minView: 'years',
+        dateFormat: 'yyyy',
+        selectedDates: [new Date()],
+        //onSelect: GetDataTable
+    });
 
     function GetLists(selObject, tipo) {
         return new Promise((resolve, reject) => {
@@ -146,8 +167,71 @@
         var ID_SERIE_VEHICULO = $('#selSerieVehiculo').val();
         var ID_PRODUCTO = 0;
         var tipo = 1;
+
+        if (ID_BODEGA == '' || ID_BODEGA < 1) {
+            ShowAlertMessage('info', 'Debe seleccionar una marca de vehiculo.')
+            return;
+        }
+        if (ID_MODELO == '' || ID_MODELO < 1) {
+            ShowAlertMessage('info', 'Debe seleccionar una marca de vehiculo.')
+            return;
+        }
+        if (ID_PROVEEDOR == '' || ID_PROVEEDOR < 1) {
+            ShowAlertMessage('info', 'Debe seleccionar una marca de vehiculo.')
+            return;
+        }
+        if (ID_MARCA_REPUESTO == '' || ID_MARCA_REPUESTO < 1) {
+            ShowAlertMessage('info', 'Debe seleccionar una marca de vehiculo.')
+            return;
+        }
+
+
         GuardarProducto(NOMBRE, DESCRIPCION, PRECIO_COSTO, PRECIO_VENTA, STOCK, CODIGO, ID_BODEGA, ID_MODELO, ID_PROVEEDOR, ID_MARCA_REPUESTO, ID_SUBCATEGORIA, ID_SERIE_VEHICULO, ID_PRODUCTO, tipo);
     });
 
-
+    $("#txtUploadExcel").change(function () {
+        Swal.fire({
+            title: '',
+            text: "Se cargaran todos los datos adjuntos en el archivo. ¿Quiere continuar con la carga?",
+            type: 'info',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Si',
+            cancelButtonText: 'No'
+        }).then((result) => {
+            if (result.value) {
+                ShowLoader();
+                var file = $("#txtUploadExcel").val();
+                var formData = new FormData();
+                var totalFiles = document.getElementById("txtUploadExcel").files.length;
+                for (var i = 0; i < totalFiles; i++) {
+                    var file = document.getElementById("txtUploadExcel").files[i];
+                    formData.append("FileUpload", file);
+                }
+                if (file != null && file != "") {
+                    $.ajax({
+                        type: "POST",
+                        url: "/INVMantenimiento/CargarExcel", // URL del CONTROLLER  ACTION  METHOD                        
+                        data: formData,
+                        dataType: 'json',
+                        contentType: false,
+                        processData: false,
+                        success: function (data) {
+                            var state = data['State'];
+                            if (state == 1)
+                                ShowAlertMessage('success', '¡Productos creados correctamente!');
+                            else if (state == -1)
+                                ShowAlertMessage('warning', data['Message']);
+                        },
+                        error: function (jqXHR, ex) {
+                            HideLoader();
+                            console.log(jqXHR);
+                            console.log(ex);
+                        }
+                    });
+                }
+            }
+        })
+    });
 });

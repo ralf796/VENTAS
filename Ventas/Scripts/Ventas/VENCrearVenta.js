@@ -1,4 +1,6 @@
 ﻿$(document).ready(function () {
+    //CallLoadingFire('Cargandoo-.')
+
     function ClearCustomer() {
         $('#hfIdCliente').val('');
         $('#txtNombreCliente').val('');

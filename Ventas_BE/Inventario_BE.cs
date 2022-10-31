@@ -26,6 +26,7 @@ namespace Ventas_BE
         public int STOCK { get; set; }
         public int ANIO_FABRICADO { get; set; }
         public string CODIGO { get; set; }
+        public string CODIGO2 { get; set; }
         public string NOMBRE_CATEGORIA { get; set; }
         public string NOMBRE_MODELO { get; set; }
         public string NOMBRE_TIPO { get; set; }

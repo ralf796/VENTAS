@@ -317,6 +317,19 @@
                             onClick: function (e) {
                                 Delete(e.row.data['ID_PRODUCTO'], 2)
                             }
+                        },
+                        {
+                            visible: function (e) {
+                                var visible = false;
+                                if (e.row.data.ESTADO == 1)
+                                    visible = true;
+                                return visible;
+                            },
+                            hint: "Agregar",
+                            icon: "add",
+                            onClick: function (e) {
+                                Delete(e.row.data['ID_PRODUCTO'], 2)
+                            }
                         }
                     ]
                 },
@@ -345,38 +358,18 @@
                     caption: "NOMBRE"
                 },
                 {
-                    dataField: "PRECIO_COSTO",
-                    caption: "PRECIO COSTO",
-                    alignment: "center"
-                },
-                {
-                    dataField: "PRECIO_VENTA",
-                    caption: "PRECIO VENTA",
-                    alignment: "center"
-                },
-                {
-                    dataField: "STOCK",
-                    caption: "STOCK",
-                    alignment: "center"
+                    dataField: "DESCRIPCION",
+                    caption: "DESCRIPCION"
                 },
                 {
                     dataField: "CODIGO",
-                    caption: "CODIGO",
+                    caption: "CODIGO 1",
                     alignment: "center"
                 },
                 {
-                    dataField: "CREADO_POR",
-                    caption: "CREADO_POR",
-                    visible: false
-                },
-                {
-                    dataField: "ID_BODEGA",
-                    caption: "ID_BODEGA",
-                    visible: false
-                },
-                {
-                    dataField: "NOMBRE_BODEGA",
-                    caption: "BODEGA"
+                    dataField: "CODIGO2",
+                    caption: "CODIGO 2",
+                    alignment: "center"
                 },
                 {
                     dataField: "ID_MODELO",
@@ -403,8 +396,38 @@
                 },
                 {
                     dataField: "NOMBRE_MARCA_REPUESTO",
-                    caption: "MARCA REPUESTO"
+                    caption: "MARCA PRODUCTO"
                 },
+                {
+                    dataField: "STOCK",
+                    caption: "STOCK",
+                    alignment: "center"
+                },
+                {
+                    dataField: "PRECIO_COSTO",
+                    caption: "PRECIO COSTO",
+                    alignment: "center"
+                },
+                {
+                    dataField: "PRECIO_VENTA",
+                    caption: "PRECIO VENTA",
+                    alignment: "center"
+                },
+                {
+                    dataField: "CREADO_POR",
+                    caption: "CREADO_POR",
+                    visible: false
+                },
+                {
+                    dataField: "ID_BODEGA",
+                    caption: "ID_BODEGA",
+                    visible: false
+                },
+                {
+                    dataField: "NOMBRE_BODEGA",
+                    caption: "BODEGA"
+                },
+                /*
                 {
                     dataField: "ID_CATEGORIA",
                     caption: "ID_CATEGORIA",
@@ -412,7 +435,8 @@
                 },
                 {
                     dataField: "NOMBRE_CATEGORIA",
-                    caption: "CATEGORIA"
+                    caption: "CATEGORIA",
+                    visible:false
                 },
                 {
                     dataField: "ID_SUBCATEGORIA",
@@ -421,8 +445,9 @@
                 },
                 {
                     dataField: "NOMBRE_SUBCATEGORIA",
-                    caption: "SUBCATEGORIA"
-                },
+                    caption: "SUBCATEGORIA",
+                    visible:false
+                },                
                 {
                     dataField: "ID_MARCA_VEHICULO",
                     caption: "ID_MARCA_VEHICULO",
@@ -441,6 +466,7 @@
                     dataField: "NOMBRE_SERIE_VEHICULO",
                     caption: "SERIE VEHICULO"
                 }
+                */
             ]
         }).dxDataGrid('instance');
 

@@ -1,9 +1,11 @@
 ﻿using GenesysOracleSV.Clases;
+using OfficeOpenXml;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data.Common;
 using System.Linq;
+using System.Reflection;
 using System.Web;
 using System.Web.Mvc;
 using Ventas_BE;
@@ -129,6 +131,9 @@ namespace Ventas.Controllers.Inventario
         {
             try
             {
+                if (descripcion == "")
+                    descripcion = nombre;
+
                 string respuesta = "";
                 var item = new Inventario_BE();
                 item.ESTANTERIA = estanteria;
@@ -223,7 +228,129 @@ namespace Ventas.Controllers.Inventario
                 return Json(new { State = -1, Message = ex.Message }, JsonRequestBehavior.AllowGet);
             }
         }
+
+        public JsonResult CargarExcel(FormCollection formCollection)
+        {
+            try
+            {
+                HttpPostedFileBase file = Request.Files["FileUpload"];
+                List<Inventario_BE> list = new List<Inventario_BE>();
+
+                if ((file != null) && (file.ContentLength > 0) && !string.IsNullOrEmpty(file.FileName))
+                {
+                    string fileName = file.FileName;
+                    string fileContentType = file.ContentType;
+                    byte[] fileBytes = new byte[file.ContentLength];
+                    var data = file.InputStream.Read(fileBytes, 0, Convert.ToInt32(file.ContentLength));
+                    using (var package = new ExcelPackage(file.InputStream))
+                    {
+                        var currentSheet = package.Workbook.Worksheets;
+                        var workSheet = currentSheet.First();
+                        var noOfCol = workSheet.Dimension.End.Column;
+                        var noOfRow = workSheet.Dimension.End.Row;
+
+                        for (int rowIterator = 2; rowIterator <= noOfRow; rowIterator++)
+                        {
+                            if (workSheet.Cells[rowIterator, 1].Value != null)
+                            {
+                                for(int i = 1; i <= 12; i++)
+                                {
+                                    if (workSheet.Cells[rowIterator, i].Value == null)
+                                        workSheet.Cells[rowIterator, i].Value = "";
+                                }
+
+                                var row = new Inventario_BE();
+                                row.NOMBRE = NullString(workSheet.Cells[rowIterator, 1].Value.ToString());
+                                row.DESCRIPCION = NullString(workSheet.Cells[rowIterator, 2].Value.ToString());
+                                row.CODIGO = NullString(workSheet.Cells[rowIterator, 3].Value.ToString());
+                                row.STOCK = NullInt(workSheet.Cells[rowIterator, 4].Value.ToString());
+                                row.PRECIO_COSTO = NullDecimal(workSheet.Cells[rowIterator, 5].Value.ToString());
+                                row.PRECIO_VENTA = NullDecimal(workSheet.Cells[rowIterator, 6].Value.ToString());
+                                row.ID_BODEGA = NullInt(workSheet.Cells[rowIterator, 7].Value.ToString());
+                                row.ID_MODELO = NullInt(workSheet.Cells[rowIterator, 8].Value.ToString());
+                                row.ID_PROVEEDOR = NullInt(workSheet.Cells[rowIterator, 9].Value.ToString());
+                                row.ID_MARCA_REPUESTO = NullInt(workSheet.Cells[rowIterator, 10].Value.ToString());
+                                row.ID_SUBCATEGORIA = NullInt(workSheet.Cells[rowIterator, 11].Value.ToString());
+                                row.ID_SERIE_VEHICULO = NullInt(workSheet.Cells[rowIterator, 12].Value.ToString());
+                                row.CREADO_POR = Session["usuario"].ToString();
+                                row.MTIPO = 1;
+
+                                //row.ID_PRODUCTO = workSheet.Cells[rowIterator, 1].Value.ToString();
+                                var lista = GetDatosInventario_(row);
+                                list.Add(row);
+                            }
+                        }
+                    }
+                }
+
+                foreach (var dato in list)
+                {
+                    var lista = GetDatosInventario_(dato);
+                }
+                return Json(new { State = 1, data = list }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                return Json(new { State = -1, Message = ex.Message.ToString() }, JsonRequestBehavior.AllowGet);
+            }
+        }
         #endregion
 
+        #region FUNCTIONS
+        private string NullString(string cadena)
+        {
+            string respuesta = "";
+            try
+            {
+                if (cadena == null)
+                    respuesta = "";
+                else if (cadena == "")
+                    respuesta = "";
+                else
+                    respuesta = cadena;
+            }
+            catch
+            {
+                respuesta = "";
+            }
+            return respuesta;
+        }
+        private decimal NullDecimal(string cadena)
+        {
+            decimal respuesta = 0;
+            try
+            {
+                if (cadena == null)
+                    respuesta = 0;
+                else if (cadena == "")
+                    respuesta = 0;
+                else
+                    respuesta = Convert.ToDecimal(cadena);
+            }
+            catch
+            {
+                respuesta = 0;
+            }
+            return respuesta;
+        }
+        private int NullInt(string cadena)
+        {
+            int respuesta = 0;
+            try
+            {
+                if (cadena == null)
+                    respuesta = 0;
+                else if (cadena == "")
+                    respuesta = 0;
+                else
+                    respuesta = Convert.ToInt16(cadena);
+            }
+            catch
+            {
+                respuesta = 0;
+            }
+            return respuesta;
+        }
+        #endregion
     }
 }

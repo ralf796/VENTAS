@@ -86,7 +86,7 @@
                             icon: "edit",
                             onClick: function (e) {
                                 GetOpcion(2)
-                                GetInputsUpdate(e.row.data['ID_PROVEEDOR'], e.row.data['NOMBRE'], e.row.data['DESCRIPCION'])
+                                GetInputsUpdate(e.row.data['ID_MARCA_VEHICULO'], e.row.data['NOMBRE'], e.row.data['DESCRIPCION'])
                             }
                         },
                         {
@@ -197,6 +197,16 @@
         var id = $('#hfID').val();
         var nombre = $('#txtNombre').val();
         var descripcion = $('#txtDescripcion').val();
+
+
+        if (nombre == '') {
+            ShowAlertMessage('info', 'Debe ingresar un nombre.')
+            return;
+        }
+        if (descripcion == '') {
+            ShowAlertMessage('info', 'Debe ingresar una descripcion.')
+            return;
+        }
 
         if (opcion == 1) {
             Procesar(nombre, descripcion, 13, 0, opcion);

@@ -1,76 +1,13 @@
 ﻿<!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title></title>
-
-    <!-- Google Font: Source Sans Pro -->
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
-    <!-- Font Awesome -->
-    <link rel="stylesheet" href="~/Content/Admin LTE 3.2/plugins/fontawesome-free/css/all.min.css">
-    <!-- Ionicons -->
-    <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
-    <!-- Tempusdominus Bootstrap 4 -->
-    <link rel="stylesheet" href="~/Content/Admin LTE 3.2/plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css">
-    <!-- iCheck -->
-    <link rel="stylesheet" href="~/Content/Admin LTE 3.2/plugins/icheck-bootstrap/icheck-bootstrap.min.css">
-    <!-- JQVMap -->
-    <link rel="stylesheet" href="~/Content/Admin LTE 3.2/plugins/jqvmap/jqvmap.min.css">
-    <!-- Theme style -->
-    <link rel="stylesheet" href="~/Content/Admin LTE 3.2/dist/css/adminlte.min.css">
-    <!-- overlayScrollbars -->
-    <link rel="stylesheet" href="~/Content/Admin LTE 3.2/plugins/overlayScrollbars/css/OverlayScrollbars.min.css">
-    <!-- Daterange picker -->
-    <link rel="stylesheet" href="~/Content/Admin LTE 3.2/plugins/daterangepicker/daterangepicker.css">
-    <!-- summernote -->
-    <link rel="stylesheet" href="~/Content/Admin LTE 3.2/plugins/summernote/summernote-bs4.min.css">
-    <link href="~/Content/Admin LTE 3.2/plugins/dropzone/min/dropzone.min.css" rel="stylesheet" />
-    <!--FONTS-->
-    <link href="~/Content/site.fonts.css" rel="stylesheet" />
-
-    <!--FONTAWESOME-->
-    <link href="~/Content/fontawesome/css/all.css" rel="stylesheet" />  @*https://fontawesome.com/v5/icons/save?s=solid&f=classic*@
-
-    <!--SWEET ALERT-->
-    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
-    <link src="https://cdn.datatables.net/1.12.1/css/dataTables.bootstrap4.min.css" rel="stylesheet" />
-
-    <!--DEVEXTREME-->
-    <link href="~/Content/DevExtreme/21.1.5/dx.material.orange.light.css" rel="stylesheet" />
-
-    <!--TOAST-->
-    <link href="~/Content/toast/css/jquery.toast.min.css" rel="stylesheet" />
-
-    <!--AIR-->
-    <link href="~/Content/air-datepicker-3/dist/air-datepicker.css" rel="stylesheet" />
-
-    <style>
-        body {
-            font-family: Salesment-normal;
-        }
-
-        .headColor {
-            background-color: dimgray;
-            color: white;
-            font-size: 13px;
-        }
-
-        table {
-            font-size: 11px;
-        }
-
-        .circular--square {
-            border-radius: 50%;
-        }
-    </style>
-
-
-
-
+    @Html.Partial("_Head")
     @RenderSection("styles", required: false)
 </head>
+@Html.Partial("_LoadingFire")
 <body class="hold-transition sidebar-mini layout-fixed">
     <div class="wrapper">
         <!-- Preloader -->
@@ -79,7 +16,7 @@
         </div>
 
         <!-- Navbar -->
-        <nav class="main-header navbar navbar-expand navbar-white navbar-light ">
+        <nav class="main-header navbar navbar-expand navbar-white navbar-light">
             <!-- Left navbar links -->
             <ul class="navbar-nav">
                 <li class="nav-item">
@@ -252,14 +189,14 @@
                 <nav class="mt-2">
                     <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
                         <!--<li class="nav-item">
-                        <a href="~/USUMantenimiento/Index" class="nav-link">
-                            <i class="nav-icon fas fa-th"></i>
-                            <p>
-                                USUARIOS-->
+    <a href="~/USUMantenimiento/Index" class="nav-link">
+        <i class="nav-icon fas fa-th"></i>
+        <p>
+            USUARIOS-->
                         @*<span class="right badge badge-danger">New</span>*@
                         <!--</p>
-                            </a>
-                        </li>-->
+        </a>
+    </li>-->
                         <li class="nav-item">
                             <a href="#" class="nav-link">
                                 <i class="far fa-users"></i>    @*https://fontawesome.com/v5/icons/trash-alt?s=regular&f=classic    version 5 *@
@@ -271,40 +208,25 @@
                             <ul class="nav nav-treeview">
                                 <li class="nav-item">
                                     <a href="~/USUListarUsuario/Index" class="nav-link">
-                                        <i class="far fa-circle nav-icon"></i>
+                                        <i class="far fa-stop-circle"></i>
                                         <p>VER USUARIOS</p>
                                     </a>
                                 </li>
                                 <li class="nav-item">
                                     <a href="~/USUCrearUsuario/Index" class="nav-link">
-                                        <i class="far fa-circle nav-icon"></i>
+                                        <i class="far fa-stop-circle"></i>
                                         <p>CREAR USUARIO</p>
                                     </a>
                                 </li>
                             </ul>
                         </li>
                         <li class="nav-item">
-                            <a href="pages/widgets.html" class="nav-link">
-                                <i class="far fa-user-plus"></i>
+                            <a href="~/CLIListarClientes/Index" class="nav-link">
+                                <i class="far fa-user"></i>
                                 <p>
                                     CLIENTES
-                                    <i class="right fas fa-angle-left"></i>
                                 </p>
                             </a>
-                            <ul class="nav nav-treeview">
-                                <li class="nav-item">
-                                    <a href="~/CLIListarClientes/Index" class="nav-link">
-                                        <i class="far fa-circle nav-icon"></i>
-                                        <p>VER CLIENTES</p>
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a href="~/USUCrearUsuario/Index" class="nav-link">
-                                        <i class="far fa-circle nav-icon"></i>
-                                        <p>CREAR CLIENTE</p>
-                                    </a>
-                                </li>
-                            </ul>
                         </li>
                         <li class="nav-item">
                             <a href="#" class="nav-link">
@@ -317,7 +239,7 @@
                             <ul class="nav nav-treeview">
                                 <li class="nav-item">
                                     <a href="#" class="nav-link">
-                                        <i class="fad fa-store"></i>
+                                        <i class="far fa-car-mechanic"></i>
                                         <p>
                                             MANTENIMIENTO
                                             <i class="fas fa-angle-left right"></i>
@@ -326,49 +248,49 @@
                                     <ul class="nav nav-treeview">
                                         <li class="nav-item">
                                             <a href="~/INVMantenimiento/IndexBodega" class="nav-link">
-                                                <i class="far fa-circle nav-icon"></i>
+                                                <i class="far fa-stop-circle"></i>
                                                 <p>BODEGA</p>
                                             </a>
                                         </li>
-                                        <li class="nav-item">
+                                        <li class="nav-item d-none">
                                             <a href="~/INVMantenimiento/IndexCategoria" class="nav-link">
-                                                <i class="far fa-circle nav-icon"></i>
+                                                <i class="far fa-stop-circle"></i>
                                                 <p>CATEGORIA</p>
                                             </a>
                                         </li>
-                                        <li class="nav-item">
+                                        <li class="nav-item d-none">
                                             <a href="~/INVMantenimiento/IndexSubcategoria" class="nav-link">
-                                                <i class="far fa-circle nav-icon"></i>
+                                                <i class="far fa-stop-circle"></i>
                                                 <p>SUBCATEGORIA</p>
                                             </a>
                                         </li>
                                         <li class="nav-item">
                                             <a href="~/INVMantenimiento/IndexModelo" class="nav-link">
-                                                <i class="far fa-circle nav-icon"></i>
+                                                <i class="far fa-stop-circle"></i>
                                                 <p>MODELO</p>
                                             </a>
                                         </li>
                                         <li class="nav-item">
                                             <a href="~/INVMantenimiento/IndexProveedor" class="nav-link">
-                                                <i class="far fa-circle nav-icon"></i>
+                                                <i class="far fa-stop-circle"></i>
                                                 <p>PROVEEDOR</p>
                                             </a>
                                         </li>
                                         <li class="nav-item">
                                             <a href="~/INVMantenimiento/IndexMarcaRepuesto" class="nav-link">
-                                                <i class="far fa-circle nav-icon"></i>
+                                                <i class="far fa-stop-circle"></i>
                                                 <p>MARCA REPUESTO</p>
                                             </a>
                                         </li>
                                         <li class="nav-item">
                                             <a href="~/INVMantenimiento/IndexMarcaVehiculo" class="nav-link">
-                                                <i class="far fa-circle nav-icon"></i>
+                                                <i class="far fa-stop-circle"></i>
                                                 <p>MARCA VEHICULO</p>
                                             </a>
                                         </li>
                                         <li class="nav-item">
                                             <a href="~/INVMantenimiento/IndexSerieVehiculo" class="nav-link">
-                                                <i class="far fa-circle nav-icon"></i>
+                                                <i class="far fa-stop-circle"></i>
                                                 <p>SERIE VEHICULO</p>
                                             </a>
                                         </li>
@@ -376,13 +298,13 @@
                                 </li>
                                 <li class="nav-item">
                                     <a href="~/INVMantenimiento/IndexListarProductos" class="nav-link">
-                                        <i class="far fa-circle nav-icon"></i>
+                                        <i class="far fa-check-double" style="color:green"></i>
                                         <p>LISTAR PRODUCTOS</p>
                                     </a>
                                 </li>
                                 <li class="nav-item">
                                     <a href="~/INVMantenimiento/IndexCrearProducto" class="nav-link">
-                                        <i class="far fa-circle nav-icon"></i>
+                                        <i class="far fa-check-double" style="color:green"></i>
                                         <p>CREAR PRODUCTO</p>
                                     </a>
                                 </li>
@@ -390,19 +312,34 @@
                         </li>
                         <li class="nav-item">
                             <a href="~/VENCrearVenta/Index" class="nav-link">
-                                <i class="far fa-circle nav-icon"></i>
+                                <i class="far fa-store"></i>
                                 <p>
                                     VENTAS
                                 </p>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="pages/widgets.html" class="nav-link">
+                            <a href="#" class="nav-link">
                                 <i class="fas fa-hand-holding-usd"></i>
-                                <p>
-                                    CAJA
-                                </p>
+                            <p>
+                                CAJA
+                                <i class="right fas fa-angle-left"></i>
+                            </p>
                             </a>
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item">
+                                    <a href="~/CAJCobro/Index" class="nav-link">
+                                        <i class="far fa-stop-circle"></i>
+                                        <p>COBRO</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="~/CAJCorte/Index" class="nav-link">
+                                        <i class="far fa-stop-circle"></i>
+                                        <p>CORTE</p>
+                                    </a>
+                                </li>
+                            </ul>
                         </li>
                         <li class="nav-item">
                             <a href="pages/widgets.html" class="nav-link">
@@ -413,136 +350,136 @@
                             </a>
                         </li>
                         @*<li class="nav-item">
-                                <a href="#" class="nav-link">
-                                    <i class="nav-icon fas fa-copy"></i>
-                                    <p>
-                                        Layout Options
-                                        <i class="fas fa-angle-left right"></i>
-                                        <span class="badge badge-info right">6</span>
-                                    </p>
-                                </a>
-                                <ul class="nav nav-treeview">
-                                    <li class="nav-item">
-                                        <a href="pages/layout/top-nav.html" class="nav-link">
-                                            <i class="far fa-circle nav-icon"></i>
-                                            <p>Top Navigation</p>
-                                        </a>
-                                    </li>
-                                </ul>
-                            </li>
-                            <li class="nav-item">
-                                <a href="#" class="nav-link">
-                                    <i class="nav-icon fas fa-chart-pie"></i>
-                                    <p>
-                                        Charts
-                                        <i class="right fas fa-angle-left"></i>
-                                    </p>
-                                </a>
-                                <ul class="nav nav-treeview">
-                                    <li class="nav-item">
-                                        <a href="pages/charts/chartjs.html" class="nav-link">
-                                            <i class="far fa-circle nav-icon"></i>
-                                            <p>ChartJS</p>
-                                        </a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a href="pages/charts/flot.html" class="nav-link">
-                                            <i class="far fa-circle nav-icon"></i>
-                                            <p>Flot</p>
-                                        </a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a href="pages/charts/inline.html" class="nav-link">
-                                            <i class="far fa-circle nav-icon"></i>
-                                            <p>Inline</p>
-                                        </a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a href="pages/charts/uplot.html" class="nav-link">
-                                            <i class="far fa-circle nav-icon"></i>
-                                            <p>uPlot</p>
-                                        </a>
-                                    </li>
-                                </ul>
-                            </li>
-                            <li class="nav-header">MULTI LEVEL EXAMPLE</li>
-                            <li class="nav-item">
-                                <a href="#" class="nav-link">
-                                    <i class="fas fa-circle nav-icon"></i>
-                                    <p>Level 1</p>
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a href="#" class="nav-link">
-                                    <i class="nav-icon fas fa-circle"></i>
-                                    <p>
-                                        Level 1
-                                        <i class="right fas fa-angle-left"></i>
-                                    </p>
-                                </a>
-                                <ul class="nav nav-treeview">
-                                    <li class="nav-item">
-                                        <a href="#" class="nav-link">
-                                            <i class="far fa-circle nav-icon"></i>
-                                            <p>Level 2</p>
-                                        </a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a href="#" class="nav-link">
-                                            <i class="far fa-circle nav-icon"></i>
-                                            <p>
-                                                Level 2
-                                                <i class="right fas fa-angle-left"></i>
-                                            </p>
-                                        </a>
-                                        <ul class="nav nav-treeview">
-                                            <li class="nav-item">
-                                                <a href="#" class="nav-link">
-                                                    <i class="far fa-dot-circle nav-icon"></i>
-                                                    <p>Level 3</p>
-                                                </a>
-                                            </li>
-                                            <li class="nav-item">
-                                                <a href="#" class="nav-link">
-                                                    <i class="far fa-dot-circle nav-icon"></i>
-                                                    <p>Level 3</p>
-                                                </a>
-                                            </li>
-                                            <li class="nav-item">
-                                                <a href="#" class="nav-link">
-                                                    <i class="far fa-dot-circle nav-icon"></i>
-                                                    <p>Level 3</p>
-                                                </a>
-                                            </li>
-                                        </ul>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a href="#" class="nav-link">
-                                            <i class="far fa-circle nav-icon"></i>
-                                            <p>Level 2</p>
-                                        </a>
-                                    </li>
-                                </ul>
-                            </li>
-                            <li class="nav-header">LABELS</li>
-                            <li class="nav-item">
-                                <a href="#" class="nav-link">
-                                    <i class="nav-icon far fa-circle text-danger"></i>
-                                    <p class="text">Important</p>
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a href="#" class="nav-link">
-                                    <i class="nav-icon far fa-circle text-warning"></i>
-                                    <p>Warning</p>
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a href="#" class="nav-link">
-                                    <i class="nav-icon far fa-circle text-info"></i>
-                                    <p>Informational</p>
-                                </a>
-                            </li>*@
+            <a href="#" class="nav-link">
+                <i class="nav-icon fas fa-copy"></i>
+                <p>
+                    Layout Options
+                    <i class="fas fa-angle-left right"></i>
+                    <span class="badge badge-info right">6</span>
+                </p>
+            </a>
+            <ul class="nav nav-treeview">
+                <li class="nav-item">
+                    <a href="pages/layout/top-nav.html" class="nav-link">
+                        <i class="far fa-stop-circle"></i>
+                        <p>Top Navigation</p>
+                    </a>
+                </li>
+            </ul>
+        </li>
+        <li class="nav-item">
+            <a href="#" class="nav-link">
+                <i class="nav-icon fas fa-chart-pie"></i>
+                <p>
+                    Charts
+                    <i class="right fas fa-angle-left"></i>
+                </p>
+            </a>
+            <ul class="nav nav-treeview">
+                <li class="nav-item">
+                    <a href="pages/charts/chartjs.html" class="nav-link">
+                        <i class="far fa-stop-circle"></i>
+                        <p>ChartJS</p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="pages/charts/flot.html" class="nav-link">
+                        <i class="far fa-stop-circle"></i>
+                        <p>Flot</p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="pages/charts/inline.html" class="nav-link">
+                        <i class="far fa-stop-circle"></i>
+                        <p>Inline</p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="pages/charts/uplot.html" class="nav-link">
+                        <i class="far fa-stop-circle"></i>
+                        <p>uPlot</p>
+                    </a>
+                </li>
+            </ul>
+        </li>
+        <li class="nav-header">MULTI LEVEL EXAMPLE</li>
+        <li class="nav-item">
+            <a href="#" class="nav-link">
+                <i class="fas fa-circle nav-icon"></i>
+                <p>Level 1</p>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a href="#" class="nav-link">
+                <i class="nav-icon fas fa-circle"></i>
+                <p>
+                    Level 1
+                    <i class="right fas fa-angle-left"></i>
+                </p>
+            </a>
+            <ul class="nav nav-treeview">
+                <li class="nav-item">
+                    <a href="#" class="nav-link">
+                        <i class="far fa-stop-circle"></i>
+                        <p>Level 2</p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link">
+                        <i class="far fa-stop-circle"></i>
+                        <p>
+                            Level 2
+                            <i class="right fas fa-angle-left"></i>
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="#" class="nav-link">
+                                <i class="far fa-dot-circle nav-icon"></i>
+                                <p>Level 3</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#" class="nav-link">
+                                <i class="far fa-dot-circle nav-icon"></i>
+                                <p>Level 3</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#" class="nav-link">
+                                <i class="far fa-dot-circle nav-icon"></i>
+                                <p>Level 3</p>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link">
+                        <i class="far fa-stop-circle"></i>
+                        <p>Level 2</p>
+                    </a>
+                </li>
+            </ul>
+        </li>
+        <li class="nav-header">LABELS</li>
+        <li class="nav-item">
+            <a href="#" class="nav-link">
+                <i class="nav-icon far fa-circle text-danger"></i>
+                <p class="text">Important</p>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a href="#" class="nav-link">
+                <i class="nav-icon far fa-circle text-warning"></i>
+                <p>Warning</p>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a href="#" class="nav-link">
+                <i class="nav-icon far fa-circle text-info"></i>
+                <p>Informational</p>
+            </a>
+        </li>*@
                     </ul>
                 </nav>
                 <!-- /.sidebar-menu -->
@@ -569,110 +506,9 @@
         </aside>
         <!-- /.control-sidebar -->
     </div>
-
-    <!-- jQuery -->
-    <script src="~/Content/Admin LTE 3.2/plugins/jquery/jquery.min.js"></script>
-    <!-- jQuery UI 1.11.4 -->
-    <script src="~/Content/Admin LTE 3.2/plugins/jquery-ui/jquery-ui.min.js"></script>
-
-    <!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
-    <script>
-        $.widget.bridge('uibutton', $.ui.button)
-    </script>
-    <!-- Bootstrap 4 -->
-    <script src="~/Content/Admin LTE 3.2/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
-    <!-- ChartJS -->
-    <script src="~/Content/Admin LTE 3.2/plugins/chart.js/Chart.min.js"></script>
-    <!-- Sparkline -->
-    <script src="~/Content/Admin LTE 3.2/plugins/sparklines/sparkline.js"></script>
-    <!-- JQVMap -->
-    <script src="~/Content/Admin LTE 3.2/plugins/jqvmap/jquery.vmap.min.js"></script>
-    <script src="~/Content/Admin LTE 3.2/plugins/jqvmap/maps/jquery.vmap.usa.js"></script>
-    <!-- jQuery Knob Chart -->
-    <script src="~/Content/Admin LTE 3.2/plugins/jquery-knob/jquery.knob.min.js"></script>
-    <!-- daterangepicker -->
-    <script src="~/Content/Admin LTE 3.2/plugins/moment/moment.min.js"></script>
-    <script src="~/Content/Admin LTE 3.2/plugins/daterangepicker/daterangepicker.js"></script>
-    <!-- Tempusdominus Bootstrap 4 -->
-    <script src="~/Content/Admin LTE 3.2/plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js"></script>
-    <!-- Summernote -->
-    <script src="~/Content/Admin LTE 3.2/plugins/summernote/summernote-bs4.min.js"></script>
-    <!-- overlayScrollbars -->
-    <script src="~/Content/Admin LTE 3.2/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js"></script>
-    <!-- AdminLTE App -->
-    <script src="~/Content/Admin LTE 3.2/dist/js/adminlte.js"></script>
-    <!-- AdminLTE for demo purposes -->
-    <script src="~/Content/Admin LTE 3.2/dist/js/demo.js"></script>
-    <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
-    <script src="~/Content/Admin LTE 3.2/dist/js/pages/dashboard.js"></script>
-
-    <script src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>
-    <script src="https://cdn.datatables.net/1.12.1/js/dataTables.bootstrap4.min.js"></script>
-
-    <!--DEVEXTREME-->
-    <script src="~/Scripts/DevExtreme/21.1.5/dx.all.js"></script>
-    <script src="~/Scripts/DevExtreme/21.1.5/localization/dx.messages.es.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-polyfill/7.4.0/polyfill.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/exceljs/3.3.1/exceljs.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/1.3.8/FileSaver.min.js"></script>
-
-    <!--TOAST-->
-    <script src="~/Content/toast/js/jquery.toast.min.js"></script>
-
-    <!--AIR-->
-    <script src="~/Content/air-datepicker-3/dist/air-datepicker.js"></script>
-
+    @Html.Partial("_JS")
     @RenderSection("scripts", required: false)
 
-    <script>
-        $(function () {
-            $('.my-colorpicker2').on('colorpickerChange', function (event) {
-                $('.my-colorpicker2 .fa-square').css('color', event.color.toString());
-            })
 
-            $("input[data-bootstrap-switch]").each(function () {
-                $(this).bootstrapSwitch('state', $(this).prop('checked'));
-            })
-
-        })
-        function ShowAlertMessage(icon, descripcion) {
-            Swal.fire({
-                icon: icon,
-                html: descripcion,
-                showCancelButton: true,
-                cancelButtonText: 'Cerrar',
-                showConfirmButton: false,
-            })
-        }
-
-        function formatNumber(num) {
-            return num.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')
-        }
-
-        function valideKey(evt) {
-            // code is the decimal ASCII representation of the pressed key.
-            var code = (evt.which) ? evt.which : evt.keyCode;
-            if (code == 8) { // backspace.
-                return true;
-            } else if (code >= 48 && code <= 57) { // is a number.
-                return true;
-            } else { // other keys.
-                return false;
-            }
-        }
-
-        function CallToast(text, loader, timer, color) {
-            $.toast({
-                text: text,
-                textAlign: 'center',
-                position: 'bottom-center',
-                showHideTransition: 'slide', // fade, slide or plain
-                loader: loader,  // Whether to show loader or not. True by default
-                loaderBg: color,  // Background color of the toast loader
-                hideAfter: timer, // false to make it sticky or number representing the miliseconds as time after which toast needs to be hidden
-            })
-        }
-
-    </script>
 </body>
 </html>
