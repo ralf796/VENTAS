@@ -131,6 +131,9 @@ namespace Ventas.Controllers.Inventario
         {
             try
             {
+                if (descripcion == "")
+                    descripcion = nombre;
+
                 string respuesta = "";
                 var item = new Inventario_BE();
                 item.ESTANTERIA = estanteria;

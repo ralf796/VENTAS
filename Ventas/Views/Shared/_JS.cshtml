@@ -5,7 +5,7 @@
 
 <!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
 <script>
-        $.widget.bridge('uibutton', $.ui.button)
+    $.widget.bridge('uibutton', $.ui.button)
 </script>
 <!-- Bootstrap 4 -->
 <script src="~/Content/Admin LTE 3.2/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
@@ -137,5 +137,68 @@
         $(document).ajaxStop(function () {
             $('#divLoading').hide();
         });
+    }
+</script>
+
+
+<script>
+    var timerID = null;
+    var timerRunning = false;
+    function stopclock() {
+        if (timerRunning)
+            clearTimeout(timerID);
+        timerRunning = false;
+    }
+    function showtime() {
+        $('#lblHora').html(moment().format('h:mm:ss a'));
+        timerID = setTimeout("showtime()", 1000);
+        timerRunning = true;
+    }
+
+    function startclock() {
+        stopclock();
+        showtime();
+    }
+
+    $(document).ready(function () {
+        $("input[type=text]").keyup(function () {
+            // store current positions in variables
+            var start = this.selectionStart,
+                end = this.selectionEnd;
+
+            $(this).val($(this).val().toUpperCase());
+
+            // restore from variables...
+            this.setSelectionRange(start, end);
+        });
+    });
+</script>
+
+<script>
+    function DatePicker(obj, options = null) {
+        var air = new AirDatepicker(obj, options);
+        return air;
+    }
+
+    function DateFormat(date) {
+        try {
+            let d = date;
+            let month = (d.getMonth() + 1).toString().padStart(2, '0');
+            let day = d.getDate().toString().padStart(2, '0');
+            let year = d.getFullYear();
+            return [year, month, day].join('-');
+        } catch (err) {
+            return '';
+        }
+    }
+
+    function DatePickerRange(obj, onchange = null) {
+        var air = new AirDatepicker(obj, {
+            range: true,
+            multipleDatesSeparator: ' - ',
+            onSelect: onchange
+        });
+        console.log(air)
+        return air;
     }
 </script>

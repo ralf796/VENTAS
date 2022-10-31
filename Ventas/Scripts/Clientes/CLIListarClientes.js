@@ -55,34 +55,6 @@
             },
             columns: [
                 {
-                    dataField: "ID_CLIENTE",
-                    caption: "ID",
-                    alignment: "center",
-                    visible: false
-                },
-                {
-                    dataField: "NOMBRE",
-                    caption: "NOMBRE"
-                },
-                {
-                    dataField: "DIRECCION",
-                    caption: "DIRECCION"
-                },
-                {
-                    dataField: "TELEFONO",
-                    caption: "TELEFONO",
-                    alignment: "center"
-                },
-                {
-                    dataField: "EMAIL",
-                    caption: "EMAIL"
-                },
-                {
-                    dataField: "NIT",
-                    caption: "NIT",
-                    alignment: "center"
-                },
-                {
                     caption: "ESTADO",
                     alignment: "center",
                     cellTemplate: function (container, options) {
@@ -129,6 +101,34 @@
                             }
                         }
                     ]
+                },
+                {
+                    dataField: "ID_CLIENTE",
+                    caption: "ID",
+                    alignment: "center",
+                    visible: false
+                },
+                {
+                    dataField: "NOMBRE",
+                    caption: "NOMBRE"
+                },
+                {
+                    dataField: "DIRECCION",
+                    caption: "DIRECCION"
+                },
+                {
+                    dataField: "TELEFONO",
+                    caption: "TELEFONO",
+                    alignment: "center"
+                },
+                {
+                    dataField: "EMAIL",
+                    caption: "EMAIL"
+                },
+                {
+                    dataField: "NIT",
+                    caption: "NIT",
+                    alignment: "center"
                 }
             ]
         }).dxDataGrid('instance');

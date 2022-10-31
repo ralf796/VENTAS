@@ -33,7 +33,7 @@
                     <div class="btn-group">
                         <div class="form-group" style="margin-top:-5px">
                             <div class="input-group">
-                                <label for="txtUploadExcel" class="subir btn btn-primary"><span class="material-icons">description</span> Cargar archivo</label>
+                                <label for="txtUploadExcel" class="subir btn btn-primary"><i class="far fa-file-upload"></i> Cargar archivo</label>
                                 <input id="txtUploadExcel" type="file" style="display:none;" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" />
                                 <div id="info"></div>
                             </div>
@@ -78,6 +78,19 @@
                 </div>
             </div>
             <div class="row">
+                <div class="col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6 pt-1">
+                    <div class="input-group text-center">
+                        <span class="col-form-label">ANIO INICIAL:</span>
+                        <input type="text" class="form-control" id="txtAnioI" name="txtAnioI" required readonly>
+                    </div>
+                </div>
+                <div class="col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6 pt-1">
+                    <div class="input-group text-center">
+                        <span class="col-form-label">ANIO FINAL:</span>
+                        <input type="text" class="form-control" id="txtAnioF" name="txtAnioF" required readonly>
+                    </div>
+                </div>
+
                 <div class="col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6 pt-1">
                     <div class="input-group">
                         <span class="col-form-label">BODEGA:</span>
@@ -85,7 +98,7 @@
                         </select>
                     </div>
                 </div>
-                <div class="col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6 pt-1">
+                <div class="col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6 pt-1 d-none">
                     <div class="input-group">
                         <span class="col-form-label">MODELO:</span>
                         <select class="form-control" id="selModelo" name="selModelo" required>
@@ -106,14 +119,14 @@
                         </select>
                     </div>
                 </div>
-                <div class="col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6 pt-1">
+                <div class="col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6 pt-1 d-none">
                     <div class="input-group text-right">
                         <span class="col-form-label">CATEGORÍA:</span>
                         <select class="form-control" id="selCategoria" name="selCategoria" required>
                         </select>
                     </div>
                 </div>
-                <div class="col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6 pt-1">
+                <div class="col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6 pt-1 d-none">
                     <div class="input-group text-right">
                         <span class="col-form-label">SUBCATEGORÍA:</span>
                         <select class="form-control" id="selSubcategoria" name="selSubcategoria" required>

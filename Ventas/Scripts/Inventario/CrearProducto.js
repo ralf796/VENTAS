@@ -1,11 +1,32 @@
-﻿$(document).ready(function () {
+﻿let fechaI;
+let fechaF;
+$(document).ready(function () {
 
     GetLists('#selBodega', 8)
     GetLists('#selModelo', 6)
     GetLists('#selProveedor', 10)
     GetLists('#selMarcaRepuesto', 12)
-    GetLists('#selCategoria', 2)
+    //GetLists('#selCategoria', 2)
     GetLists('#selMarcaVehiculo', 14)
+
+    fechaI = new AirDatepicker('#txtAnioI', {
+        autoClose: true,
+        autoClose: true,
+        view: 'years',
+        minView: 'years',
+        dateFormat: 'yyyy',
+        selectedDates: [new Date()],
+        //onSelect: GetDataTable
+    });
+    fechaF = new AirDatepicker('#txtAnioF', {
+        autoClose: true,
+        autoClose: true,
+        view: 'years',
+        minView: 'years',
+        dateFormat: 'yyyy',
+        selectedDates: [new Date()],
+        //onSelect: GetDataTable
+    });
 
     function GetLists(selObject, tipo) {
         return new Promise((resolve, reject) => {
@@ -146,6 +167,25 @@
         var ID_SERIE_VEHICULO = $('#selSerieVehiculo').val();
         var ID_PRODUCTO = 0;
         var tipo = 1;
+
+        if (ID_BODEGA == '' || ID_BODEGA < 1) {
+            ShowAlertMessage('info', 'Debe seleccionar una marca de vehiculo.')
+            return;
+        }
+        if (ID_MODELO == '' || ID_MODELO < 1) {
+            ShowAlertMessage('info', 'Debe seleccionar una marca de vehiculo.')
+            return;
+        }
+        if (ID_PROVEEDOR == '' || ID_PROVEEDOR < 1) {
+            ShowAlertMessage('info', 'Debe seleccionar una marca de vehiculo.')
+            return;
+        }
+        if (ID_MARCA_REPUESTO == '' || ID_MARCA_REPUESTO < 1) {
+            ShowAlertMessage('info', 'Debe seleccionar una marca de vehiculo.')
+            return;
+        }
+
+
         GuardarProducto(NOMBRE, DESCRIPCION, PRECIO_COSTO, PRECIO_VENTA, STOCK, CODIGO, ID_BODEGA, ID_MODELO, ID_PROVEEDOR, ID_MARCA_REPUESTO, ID_SUBCATEGORIA, ID_SERIE_VEHICULO, ID_PRODUCTO, tipo);
     });
 
