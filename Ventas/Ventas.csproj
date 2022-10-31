@@ -2613,6 +2613,8 @@
     <Content Include="Dll\ZXing.Net.0.16.8\lib\wp8\zxing.wp8.0.XML" />
     <Content Include="Dll\ZXing.Net.0.16.8\logo.jpg" />
     <Content Include="Global.asax" />
+    <Content Include="Scripts\Caja\CAJCobro.js" />
+    <Content Include="Scripts\Caja\CAJCorte.js" />
     <Content Include="Scripts\Clientes\CLIListarClientes.js" />
     <Content Include="Scripts\DevExtreme\21.1.5\dx-quill.min.js" />
     <Content Include="Scripts\DevExtreme\21.1.5\dx.all.js" />
@@ -2637,6 +2639,8 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Class\Encryption.cs" />
     <Compile Include="Class\SessionExpireFilterAttribute.cs" />
+    <Compile Include="Controllers\Caja\CAJCobroController.cs" />
+    <Compile Include="Controllers\Caja\CAJCorteController.cs" />
     <Compile Include="Controllers\Clientes\CLIListarClientesController.cs" />
     <Compile Include="Controllers\DefaultController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -3295,6 +3299,8 @@
     <Content Include="Views\Shared\_Head.cshtml" />
     <Content Include="Views\Shared\_JS.cshtml" />
     <Content Include="Views\Shared\_LoadingFire.cshtml" />
+    <Content Include="Views\CAJCorte\Index.cshtml" />
+    <Content Include="Views\CAJCobro\Index.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -3305,10 +3311,8 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Content\Fotografias\" />
-    <Folder Include="Controllers\Caja\" />
     <Folder Include="Controllers\Reportes\" />
     <Folder Include="Models\" />
-    <Folder Include="Scripts\Caja\" />
     <Folder Include="Scripts\Reportes\" />
     <Folder Include="Views\Login\" />
   </ItemGroup>

@@ -160,7 +160,7 @@
             success: function (data) {
                 var state = data["State"];
                 if (state == 1) {
-                    ShowAlertMessage('success', 'La bodega seleccionada se inactivó correctamente.')
+                    ShowAlertMessage('success', 'El modelo seleccionado se inactivó correctamente.')
                     GetDatos()
                 }
                 else if (state == -1) {
@@ -198,6 +198,15 @@
         var id = $('#hfID').val();
         var anioI = $('#txtAnioI').val();
         var anioF = $('#txtAnioF').val();
+
+        if (anioI == '' ) {
+            ShowAlertMessage('info', 'Debe ingresar un año inicial.')
+            return;
+        }
+        if (anioF == '') {
+            ShowAlertMessage('info', 'Debe ingresar un año final.')
+            return;
+        }
 
         if (opcion == 1) {
             Procesar(anioI, anioF, 3, 0, opcion);

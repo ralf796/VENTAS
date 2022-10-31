@@ -86,7 +86,7 @@
                             icon: "edit",
                             onClick: function (e) {
                                 GetOpcion(2)
-                                GetInputsUpdate(e.row.data['ID_PROVEEDOR'], e.row.data['NOMBRE'], e.row.data['DESCRIPCION'])
+                                GetInputsUpdate(e.row.data['ID_MARCA_REPUESTO'], e.row.data['NOMBRE'], e.row.data['DESCRIPCION'])
                             }
                         },
                         {
@@ -160,7 +160,7 @@
             success: function (data) {
                 var state = data["State"];
                 if (state == 1) {
-                    ShowAlertMessage('success', 'La bodega seleccionada se inactivó correctamente.')
+                    ShowAlertMessage('success', 'La marca de repuesto seleccionada se inactivó correctamente.')
                     GetDatos()
                 }
                 else if (state == -1) {
@@ -198,6 +198,15 @@
         var id = $('#hfID').val();
         var nombre = $('#txtNombre').val();
         var descripcion = $('#txtDescripcion').val();
+
+        if (nombre == '') {
+            ShowAlertMessage('info', 'Debe ingresar un nombre.')
+            return;
+        }
+        if (descripcion == '') {
+            ShowAlertMessage('info', 'Debe ingresar una descripcion.')
+            return;
+        }
 
         if (opcion == 1) {
             Procesar(nombre, descripcion, 7, 0, opcion);

@@ -152,6 +152,9 @@
                         ShowAlertMessage('success', 'Datos actualizados correctamente')
                     $('#txtNombre').val('');
                     $('#txtDescripcion').val('');
+                    $('#txtTelefono').val('');
+                    $('#txtDireccion').val('');
+                    $('#txtContacto').val('');
                     $('#modalDatos').modal('hide');
                     GetDatos()
                 }
@@ -172,7 +175,7 @@
             success: function (data) {
                 var state = data["State"];
                 if (state == 1) {
-                    ShowAlertMessage('success', 'La bodega seleccionada se inactivó correctamente.')
+                    ShowAlertMessage('success', 'El proveedor seleccionado se inactivó correctamente.')
                     GetDatos()
                 }
                 else if (state == -1) {
@@ -216,6 +219,19 @@
         var telefono = $('#txtTelefono').val();
         var direccion = $('#txtDireccion').val();
         var contacto = $('#txtContacto').val();
+
+        if (nombre == '' ) {
+            ShowAlertMessage('info', 'Debe ingresar un nombre de proveedor.')
+            return;
+        }
+        if (descripcion == '' ) {
+            ShowAlertMessage('info', 'Debe ingresar una descripcion.')
+            return;
+        }
+        if (telefono == '') {
+            ShowAlertMessage('info', 'Debe ingresar un telefono.')
+            return;
+        }
 
         if (opcion == 1) {
             Procesar(nombre, descripcion, 5, telefono, direccion, contacto, 0, opcion);
