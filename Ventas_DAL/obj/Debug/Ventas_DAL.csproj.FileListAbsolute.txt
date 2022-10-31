@@ -7,3 +7,7 @@ C:\Users\raul.lopez\source\repos\VENTAS\Ventas_DAL\obj\Debug\Ventas_DAL.csproj.C
 C:\Users\raul.lopez\source\repos\VENTAS\Ventas_DAL\obj\Debug\Ventas_DAL.csproj.CopyComplete
 C:\Users\raul.lopez\source\repos\VENTAS\Ventas_DAL\obj\Debug\Ventas_DAL.dll
 C:\Users\raul.lopez\source\repos\VENTAS\Ventas_DAL\obj\Debug\Ventas_DAL.pdb
+C:\Sources Oriflame\pdv\VENTAS\Ventas_DAL\obj\Debug\Ventas_DAL.csproj.AssemblyReference.cache
+C:\Sources Oriflame\pdv\VENTAS\Ventas_DAL\obj\Debug\Ventas_DAL.csproj.CoreCompileInputs.cache
+C:\Sources Oriflame\pdv\VENTAS\Ventas_DAL\obj\Debug\Ventas_DAL.dll
+C:\Sources Oriflame\pdv\VENTAS\Ventas_DAL\obj\Debug\Ventas_DAL.pdb
