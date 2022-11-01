@@ -16,18 +16,13 @@ namespace Ventas.Controllers
         {
             return View();
         }
-
-
-
-
         private List<Usuarios_BE> GetSPLogin_(Usuarios_BE item)
         {
             List<Usuarios_BE> lista = new List<Usuarios_BE>();
             lista = Usuarios_BLL.GetSPLogin(item);
             return lista;
         }
-
-        public JsonResult ValidarLogin(string usuario="", string password="")
+        public JsonResult ValidarLogin(string usuario = "", string password = "")
         {
             try
             {
@@ -48,6 +43,7 @@ namespace Ventas.Controllers
                     Session["segundo_nombre"] = item.SEGUNDO_NOMBRE.ToUpper();
                     Session["primer_apellido"] = item.PRIMER_APELLIDO.ToUpper();
                     Session["segundo_apellido"] = item.SEGUNDO_APELLIDO.ToUpper();
+                    Session["id_rol"] = Convert.ToInt16(item.ID_ROL);
                     Session["url_fotografia"] = item.PATH;
 
                     var urlBuilder = new System.UriBuilder(Request.Url.AbsoluteUri) { Path = Url.Content(@"~\"), Query = null, };
@@ -59,8 +55,6 @@ namespace Ventas.Controllers
                 else
                     item = null;
 
-
-
                 return Json(new { State = 1, data = item }, JsonRequestBehavior.AllowGet);
             }
             catch (Exception ex)
@@ -68,5 +62,14 @@ namespace Ventas.Controllers
                 return Json(new { State = -1, Message = ex.Message }, JsonRequestBehavior.AllowGet);
             }
         }
+
+        /*
+            SUPER_USUARIO = 1,
+            ADMINISTRADOR = 2,
+            CAJERO = 3,
+            BODEGUERO = 4,
+            SECRETARIA = 5,
+            VENDEDOR = 6
+        */
     }
 }

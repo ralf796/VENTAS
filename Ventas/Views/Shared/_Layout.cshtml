@@ -1,4 +1,8 @@
-﻿<!DOCTYPE html>
+﻿@{
+    int ROL = Convert.ToInt16(Session["id_rol"]);
+}
+
+<!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="utf-8" />
@@ -189,297 +193,320 @@
                 <nav class="mt-2">
                     <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
                         <!--<li class="nav-item">
-    <a href="~/USUMantenimiento/Index" class="nav-link">
-        <i class="nav-icon fas fa-th"></i>
-        <p>
-            USUARIOS-->
+                        <a href="~/USUMantenimiento/Index" class="nav-link">
+                            <i class="nav-icon fas fa-th"></i>
+                            <p>
+                                USUARIOS-->
                         @*<span class="right badge badge-danger">New</span>*@
                         <!--</p>
-        </a>
-    </li>-->
-                        <li class="nav-item">
-                            <a href="#" class="nav-link">
-                                <i class="far fa-users"></i>    @*https://fontawesome.com/v5/icons/trash-alt?s=regular&f=classic    version 5 *@
-                                <p>
-                                    USUARIOS
-                                    <i class="right fas fa-angle-left"></i>
-                                </p>
                             </a>
-                            <ul class="nav nav-treeview">
-                                <li class="nav-item">
-                                    <a href="~/USUListarUsuario/Index" class="nav-link">
-                                        <i class="far fa-stop-circle"></i>
-                                        <p>VER USUARIOS</p>
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a href="~/USUCrearUsuario/Index" class="nav-link">
-                                        <i class="far fa-stop-circle"></i>
-                                        <p>CREAR USUARIO</p>
-                                    </a>
-                                </li>
-                            </ul>
-                        </li>
-                        <li class="nav-item">
-                            <a href="~/CLIListarClientes/Index" class="nav-link">
-                                <i class="far fa-user"></i>
-                                <p>
-                                    CLIENTES
-                                </p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="#" class="nav-link">
-                                <i class="far fa-inventory"></i>
-                                <p>
-                                    INVENTARIO
-                                    <i class="fas fa-angle-left right"></i>
-                                </p>
-                            </a>
-                            <ul class="nav nav-treeview">
-                                <li class="nav-item">
-                                    <a href="#" class="nav-link">
-                                        <i class="far fa-car-mechanic"></i>
-                                        <p>
-                                            MANTENIMIENTO
-                                            <i class="fas fa-angle-left right"></i>
-                                        </p>
-                                    </a>
-                                    <ul class="nav nav-treeview">
-                                        <li class="nav-item">
-                                            <a href="~/INVMantenimiento/IndexBodega" class="nav-link">
-                                                <i class="far fa-stop-circle"></i>
-                                                <p>BODEGA</p>
-                                            </a>
-                                        </li>
-                                        <li class="nav-item d-none">
-                                            <a href="~/INVMantenimiento/IndexCategoria" class="nav-link">
-                                                <i class="far fa-stop-circle"></i>
-                                                <p>CATEGORIA</p>
-                                            </a>
-                                        </li>
-                                        <li class="nav-item d-none">
-                                            <a href="~/INVMantenimiento/IndexSubcategoria" class="nav-link">
-                                                <i class="far fa-stop-circle"></i>
-                                                <p>SUBCATEGORIA</p>
-                                            </a>
-                                        </li>
-                                        <li class="nav-item">
-                                            <a href="~/INVMantenimiento/IndexModelo" class="nav-link">
-                                                <i class="far fa-stop-circle"></i>
-                                                <p>MODELO</p>
-                                            </a>
-                                        </li>
-                                        <li class="nav-item">
-                                            <a href="~/INVMantenimiento/IndexProveedor" class="nav-link">
-                                                <i class="far fa-stop-circle"></i>
-                                                <p>PROVEEDOR</p>
-                                            </a>
-                                        </li>
-                                        <li class="nav-item">
-                                            <a href="~/INVMantenimiento/IndexMarcaRepuesto" class="nav-link">
-                                                <i class="far fa-stop-circle"></i>
-                                                <p>MARCA REPUESTO</p>
-                                            </a>
-                                        </li>
-                                        <li class="nav-item">
-                                            <a href="~/INVMantenimiento/IndexMarcaVehiculo" class="nav-link">
-                                                <i class="far fa-stop-circle"></i>
-                                                <p>MARCA VEHICULO</p>
-                                            </a>
-                                        </li>
-                                        <li class="nav-item">
-                                            <a href="~/INVMantenimiento/IndexSerieVehiculo" class="nav-link">
-                                                <i class="far fa-stop-circle"></i>
-                                                <p>SERIE VEHICULO</p>
-                                            </a>
-                                        </li>
-                                    </ul>
-                                </li>
-                                <li class="nav-item">
-                                    <a href="~/INVMantenimiento/IndexListarProductos" class="nav-link">
-                                        <i class="far fa-check-double" style="color:green"></i>
-                                        <p>LISTAR PRODUCTOS</p>
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a href="~/INVMantenimiento/IndexCrearProducto" class="nav-link">
-                                        <i class="far fa-check-double" style="color:green"></i>
-                                        <p>CREAR PRODUCTO</p>
-                                    </a>
-                                </li>
-                            </ul>
-                        </li>
-                        <li class="nav-item">
-                            <a href="~/VENCrearVenta/Index" class="nav-link">
-                                <i class="far fa-store"></i>
-                                <p>
-                                    VENTAS
-                                </p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="#" class="nav-link">
-                                <i class="fas fa-hand-holding-usd"></i>
-                            <p>
-                                CAJA
-                                <i class="right fas fa-angle-left"></i>
-                            </p>
-                            </a>
-                            <ul class="nav nav-treeview">
-                                <li class="nav-item">
-                                    <a href="~/CAJCobro/Index" class="nav-link">
-                                        <i class="far fa-stop-circle"></i>
-                                        <p>COBRO</p>
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a href="~/CAJCorte/Index" class="nav-link">
-                                        <i class="far fa-stop-circle"></i>
-                                        <p>CORTE</p>
-                                    </a>
-                                </li>
-                            </ul>
-                        </li>
-                        <li class="nav-item">
-                            <a href="pages/widgets.html" class="nav-link">
-                                <i class="fas fa-file-chart-line"></i>
-                                <p>
-                                    REPORTES
-                                </p>
-                            </a>
-                        </li>
+                        </li>-->
+
+                        @if (ROL == 1 || ROL == 2)
+                        {
+
+                            <li class="nav-item">
+                                <a href="#" class="nav-link">
+                                    <i class="far fa-users"></i>    @*https://fontawesome.com/v5/icons/trash-alt?s=regular&f=classic    version 5 *@
+                                    <p>
+                                        USUARIOS
+                                        <i class="right fas fa-angle-left"></i>
+                                    </p>
+                                </a>
+                                <ul class="nav nav-treeview">
+                                    <li class="nav-item">
+                                        <a href="~/USUListarUsuario/Index" class="nav-link">
+                                            <i class="far fa-stop-circle"></i>
+                                            <p>VER USUARIOS</p>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="~/USUCrearUsuario/Index" class="nav-link">
+                                            <i class="far fa-stop-circle"></i>
+                                            <p>CREAR USUARIO</p>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+                        }
+
+                        @if (ROL == 1 || ROL == 2 || ROL == 6)
+                        {
+                            <li class="nav-item">
+                                <a href="~/CLIListarClientes/Index" class="nav-link">
+                                    <i class="far fa-user"></i>
+                                    <p>
+                                    </p>
+                                </a>
+                            </li>
+                        }
+
+                        @if (ROL == 1 || ROL == 2 || ROL == 4)
+                        {
+                            <li class="nav-item">
+                                <a href="#" class="nav-link">
+                                    <i class="far fa-inventory"></i>
+                                    <p>
+                                        INVENTARIO
+                                        <i class="fas fa-angle-left right"></i>
+                                    </p>
+                                </a>
+                                <ul class="nav nav-treeview">
+                                    <li class="nav-item">
+                                        <a href="#" class="nav-link">
+                                            <i class="far fa-car-mechanic"></i>
+                                            <p>
+                                                MANTENIMIENTO
+                                                <i class="fas fa-angle-left right"></i>
+                                            </p>
+                                        </a>
+                                        <ul class="nav nav-treeview">
+                                            <li class="nav-item">
+                                                <a href="~/INVMantenimiento/IndexBodega" class="nav-link">
+                                                    <i class="far fa-stop-circle"></i>
+                                                    <p>BODEGA</p>
+                                                </a>
+                                            </li>
+                                            <li class="nav-item d-none">
+                                                <a href="~/INVMantenimiento/IndexCategoria" class="nav-link">
+                                                    <i class="far fa-stop-circle"></i>
+                                                    <p>CATEGORIA</p>
+                                                </a>
+                                            </li>
+                                            <li class="nav-item d-none">
+                                                <a href="~/INVMantenimiento/IndexSubcategoria" class="nav-link">
+                                                    <i class="far fa-stop-circle"></i>
+                                                    <p>SUBCATEGORIA</p>
+                                                </a>
+                                            </li>
+                                            <li class="nav-item">
+                                                <a href="~/INVMantenimiento/IndexModelo" class="nav-link">
+                                                    <i class="far fa-stop-circle"></i>
+                                                    <p>MODELO</p>
+                                                </a>
+                                            </li>
+                                            <li class="nav-item">
+                                                <a href="~/INVMantenimiento/IndexProveedor" class="nav-link">
+                                                    <i class="far fa-stop-circle"></i>
+                                                    <p>PROVEEDOR</p>
+                                                </a>
+                                            </li>
+                                            <li class="nav-item">
+                                                <a href="~/INVMantenimiento/IndexMarcaRepuesto" class="nav-link">
+                                                    <i class="far fa-stop-circle"></i>
+                                                    <p>MARCA REPUESTO</p>
+                                                </a>
+                                            </li>
+                                            <li class="nav-item">
+                                                <a href="~/INVMantenimiento/IndexMarcaVehiculo" class="nav-link">
+                                                    <i class="far fa-stop-circle"></i>
+                                                    <p>MARCA VEHICULO</p>
+                                                </a>
+                                            </li>
+                                            <li class="nav-item">
+                                                <a href="~/INVMantenimiento/IndexSerieVehiculo" class="nav-link">
+                                                    <i class="far fa-stop-circle"></i>
+                                                    <p>SERIE VEHICULO</p>
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="~/INVMantenimiento/IndexListarProductos" class="nav-link">
+                                            <i class="far fa-check-double" style="color:green"></i>
+                                            <p>LISTAR PRODUCTOS</p>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="~/INVMantenimiento/IndexCrearProducto" class="nav-link">
+                                            <i class="far fa-check-double" style="color:green"></i>
+                                            <p>CREAR PRODUCTO</p>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+                        }
+
+                        @if (ROL == 1 || ROL == 2 || ROL == 6)
+                        {
+                            <li class="nav-item">
+                                <a href="~/VENCrearVenta/Index" class="nav-link">
+                                    <i class="far fa-store"></i>
+                                    <p>
+                                        VENTAS
+                                    </p>
+                                </a>
+                            </li>
+                        }
+                        @if (ROL == 1 || ROL == 2 || ROL == 3)
+                        {
+                            <li class="nav-item">
+                                <a href="#" class="nav-link">
+                                    <i class="fas fa-hand-holding-usd"></i>
+                                    <p>
+                                        CAJA
+                                        <i class="right fas fa-angle-left"></i>
+                                    </p>
+                                </a>
+                                <ul class="nav nav-treeview">
+                                    <li class="nav-item">
+                                        <a href="~/CAJCobro/Index" class="nav-link">
+                                            <i class="far fa-stop-circle"></i>
+                                            <p>COBRO</p>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="~/CAJCorte/Index" class="nav-link">
+                                            <i class="far fa-stop-circle"></i>
+                                            <p>CORTE</p>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+                        }
+
+                        @if (ROL == 1 || ROL == 2)
+                        {
+                            <li class="nav-item">
+                                <a href="pages/widgets.html" class="nav-link">
+                                    <i class="fas fa-file-chart-line"></i>
+                                    <p>
+                                        REPORTES
+                                    </p>
+                                </a>
+                            </li>
+                        }
                         @*<li class="nav-item">
-            <a href="#" class="nav-link">
-                <i class="nav-icon fas fa-copy"></i>
-                <p>
-                    Layout Options
-                    <i class="fas fa-angle-left right"></i>
-                    <span class="badge badge-info right">6</span>
-                </p>
-            </a>
-            <ul class="nav nav-treeview">
-                <li class="nav-item">
-                    <a href="pages/layout/top-nav.html" class="nav-link">
-                        <i class="far fa-stop-circle"></i>
-                        <p>Top Navigation</p>
-                    </a>
-                </li>
-            </ul>
-        </li>
-        <li class="nav-item">
-            <a href="#" class="nav-link">
-                <i class="nav-icon fas fa-chart-pie"></i>
-                <p>
-                    Charts
-                    <i class="right fas fa-angle-left"></i>
-                </p>
-            </a>
-            <ul class="nav nav-treeview">
-                <li class="nav-item">
-                    <a href="pages/charts/chartjs.html" class="nav-link">
-                        <i class="far fa-stop-circle"></i>
-                        <p>ChartJS</p>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a href="pages/charts/flot.html" class="nav-link">
-                        <i class="far fa-stop-circle"></i>
-                        <p>Flot</p>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a href="pages/charts/inline.html" class="nav-link">
-                        <i class="far fa-stop-circle"></i>
-                        <p>Inline</p>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a href="pages/charts/uplot.html" class="nav-link">
-                        <i class="far fa-stop-circle"></i>
-                        <p>uPlot</p>
-                    </a>
-                </li>
-            </ul>
-        </li>
-        <li class="nav-header">MULTI LEVEL EXAMPLE</li>
-        <li class="nav-item">
-            <a href="#" class="nav-link">
-                <i class="fas fa-circle nav-icon"></i>
-                <p>Level 1</p>
-            </a>
-        </li>
-        <li class="nav-item">
-            <a href="#" class="nav-link">
-                <i class="nav-icon fas fa-circle"></i>
-                <p>
-                    Level 1
-                    <i class="right fas fa-angle-left"></i>
-                </p>
-            </a>
-            <ul class="nav nav-treeview">
-                <li class="nav-item">
-                    <a href="#" class="nav-link">
-                        <i class="far fa-stop-circle"></i>
-                        <p>Level 2</p>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a href="#" class="nav-link">
-                        <i class="far fa-stop-circle"></i>
-                        <p>
-                            Level 2
-                            <i class="right fas fa-angle-left"></i>
-                        </p>
-                    </a>
-                    <ul class="nav nav-treeview">
-                        <li class="nav-item">
-                            <a href="#" class="nav-link">
-                                <i class="far fa-dot-circle nav-icon"></i>
-                                <p>Level 3</p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="#" class="nav-link">
-                                <i class="far fa-dot-circle nav-icon"></i>
-                                <p>Level 3</p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="#" class="nav-link">
-                                <i class="far fa-dot-circle nav-icon"></i>
-                                <p>Level 3</p>
-                            </a>
-                        </li>
-                    </ul>
-                </li>
-                <li class="nav-item">
-                    <a href="#" class="nav-link">
-                        <i class="far fa-stop-circle"></i>
-                        <p>Level 2</p>
-                    </a>
-                </li>
-            </ul>
-        </li>
-        <li class="nav-header">LABELS</li>
-        <li class="nav-item">
-            <a href="#" class="nav-link">
-                <i class="nav-icon far fa-circle text-danger"></i>
-                <p class="text">Important</p>
-            </a>
-        </li>
-        <li class="nav-item">
-            <a href="#" class="nav-link">
-                <i class="nav-icon far fa-circle text-warning"></i>
-                <p>Warning</p>
-            </a>
-        </li>
-        <li class="nav-item">
-            <a href="#" class="nav-link">
-                <i class="nav-icon far fa-circle text-info"></i>
-                <p>Informational</p>
-            </a>
-        </li>*@
+                                <a href="#" class="nav-link">
+                                    <i class="nav-icon fas fa-copy"></i>
+                                    <p>
+                                        Layout Options
+                                        <i class="fas fa-angle-left right"></i>
+                                        <span class="badge badge-info right">6</span>
+                                    </p>
+                                </a>
+                                <ul class="nav nav-treeview">
+                                    <li class="nav-item">
+                                        <a href="pages/layout/top-nav.html" class="nav-link">
+                                            <i class="far fa-stop-circle"></i>
+                                            <p>Top Navigation</p>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li class="nav-item">
+                                <a href="#" class="nav-link">
+                                    <i class="nav-icon fas fa-chart-pie"></i>
+                                    <p>
+                                        Charts
+                                        <i class="right fas fa-angle-left"></i>
+                                    </p>
+                                </a>
+                                <ul class="nav nav-treeview">
+                                    <li class="nav-item">
+                                        <a href="pages/charts/chartjs.html" class="nav-link">
+                                            <i class="far fa-stop-circle"></i>
+                                            <p>ChartJS</p>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="pages/charts/flot.html" class="nav-link">
+                                            <i class="far fa-stop-circle"></i>
+                                            <p>Flot</p>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="pages/charts/inline.html" class="nav-link">
+                                            <i class="far fa-stop-circle"></i>
+                                            <p>Inline</p>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="pages/charts/uplot.html" class="nav-link">
+                                            <i class="far fa-stop-circle"></i>
+                                            <p>uPlot</p>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li class="nav-header">MULTI LEVEL EXAMPLE</li>
+                            <li class="nav-item">
+                                <a href="#" class="nav-link">
+                                    <i class="fas fa-circle nav-icon"></i>
+                                    <p>Level 1</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="#" class="nav-link">
+                                    <i class="nav-icon fas fa-circle"></i>
+                                    <p>
+                                        Level 1
+                                        <i class="right fas fa-angle-left"></i>
+                                    </p>
+                                </a>
+                                <ul class="nav nav-treeview">
+                                    <li class="nav-item">
+                                        <a href="#" class="nav-link">
+                                            <i class="far fa-stop-circle"></i>
+                                            <p>Level 2</p>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="#" class="nav-link">
+                                            <i class="far fa-stop-circle"></i>
+                                            <p>
+                                                Level 2
+                                                <i class="right fas fa-angle-left"></i>
+                                            </p>
+                                        </a>
+                                        <ul class="nav nav-treeview">
+                                            <li class="nav-item">
+                                                <a href="#" class="nav-link">
+                                                    <i class="far fa-dot-circle nav-icon"></i>
+                                                    <p>Level 3</p>
+                                                </a>
+                                            </li>
+                                            <li class="nav-item">
+                                                <a href="#" class="nav-link">
+                                                    <i class="far fa-dot-circle nav-icon"></i>
+                                                    <p>Level 3</p>
+                                                </a>
+                                            </li>
+                                            <li class="nav-item">
+                                                <a href="#" class="nav-link">
+                                                    <i class="far fa-dot-circle nav-icon"></i>
+                                                    <p>Level 3</p>
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="#" class="nav-link">
+                                            <i class="far fa-stop-circle"></i>
+                                            <p>Level 2</p>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li class="nav-header">LABELS</li>
+                            <li class="nav-item">
+                                <a href="#" class="nav-link">
+                                    <i class="nav-icon far fa-circle text-danger"></i>
+                                    <p class="text">Important</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="#" class="nav-link">
+                                    <i class="nav-icon far fa-circle text-warning"></i>
+                                    <p>Warning</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="#" class="nav-link">
+                                    <i class="nav-icon far fa-circle text-info"></i>
+                                    <p>Informational</p>
+                                </a>
+                            </li>*@
                     </ul>
                 </nav>
                 <!-- /.sidebar-menu -->
