@@ -1,79 +1,168 @@
 ﻿$(document).ready(function () {
-    GetUsuarios();
+    GetDatos();
 
-    function GetUsuarios() {
-        $('#tbodyUsuarios').empty();
-        $.ajax({
-            type: 'GET',
-            url: '/USUListarUsuario/GetUsuarios',
-            contentType: "application/json; charset=utf-8",
-            dataType: 'json',
-            data: {},
-            cache: false,
-            success: function (data) {
-                var lista = data["data"];
-                var state = data["State"];
-                if (state == 1) {
-                    AddRows(lista);
-                    DatatableActive();
-                }
-                else if (state == -1)
-                    alert(data["Message"])
+    function GetDatos() {
+        var customStore = new DevExpress.data.CustomStore({
+            load: function (loadOptions) {
+                var d = $.Deferred();
+                $.ajax({
+                    type: 'GET',
+                    url: '/USUListarUsuario/GetUsuarios',
+                    contentType: "application/json; charset=utf-8",
+                    dataType: 'json',
+                    data: {},
+                    cache: false,
+                    success: function (data) {
+                        var state = data["State"];
+                        if (state == 1) {
+                            data = JSON && JSON.parse(JSON.stringify(data)) || $.parseJSON(data);
+                            d.resolve(data);
+                        }
+                        else if (state == -1)
+                            ShowAlertMessage(data["Message"])
+                    },
+                    error: function (jqXHR, exception) {
+                        getErrorMessage(jqXHR, exception);
+                    }
+                });
+                return d.promise();
             }
         });
-    }
-    function AddRows(lista) {
-        $.each(lista, function (i, l) {
-            var estatus = '', buttons = '';
-            if (l.ESTADO == 1) {
-                estatus = '<span class="badge badge-success">ACTIVO</span>';
-                buttons = '<button class="btn btn-sm btn-circle btn-outline-primary"><i class="far fa-pencil-alt"></i></button><button style="margin-left:5px;" class="btn btn-sm btn-circle btn-outline-danger"><i class="far fa-trash-alt"></i></button>';
-            }
-            else
-                estatus = '<span class="badge badge-danger">INACTIVO</span>';
-
-            $('#tbodyUsuarios').append('<tr class="table">' +
-                '<td>' + l.USUARIO + '</td>' +
-                '<td>' + l.NOMBRE_ROL + '</td>' +
-                '<td>' + l.NOMBRE_TIPO_EMPLEADO + '</td>' +
-                '<td>' + l.PRIMER_NOMBRE + ' ' + l.SEGUNDO_NOMBRE + ' ' + l.PRIMER_APELLIDO + ' ' + l.SEGUNDO_APELLIDO + '</td>' +
-                '<td>' + l.TELEFONO + '</td>' +
-                '<td>' + l.DIRECCION + '</td>' +
-                '<td>' + l.URL_PANTALLA + '</td>' +
-                '<td>' + l.EMAIL + '</td>' +
-                '<td class="text-center">' + estatus + '</td>' +
-                '<td class="text-center">' + buttons + '</td>' +
-                '</tr>'
-            );
-        });
-    }
-    function DatatableActive() {
-        tablaIni = $("#tblUsuarios").DataTable({
-            scrollY: (window.innerHeight - 200) + 'px',
-            scrollX: true,
-            scrollCollapse: true,
-            fixedHeader: true,
-            language: {
-                "lengthMenu": "Registros por pagina _MENU_",
-                "zeroRecords": "No existen registros",
-                "info": "Pagina _PAGE_ de _PAGES_",
-                "infoEmpty": "No existen registros",
-                "search": "<strong>Buscar por nombre de cliente</strong>",
-                "paginate": {
-                    "first": "Primero",
-                    "last": "Ultimo",
-                    "next": "Siguiente",
-                    "previous": "Anterior"
-                },
+        var salesPivotGrid = $("#gridContainer").dxDataGrid({
+            dataSource: new DevExpress.data.DataSource(customStore),
+            showBorders: true,
+            loadPanel: {
+                text: "Cargando..."
             },
-            "lengthMenu": [[20, 25, 50, -1], [20, 25, 50, "Todos"]],
-            ordering: false,
-            info: false,
-            paginate: false,
-            searching: false,
-            paging: false,
-            searching: false,
-            destroy: true
-        });
+            scrolling: {
+                useNative: false,
+                scrollByContent: true,
+                scrollByThumb: true,
+                showScrollbar: "always" // or "onScroll" | "always" | "never"
+            },
+            searchPanel: {
+                visible: true,
+                width: 240,
+                placeholder: "Buscar..."
+            },
+            headerFilter: {
+                visible: true
+            },
+            columnAutoWidth: true,
+            export: {
+                enabled: false
+            },
+            columns: [
+                {
+                    dataField: 'PATH_IMAGEN',
+                    width: 90,
+                    cellTemplate(container, options) {
+                        $('<div>').append($('<img>', { src: options.value })).appendTo(container);
+                    },
+                },
+                {
+                    caption: "ESTADO",
+                    alignment: "center",
+                    cellTemplate: function (container, options) {
+                        var fieldData = options.data;
+
+                        container.addClass(fieldData.ESTADO != 1 ? "dec" : "");
+
+                        if (fieldData.ESTADO == 1)
+                            $("<span>").addClass("badge badge-success").text('ACTIVO').appendTo(container);
+                        else
+                            $("<span>").addClass("badge badge-danger").text('INACTIVO').appendTo(container);
+
+                    }
+                },
+                {
+                    caption: "ACCIONES",
+                    type: "buttons",
+                    alignment: "center",
+                    buttons: [
+                        {
+                            visible: function (e) {
+                                var visible = false;
+                                if (e.row.data.ESTADO == 1)
+                                    visible = true;
+                                return visible;
+                            },
+                            hint: "Editar",
+                            icon: "edit",
+                            onClick: function (e) {
+                                GetOpcion(2)
+                                GetInputsUpdate(e.row.data['ID_BODEGA'], e.row.data['NOMBRE'], e.row.data['ESTANTERIA'], e.row.data['NIVEL'])
+                            }
+                        },
+                        {
+                            visible: function (e) {
+                                var visible = false;
+                                if (e.row.data.ESTADO == 1)
+                                    visible = true;
+                                return visible;
+                            },
+                            hint: "Inactivar",
+                            icon: "clear",
+                            onClick: function (e) {
+                                Delete(e.row.data['ID_USUARIO'], 4)
+                            }
+                        }
+                    ]
+                },
+                {
+                    dataField: "ID_USUARIO",
+                    caption: "ID",
+                    visible: false
+                },
+                {
+                    dataField: "USUARIO",
+                    caption: "USUARIO",
+                    alignment: "center",
+                    visible: false
+                },
+                {
+                    dataField: "NOMBRE_ROL",
+                    caption: "ROL"
+                },
+                {
+                    dataField: "NOMBRE_TIPO_EMPLEADO",
+                    caption: "TIPO EMPLEADO"
+                },
+                {
+                    dataField: "PRIMER_NOMBRE",
+                    caption: "PRIMER NOMBRE"
+                },
+                {
+                    dataField: "SEGUNDO_NOMBRE",
+                    caption: "SEGUNDO NOMBRE"
+                },
+                {
+                    dataField: "PRIMER_APELLIDO",
+                    caption: "PRIMER APELLIDO"
+                },
+                {
+                    dataField: "SEGUNDO_APELLIDO",
+                    caption: "SEGUNDO_APELLIDO"
+                },
+                {
+                    dataField: "TELEFONO",
+                    caption: "TELEFONO"
+                },
+                {
+                    dataField: "DIRECION",
+                    caption: "DIRECCION"
+                },
+                {
+                    dataField: "URL_PANTALLA",
+                    caption: "URL DEFAULT"
+                },
+                {
+                    dataField: "EMAIL",
+                    caption: "EMAIL"
+                }
+            ]
+        }).dxDataGrid('instance');
+
     }
+
 });

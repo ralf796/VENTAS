@@ -35,102 +35,6 @@
             }
         });
     }
-    /*
-    function GetDatos() {
-        var tipo = 20;
-        $('#tbodyDatos').empty();
-        $.ajax({
-            type: 'GET',
-            url: '/INVMantenimiento/GetDatosTable',
-            contentType: "application/json; charset=utf-8",
-            dataType: 'json',
-            data: { tipo },
-            cache: false,
-            success: function (data) {
-                var lista = data["data"];
-                var state = data["State"];
-                if (state == 1) {
-                    AddRows(lista);
-                    $('#modalDatos').modal('hide');
-                    //DatatableActive();
-                }
-                else if (state == -1)
-                    alert(data["Message"])
-            }
-        });
-    }
-    */
-    function AddRows(lista) {
-        $.each(lista, function (i, l) {
-            var estatus = '', buttons = '';
-            if (l.ESTADO == 1) {
-                estatus = '<span class="badge badge-success">ACTIVO</span>';
-                buttons = '<button class="btn btn-sm btn-circle btn-outline-primary edit" data-toggle="modal" data-target="#modalDatos"><i class="far fa-pencil-alt"></i></button>' +
-                    '<button style="margin-left:5px;" class="btn btn-sm btn-circle btn-outline-danger remove" ><i class="far fa-trash-alt"></i></button>';
-            }
-            else
-                estatus = '<span class="badge badge-danger">INACTIVO</span>';
-
-            $('#tbodyProductos').append('<tr class="table">' +
-                '<td class="d-none">' + l.ID_PRODUCTO + '</td>' +
-                '<td>' + l.NOMBRE + '</td>' +
-                '<td>' + l.DESCRIPCION + '</td>' +
-                '<td>' + l.PRECIO_COSTO + '</td>' +
-                '<td>' + l.PRECIO_VENTA + '</td>' +
-                '<td>' + l.STOCK + '</td>' +
-                '<td>' + l.CODIGO + '</td>' +
-                '<td>' + l.CREADO_POR + '</td>' +
-                '<td class="d-none">' + l.ID_BODEGA + '</td>' +
-                '<td>' + l.NOMBRE_BODEGA + '</td>' +                    //10
-                '<td class="d-none">' + l.ID_MODELO + '</td>' +
-                '<td>' + l.NOMBRE_MODELO + '</td>' +
-                '<td class="d-none">' + l.ID_PROVEEDOR + '</td>' +
-                '<td>' + l.NOMBRE_PROVEEDOR + '</td>' +
-                '<td class="d-none">' + l.ID_MARCA_REPUESTO + '</td>' + //15
-                '<td>' + l.NOMBRE_MARCA_REPUESTO + '</td>' +
-                '<td class="d-none">' + l.ID_CATEGORIA + '</td>' +
-                '<td>' + l.NOMBRE_CATEGORIA + '</td>' +
-                '<td class="d-none">' + l.ID_SUBCATEGORIA + '</td>' +
-                '<td>' + l.NOMBRE_SUBCATEGORIA + '</td>' +              //20
-                '<td class="d-none">' + l.ID_MARCA_VEHICULO + '</td>' +
-                '<td>' + l.NOMBRE_MARCA_VEHICULO + '</td>' +
-                '<td class="d-none">' + l.ID_SERIE_VEHICULO + '</td>' +
-                '<td>' + l.NOMBRE_SERIE_VEHICULO + '</td>' +
-                '<td class="text-center">' + estatus + '</td>' +
-                '<td class="text-center">' + buttons + '</td>' +
-                '</tr>'
-            );
-        });
-    }
-    function DatatableActive() {
-        tablaIni = $("#tblProductos").DataTable({
-            scrollY: (window.innerHeight - 200) + 'px',
-            scrollX: true,
-            scrollCollapse: true,
-            fixedHeader: true,
-            language: {
-                "lengthMenu": "Registros por pagina _MENU_",
-                "zeroRecords": "No existen registros",
-                "info": "Pagina _PAGE_ de _PAGES_",
-                "infoEmpty": "No existen registros",
-                "search": "<strong>Buscar...</strong>",
-                "paginate": {
-                    "first": "Primero",
-                    "last": "Ultimo",
-                    "next": "Siguiente",
-                    "previous": "Anterior"
-                },
-            },
-            "lengthMenu": [[20, 25, 50, -1], [20, 25, 50, "Todos"]],
-            ordering: false,
-            info: false,
-            paginate: false,
-            searching: true,
-            paging: false,
-            searching: false,
-            destroy: true
-        });
-    }
     function GetLists(selObject, tipo) {
         return new Promise((resolve, reject) => {
             $.ajax({
@@ -169,52 +73,6 @@
         });
     }
 
-    $('#tbodyProductos').on('click', '.edit', function (e) {
-        var ID_PRODUCTO = $(this).closest("tr").find("td").eq(0).text();
-        var NOMBRE = $(this).closest("tr").find("td").eq(1).text();
-        var DESCRIPCION = $(this).closest("tr").find("td").eq(2).text();
-        var PRECIO_COSTO = $(this).closest("tr").find("td").eq(3).text();
-        var PRECIO_VENTA = $(this).closest("tr").find("td").eq(4).text();
-        var STOCK = $(this).closest("tr").find("td").eq(5).text();
-        var ANIO_FABRICADO = $(this).closest("tr").find("td").eq(6).text();
-        var CODIGO = $(this).closest("tr").find("td").eq(7).text();
-        var ID_CATEGORIA = $(this).closest("tr").find("td").eq(8).text();
-        var ID_MODELO = $(this).closest("tr").find("td").eq(10).text();
-        var ID_TIPO = $(this).closest("tr").find("td").eq(12).text();
-        var ID_BODEGA = $(this).closest("tr").find("td").eq(14).text();
-
-        $('#hfIdProducto').val(ID_PRODUCTO);
-        $('#txtNombre').val(NOMBRE);
-        $('#txtDescripcion').val(DESCRIPCION);
-        $('#txtPrecioCosto').val(PRECIO_COSTO);
-        $('#txtPrecioVenta').val(PRECIO_VENTA);
-        $('#txtStock').val(STOCK);
-        $('#txtAnioFabricacion').val(ANIO_FABRICADO);
-        $('#txtCodigo').val(CODIGO);
-        $('#selCategoria').val(ID_CATEGORIA);
-        $('#selModelo').val(ID_MODELO);
-        $('#selTipo').val(ID_TIPO);
-        $('#selBodega').val(ID_BODEGA);
-
-        $('#modalDatos').modal('show');
-    });
-    $('#tbodyProductos').on('click', '.remove', function (e) {
-        var id = $(this).closest("tr").find("td").eq(0).text();
-        Swal.fire({
-            icon: 'warning',
-            title: '¿Estás seguro de inactivar el item seleccionado?',
-            //showDenyButton: true,
-            //denyButtonText: 'No, cancelar',
-            showConfirmButton: true,
-            showCancelButton: true,
-            confirmButtonText: 'Si',
-            cancelButtonText: 'No, cancelar',
-        }).then((result) => {
-            if (result.isConfirmed) {
-                Update_Delete_Producto(id, 20);
-            }
-        })
-    });
     $('#formGuardarProducto').submit(function (e) {
         e.preventDefault();
 
@@ -288,6 +146,13 @@
             },
             columns: [
                 {
+                    dataField: 'PATH_IMAGEN',
+                    width: 90,
+                    cellTemplate(container, options) {
+                        $('<div>').append($('<img>', { src: options.value })).appendTo(container);
+                    },
+                },
+                {
                     caption: "ACCIONES",
                     type: "buttons",
                     alignment: "center",
@@ -338,14 +203,12 @@
                     alignment: "center",
                     cellTemplate: function (container, options) {
                         var fieldData = options.data;
-
                         container.addClass(fieldData.ESTADO != 1 ? "dec" : "");
 
                         if (fieldData.ESTADO == 1)
                             $("<span>").addClass("badge badge-success").text('ACTIVO').appendTo(container);
                         else
                             $("<span>").addClass("badge badge-danger").text('INACTIVO').appendTo(container);
-
                     }
                 },
                 {
