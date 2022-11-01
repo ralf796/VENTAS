@@ -292,6 +292,7 @@
                     var list = data["data"];
                     var state = data["State"];
                     if (state == 1) {
+                        console.log(list)
                         $(selObject).empty();
                         $(selObject).append('<option selected value="-1" disabled>Seleccione una opción</option>');
                         $(selObject).append('<option value="0">Todos</option>');
@@ -306,7 +307,7 @@
                                 $(selObject).append('<option value="' + dato.ID_PROVEEDOR + '">' + dato.NOMBRE + '</option>');
                             }
                             else if (tipo == 12) {
-                                $(selObject).append('<option value="' + dato.ID_MARCA_REPUESTO + '">' + dato.NOMBRE + '</option>');
+                                $(selObject).append('<option value="' + dato.ID_MARCA_REPUESTO + '">' + dato.ID_MARCA_REPUESTO+' -  '+  dato.NOMBRE + '</option>');
                             }
                             else if (tipo == 2) {
                                 $(selObject).append('<option value="' + dato.ID_CATEGORIA + '">' + dato.NOMBRE + '</option>');
@@ -405,16 +406,17 @@
             //data: { tipo, ID_CLIENTE, TOTAL, SUBTOTAL, TOTAL_DESCUENTO },
             data: {
                 encabezado: JSON.stringify(jsonEncabezado),
-                detalle: JSON.stringify(jsonDetalles)
+                detalles: JSON.stringify(jsonDetalles)
             },
             cache: false,
             success: function (data) {
                 var state = data["State"];
                 var compra = data["data"];
-                if (state == 1 && compra != null) {
-                    ShowAlertMessage('success', 'Se creó la orden de compra: ' + compra.ID_VENTA)
+                if (state == 1 /*&& compra != null*/) {
+                    ShowAlertMessage('success', 'Se creó la orden de compra: ' + data['ORDEN_COMPRA'])
                     ClearCustomer();
                     ClearProduct();
+                    $('#txtTotal').html('');
                     $('#tbodyDetalleVenta').empty();
                 }
                 else if (state == -1) {
@@ -596,7 +598,7 @@
             var listado = new DETALLE(vId, vCantidad, vPrecio, vTotal, vIva, vDescuento, vSubtotal);
             listDetalles.push(listado);
         });
-
+        console.log(listDetalles)
         if (listDetalles.length == 0)
             ShowAlertMessage('info', 'Debes agregar al menos un producto.');
         else {

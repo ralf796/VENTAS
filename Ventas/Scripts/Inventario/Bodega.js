@@ -1,7 +1,7 @@
 ﻿$(document).ready(function () {
     DevExpress.localization.locale(navigator.language);
     GetDatos()
-
+    var cont = 0;
     function GetDatos() {
         var tipo = 7;
         var customStore = new DevExpress.data.CustomStore({
@@ -55,22 +55,8 @@
                 enabled: false
             },
             columns: [
-                {
-                    caption: "ESTADO",
-                    alignment: "center",
-                    cellTemplate: function (container, options) {
-                        var fieldData = options.data;
 
-                        container.addClass(fieldData.ESTADO != 1 ? "dec" : "");
-
-                        if (fieldData.ESTADO == 1)
-                            $("<span>").addClass("badge badge-success").text('ACTIVO').appendTo(container);
-                        else
-                            $("<span>").addClass("badge badge-danger").text('INACTIVO').appendTo(container);
-
-                    }
-                },
-                {
+                /*{
                     caption: "ACCIONES",
                     type: "buttons",
                     alignment: "center",
@@ -90,6 +76,7 @@
                             }
                         },
                         {
+
                             visible: function (e) {
                                 var visible = false;
                                 if (e.row.data.ESTADO == 1)
@@ -103,6 +90,44 @@
                             }
                         }
                     ]
+                     
+                },*/
+
+                {
+                    caption: 'ACCIONES',
+                    alignment: "center",
+                    cellTemplate: function (container, options) {
+                        var fieldData = options.data;
+
+                        if (fieldData.ESTADO == 1)
+                            $("<span>").addClass("badge badge-success").text('ACTIVO').appendTo(container);
+                        else
+                            $("<span>").addClass("badge badge-danger").text('INACTIVO').appendTo(container);
+
+                        var classTmp1 = 'edit' + cont;
+                        var classBTN1 = 'ml-2 hvr-grow far fa-edit btn btn-success ' + classTmp1;
+
+                        if (fieldData.ESTADO == 1) {
+                            $("<span>").addClass(classBTN1).prop('title', 'Editar').appendTo(container);
+                            $('.edit' + cont).click(function (e) {
+                                var id = parseInt(fieldData.ID_BODEGA);
+                                GetOpcion(2)
+                                GetInputsUpdate(id, fieldData.NOMBRE, fieldData.ESTANTERIA, fieldData.NIVEL)
+                            })
+                        }
+
+                        var classTmp2 = 'remove' + cont;
+                        var classBTN2 = 'ml-2 hvr-grow far fa-trash-alt btn btn-danger ' + classTmp2;
+                        if (fieldData.ESTADO == 1) {
+
+                            $("<span>").addClass(classBTN2).prop('title', 'Inactivar').appendTo(container);
+                            $('.remove' + cont).click(function (e) {
+                                var id = parseInt(fieldData.ID_BODEGA);
+                                Delete(id, 4);
+                            })
+                        }
+                        cont++;
+                    }
                 },
                 {
                     dataField: "ID_BODEGA",
@@ -123,7 +148,7 @@
                     dataField: "ESTANTERIA",
                     caption: "ESTANTERIA",
                     alignment: "center"
-                }          
+                }
             ]
         }).dxDataGrid('instance');
 
@@ -211,11 +236,11 @@
             ShowAlertMessage('info', 'Debe ingresar un nombre.')
             return;
         }
-        if (nivel== '' || nivel<1) {
+        if (nivel == '' || nivel < 1) {
             ShowAlertMessage('info', 'Debe seleccionar un nivel.')
             return;
         }
-        if (estanteria == '' || estanteria<1) {
+        if (estanteria == '' || estanteria < 1) {
             ShowAlertMessage('info', 'Debe seleccionar una estanteria.')
             return;
         }

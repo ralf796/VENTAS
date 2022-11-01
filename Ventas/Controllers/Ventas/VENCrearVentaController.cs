@@ -32,12 +32,12 @@ namespace Ventas.Controllers.Ventas
         #endregion
 
         #region FUNCTIONS
-        private bool SaveHeader(string serie = "", decimal correlativo = 0, int idCliente = 0, decimal total = 0, decimal descuento = 0, decimal subtotal = 0, string usuario = "")
+        private bool SaveHeader(int idVenta=0,string serie = "", decimal correlativo = 0, int idCliente = 0, decimal total = 0, decimal descuento = 0, decimal subtotal = 0, string usuario = "")
         {
             bool respuesta = false;
             var item = new Ventas__BE();
             item.MTIPO = 4;
-            item.ID_VENTA = 2;
+            item.ID_VENTA = idVenta;
             item.SERIE = serie;
             item.CORRELATIVO = correlativo;
             item.ID_CLIENTE = idCliente;
@@ -68,7 +68,7 @@ namespace Ventas.Controllers.Ventas
             item.CANTIDAD = cantidad;
             item.PRECIO_VENTA = precio;
             item.TOTAL = total;
-            item.DESCUENTO = descuento;
+            item.TOTAL_DESCUENTO = descuento;
             item.SUBTOTAL = subtotal;
             var resultDetail = GetDatosSP_(item);
 
@@ -140,6 +140,9 @@ namespace Ventas.Controllers.Ventas
                 if (ID_MODELO != 0)
                     item.ID_MODELO = ID_MODELO;
                 var lista = GetDatosSP_(item);
+
+                
+
                 return Json(new { State = 1, data = lista }, JsonRequestBehavior.AllowGet);
             }
             catch (Exception ex)
@@ -156,12 +159,17 @@ namespace Ventas.Controllers.Ventas
                 var item = JsonConvert.DeserializeObject<Ventas__BE>(encabezado);
                 List<Ventas__BE> listaDetalles = JsonConvert.DeserializeObject<List<Ventas__BE>>(detalles);
                 string usuario = Session["usuario"].ToString();
+                item.CREADO_POR = usuario;
                 int state = 1;
                 bool banderaDetail = false;
                 //var item = new Ventas__BE();
                 //List<Ventas__BE> listaDetalles = new List<Ventas__BE>();
 
-                if (SaveHeader("SSS", 1, item.ID_CLIENTE, item.TOTAL, item.TOTAL_DESCUENTO, item.SUBTOTAL, usuario) == true)
+                var itemID = new Ventas__BE();
+                itemID.MTIPO = 6;
+                item.ID_VENTA = GetDatosSP_(itemID).FirstOrDefault().ID_VENTA;
+
+                if (SaveHeader(Convert.ToInt32(item.ID_VENTA), "SSS", 1, item.ID_CLIENTE, item.TOTAL, item.TOTAL_DESCUENTO, item.SUBTOTAL, usuario) == true)
                 {
                     foreach (var row in listaDetalles)
                     {
@@ -179,7 +187,7 @@ namespace Ventas.Controllers.Ventas
                 if (banderaDetail == true)
                     state = 2;
 
-                return Json(new { State = state }, JsonRequestBehavior.AllowGet);
+                return Json(new { State = state, ORDEN_COMPRA=item.ID_VENTA }, JsonRequestBehavior.AllowGet);
             }
             catch (Exception ex)
             {
