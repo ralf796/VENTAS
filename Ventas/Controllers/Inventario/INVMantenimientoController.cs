@@ -17,61 +17,70 @@ namespace Ventas.Controllers.Inventario
     {
         #region VIEWS
         // GET: BODEGA
-        //[SessionExpireFilterAttribute]
+        [SessionExpireFilterAttribute]
         public ActionResult IndexBodega()
         {
             return View();
         }
         // GET: CATEGORIA
         //[SessionExpireFilterAttribute]
+        [SessionExpireFilterAttribute]
         public ActionResult IndexCategoria()
         {
             return View();
         }
         // GET: SUBCATEGORIA
         //[SessionExpireFilterAttribute]
+        [SessionExpireFilterAttribute]
         public ActionResult IndexSubcategoria()
         {
             return View();
         }
         // GET: MODELO
         //[SessionExpireFilterAttribute]
+        [SessionExpireFilterAttribute]
         public ActionResult IndexModelo()
         {
             return View();
         }
         // GET: PROVEEDOR
         //[SessionExpireFilterAttribute]
+        [SessionExpireFilterAttribute]
         public ActionResult IndexProveedor()
         {
             return View();
         }
         // GET: MARCA REPUESTO
         //[SessionExpireFilterAttribute]
+        [SessionExpireFilterAttribute]
         public ActionResult IndexMarcaRepuesto()
         {
             return View();
         }
         // GET: MARCA VEHICULO
         //[SessionExpireFilterAttribute]
+        [SessionExpireFilterAttribute]
         public ActionResult IndexMarcaVehiculo()
         {
             return View();
         }
         // GET: SERIE VEHICULO
         //[SessionExpireFilterAttribute]
+        [SessionExpireFilterAttribute]
         public ActionResult IndexSerieVehiculo()
         {
             return View();
         }
         // GET: CREAR PRODUCTO
         //[SessionExpireFilterAttribute]
+        [SessionExpireFilterAttribute]
         public ActionResult IndexCrearProducto()
         {
             return View();
         }
         // GET: LISTAR PRODUCTOS
         //[SessionExpireFilterAttribute]
+        [SessionExpireFilterAttribute]
         public ActionResult IndexListarProductos()
         {
             return View();
@@ -96,13 +105,7 @@ namespace Ventas.Controllers.Inventario
             List<Inventario_BE> lista = new List<Inventario_BE>();
             lista = Inventario_BLL.GetInventario_create(item);
             return lista;
-        }
-        private List<Inventario_BE> GetInventario_update_(Inventario_BE item)
-        {
-            List<Inventario_BE> lista = new List<Inventario_BE>();
-            lista = Inventario_BLL.GetInventario_update(item);
-            return lista;
-        }
+        }        
         private List<Inventario_BE> GetInventario_delete_(Inventario_BE item)
         {
             List<Inventario_BE> lista = new List<Inventario_BE>();
@@ -112,6 +115,7 @@ namespace Ventas.Controllers.Inventario
         #endregion
 
         #region JSON_RESULTS
+        [SessionExpireFilterAttribute]
         public JsonResult GetDatosTable(int tipo = 0, int id = 0)
         {
             try
@@ -127,6 +131,7 @@ namespace Ventas.Controllers.Inventario
                 return Json(new { State = -1, Message = ex.Message }, JsonRequestBehavior.AllowGet);
             }
         }
+        [SessionExpireFilterAttribute]
         public JsonResult Guardar(string nombre = "", string descripcion = "", int tipo = 0, int estanteria = 0, int nivel = 0, int anioI = 0, int anioF = 0, int categoria = 0, string telefono = "", string direccion = "", string contacto = "", int marca = 0, int id = 0)
         {
             try
@@ -167,6 +172,7 @@ namespace Ventas.Controllers.Inventario
                 return Json(new { State = -1, Message = ex.Message }, JsonRequestBehavior.AllowGet);
             }
         }
+        [SessionExpireFilterAttribute]
         public JsonResult Delete(int id = 0, int tipo = 0)
         {
             try
@@ -190,6 +196,7 @@ namespace Ventas.Controllers.Inventario
                 return Json(new { State = -1, Message = ex.Message }, JsonRequestBehavior.AllowGet);
             }
         }
+        [SessionExpireFilterAttribute]
         public JsonResult OperacionesProducto(string NOMBRE = "", string DESCRIPCION = "", decimal PRECIO_COSTO = 0, decimal PRECIO_VENTA = 0, int STOCK = 0, string CODIGO = "", int ID_BODEGA = 0, int ID_MODELO = 0,
             int ID_PROVEEDOR = 0, int ID_MARCA_REPUESTO = 0, int ID_SUBCATEGORIA = 0, int ID_SERIE_VEHICULO = 0, int ID_PRODUCTO = 0, int tipo = 0)
         {
@@ -229,6 +236,7 @@ namespace Ventas.Controllers.Inventario
             }
         }
 
+        [SessionExpireFilterAttribute]
         public JsonResult CargarExcel(FormCollection formCollection)
         {
             try
@@ -253,7 +261,7 @@ namespace Ventas.Controllers.Inventario
                         {
                             if (workSheet.Cells[rowIterator, 1].Value != null)
                             {
-                                for(int i = 1; i <= 12; i++)
+                                for (int i = 1; i <= 13; i++)
                                 {
                                     if (workSheet.Cells[rowIterator, i].Value == null)
                                         workSheet.Cells[rowIterator, i].Value = "";
@@ -263,20 +271,28 @@ namespace Ventas.Controllers.Inventario
                                 row.NOMBRE = NullString(workSheet.Cells[rowIterator, 1].Value.ToString());
                                 row.DESCRIPCION = NullString(workSheet.Cells[rowIterator, 2].Value.ToString());
                                 row.CODIGO = NullString(workSheet.Cells[rowIterator, 3].Value.ToString());
-                                row.STOCK = NullInt(workSheet.Cells[rowIterator, 4].Value.ToString());
-                                row.PRECIO_COSTO = NullDecimal(workSheet.Cells[rowIterator, 5].Value.ToString());
-                                row.PRECIO_VENTA = NullDecimal(workSheet.Cells[rowIterator, 6].Value.ToString());
-                                row.ID_BODEGA = NullInt(workSheet.Cells[rowIterator, 7].Value.ToString());
-                                row.ID_MODELO = NullInt(workSheet.Cells[rowIterator, 8].Value.ToString());
-                                row.ID_PROVEEDOR = NullInt(workSheet.Cells[rowIterator, 9].Value.ToString());
-                                row.ID_MARCA_REPUESTO = NullInt(workSheet.Cells[rowIterator, 10].Value.ToString());
-                                row.ID_SUBCATEGORIA = NullInt(workSheet.Cells[rowIterator, 11].Value.ToString());
-                                row.ID_SERIE_VEHICULO = NullInt(workSheet.Cells[rowIterator, 12].Value.ToString());
+                                row.CODIGO2 = NullString(workSheet.Cells[rowIterator, 4].Value.ToString());
+                                row.STOCK = NullInt(workSheet.Cells[rowIterator, 5].Value.ToString());
+                                row.PRECIO_COSTO = NullDecimal(workSheet.Cells[rowIterator, 6].Value.ToString());
+                                row.PRECIO_VENTA = NullDecimal(workSheet.Cells[rowIterator, 7].Value.ToString());
+                                row.ANIO_INICIAL = NullInt(workSheet.Cells[rowIterator, 8].Value.ToString());
+                                row.ANIO_FINAL = NullInt(workSheet.Cells[rowIterator, 9].Value.ToString());
+                                row.PATH_IMAGEN = NullString(workSheet.Cells[rowIterator, 10].Value.ToString());
+
+                                if (NullInt(workSheet.Cells[rowIterator, 11].Value.ToString()) >= 0)
+                                    row.ID_MARCA_REPUESTO = NullInt(workSheet.Cells[rowIterator, 11].Value.ToString());
+
+                                if (NullInt(workSheet.Cells[rowIterator, 12].Value.ToString()) >= 0)
+                                    row.ID_PROVEEDOR = NullInt(workSheet.Cells[rowIterator, 12].Value.ToString());
+
+                                if (NullInt(workSheet.Cells[rowIterator, 13].Value.ToString()) >= 0)
+                                    row.ID_BODEGA = NullInt(workSheet.Cells[rowIterator, 13].Value.ToString());
+
                                 row.CREADO_POR = Session["usuario"].ToString();
                                 row.MTIPO = 1;
 
                                 //row.ID_PRODUCTO = workSheet.Cells[rowIterator, 1].Value.ToString();
-                                var lista = GetDatosInventario_(row);
+                                //var lista = GetDatosInventario_(row);
                                 list.Add(row);
                             }
                         }

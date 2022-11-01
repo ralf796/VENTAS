@@ -412,8 +412,18 @@
             success: function (data) {
                 var state = data["State"];
                 var compra = data["data"];
-                if (state == 1 /*&& compra != null*/) {
-                    ShowAlertMessage('success', 'Se creó la orden de compra: ' + data['ORDEN_COMPRA'])
+                if (state == 1 && compra != null) {
+                    //ShowAlertMessage('success', 'Se creó la orden de compra: ' + compra.ID_VENTA)
+
+                    Swal.fire({
+                        icon: 'success',
+                        type: 'success',
+                        html: 'Se creó la orden de compra: ' + compra.ID_VENTA,
+                        showCancelButton: true,
+                        cancelButtonText: 'Cerrar',
+                        showConfirmButton: false,
+                    })
+
                     ClearCustomer();
                     ClearProduct();
                     $('#txtTotal').html('');

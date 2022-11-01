@@ -6,7 +6,7 @@
     <script src="~/Scripts/Usuarios/USUListarUsuario.js"></script>
 }
 
-<div class="card">
+@*<div class="card">
     <span class="badge badge-pill badge-secondary">LISTADO DE USUARIOS</span>
     <div class="card-body">
         <table class="table-striped display nowrap scroll" style="width:100%" id="tblUsuarios">
@@ -27,5 +27,25 @@
             <tbody id="tbodyUsuarios">
             </tbody>
         </table>
+    </div>
+</div>*@
+
+
+<div class="card">
+    <span class="badge badge-pill badge-secondary">LISTADO DE USUARIOS</span>
+    <div class="card-body">
+        <div class="row">
+            <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 text-right">
+                <button type="button" class="btn btn-primary" data-toggle="modal" id="btnAbrirModal" data-target="#modalDatos">
+                    <i class="far fa-plus-circle"></i> NUEVO
+                </button>
+            </div>
+            <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                <div class="demo-container">
+                    <div id="exportButton"></div>
+                    <div id="gridContainer"></div>
+                </div>
+            </div>
+        </div>
     </div>
 </div>

@@ -47,5 +47,6 @@ namespace Ventas_BE
         public string NOMBRE_MARCA_REPUESTO { get; set; }
         public string NOMBRE_SUBCATEGORIA { get; set; }
         public string NOMBRE_SERIE_VEHICULO { get; set; }
+        public string PATH_IMAGEN { get; set; }
     }
 }
