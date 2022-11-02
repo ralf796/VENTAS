@@ -201,7 +201,7 @@ $(document).ready(function () {
             cancelButtonText: 'No'
         }).then((result) => {
             if (result.value) {
-                ShowLoader();
+                CallLoadingFire('Cargando subida de datos.')
                 var file = $("#txtUploadExcel").val();
                 var formData = new FormData();
                 var totalFiles = document.getElementById("txtUploadExcel").files.length;

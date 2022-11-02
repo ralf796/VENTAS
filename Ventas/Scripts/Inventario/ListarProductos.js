@@ -6,7 +6,7 @@
     GetLists('#selTipo', 12)
     GetLists('#selBodega', 16)
 
-
+    var cont = 0;
     function Update_Delete_Producto(id, tipo, ID_CATEGORIA, ID_MODELO, ID_TIPO, ID_BODEGA, NOMBRE, DESCRIPCION, PRECIO_COSTO, PRECIO_VENTA, STOCK, ANIO_FABRICADO, CODIGO) {
         var mensaje = '';
         if (tipo != 20)
@@ -147,70 +147,113 @@
             columns: [
                 {
                     dataField: 'PATH_IMAGEN',
-                    width: 90,
+                    caption: 'IMAGEN',
+                    //width: 90,
+                    /*
                     cellTemplate(container, options) {
                         $('<div>').append($('<img>', { src: options.value })).appendTo(container);
                     },
+                    */
+                    cellTemplate: function (container, options) {
+                        var fieldData = options.data;
+                        $("<img>").attr('src', fieldData.PATH_IMAGEN).css('width', '70px').appendTo(container);
+                        //$("<img>").attr('src','https://itpromklao.com/wp-content/uploads/2020/03/Slide1-135.jpg').css('width','70px').appendTo(container);
+                    }
                 },
                 {
-                    caption: "ACCIONES",
-                    type: "buttons",
-                    alignment: "center",
-                    buttons: [
-                        {
-                            visible: function (e) {
-                                var visible = false;
-                                if (e.row.data.ESTADO == 1)
-                                    visible = true;
-                                return visible;
-                            },
-                            hint: "Editar",
-                            icon: "edit",
-                            onClick: function (e) {
-                                alert('en desarrollo')
-                            }
-                        },
-                        {
-                            visible: function (e) {
-                                var visible = false;
-                                if (e.row.data.ESTADO == 1)
-                                    visible = true;
-                                return visible;
-                            },
-                            hint: "Inactivar",
-                            icon: "clear",
-                            onClick: function (e) {
-                                Delete(e.row.data['ID_PRODUCTO'], 2)
-                            }
-                        },
-                        {
-                            visible: function (e) {
-                                var visible = false;
-                                if (e.row.data.ESTADO == 1)
-                                    visible = true;
-                                return visible;
-                            },
-                            hint: "Agregar",
-                            icon: "add",
-                            onClick: function (e) {
-                                Delete(e.row.data['ID_PRODUCTO'], 2)
-                            }
-                        }
-                    ]
-                },
-                {
-                    caption: "ESTADO",
+                    caption: 'ACCIONES',
                     alignment: "center",
                     cellTemplate: function (container, options) {
                         var fieldData = options.data;
-                        container.addClass(fieldData.ESTADO != 1 ? "dec" : "");
 
                         if (fieldData.ESTADO == 1)
                             $("<span>").addClass("badge badge-success").text('ACTIVO').appendTo(container);
                         else
                             $("<span>").addClass("badge badge-danger").text('INACTIVO').appendTo(container);
+
+                        var classTmp1 = 'edit' + cont;
+                        var classBTN1 = 'ml-2 hvr-grow far fa-edit btn btn-success ' + classTmp1;
+                        if (fieldData.ESTADO == 1) {
+                            $("<span>").addClass(classBTN1).prop('title', 'Editar').appendTo(container);
+                            $('.edit' + cont).click(function (e) {
+                                var id = parseInt(fieldData.ID_BODEGA);
+                                GetOpcion(2)
+                                GetInputsUpdate(id, fieldData.NOMBRE, fieldData.ESTANTERIA, fieldData.NIVEL)
+                            })
+                        }
+
+                        var classTmp2 = 'remove' + cont;
+                        var classBTN2 = 'ml-2 hvr-grow far fa-trash-alt btn btn-danger ' + classTmp2;
+                        if (fieldData.ESTADO == 1) {
+
+                            $("<span>").addClass(classBTN2).prop('title', 'Inactivar').appendTo(container);
+                            $('.remove' + cont).click(function (e) {
+                                var id = parseInt(fieldData.ID_BODEGA);
+                                Delete(id, 4);
+                            })
+                        }
+                        cont++;
                     }
                 },
+                //{
+                //    caption: "ACCIONES",
+                //    type: "buttons",
+                //    alignment: "center",
+                //    buttons: [
+                //        {
+                //            visible: function (e) {
+                //                var visible = false;
+                //                if (e.row.data.ESTADO == 1)
+                //                    visible = true;
+                //                return visible;
+                //            },
+                //            hint: "Editar",
+                //            icon: "edit",
+                //            onClick: function (e) {
+                //                alert('en desarrollo')
+                //            }
+                //        },
+                //        {
+                //            visible: function (e) {
+                //                var visible = false;
+                //                if (e.row.data.ESTADO == 1)
+                //                    visible = true;
+                //                return visible;
+                //            },
+                //            hint: "Inactivar",
+                //            icon: "clear",
+                //            onClick: function (e) {
+                //                Delete(e.row.data['ID_PRODUCTO'], 2)
+                //            }
+                //        },
+                //        {
+                //            visible: function (e) {
+                //                var visible = false;
+                //                if (e.row.data.ESTADO == 1)
+                //                    visible = true;
+                //                return visible;
+                //            },
+                //            hint: "Agregar",
+                //            icon: "add",
+                //            onClick: function (e) {
+                //                Delete(e.row.data['ID_PRODUCTO'], 2)
+                //            }
+                //        }
+                //    ]
+                //},
+                //{
+                //    caption: "ESTADO",
+                //    alignment: "center",
+                //    cellTemplate: function (container, options) {
+                //        var fieldData = options.data;
+                //        container.addClass(fieldData.ESTADO != 1 ? "dec" : "");
+
+                //        if (fieldData.ESTADO == 1)
+                //            $("<span>").addClass("badge badge-success").text('ACTIVO').appendTo(container);
+                //        else
+                //            $("<span>").addClass("badge badge-danger").text('INACTIVO').appendTo(container);
+                //    }
+                //},
                 {
                     dataField: "ID_PRODUCTO",
                     caption: "ID PRODUCTO",
@@ -235,46 +278,35 @@
                     alignment: "center"
                 },
                 {
-                    dataField: "ID_MODELO",
-                    caption: "ID_MODELO",
-                    visible: false
-                },
-                {
                     dataField: "NOMBRE_MODELO",
-                    caption: "NOMBRE_MODELO"
-                },
-                {
-                    dataField: "ID_PROVEEDOR",
-                    caption: "ID_PROVEEDOR",
-                    visible: false
-                },
-                {
-                    dataField: "NOMBRE_PROVEEDOR",
-                    caption: "PROVEEDOR"
-                },
-                {
-                    dataField: "ID_MARCA_REPUESTO",
-                    caption: "ID_MARCA_REPUESTO",
-                    visible: false
-                },
-                {
-                    dataField: "NOMBRE_MARCA_REPUESTO",
-                    caption: "MARCA PRODUCTO"
+                    caption: "MODELO"
                 },
                 {
                     dataField: "STOCK",
                     caption: "STOCK",
-                    alignment: "center"
+                    alignment: "center",
+                    cellTemplate: function (container, options) {
+                        var fieldData = options.data;
+                        container.addClass(fieldData.ESTADO != 1 ? "dec" : "");
+
+                        if (fieldData.STOCK > 0)
+                            $("<span>").addClass("badge badge-success").text(fieldData.STOCK).appendTo(container);
+                        else
+                            $("<span>").addClass("badge badge-danger").text('SIN STOCK').appendTo(container);
+                    }
                 },
                 {
                     dataField: "PRECIO_COSTO",
                     caption: "PRECIO COSTO",
-                    alignment: "center"
+                    alignment: "right",
+                    format: ",##0.00"
                 },
                 {
                     dataField: "PRECIO_VENTA",
                     caption: "PRECIO VENTA",
-                    alignment: "center"
+                    alignment: "right",
+                    alignment: "right",
+                    format: ",##0.00"
                 },
                 {
                     dataField: "CREADO_POR",
@@ -282,54 +314,21 @@
                     visible: false
                 },
                 {
-                    dataField: "ID_BODEGA",
-                    caption: "ID_BODEGA",
-                    visible: false
+                    dataField: "NOMBRE_DISTRIBUIDOR",
+                    caption: "DISTRIBUIDOR"
                 },
                 {
-                    dataField: "NOMBRE_BODEGA",
-                    caption: "BODEGA"
-                },
-                /*
-                {
-                    dataField: "ID_CATEGORIA",
-                    caption: "ID_CATEGORIA",
-                    visible: false
-                },
-                {
-                    dataField: "NOMBRE_CATEGORIA",
-                    caption: "CATEGORIA",
-                    visible:false
-                },
-                {
-                    dataField: "ID_SUBCATEGORIA",
-                    caption: "ID_SUBCATEGORIA",
-                    visible: false
-                },
-                {
-                    dataField: "NOMBRE_SUBCATEGORIA",
-                    caption: "SUBCATEGORIA",
-                    visible:false
-                },                
-                {
-                    dataField: "ID_MARCA_VEHICULO",
-                    caption: "ID_MARCA_VEHICULO",
-                    visible: false
+                    dataField: "NOMBRE_MARCA_REPUESTO",
+                    caption: "MARCA PRODUCTO"
                 },
                 {
                     dataField: "NOMBRE_MARCA_VEHICULO",
                     caption: "MARCA VEHICULO"
                 },
                 {
-                    dataField: "ID_SERIE_VEHICULO",
-                    caption: "ID_SERIE_VEHICULO",
-                    visible: false
-                },
-                {
-                    dataField: "NOMBRE_SERIE_VEHICULO",
-                    caption: "SERIE VEHICULO"
+                    dataField: "NOMBRE_LINEA_VEHICULO",
+                    caption: "LINEA VEHICULO"
                 }
-                */
             ]
         }).dxDataGrid('instance');
 

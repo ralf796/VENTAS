@@ -257,11 +257,11 @@ namespace Ventas.Controllers.Inventario
                         var noOfCol = workSheet.Dimension.End.Column;
                         var noOfRow = workSheet.Dimension.End.Row;
 
-                        for (int rowIterator = 2; rowIterator <= noOfRow; rowIterator++)
+                        for (int rowIterator = 3; rowIterator <= noOfRow; rowIterator++)
                         {
                             if (workSheet.Cells[rowIterator, 1].Value != null)
                             {
-                                for (int i = 1; i <= 13; i++)
+                                for (int i = 1; i <= 14; i++)
                                 {
                                     if (workSheet.Cells[rowIterator, i].Value == null)
                                         workSheet.Cells[rowIterator, i].Value = "";
@@ -278,15 +278,10 @@ namespace Ventas.Controllers.Inventario
                                 row.ANIO_INICIAL = NullInt(workSheet.Cells[rowIterator, 8].Value.ToString());
                                 row.ANIO_FINAL = NullInt(workSheet.Cells[rowIterator, 9].Value.ToString());
                                 row.PATH_IMAGEN = NullString(workSheet.Cells[rowIterator, 10].Value.ToString());
-
-                                if (NullInt(workSheet.Cells[rowIterator, 11].Value.ToString()) >= 0)
-                                    row.ID_MARCA_REPUESTO = NullInt(workSheet.Cells[rowIterator, 11].Value.ToString());
-
-                                if (NullInt(workSheet.Cells[rowIterator, 12].Value.ToString()) >= 0)
-                                    row.ID_PROVEEDOR = NullInt(workSheet.Cells[rowIterator, 12].Value.ToString());
-
-                                if (NullInt(workSheet.Cells[rowIterator, 13].Value.ToString()) >= 0)
-                                    row.ID_BODEGA = NullInt(workSheet.Cells[rowIterator, 13].Value.ToString());
+                                row.NOMBRE_MARCA_REPUESTO = NullString(workSheet.Cells[rowIterator, 11].Value.ToString());
+                                row.NOMBRE_MARCA_VEHICULO= NullString(workSheet.Cells[rowIterator, 12].Value.ToString());
+                                row.NOMBRE_SERIE_VEHICULO= NullString(workSheet.Cells[rowIterator, 13].Value.ToString());
+                                row.NOMBRE_DISTRIBUIDOR= NullString(workSheet.Cells[rowIterator, 14].Value.ToString());
 
                                 row.CREADO_POR = Session["usuario"].ToString();
                                 row.MTIPO = 1;

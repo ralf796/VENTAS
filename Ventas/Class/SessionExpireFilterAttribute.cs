@@ -25,7 +25,7 @@ namespace GenesysOracleSV.Clases
                         filterContext.Result = new HttpUnauthorizedResult();
                     }
                     else
-                        filterContext.Result = new RedirectResult("/Home/Index?expirado=true");
+                        filterContext.Result = new RedirectResult("/Home");
                 }
             }
         }

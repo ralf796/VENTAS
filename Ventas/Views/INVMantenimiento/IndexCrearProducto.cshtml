@@ -29,17 +29,6 @@
     <div class="card-body">
         <form id="formGuardarProducto">
             <div class="row">
-                <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
-                    <div class="btn-group">
-                        <div class="form-group" style="margin-top:-5px">
-                            <div class="input-group">
-                                <label for="txtUploadExcel" class="subir btn btn-primary"><i class="far fa-file-upload"></i> Cargar archivo</label>
-                                <input id="txtUploadExcel" type="file" style="display:none;" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" />
-                                <div id="info"></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
                 <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 pt-1">
                     <div class="input-group text-right">
                         <span class="col-form-label">NOMBRE:</span>
@@ -147,8 +136,17 @@
                         </select>
                     </div>
                 </div>
-                <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 justify-content-center text-center pt-3">
-                    <button class="btn btn-success" type="submit"><i class="fad fa-save text-white me-1"></i> GUARDAR</button>
+                <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 pt-4 text-center justify-content-center">
+                    <div class="btn-group text-center">
+                        <div class="form-group text-center" style="margin-top:-5px">
+                            <div class="input-group">
+                                <button style="margin-right:10px" class="btn btn-success" type="submit"><i class="fad fa-save text-white me-1"></i> GUARDAR</button>
+                                <label for="txtUploadExcel" class="subir btn btn-primary"><i class="far fa-file-upload"></i> Cargar archivo</label>
+                                <input id="txtUploadExcel" type="file" style="display:none;" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" />
+                                <div id="info"></div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </form>

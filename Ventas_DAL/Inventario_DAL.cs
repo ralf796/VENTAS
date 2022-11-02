@@ -29,6 +29,14 @@ namespace Ventas_DAL
                 model.Command.Parameters.AddWithValue("@PRECIO_VENTA", item.PRECIO_VENTA);
                 model.Command.Parameters.AddWithValue("@STOCK", item.STOCK);
                 model.Command.Parameters.AddWithValue("@CODIGO", item.CODIGO);
+                model.Command.Parameters.AddWithValue("@CODIGO2", item.CODIGO2);
+                model.Command.Parameters.AddWithValue("@NOMBRE_MARCA_REPUESTO", item.NOMBRE_MARCA_REPUESTO);
+                model.Command.Parameters.AddWithValue("@NOMBRE_MARCA_VEHICULO", item.NOMBRE_MARCA_VEHICULO);
+                model.Command.Parameters.AddWithValue("@NOMBRE_LINEA_VEHICULO", item.NOMBRE_SERIE_VEHICULO);
+                model.Command.Parameters.AddWithValue("@NOMBRE_DISTRIBUIDOR", item.NOMBRE_DISTRIBUIDOR);
+                model.Command.Parameters.AddWithValue("@PATH", item.PATH_IMAGEN);
+                model.Command.Parameters.AddWithValue("@ANIO_INICIAL", item.ANIO_INICIAL);
+                model.Command.Parameters.AddWithValue("@ANIO_FINAL", item.ANIO_FINAL);
                 model.Command.Parameters.AddWithValue("@MTIPO", item.MTIPO);
                 result = model.GetData<Inventario_BE>();
             }

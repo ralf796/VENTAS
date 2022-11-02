@@ -1,5 +1,7 @@
 ﻿$(document).ready(function () {
     //CallLoadingFire('Cargandoo-.')
+    GetListProductos();
+
 
     function ClearCustomer() {
         $('#hfIdCliente').val('');
@@ -146,6 +148,7 @@
                 $('#hfIdCliente').val(e.data["ID_CLIENTE"]);
                 $('#txtNombreCliente').val(e.data["NOMBRE"]);
                 $('#txtNit').val(e.data["NIT"]);
+                $('#hfDireccion').val(e.data["DIRECCION"]);
                 $('#modalClientes').modal('hide');
             },
             onCellPrepared: function (e) {
@@ -218,55 +221,90 @@
             rowAlternationEnabled: true,
             columns: [
                 {
+                    dataField: 'PATH_IMAGEN',
+                    caption: 'IMAGEN',
+                    width: 130,
+                    cellTemplate: function (container, options) {
+                        var fieldData = options.data;
+                        $("<img>").attr('src', fieldData.PATH_IMAGEN).css('width', '70px').appendTo(container);
+                        //$("<img>").attr('src','https://itpromklao.com/wp-content/uploads/2020/03/Slide1-135.jpg').css('width','70px').appendTo(container);
+                    }
+                },
+
+                {
                     dataField: "ID_PRODUCTO",
-                    caption: "ID_PRODUCTO",
+                    caption: "ID PRODUCTO",
                     visible: false
                 },
                 {
-                    dataField: "CODIGO",
-                    caption: "CODIGO"
-                },
-                {
                     dataField: "NOMBRE",
-                    caption: "NOMBRE"
+                    caption: "NOMBRE",
+                    width: 200,
                 },
                 {
                     dataField: "DESCRIPCION",
-                    caption: "DESCRIPCION"
+                    caption: "DESCRIPCION",
+                    width: 230
                 },
                 {
-                    dataField: "PRECIO_VENTA",
-                    caption: "PRECIO"
+                    dataField: "CODIGO",
+                    caption: "CODIGO 1",
+                    alignment: "center",
+                    width: 200
+                },
+                {
+                    dataField: "CODIGO2",
+                    caption: "CODIGO 2",
+                    alignment: "center",
+                    width: 200
+                },
+                {
+                    dataField: "NOMBRE_MODELO",
+                    caption: "MODELO",
+                    width: 200
                 },
                 {
                     dataField: "STOCK",
                     caption: "STOCK",
-                    alignment: "center"
+                    alignment: "center",
+                    width: 200,
+                    cellTemplate: function (container, options) {
+                        var fieldData = options.data;
+                        container.addClass(fieldData.ESTADO != 1 ? "dec" : "");
+
+                        if (fieldData.STOCK > 0)
+                            $("<span>").addClass("badge badge-success").text(fieldData.STOCK).appendTo(container);
+                        else
+                            $("<span>").addClass("badge badge-danger").text('SIN STOCK').appendTo(container);
+                    }
+                },
+                {
+                    dataField: "PRECIO_VENTA",
+                    caption: "PRECIO",
+                    alignment: "right",
+                    alignment: "right",
+                    format: ",##0.00",
+                    width: 200
+                },
+                {
+                    dataField: "NOMBRE_DISTRIBUIDOR",
+                    caption: "DISTRIBUIDOR",
+                    width: 200
                 },
                 {
                     dataField: "NOMBRE_MARCA_REPUESTO",
                     caption: "MARCA REPUESTO",
-                    visible: false
-                },
-                {
-                    dataField: "NOMBRE_CATEGORIA",
-                    caption: "CATEGORIA",
-                    visible: false
-                },
-                {
-                    dataField: "NOMBRE_SUBCATEGORIA",
-                    caption: "SUBCATEGORIA",
-                    visible: false
+                    width: 200
                 },
                 {
                     dataField: "NOMBRE_MARCA_VEHICULO",
                     caption: "MARCA VEHICULO",
-                    visible: false
+                    width: 200
                 },
                 {
-                    dataField: "NOMBRE_SERIE_VEHICULO",
-                    caption: "SERIE VEHICULO",
-                    visible: false
+                    dataField: "NOMBRE_LINEA_VEHICULO",
+                    caption: "LINEA VEHICULO",
+                    width: 200
                 }
             ],
             onRowDblClick: function (e) {
@@ -275,6 +313,10 @@
                 $('#txtNombreProducto').val(e.data["NOMBRE"]);
                 $('#txtStock').val(e.data["STOCK"]);
                 $('#txtPrecio').val(e.data["PRECIO_VENTA"]);
+                $('#hfCodigo1').val(e.data["CODIGO"]);
+                $('#hfCodigo2').val(e.data["CODIGO2"]);
+                $('#hfMarcaR').val(e.data["NOMBRE_MARCA_REPUESTO"]);
+                $('#hfNombre').val(e.data["NOMBRE"]);
                 $('#modalProductos').modal('hide');
             }
         }).dxDataGrid('instance');
@@ -307,7 +349,7 @@
                                 $(selObject).append('<option value="' + dato.ID_PROVEEDOR + '">' + dato.NOMBRE + '</option>');
                             }
                             else if (tipo == 12) {
-                                $(selObject).append('<option value="' + dato.ID_MARCA_REPUESTO + '">' + dato.ID_MARCA_REPUESTO+' -  '+  dato.NOMBRE + '</option>');
+                                $(selObject).append('<option value="' + dato.ID_MARCA_REPUESTO + '">' + dato.ID_MARCA_REPUESTO + ' -  ' + dato.NOMBRE + '</option>');
                             }
                             else if (tipo == 2) {
                                 $(selObject).append('<option value="' + dato.ID_CATEGORIA + '">' + dato.NOMBRE + '</option>');
@@ -370,7 +412,9 @@
                 var state = data["State"];
                 if (state == 1) {
                     ShowAlertMessage('success', 'Datos ingresados correctamente')
+                    $('#txtNit').val(nit);
                     GetCliente(nit);
+                    $('#modalCrearCliente').modal('hide');
                 }
                 else if (state == -1) {
                     ShowAlertMessage('warning', data['Message'])
@@ -457,7 +501,7 @@
         $('#hfSubtotal').val(parseFloat(subtotal).toFixed(2));
     }
     var DetalleVenta = $("#tbodyDetalleVenta");
-    function AddDetail(id, producto, cantidad, precio, descuento) {
+    function AddDetail(id, producto, cantidad, precio, descuento, codigo1, codigo2, marca, hfNombre) {
         if (cantidad == '')
             cantidad = 0;
         if (precio == '')
@@ -475,6 +519,10 @@
             '<td class="pl-2 pr-2 text-right">' + formatNumber(parseFloat(precio).toFixed(2)) + '</td>' +
             '<td class="pl-2 pr-2 text-right">' + formatNumber(parseFloat(descuento).toFixed(2)) + '</td>' +
             '<td class="pl-2 pr-2 text-right">' + formatNumber(parseFloat(subtotal).toFixed(2)) + '</td>' +
+            '<td class="d-none">' + codigo1 + '</td>' +
+            '<td class="d-none">' + codigo2 + '</td>' +
+            '<td class="d-none">' + marca + '</td>' +
+            '<td class="d-none">' + hfNombre + '</td>' +
             '</tr>');
         ClearProduct();
         RefreshSum();
@@ -502,11 +550,7 @@
     });
     $('#btnBuscarProductos').on('click', function (e) {
         e.preventDefault();
-        //GetListProductos();
-        GetLists('#selMarcaRepuesto', 12)
-        GetLists('#selCategoria', 2)
-        GetLists('#selModelo', 6)
-        GetLists('#selMarcaVehiculo', 14)
+
         $('#modalProductos').modal('show');
     });
     $('#btnAgregarDetalle').on('click', function (e) {
@@ -516,6 +560,11 @@
         var precio = $('#txtPrecio').val();
         var descuento = $('#txtDescuento').val();
         var stock = $('#txtStock').val();
+        var codigo1 = $('#hfCodigo1').val();
+        var codigo2 = $('#hfCodigo2').val();
+        var marca = $('#hfMarcaR').val();
+        var nombre = $('#hfNombre').val();
+
 
         if (id == '' || id == null) {
             ShowAlertMessage('info', 'Debes seleccionar un producto.')
@@ -542,40 +591,11 @@
             return;
         }
 
-        AddDetail(id, producto, cantidad, precio, descuento);
+        AddDetail(id, producto, cantidad, precio, descuento, codigo1, codigo2, marca, nombre);
     });
     $('#btnAgregarCliente').on('click', function (e) {
         e.preventDefault();
         $('#modalCrearCliente').modal('show');
-    });
-
-    $('#selCategoria').on('change', function (e) {
-        e.preventDefault();
-        var id = $(this).val();
-        GetListsID('#selSubcategoria', 4, id)
-        GetListProductos();
-    });
-    $('#selMarcaVehiculo').on('change', function (e) {
-        e.preventDefault();
-        var id = $(this).val();
-        GetListsID('#selSerieVehiculo', 16, id)
-        GetListProductos();
-    });
-    $('#selMarcaRepuesto').on('change', function (e) {
-        e.preventDefault();
-        GetListProductos();
-    });
-    $('#selSubcategoria').on('change', function (e) {
-        e.preventDefault();
-        GetListProductos();
-    });
-    $('#selSerieVehiculo').on('change', function (e) {
-        e.preventDefault();
-        GetListProductos();
-    });
-    $('#selModelo').on('change', function (e) {
-        e.preventDefault();
-        GetListProductos();
     });
 
     $('#btnCancelarVenta').on('click', function (e) {
@@ -609,6 +629,10 @@
             listDetalles.push(listado);
         });
         console.log(listDetalles)
+
+        if (idCliente == '' || idCliente == '')
+            ShowAlertMessage('info', 'Debes seleccionar un cliente para la venta.');
+
         if (listDetalles.length == 0)
             ShowAlertMessage('info', 'Debes agregar al menos un producto.');
         else {
