@@ -85,11 +85,10 @@
                     cellTemplate: function (container, options) {
                         var fieldData = options.data;
                         var classTmp = 'detalle' + cont;
-                        var classBTN = 'btn btn-success ' + classTmp;
+                        var classBTN = 'hvr-grow text-dark far fa-eye btn btn-success ' + classTmp;
 
-                        $("<button>").addClass(classBTN).text('VER DETALLE').appendTo(container);
+                        $("<span>").addClass(classBTN).prop('title','Ver detalle').appendTo(container);
                         $('.detalle' + cont).click(function (e) {
-
                             mostrarDetalle(fieldData.ID_VENTA);
                         })
                         cont++;
@@ -101,9 +100,9 @@
                     cellTemplate: function (container, options) {
                         var fieldData = options.data;
                         var classTmp = 'cobrar' + cont;
-                        var classBTN = 'btn btn-danger ' + classTmp;
+                        var classBTN = 'hvr-grow far fa-money-bill-alt btn btn-primary ' + classTmp;
 
-                        $("<button>").addClass(classBTN).text('COBRAR').appendTo(container);
+                        $("<span>").addClass(classBTN).appendTo(container);
                         $('.cobrar' + cont).click(function (e) {
                             var total = parseFloat(fieldData.TOTAL);
                             var id = parseInt(fieldData.ID_VENTA);

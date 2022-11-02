@@ -30,6 +30,9 @@ namespace Ventas_DAL
                 model.Command.Parameters.AddWithValue("@TOTAL", item.TOTAL);
                 model.Command.Parameters.AddWithValue("@SUBTOTAL", item.SUBTOTAL);
                 model.Command.Parameters.AddWithValue("@TOTAL_DESCUENTO", item.TOTAL_DESCUENTO);
+                model.Command.Parameters.AddWithValue("@PRECIO", item.PRECIO_VENTA);
+                model.Command.Parameters.AddWithValue("@CANTIDAD", item.CANTIDAD);
+                model.Command.Parameters.AddWithValue("@ID_PRODUCTO", item.ID_PRODUCTO);
                 model.Command.Parameters.AddWithValue("@CREADO_POR", item.CREADO_POR);
                 result = model.GetData<Ventas__BE>();
             }

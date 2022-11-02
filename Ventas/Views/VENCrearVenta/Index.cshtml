@@ -7,7 +7,7 @@
 
     <script>
         $(document).ready(function () {
-            function ENCABEZADO(SERIE, CORRELATIVO, ID_CLIENTE, TOTAL, SUBTOTAL, TOTAL_IVA, TOTAL_DESCUENTO) {
+            function ENCABEZADO(SERIE, CORRELATIVO, ID_CLIENTE, TOTAL, SUBTOTAL, TOTAL_IVA, TOTAL_DESCUENTO, NIT, NOMBRE, DIRECCION) {
                 this.SERIE = SERIE;
                 this.CORRELATIVO = CORRELATIVO;
                 this.ID_CLIENTE = ID_CLIENTE;
@@ -15,19 +15,27 @@
                 this.SUBTOTAL = SUBTOTAL;
                 this.TOTAL_IVA = TOTAL_IVA;
                 this.TOTAL_DESCUENTO = TOTAL_DESCUENTO;
+                this.NIT= NIT;
+                this.NOMBRE= NOMBRE;
+                this.DIRECCION= DIRECCION;
             }
-            function DETALLE(ID_PRODUCTO, CANTIDAD, PRECIO_UNITARIO, TOTALTOTAL, IVA, DESCUENTO, SUBTOTAL) {
+            function DETALLE(ID_PRODUCTO, CANTIDAD, PRECIO_VENTA, TOTALTOTAL, IVA, TOTAL_DESCUENTO, SUBTOTAL, CODIGO, CODIGO2, NOMBRE_MARCA_REPUESTO, NOMBRE_PRODUCTO) {
                 this.ID_PRODUCTO = ID_PRODUCTO;
                 this.CANTIDAD = CANTIDAD;
-                this.PRECIO_UNITARIO = PRECIO_UNITARIO;
+                this.PRECIO_VENTA = PRECIO_VENTA;
                 this.TOTALTOTAL = TOTALTOTAL;
                 this.IVA = IVA;
-                this.DESCUENTO = DESCUENTO;
+                this.TOTAL_DESCUENTO = TOTAL_DESCUENTO;
                 this.SUBTOTAL = SUBTOTAL;
+                this.CODIGO = CODIGO;
+                this.CODIGO2 = CODIGO2;
+                this.NOMBRE_MARCA_REPUESTO = NOMBRE_MARCA_REPUESTO;
+                this.NOMBRE_PRODUCTO = NOMBRE_PRODUCTO;
             }
 
 
             function PDF() {
+                CallLoadingFire('Generando cotización, por favor espere.')
                 var serie = '1';
                 var correlativo = '1';
                 var idCliente = $('#hfIdCliente').val();
@@ -35,8 +43,11 @@
                 var subtotal = $('#hfSubtotal').val();
                 var totalIva = 0;
                 var totalDescuento = $('#hfTotalDescuento').val();
+                var nit = $('#txtNit').val();
+                var nombre = $('#txtNombreCliente').val();
+                var direccion = $('#hfDireccion').val();
 
-                var jsonEncabezado = new ENCABEZADO(serie, correlativo, idCliente, total, subtotal, totalIva, totalDescuento);
+                var jsonEncabezado = new ENCABEZADO(serie, correlativo, idCliente, total, subtotal, totalIva, totalDescuento, nombre,nit, direccion);
 
                 var jsonDetalles = [];
                 $('#tbodyDetalleVenta tr').each(function () {
@@ -47,7 +58,11 @@
                     var vDescuento = $(this).find("td").eq(5).text();
                     var vSubtotal = $(this).find("td").eq(6).text();
                     var vTotal = parseFloat(vIva) + parseFloat(vDescuento) + parseFloat(vSubtotal);
-                    var listado = new DETALLE(vId, vCantidad, vPrecio, vTotal, vIva, vDescuento, vSubtotal);
+                    var vCodigo1 = $(this).find("td").eq(7).text();
+                    var vCodigo2 = $(this).find("td").eq(8).text();
+                    var marca = $(this).find("td").eq(9).text();
+                    var nombre = $(this).find("td").eq(10).text();
+                    var listado = new DETALLE(vId, vCantidad, vPrecio, vTotal, vIva, vDescuento, vSubtotal, vCodigo1, vCodigo2, marca, nombre);
                     jsonDetalles.push(listado);
                 });
 
@@ -55,7 +70,7 @@
                     ShowAlertMessage('info', 'Debes agregar al menos un producto.');
                     return;
                 }
-                
+
                 $.post('@Url.Action("GetCotizacion")', {
                     encabezado: JSON.stringify(jsonEncabezado),
                     detalles: JSON.stringify(jsonDetalles)
@@ -77,7 +92,21 @@
 
             $('#btnCrearCotizacion').on('click', function (e) {
                 e.preventDefault();
-                PDF();
+                var idCliente = $('#hfIdCliente').val();
+                var total = $('#hfTotal').val();
+
+                if (idCliente == '' || idCliente == '') {
+                    ShowAlertMessage('info', 'Debes seleccionar un cliente para la venta.');
+                    return;
+                }
+
+                if (total == '' || total == '0' || total == '0.00' || total == '0.0') {
+                    ShowAlertMessage('info', 'Debes agregar al menos un producto.');
+                    return;
+                }
+                else {
+                    PDF();
+                }
             });
         });
     </script>
@@ -145,6 +174,11 @@
                             </div>
                             <input type="text" class="form-control" id="txtCodigo">
                             <input type="hidden" id="hfIdProducto">
+                            <input type="hidden" id="hfCodigo1">
+                            <input type="hidden" id="hfCodigo2">
+                            <input type="hidden" id="hfMarcaR">
+                            <input type="hidden" id="hfNombre">
+                            <input type="hidden" id="hfDireccion">
                         </div>
                     </div>
                     <div class="col-12 col-sm-12 col-md-9 col-lg-9 col-xl-9">
@@ -223,44 +257,12 @@
                 </button>
             </div>
             <div class="modal-body">
-                <div class="row">
-                    <div class="col-12 col-sm-12 col-md-4 col-lg-4 col-xl-4">
-                        <label for="selMarcaRepuesto">MARCA REPUESTO</label>
-                        <select class="custom-select" id="selMarcaRepuesto">
-                            <option selected disabled>Seleccione una opcion</option>
-                        </select>
-                    </div>
-                    <div class="col-12 col-sm-12 col-md-4 col-lg-4 col-xl-4 d-none">
-                        <label for="selCategoria">CATEGORIA REPUESTO</label>
-                        <select class="custom-select" id="selCategoria">
-                            <option selected disabled>Seleccione una opcion</option>
-                        </select>
-                    </div>
-                    <div class="col-12 col-sm-12 col-md-4 col-lg-4 col-xl-4 d-none">
-                        <label for="selSubcategoria">SUBCATEGORIA REPUESTO</label>
-                        <select class="custom-select" id="selSubcategoria">
-                            <option selected disabled>Seleccione una opcion</option>
-                        </select>
-                    </div>
-                    <div class="col-12 col-sm-12 col-md-4 col-lg-4 col-xl-4">
-                        <label for="selMarcaVehiculo">MARCA VEHICULO</label>
-                        <select class="custom-select" id="selMarcaVehiculo">
-                            <option selected disabled>Seleccione una opcion</option>
-                        </select>
-                    </div>
-                    <div class="col-12 col-sm-12 col-md-4 col-lg-4 col-xl-4">
-                        <label for="selSerieVehiculo">SERIE VEHICULO</label>
-                        <select class="custom-select" id="selSerieVehiculo">
-                            <option selected disabled>Seleccione una opcion</option>
-                        </select>
-                    </div>
-                    <div class="col-12 col-sm-12 col-md-4 col-lg-4 col-xl-4">
-                        <label for="selModelo">MODELO</label>
-                        <select class="custom-select" id="selModelo">
-                            <option selected disabled>Seleccione una opcion</option>
-                        </select>
-                    </div>
-                </div>
+                @*<div class="row">
+                        <div class="input-group bg-white">
+                            <i style="margin-top:1px; margin-left:10px; margin-right:5px" class='fa fa-search'></i>
+                            <input type="text" class="form-control text-left bg-white" id="txtFiltro" style="width:30%; padding-left:20px" />
+                        </div>
+                    </div>*@
                 <div class="row">
                     <div class="col-12 col-md-12 col-xl-12" style="margin-top:-8px">
                         <div class="demo-container">
@@ -296,49 +298,6 @@
     </div>
 </div>
 
-<div class="modal fade" id="modalCrearCliente">
-    <div class="modal-dialog">
-        <div class="modal-content  bg-secondary">
-            <div class="modal-header">
-                <h5 class="modal-title" id="titleModal">CREAR CLIENTE</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <div class="row">
-                    <input id="hfID" type="hidden" />
-                    <input id="hfOpcion" type="hidden" />
-                    <div class="col-lg-12">
-                        <label class="form-label" for="nombre">NOMBRE DEL CLIENTE:</label>
-                        <input type="text" name="nombre" class="form-control" value="" id="txtGuardarNombre" placeholder="NOMBRE" required />
-                    </div>
-                    <div class="col-lg-12">
-                        <label class="form-label" for="direccion">DIRECCION:</label>
-                        <input type="text" name="direccion" class="form-control" value="" id="txtGuardarDireccion" placeholder="DIRECCION" maxlength="150" />
-                    </div>
-                    <div class="col-lg-12">
-                        <label class="form-label" for="telefono">TELEFONO:</label>
-                        <input type="text" name="telefono" class="form-control text-center" onkeypress="return valideKey(event);" id="txtGuardarTelefono" placeholder="TELEFONO" maxlength="8" required />
-                    </div>
-                    <div class="col-lg-12">
-                        <label class="form-label" for="email">EMAIL:</label>
-                        <input type="text" name="email" class="form-control" value="" id="txtGuardarEmail" placeholder="EMAIL" maxlength="50" />
-                    </div>
-                    <div class="col-lg-12">
-                        <label class="form-label" for="nit">NIT:</label>
-                        <input type="text" name="nit" class="form-control text-center" value="" id="txtGuardarNit" placeholder="NIT" maxlength="10" />
-                    </div>
-                </div>
-            </div>
-            <div class="modal-footer justify-content-between">
-                <button type="button" class="btn btn-danger" data-dismiss="modal">CERRAR</button>
-                <button type="button" class="btn btn-success" id="btnGuardar">GUARDAR</button>
-            </div>
-        </div>
-    </div>
-</div>
-
 
 <div class="modal fade" id="modalCrearCliente">
     <div class="modal-dialog">
@@ -366,7 +325,7 @@
                         </div>
                         <div class="form-group col-md-12">
                             <label for="inputCity">EMAIL</label>
-                            <input type="text" class="form-control" id="txtEmailCrear" maxlength="50">
+                            <input type="email" class="form-control" id="txtEmailCrear" maxlength="50">
                         </div>
                         <div class="form-group col-md-12">
                             <label for="inputCity">NIT</label>
@@ -382,3 +341,5 @@
         </div>
     </div>
 </div>
+
+

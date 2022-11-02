@@ -1,5 +1,6 @@
 ﻿@{
-    int ROL = Convert.ToInt16(Session["id_rol"]);
+    //int ROL = Convert.ToInt16(Session["id_rol"]);
+    int ROL = 1;
 }
 
 <!DOCTYPE html>
@@ -236,6 +237,7 @@
                                 <a href="~/CLIListarClientes/Index" class="nav-link">
                                     <i class="far fa-user"></i>
                                     <p>
+                                        CLIENTES
                                     </p>
                                 </a>
                             </li>
@@ -253,63 +255,64 @@
                                 </a>
                                 <ul class="nav nav-treeview">
                                     <li class="nav-item">
-                                        <a href="#" class="nav-link">
-                                            <i class="far fa-car-mechanic"></i>
-                                            <p>
-                                                MANTENIMIENTO
-                                                <i class="fas fa-angle-left right"></i>
-                                            </p>
-                                        </a>
-                                        <ul class="nav nav-treeview">
-                                            <li class="nav-item">
-                                                <a href="~/INVMantenimiento/IndexBodega" class="nav-link">
-                                                    <i class="far fa-stop-circle"></i>
-                                                    <p>BODEGA</p>
-                                                </a>
-                                            </li>
-                                            <li class="nav-item d-none">
-                                                <a href="~/INVMantenimiento/IndexCategoria" class="nav-link">
-                                                    <i class="far fa-stop-circle"></i>
-                                                    <p>CATEGORIA</p>
-                                                </a>
-                                            </li>
-                                            <li class="nav-item d-none">
-                                                <a href="~/INVMantenimiento/IndexSubcategoria" class="nav-link">
-                                                    <i class="far fa-stop-circle"></i>
-                                                    <p>SUBCATEGORIA</p>
-                                                </a>
-                                            </li>
-                                            <li class="nav-item">
-                                                <a href="~/INVMantenimiento/IndexModelo" class="nav-link">
-                                                    <i class="far fa-stop-circle"></i>
-                                                    <p>MODELO</p>
-                                                </a>
-                                            </li>
-                                            <li class="nav-item">
-                                                <a href="~/INVMantenimiento/IndexProveedor" class="nav-link">
-                                                    <i class="far fa-stop-circle"></i>
-                                                    <p>PROVEEDOR</p>
-                                                </a>
-                                            </li>
-                                            <li class="nav-item">
-                                                <a href="~/INVMantenimiento/IndexMarcaRepuesto" class="nav-link">
-                                                    <i class="far fa-stop-circle"></i>
-                                                    <p>MARCA REPUESTO</p>
-                                                </a>
-                                            </li>
-                                            <li class="nav-item">
-                                                <a href="~/INVMantenimiento/IndexMarcaVehiculo" class="nav-link">
-                                                    <i class="far fa-stop-circle"></i>
-                                                    <p>MARCA VEHICULO</p>
-                                                </a>
-                                            </li>
-                                            <li class="nav-item">
-                                                <a href="~/INVMantenimiento/IndexSerieVehiculo" class="nav-link">
-                                                    <i class="far fa-stop-circle"></i>
-                                                    <p>SERIE VEHICULO</p>
-                                                </a>
-                                            </li>
-                                        </ul>
+                                        @*
+                                                <a href="#" class="nav-link">
+                                                <i class="far fa-car-mechanic"></i>
+                                                <p>
+                                                    MANTENIMIENTO
+                                                    <i class="fas fa-angle-left right"></i>
+                                                </p>
+                                            </a>
+                                            <ul class="nav nav-treeview">
+                                                <li class="nav-item">
+                                                    <a href="~/INVMantenimiento/IndexBodega" class="nav-link">
+                                                        <i class="far fa-stop-circle"></i>
+                                                        <p>BODEGA</p>
+                                                    </a>
+                                                </li>
+                                                <li class="nav-item d-none">
+                                                    <a href="~/INVMantenimiento/IndexCategoria" class="nav-link">
+                                                        <i class="far fa-stop-circle"></i>
+                                                        <p>CATEGORIA</p>
+                                                    </a>
+                                                </li>
+                                                <li class="nav-item d-none">
+                                                    <a href="~/INVMantenimiento/IndexSubcategoria" class="nav-link">
+                                                        <i class="far fa-stop-circle"></i>
+                                                        <p>SUBCATEGORIA</p>
+                                                    </a>
+                                                </li>
+                                                <li class="nav-item">
+                                                    <a href="~/INVMantenimiento/IndexModelo" class="nav-link">
+                                                        <i class="far fa-stop-circle"></i>
+                                                        <p>MODELO</p>
+                                                    </a>
+                                                </li>
+                                                <li class="nav-item">
+                                                    <a href="~/INVMantenimiento/IndexProveedor" class="nav-link">
+                                                        <i class="far fa-stop-circle"></i>
+                                                        <p>PROVEEDOR</p>
+                                                    </a>
+                                                </li>
+                                                <li class="nav-item">
+                                                    <a href="~/INVMantenimiento/IndexMarcaRepuesto" class="nav-link">
+                                                        <i class="far fa-stop-circle"></i>
+                                                        <p>MARCA REPUESTO</p>
+                                                    </a>
+                                                </li>
+                                                <li class="nav-item">
+                                                    <a href="~/INVMantenimiento/IndexMarcaVehiculo" class="nav-link">
+                                                        <i class="far fa-stop-circle"></i>
+                                                        <p>MARCA VEHICULO</p>
+                                                    </a>
+                                                </li>
+                                                <li class="nav-item">
+                                                    <a href="~/INVMantenimiento/IndexSerieVehiculo" class="nav-link">
+                                                        <i class="far fa-stop-circle"></i>
+                                                        <p>SERIE VEHICULO</p>
+                                                    </a>
+                                                </li>
+                                            </ul>*@
                                     </li>
                                     <li class="nav-item">
                                         <a href="~/INVMantenimiento/IndexListarProductos" class="nav-link">

@@ -43,6 +43,11 @@ namespace Ventas_BE
         public decimal TOTAL_DESCUENTO { get; set; }
         public decimal DESCUENTO { get; set; }
         public int CANTIDAD { get; set; }
-        public int NOMBRE_PRODUCTO { get; set; }
+        public string NOMBRE_PRODUCTO { get; set; }
+        public string NOMBRE_DISTRIBUIDOR { get; set; }
+        public string NOMBRE_LINEA_VEHICULO { get; set; }
+        public string NOMBRE_MODELO { get; set; }
+        public string PATH_IMAGEN { get; set; }
+        public string CODIGO2 { get; set; }
     }
 }
