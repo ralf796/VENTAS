@@ -10,12 +10,44 @@
     <span class="badge badge-pill badge-secondary">CORTE AUTO REPUESTOS EL EDEN</span>
     <div class="card-body">
         <div class="row">
+            <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 text-right">
+                <button type="button" class="btn btn-success" data-toggle="modal" id="btnAbrirCorte" data-target="#modalDatos">
+                    <i class="far fa-shekel-sign"></i> REALIZAR CORTE
+                </button>
+            </div>
             <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
                 <div class="demo-container">
                     <div id="exportButton"></div>
                     <div id="gridContainer"></div>
                 </div>
 
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal" id="modalCerrarCorte" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">DISTRIBUIDORA DE REPUESTOS EL EDEN</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <input id="hfID" type="hidden" />
+                    <input id="hfOpcion" type="hidden" />
+                    <input id="hfCreadoPor" type="hidden" />
+                    <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 text-center">
+                        <h5>¿Desea realizar el cierre de caja?</h5>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-success" id="btnAnular" data-dismiss="modal">SI</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">NO</button>
             </div>
         </div>
     </div>

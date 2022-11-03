@@ -14,19 +14,6 @@
                     <div id="exportButton"></div>
                     <div id="gridContainer"></div>
                 </div>
-                <table class="d-none table-striped display nowrap scroll" style="width:100%" id="tblDatos">
-                    <thead class="headColor">
-                        <tr>
-                            <th class="border text-center">ORDEN DE COMPRA</th>
-                            <th class="border text-center">CLIENTE</th>
-                            <th class="border text-center">VENDEDOR</th>
-                            <th class="border text-center">TOTAL VENTA</th>
-                            <th class="border text-center" style="width:130px">ACCIONES</th>
-                        </tr>
-                    </thead>
-                    <tbody id="tbodyDatos">
-                    </tbody>
-                </table>
             </div>
         </div>
     </div>
@@ -72,18 +59,16 @@
                 <div class="row">
                     <input id="hfID" type="hidden" />
                     <input id="hfOpcion" type="hidden" />
-                    <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
-                        <label>Total a Cobrar</label>
+                    <input id="hfMonto" type="hidden" />
+                    <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 text-center">
+                        <label class="h3 text-center  mt-1">Total a Cobrar</label>
                     </div>
-                    <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
-                        <label id="totalCobro"></label>
-                    </div>
-                    <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
-                        <input type="text" name="nombre" class="form-control" value="" id="txtCobro" />
+                    <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 text-center">
+                        <label class="h2 mt-3 text-danger" id="totalCobro"></label>
                     </div>
                     <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
                         <select class="custom-select mt-2" id="selTipoPago">
-                            <option selected disabled>SELECCIONE</option>
+                            <option selected disabled>SELECCIONE FORMA DE PAGO</option>
                             <option value="1">EFECTIVO</option>
                             <option value="2">TARJETA</option>
                         </select>
@@ -91,8 +76,36 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" id="btnCobrar" data-dismiss="modal">COBRAR</button>
+                <button type="button" class="btn btn-success" id="btnCobrar">COBRAR</button>
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">CANCELAR</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@*------------------------------------------------MODAL ANULADO-----------------------------------------------------*@
+<div class="modal" id="modalAnulado" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">DISTRIBUIDORA DE REPUESTOS EL EDEN</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <input id="hfID" type="hidden" />
+                    <input id="hfOpcion" type="hidden" />
+                    <input id="hfMonto" type="hidden" />
+                    <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 text-center">
+                        <h5>¿Desea realmente eliminar este producto de caja?</h5>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-success" id="btnAnular" data-dismiss="modal">SI</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">NO</button>
             </div>
         </div>
     </div>

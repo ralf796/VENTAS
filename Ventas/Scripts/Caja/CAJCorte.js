@@ -79,4 +79,34 @@
             ]
         }).dxDataGrid('instance');
     }
+    /*-------------------------------funcion corte------------------------------*/
+    function aplicarCorte() {
+        $.ajax({
+            type: 'GET',
+            url: "/CAJCorte/GetAplicarCorte",
+            contentType: "application/json; charset=utf-8",
+            dataType: 'json',
+            data: {},
+            cache: false,
+            success: function (data) {
+                var state = data["State"];
+                if (state == 1) {
+                    ShowAlertMessage('success', 'Corte realizada exitosamente')
+                    $('#modalCerrarCorte').modal('hide');
+                    GetDatos()
+                }
+                else if (state == -1) {
+                    ShowAlertMessage('warning', data['Message'])
+                }
+            }
+        });
+    }
+    /*------------------------------boton corte----------------------------------*/
+    $('#btnAbrirCorte').on('click', function (e) {
+        e.preventDefault();
+        $('#modalCerrarCorte').modal('show');
+    })
+    $('#btnAnular').on('click', function () {
+        aplicarCorte();
+    })
 })

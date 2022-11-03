@@ -28,6 +28,8 @@ namespace Ventas.Controllers.Caja
                 var item = new Caja_BE();
                 item.MTIPO = 1;
                 var lista = GetDatosCaja_(item);
+                foreach (var row in lista)
+                    row.FECHA_CREACION_STRING = row.FECHA_CREACION.ToString("dd/MM/yyyy");
                 return Json(new { State = 1, data = lista }, JsonRequestBehavior.AllowGet);
             }
             catch (Exception ex)
@@ -80,6 +82,23 @@ namespace Ventas.Controllers.Caja
 
             }
 
+        }
+        /*---------------------------------funcion Anular Venta*/
+        public JsonResult getAularVenta(int id_venta = 0)
+        {
+            try
+            {
+                var item = new Caja_BE();
+                item.ID_VENTA = id_venta;
+                item.MTIPO = 5;
+                var lista = GetDatosCaja_(item);
+                return Json(new { State = 1, data = lista }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                return Json(new { State = -1, Message = ex.Message }, JsonRequestBehavior.AllowGet);
+
+            }
         }
     }
 }
