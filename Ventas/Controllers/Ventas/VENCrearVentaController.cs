@@ -1,4 +1,5 @@
-﻿using GenesysOracleSV.Clases;
+﻿using GenesysOracle.Clases;
+using GenesysOracleSV.Clases;
 using Newtonsoft.Json;
 using SelectPdf;
 using System;
@@ -10,6 +11,7 @@ using System.Web;
 using System.Web.Mvc;
 using Ventas_BE;
 using Ventas_BLL;
+
 
 namespace Ventas.Controllers.Ventas
 {
@@ -57,7 +59,6 @@ namespace Ventas.Controllers.Ventas
 
             return respuesta;
         }
-
         private bool SaveDetail(int idVenta = 0, int idProducto = 0, int cantidad = 0, decimal precio = 0, decimal total = 0, decimal descuento = 0, decimal subtotal = 0)
         {
             bool respuesta = false;
@@ -82,8 +83,6 @@ namespace Ventas.Controllers.Ventas
 
             return respuesta;
         }
-        //DELETE TBL_VENTA_DETALLE WHERE ID_VENTA=idVenta; UPDATE TBL_VENTA SET ESTADO=0 WHERE ID_VENTA=idVenta;
-
         private bool DeleteOrder(int idVenta = 0)
         {
             bool respuesta = false;
@@ -120,7 +119,6 @@ namespace Ventas.Controllers.Ventas
                 return Json(new { State = -1, Message = ex.Message }, JsonRequestBehavior.AllowGet);
             }
         }
-
         public JsonResult GetList(int tipo = 0, int ID_MARCA_REPUESTO = 0, int ID_SUBCATEGORIA = 0, int ID_CATEGORIA = 0, int ID_SERIE_VEHICULO = 0, int ID_MARCA_VEHICULO = 0, int ID_MODELO = 0)
         {
             try
@@ -150,8 +148,6 @@ namespace Ventas.Controllers.Ventas
                 return Json(new { State = -1, Message = ex.Message }, JsonRequestBehavior.AllowGet);
             }
         }
-
-        [SessionExpireFilter]
         public JsonResult SaveOrder(string encabezado = "", string detalles = "")
         {
             try
@@ -162,8 +158,6 @@ namespace Ventas.Controllers.Ventas
                 item.CREADO_POR = usuario;
                 int state = 1;
                 bool banderaDetail = false;
-                //var item = new Ventas__BE();
-                //List<Ventas__BE> listaDetalles = new List<Ventas__BE>();
 
                 var itemID = new Ventas__BE();
                 itemID.MTIPO = 6;
@@ -196,6 +190,7 @@ namespace Ventas.Controllers.Ventas
         }
         #endregion
 
+        #region COTIZACION
         public ActionResult GetCotizacion(string encabezado = "", string detalles = "")
         {
             var item = JsonConvert.DeserializeObject<Ventas__BE>(encabezado);
@@ -248,7 +243,7 @@ namespace Ventas.Controllers.Ventas
                             <th class='pl-2 pr-2 border text-center' style='vertical-align:middle;'>DESCRIPCIÓN</th>
                             <th class='pl-2 pr-2 border text-center' style='vertical-align:middle;'>MARCA</th>
                             <th class='pl-2 pr-2 border text-center' style='vertical-align:middle;'>PRECIO</th>
-                            <th class='pl-2 pr-2 border text-center' style='vertical-align:middle;'>DESCTO</th>
+                            <th class='pl-2 pr-2 border text-center' style='vertical-align:middle;'>DESCUENTO</th>
                             <th class='pl-2 pr-2 border text-center' style='vertical-align:middle;'>SUBTOTAL</th>
                         </tr>
                     </thead>
@@ -276,7 +271,7 @@ namespace Ventas.Controllers.Ventas
                     <b>TOTAL :</b> {total}<br>
                     <b>DESCUENTO:</b> {descuento}<br>
                     <b>TOTAL A PAGAR:</b> {total}<br>
-                    <b>TOTAL EN LETRAS: </b> {123123213}<br>
+                    <b>TOTAL EN LETRAS: </b> {new NumeroLetra().Convertir(total.ToString(), true)}<br>
                 </div>
             </div>
             <div class='row pt-5'>
@@ -307,10 +302,10 @@ namespace Ventas.Controllers.Ventas
             doc.Close();
 
             string file64 = Convert.ToBase64String(fileStream.ToArray());
-            var file = new { File = file64, MimeType = "application/pdf", FileName = $"Cotizacion_{item.TELEFONO}_{DateTime.Now.ToString("ddMMyyyy")}.pdf" };
+            var file = new { File = file64, MimeType = "application/pdf", FileName = $"Cotizacion_{item.ID_CLIENTE}_{DateTime.Now.ToString("ddMMyyyy")}.pdf" };
             return Json(file);
         }
-
+        #endregion
 
 
     }

@@ -17,7 +17,8 @@
     <div class="wrapper">
         <!-- Preloader -->
         <div class="preloader flex-column justify-content-center align-items-center">
-            <img class="animation__shake" src="~/Content/Admin LTE 3.2/dist/img/AdminLTELogo.png" alt="AdminLTELogo" height="60" width="60">
+            @*<img class="animation__shake" src="~/Content/Admin LTE 3.2/dist/img/AdminLTELogo.png" alt="AdminLTELogo" height="60" width="60">*@
+            <img class="animation__shake" src="https://distribuidorarepuestoseleden.com/Varios/avatar.png" alt="AdminLTELogo" height="60" width="60">
         </div>
 
         <!-- Navbar -->
@@ -205,29 +206,13 @@
 
                         @if (ROL == 1 || ROL == 2)
                         {
-
                             <li class="nav-item">
-                                <a href="#" class="nav-link">
-                                    <i class="far fa-users"></i>    @*https://fontawesome.com/v5/icons/trash-alt?s=regular&f=classic    version 5 *@
+                                <a href="~/USUListarUsuario/Index" class="nav-link">
+                                    <i class="far fa-users"></i>
                                     <p>
                                         USUARIOS
-                                        <i class="right fas fa-angle-left"></i>
                                     </p>
                                 </a>
-                                <ul class="nav nav-treeview">
-                                    <li class="nav-item">
-                                        <a href="~/USUListarUsuario/Index" class="nav-link">
-                                            <i class="far fa-stop-circle"></i>
-                                            <p>VER USUARIOS</p>
-                                        </a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a href="~/USUCrearUsuario/Index" class="nav-link">
-                                            <i class="far fa-stop-circle"></i>
-                                            <p>CREAR USUARIO</p>
-                                        </a>
-                                    </li>
-                                </ul>
                             </li>
                         }
 
@@ -371,12 +356,45 @@
                         @if (ROL == 1 || ROL == 2)
                         {
                             <li class="nav-item">
-                                <a href="pages/widgets.html" class="nav-link">
-                                    <i class="fas fa-file-chart-line"></i>
+                                <a href="#" class="nav-link">
+                                    <i class="fas fa-hand-holding-usd"></i>
                                     <p>
                                         REPORTES
+                                        <i class="right fas fa-angle-left"></i>
                                     </p>
                                 </a>
+                                <ul class="nav nav-treeview">
+                                    <li class="nav-item">
+                                        <a href="~/CAJCobro/Index" class="nav-link">
+                                            <i class="far fa-stop-circle"></i>
+                                            <p>VENTAS</p>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="~/CAJCorte/Index" class="nav-link">
+                                            <i class="far fa-stop-circle"></i>
+                                            <p>PRODUCTOS</p>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="~/CAJCorte/Index" class="nav-link">
+                                            <i class="far fa-stop-circle"></i>
+                                            <p>COBROS</p>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="~/CAJCorte/Index" class="nav-link">
+                                            <i class="far fa-stop-circle"></i>
+                                            <p>CORTES</p>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="~/CAJCorte/Index" class="nav-link">
+                                            <i class="far fa-stop-circle"></i>
+                                            <p>GENERAL</p>
+                                        </a>
+                                    </li>
+                                </ul>
                             </li>
                         }
                         @*<li class="nav-item">
