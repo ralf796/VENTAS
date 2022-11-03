@@ -1,6 +1,84 @@
 ﻿$(document).ready(function () {
     GetDatos();
 
+    function ClearFormCreate() {
+        $('#txtGuardarPrimerNombre').val('');
+        $('#txtGuardarSegundoNombre').val('');
+        $('#txtGuardarPrimerApellido').val('');
+        $('#txtGuardarSegundoApellido').val('');
+        $('#txtGuardarCelular').val('');
+        $('#txtGuardarTelCasa').val('');
+        $('#txtGuardarDireccion').val('');
+        $('#selGuardarTipoEmpleado').val(-1);
+        $('#txtGuardarEmail').val('');
+        $('#txtGuardarUsuario').val('');
+        $('#txtGuardarPassword').val('');
+        $('#selGuardarRol').val(-1);
+    }
+
+    function ClearFormEditar() {
+        $('#txtEditarPrimerNombre').val('');
+        $('#txtEditarSegundoNombre').val('');
+        $('#txtEditarPrimerApellido').val('');
+        $('#txtEditarSegundoApellido').val('');
+        $('#txtEditarCelular').val('');
+        $('#txtEditarTelCasa').val('');
+        $('#txtEditarDireccion').val('');
+        $('#selEditarTipoEmpleado').val(-1);
+        $('#txtEditarEmail').val('');
+        $('#txtEditarUsuario').val('');
+        $('#txtEditarPassword').val('');
+        $('#selEditarRol').val(-1);
+    }
+
+    function CallBtnEdit(primerNombre, segundoNombre, primerApellido, segundoApellido, celular, telefono, direccion, email, tipoEmpleado, rol, idPath) {
+        $('#txtEditarPrimerNombre').val(primerNombre);
+        $('#txtEditarSegundoNombre').val(segundoNombre);
+        $('#txtEditarPrimerApellido').val(primerApellido);
+        $('#txtEditarSegundoApellido').val(segundoApellido);
+        $('#txtEditarCelular').val(celular);
+        $('#txtEditarTelCasa').val(telefono);
+        $('#txtEditarDireccion').val(direccion);
+        $('#selEditarTipoEmpleado').val(tipoEmpleado);
+        $('#txtEditarEmail').val(email);
+        $('#selEditarRol').val(rol);
+        $('#idFotografiaEditar').val(idPath);
+
+        $('#modalEditarUsuario').modal('show')
+    }
+
+    function GetLists(selObject, tipo) {
+        return new Promise((resolve, reject) => {
+            $.ajax({
+                type: 'GET',
+                url: '/USUListarUsuario/GetLists',
+                contentType: "application/json; charset=utf-8",
+                dataType: 'json',
+                data: { tipo },
+                cache: false,
+                success: function (data) {
+                    var list = data["data"];
+                    var state = data["State"];
+                    if (state == 1) {
+                        $(selObject).empty();
+                        $(selObject).append('<option selected value="-1" disabled>Seleccione una opción</option>');
+                        list.forEach(function (dato) {
+                            if (tipo == 2) {
+                                $(selObject).append('<option data-descripcion="' + dato.DESCRIPCION + '" value="' + dato.ID_TIPO_EMPLEADO + '">' + dato.NOMBRE + '</option>');
+                            }
+                            else if (tipo == 3) {
+                                $(selObject).append('<option data-descripcion="' + dato.DESCRIPCION + '" value="' + dato.ID_ROL + '">' + dato.NOMBRE + '</option>');
+                            }
+                        });
+                        resolve(1);
+                    }
+                    else if (state == -1)
+                        alert(data["Message"])
+                }
+            });
+        });
+    }
+
     function GetDatos() {
         var customStore = new DevExpress.data.CustomStore({
             load: function (loadOptions) {
@@ -76,38 +154,41 @@
                     }
                 },
                 {
-                    caption: "ACCIONES",
-                    type: "buttons",
+                    caption: 'ACCIONES',
                     alignment: "center",
-                    buttons: [
-                        {
-                            visible: function (e) {
-                                var visible = false;
-                                if (e.row.data.ESTADO == 1)
-                                    visible = true;
-                                return visible;
-                            },
-                            hint: "Editar",
-                            icon: "edit",
-                            onClick: function (e) {
-                                GetOpcion(2)
-                                GetInputsUpdate(e.row.data['ID_BODEGA'], e.row.data['NOMBRE'], e.row.data['ESTANTERIA'], e.row.data['NIVEL'])
-                            }
-                        },
-                        {
-                            visible: function (e) {
-                                var visible = false;
-                                if (e.row.data.ESTADO == 1)
-                                    visible = true;
-                                return visible;
-                            },
-                            hint: "Inactivar",
-                            icon: "clear",
-                            onClick: function (e) {
-                                Delete(e.row.data['ID_USUARIO'], 4)
-                            }
+                    cellTemplate: function (container, options) {
+                        var fieldData = options.data;
+
+                        //ESTADO
+                        if (fieldData.ESTADO == 1)
+                            $("<span>").addClass("badge badge-success").text('ACTIVO').appendTo(container);
+                        else
+                            $("<span>").addClass("badge badge-danger").text('INACTIVO').appendTo(container);
+
+                        //BTN EDITAR
+                        if (fieldData.ESTADO == 1) {
+                            var classTmp1 = 'edit' + cont;
+                            var classBTN1 = 'ml-2 hvr-grow far fa-edit btn btn-success ' + classTmp1;
+                            $("<span>").addClass(classBTN1).prop('title', 'Editar').appendTo(container);
+                            $('.edit' + cont).click(function (e) {
+                                var id = parseInt(fieldData.ID_BODEGA);
+                                ClearFormCreate();
+                                GetLists('#selEditarTipoEmpleado', 2);
+                                GetLists('#selEditarRol', 3);
+                                CallBtnEdit(fieldData.PRIMER_NOMBRE, fieldData.SEGUNDO_NOMBRE, fieldData.PRIMER_APELLIDO, fieldData.SEGUNDO_APELLIDO, dataField.CELULAR, dataField.TELEFONO, dataField.EMAIL, dataField.ID_TIPO_EMPLEADO, dataField.ID_ROL, dataField.PATH_IMAGEN);
+                            })
+
+                            //BTN ELIMINAR
+                            var classTmp2 = 'remove' + cont;
+                            var classBTN2 = 'ml-2 hvr-grow far fa-trash-alt btn btn-danger ' + classTmp2;
+                            $("<span>").addClass(classBTN2).prop('title', 'Inactivar').appendTo(container);
+                            $('.remove' + cont).click(function (e) {
+                                var id = parseInt(fieldData.ID_BODEGA);
+                                Delete(id);
+                            })
                         }
-                    ]
+                        cont++;
+                    }
                 },
                 {
                     dataField: "ID_USUARIO",
@@ -115,10 +196,19 @@
                     visible: false
                 },
                 {
+                    dataField: "ID_ROL",
+                    caption: "ID ROL",
+                    visible: false
+                },
+                {
+                    dataField: "ID_TIPO_EMPLEADO",
+                    caption: "ID TIPO EMPLEADO",
+                    visible: false
+                },
+                {
                     dataField: "USUARIO",
                     caption: "USUARIO",
-                    alignment: "center",
-                    visible: false
+                    alignment: "center"
                 },
                 {
                     dataField: "NOMBRE_ROL",
@@ -145,6 +235,10 @@
                     caption: "SEGUNDO_APELLIDO"
                 },
                 {
+                    dataField: "CELULAR",
+                    caption: "CELULAR"
+                },
+                {
                     dataField: "TELEFONO",
                     caption: "TELEFONO"
                 },
@@ -154,7 +248,8 @@
                 },
                 {
                     dataField: "URL_PANTALLA",
-                    caption: "URL DEFAULT"
+                    caption: "URL DEFAULT",
+                    visible: false
                 },
                 {
                     dataField: "EMAIL",
@@ -164,5 +259,176 @@
         }).dxDataGrid('instance');
 
     }
+
+    function GuardarUsuarioFoto() {
+        var primerNombre = $('#txtGuardarPrimerNombre').val();
+        var segundoNombre = $('#txtGuardarSegundoNombre').val();
+        var primerApellido = $('#txtGuardarPrimerApellido').val();
+        var segundoApellido = $('#txtGuardarSegundoApellido').val();
+        var celular = $('#txtGuardarCelular').val();
+        var telefono = $('#txtGuardarTelCasa').val();
+        var direccion = $('#txtGuardarDireccion').val();
+        var idTipoEmpleado = $('#selGuardarTipoEmpleado').val();
+        var email = $('#txtGuardarEmail').val();
+        var usuario = $('#txtGuardarUsuario').val();
+        var password = $('#txtGuardarPassword').val();
+        var urlFoto = $('#idFotografia').val();
+        var idRol = $('#selGuardarRol').val();
+
+        if (idTipoEmpleado == '' || idTipoEmpleado == null) {
+            ShowAlertMessage('warning', '¡DEBES SELECCIONAR EL TIPO DE EMPLEADO!');
+            $('#selGuardarTipoEmpleado').focus();
+            return;
+        }
+        if (idRol == '' || idRol == null) {
+            ShowAlertMessage('warning', '¡DEBES SELECCIONAR EL ROL DE ACCESOS!');
+            $('#selGuardarRol').focus();
+            return;
+        }
+
+        var formData = new FormData();
+        formData.append('primerNombre', primerNombre);
+        formData.append('segundoNombre', segundoNombre);
+        formData.append('primerApellido', primerApellido);
+        formData.append('segundoApellido', segundoApellido);
+        formData.append('celular', celular);
+        formData.append('telefono', telefono);
+        formData.append('direccion', direccion);
+        formData.append('idTipoEmpleado', idTipoEmpleado);
+        formData.append('email', email);
+        formData.append('usuario', usuario);
+        formData.append('password', password);
+        formData.append('idRol', idRol);
+        formData.append('urlFoto', urlFoto);
+        if ($('#idFotografia')[0].files != undefined) {
+            let files = $('#idFotografia')[0].files;
+            formData.append('foto', files[0]);
+        }
+        $.ajax({
+            type: 'POST',
+            url: '/USUListarUsuario/GuardarUsuarioFoto',
+            data: formData,
+            contentType: false,
+            processData: false,
+            success: function (data) {
+                //----------------ERROR CATCH----------------
+                if (data["State"] == -1)
+                    ShowAlertMessage('warning', data['Message'])
+                else if (data["State"] == 1) {
+                    console.log(data['path_foto'])
+                    $('#idFotografia').val('');
+                    //$('#imgModal').attr('src', data['path_foto']);
+                    ShowAlertMessage('success', 'Datos ingresados correctamente')
+                    ClearFormCreate();
+                    GetDatos();
+                    $('#modalCrearUsuario').modal('hide');
+                }
+            }
+        });
+    }
+
+    function EditarUsuarioFoto() {
+        var primerNombre = $('#txtGuardarPrimerNombre').val();
+        var segundoNombre = $('#txtGuardarSegundoNombre').val();
+        var primerApellido = $('#txtGuardarPrimerApellido').val();
+        var segundoApellido = $('#txtGuardarSegundoApellido').val();
+        var celular = $('#txtGuardarCelular').val();
+        var telefono = $('#txtGuardarTelCasa').val();
+        var direccion = $('#txtGuardarDireccion').val();
+        var idTipoEmpleado = $('#selGuardarTipoEmpleado').val();
+        var email = $('#txtGuardarEmail').val();
+        var urlFoto = $('#idFotografia').val();
+        var idRol = $('#selGuardarRol').val();
+        var id = $('#hfId').val();
+
+        if (idTipoEmpleado == '' || idTipoEmpleado == null) {
+            ShowAlertMessage('warning', '¡DEBES SELECCIONAR EL TIPO DE EMPLEADO!');
+            $('#selGuardarTipoEmpleado').focus();
+            return;
+        }
+        if (idRol == '' || idRol == null) {
+            ShowAlertMessage('warning', '¡DEBES SELECCIONAR EL ROL DE ACCESOS!');
+            $('#selGuardarRol').focus();
+            return;
+        }
+
+        var formData = new FormData();
+        formData.append('primerNombre', primerNombre);
+        formData.append('segundoNombre', segundoNombre);
+        formData.append('primerApellido', primerApellido);
+        formData.append('segundoApellido', segundoApellido);
+        formData.append('celular', celular);
+        formData.append('telefono', telefono);
+        formData.append('direccion', direccion);
+        formData.append('idTipoEmpleado', idTipoEmpleado);
+        formData.append('email', email);
+        formData.append('idRol', idRol);
+        formData.append('urlFoto', urlFoto);
+        formData.append('id', id);
+        if ($('#idFotografia')[0].files != undefined) {
+            let files = $('#idFotografia')[0].files;
+            formData.append('foto', files[0]);
+        }
+        $.ajax({
+            type: 'POST',
+            url: '/USUListarUsuario/EditarUsuarioFoto',
+            data: formData,
+            contentType: false,
+            processData: false,
+            success: function (data) {
+                //----------------ERROR CATCH----------------
+                if (data["State"] == -1)
+                    ShowAlertMessage('warning', data['Message'])
+                else if (data["State"] == 1) {
+                    console.log(data['path_foto'])
+                    $('#idFotografia').val('');
+                    $('#imgModal').attr('src', data['path_foto']);
+                    ShowAlertMessage('success', 'Datos actualizados correctamente')
+                    ClearFormEditar();
+                    GetDatos();
+                    $('#modalEditarUsuario').modal('hide');
+                }
+            }
+        });
+    }
+
+    function Delete(id) {
+        $.ajax({
+            type: 'GET',
+            url: "/USUListarUsuario/Delete",
+            contentType: "application/json; charset=utf-8",
+            dataType: 'json',
+            data: { id },
+            cache: false,
+            success: function (data) {
+                var state = data["State"];
+                if (state == 1) {
+                    ShowAlertMessage('success', 'El usuario seleccionado se inactivó correctamente.')
+                    GetDatos()
+                }
+                else if (state == -1) {
+                    ShowAlertMessage('warning', data['Message'])
+                }
+            }
+        });
+    }
+
+    $('#btnAbrirModalCrear').on('click', function (e) {
+        e.preventDefault();
+        $('#modalCrearUsuario').modal('show')
+        ClearFormCreate()
+        GetLists('#selGuardarTipoEmpleado', 2);
+        GetLists('#selGuardarRol', 3);
+    });
+
+    $('#formGuardarEmpleadoUsuario').submit(function (e) {
+        e.preventDefault();
+        GuardarUsuarioFoto();
+    });
+
+    $('#formEditarEmpleadoUsuario').submit(function (e) {
+        e.preventDefault();
+        EditarUsuarioFoto();
+    });
 
 });

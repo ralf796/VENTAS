@@ -39,5 +39,21 @@ namespace Ventas.Controllers.Caja
 
             }
         }
+        /*funcion que aplica corte*/
+        public JsonResult GetAplicarCorte()
+        {
+            try
+            {
+                var item = new Caja_BE();
+                item.MTIPO = 6;
+                var lista = GetDatosCaja_(item);
+                return Json(new { State = 1, data = lista }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                return Json(new { State = -1, Message = ex.Message }, JsonRequestBehavior.AllowGet);
+
+            }
+        }
     }
 }

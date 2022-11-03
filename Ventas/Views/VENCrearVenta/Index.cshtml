@@ -257,12 +257,6 @@
                 </button>
             </div>
             <div class="modal-body">
-                @*<div class="row">
-                        <div class="input-group bg-white">
-                            <i style="margin-top:1px; margin-left:10px; margin-right:5px" class='fa fa-search'></i>
-                            <input type="text" class="form-control text-left bg-white" id="txtFiltro" style="width:30%; padding-left:20px" />
-                        </div>
-                    </div>*@
                 <div class="row">
                     <div class="col-12 col-md-12 col-xl-12" style="margin-top:-8px">
                         <div class="demo-container">
@@ -298,7 +292,6 @@
     </div>
 </div>
 
-
 <div class="modal fade" id="modalCrearCliente">
     <div class="modal-dialog">
         <div class="modal-content  bg-secondary">
@@ -321,11 +314,11 @@
                         </div>
                         <div class="form-group col-md-12">
                             <label for="inputCity">TELEFONO</label>
-                            <input type="text" class="form-control text-center" id="txtTelefonoCrear" onkeypress="return valideKey(event);" maxlength="8">
+                            <input type="text" class="form-control text-center" id="txtTelefonoCrear" onkeypress="return valideKey(event);" placeholder="+502 ____-____" data-slots="_">
                         </div>
                         <div class="form-group col-md-12">
                             <label for="inputCity">EMAIL</label>
-                            <input type="email" class="form-control" id="txtEmailCrear" maxlength="50">
+                            <input type="email" class="form-control" id="txtEmailCrear" maxlength="100" placeholder="email@gmail.com">
                         </div>
                         <div class="form-group col-md-12">
                             <label for="inputCity">NIT</label>

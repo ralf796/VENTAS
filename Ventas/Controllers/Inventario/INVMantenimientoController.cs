@@ -115,7 +115,7 @@ namespace Ventas.Controllers.Inventario
         #endregion
 
         #region JSON_RESULTS
-        [SessionExpireFilterAttribute]
+        [SessionExpireFilter]
         public JsonResult GetDatosTable(int tipo = 0, int id = 0)
         {
             try
@@ -131,7 +131,7 @@ namespace Ventas.Controllers.Inventario
                 return Json(new { State = -1, Message = ex.Message }, JsonRequestBehavior.AllowGet);
             }
         }
-        [SessionExpireFilterAttribute]
+        [SessionExpireFilter]
         public JsonResult Guardar(string nombre = "", string descripcion = "", int tipo = 0, int estanteria = 0, int nivel = 0, int anioI = 0, int anioF = 0, int categoria = 0, string telefono = "", string direccion = "", string contacto = "", int marca = 0, int id = 0)
         {
             try
@@ -172,7 +172,7 @@ namespace Ventas.Controllers.Inventario
                 return Json(new { State = -1, Message = ex.Message }, JsonRequestBehavior.AllowGet);
             }
         }
-        [SessionExpireFilterAttribute]
+        [SessionExpireFilter]
         public JsonResult Delete(int id = 0, int tipo = 0)
         {
             try
@@ -196,7 +196,7 @@ namespace Ventas.Controllers.Inventario
                 return Json(new { State = -1, Message = ex.Message }, JsonRequestBehavior.AllowGet);
             }
         }
-        [SessionExpireFilterAttribute]
+        [SessionExpireFilter]
         public JsonResult OperacionesProducto(string NOMBRE = "", string DESCRIPCION = "", decimal PRECIO_COSTO = 0, decimal PRECIO_VENTA = 0, int STOCK = 0, string CODIGO = "", int ID_BODEGA = 0, int ID_MODELO = 0,
             int ID_PROVEEDOR = 0, int ID_MARCA_REPUESTO = 0, int ID_SUBCATEGORIA = 0, int ID_SERIE_VEHICULO = 0, int ID_PRODUCTO = 0, int tipo = 0)
         {

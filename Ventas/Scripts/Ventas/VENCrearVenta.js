@@ -455,14 +455,14 @@
             cache: false,
             success: function (data) {
                 var state = data["State"];
-                var compra = data["data"];
-                if (state == 1 && compra != null) {
+                var compra = data["ORDEN_COMPRA"];
+                if (state == 1 ) {
                     //ShowAlertMessage('success', 'Se creó la orden de compra: ' + compra.ID_VENTA)
 
                     Swal.fire({
                         icon: 'success',
                         type: 'success',
-                        html: 'Se creó la orden de compra: ' + compra.ID_VENTA,
+                        html: 'Se creó la orden de compra: ' + compra,
                         showCancelButton: true,
                         cancelButtonText: 'Cerrar',
                         showConfirmButton: false,
@@ -630,9 +630,13 @@
         });
         console.log(listDetalles)
 
-        if (idCliente == '' || idCliente == '')
+        alert(idCliente)
+        if (idCliente == '' || idCliente == null) {
             ShowAlertMessage('info', 'Debes seleccionar un cliente para la venta.');
+            return;
+        }
 
+        alert(listDetalles.length)
         if (listDetalles.length == 0)
             ShowAlertMessage('info', 'Debes agregar al menos un producto.');
         else {

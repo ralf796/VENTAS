@@ -65,6 +65,10 @@
                     alignment: "center"
                 },
                 {
+                    dataField: "FECHA_CREACION_STRING",
+                    caption: "FECHA"
+                },
+                {
                     dataField: "NOMBRE",
                     caption: "CLIENTE"
                 },
@@ -76,7 +80,9 @@
                 {
                     dataField: "TOTAL",
                     caption: "TOTAL",
-                    alignment: "center"
+                    alignment: "center",
+                    dataType: "number",
+                    format: { type: 'fixedPoint', precision: 2 }
                 },
 
                 {
@@ -87,8 +93,9 @@
                         var classTmp = 'detalle' + cont;
                         var classBTN = 'hvr-grow text-dark far fa-eye btn btn-success ' + classTmp;
 
-                        $("<span>").addClass(classBTN).prop('title','Ver detalle').appendTo(container);
+                        $("<span>").addClass(classBTN).prop('title', 'Ver detalle').appendTo(container);
                         $('.detalle' + cont).click(function (e) {
+
                             mostrarDetalle(fieldData.ID_VENTA);
                         })
                         cont++;
@@ -100,19 +107,37 @@
                     cellTemplate: function (container, options) {
                         var fieldData = options.data;
                         var classTmp = 'cobrar' + cont;
-                        var classBTN = 'hvr-grow far fa-money-bill-alt btn btn-primary ' + classTmp;
+                        var classBTN = 'hvr-grow text-dark far fa-money-bill-alt btn btn-danger ' + classTmp;
 
-                        $("<span>").addClass(classBTN).appendTo(container);
+                        $("<span>").addClass(classBTN).prop('title', 'cobrar').appendTo(container);
                         $('.cobrar' + cont).click(function (e) {
                             var total = parseFloat(fieldData.TOTAL);
                             var id = parseInt(fieldData.ID_VENTA);
                             var creadoPor = fieldData.CREADO_POR;
                             //mostrarCobro(fieldData.TOTAL, fieldData.ID_VENTA);
-                            document.querySelector('#totalCobro').textContent = total;
+                            document.querySelector('#totalCobro').textContent = formatNumber(parseFloat(total).toFixed(2));
                             $('#hfID').val(id);
                             $('#hfOpcion').val(creadoPor);
+                            $('#hfMonto').val(total);
                             $('#modalCobro').modal('show');
 
+                        })
+                        cont++;
+                    }
+                },
+                {
+                    caption: "ANULAR VENTA",
+                    alignment: "center",
+                    cellTemplate: function (container, options) {
+                        var fieldData = options.data;
+                        var classTmp = 'anular' + cont;
+                        var classBTN = 'hvr-grow text-dark far fa-trash-alt btn btn-warning ' + classTmp;
+
+                        $("<span>").addClass(classBTN).prop('title', 'cobrar').appendTo(container);
+                        $('.anular' + cont).click(function (e) {
+                            var id = parseInt(fieldData.ID_VENTA);
+                            $('#hfID').val(id);
+                            $('#modalAnulado').modal('show');
                         })
                         cont++;
                     }
@@ -210,25 +235,30 @@
                     caption: "PRODUCTO"
                 },
                 {
+                    dataField: "PRECIO_UNITARIO",
+                    caption: "P/U",
+                    alignment: "center"
+                },
+                {
                     dataField: "CANTIDAD",
                     caption: "CANTIDAD",
                     alignment: "center"
                 },
                 {
-                    dataField: "PRECIO_UNITARIO",
-                    caption: "PRECIO UNITARIO",
-                    alignment: "center"
+                    dataField: "SUBTOTAL",
+                    caption: "D/U",
+                    alignment: "center",
+                    dataType: "number",
+                    format: { type: 'fixedPoint', precision: 2 }
                 },
                 {
                     dataField: "TOTAL",
                     caption: "TOTAL",
-                    alignment: "center"
+                    alignment: "center",
+                    dataType: "number",
+                    format: { type: 'fixedPoint', precision: 2 }
                 },
-                {
-                    dataField: "SUBTOTAL",
-                    caption: "SUBTOTAL",
-                    alignment: "center"
-                }
+
             ],
         }).dxDataGrid('instance');
         $('#modalDetalle').modal('show');
@@ -253,7 +283,7 @@
             success: function (data) {
                 var state = data["State"];
                 if (state == 1) {
-                    ShowAlertMessage('success', 'Datos ingresados correctamente')
+                    ShowAlertMessage('success', 'Cobro realizada exitosamente')
                     $('#txtCobro').val('');
                     $('#selTipoPago').val('');
                     $('#modalCobro').modal('hide');
@@ -268,20 +298,48 @@
     /*-----------------------------BOTON  COBRAR------------------------------------*/
     $('#btnCobrar').on('click', function (e) {
         e.preventDefault();
-        var cobro = $('#txtCobro').val();
+        var cobro = parseFloat($('#hfMonto').val());
         var formaPago = $('#selTipoPago').val();
         var id = parseInt($('#hfID').val());
         var creado_por = $('#hfOpcion').val();
-        if (cobro == "") {
-            alert("Debe de ingresar un Monto valido")
-            $('#modalCobro').modal('show');
-        }
-        else {
+        if (formaPago != null)
             getCobro(id, cobro, formaPago, creado_por);
+        else {
+            ShowAlertMessage('warning', 'Debe de Elegir una forma de Pago correcto')
         }
 
     });
-
+    /*-----------------------------------Funcion Anular Venta---------------------------*/
+    function anularVenta(id) {
+        let id_venta = parseInt(id);
+        $.ajax({
+            type: 'GET',
+            url: "/CAJCobro/getAularVenta",
+            contentType: "application/json; charset=utf-8",
+            dataType: 'json',
+            data: {
+                id_venta
+            },
+            cache: false,
+            success: function (data) {
+                var state = data["State"];
+                if (state == 1) {
+                    ShowAlertMessage('success', 'Venta anulado correctamente')
+                    $('#modalAnulado').modal('hide');
+                    GetDatos()
+                }
+                else if (state == -1) {
+                    ShowAlertMessage('warning', data['Message'])
+                }
+            }
+        });
+    }
+    /*----------------------------------BOTON ANULAR------------------------------------*/
+    $('#btnAnular').on('click', function (e) {
+        e.preventDefault();
+        let id = $('#hfID').val();
+        anularVenta(id)
+    })
 
 });
 

@@ -144,20 +144,17 @@
             export: {
                 enabled: false
             },
+            onRowPrepared(e) {
+                e.rowElement.css("background-color", "#A7BCD6");
+                e.rowElement.css("color", "#000000");
+            },
             columns: [
                 {
                     dataField: 'PATH_IMAGEN',
                     caption: 'IMAGEN',
-                    //width: 90,
-                    /*
-                    cellTemplate(container, options) {
-                        $('<div>').append($('<img>', { src: options.value })).appendTo(container);
-                    },
-                    */
                     cellTemplate: function (container, options) {
                         var fieldData = options.data;
                         $("<img>").attr('src', fieldData.PATH_IMAGEN).css('width', '70px').appendTo(container);
-                        //$("<img>").attr('src','https://itpromklao.com/wp-content/uploads/2020/03/Slide1-135.jpg').css('width','70px').appendTo(container);
                     }
                 },
                 {
@@ -195,65 +192,6 @@
                         cont++;
                     }
                 },
-                //{
-                //    caption: "ACCIONES",
-                //    type: "buttons",
-                //    alignment: "center",
-                //    buttons: [
-                //        {
-                //            visible: function (e) {
-                //                var visible = false;
-                //                if (e.row.data.ESTADO == 1)
-                //                    visible = true;
-                //                return visible;
-                //            },
-                //            hint: "Editar",
-                //            icon: "edit",
-                //            onClick: function (e) {
-                //                alert('en desarrollo')
-                //            }
-                //        },
-                //        {
-                //            visible: function (e) {
-                //                var visible = false;
-                //                if (e.row.data.ESTADO == 1)
-                //                    visible = true;
-                //                return visible;
-                //            },
-                //            hint: "Inactivar",
-                //            icon: "clear",
-                //            onClick: function (e) {
-                //                Delete(e.row.data['ID_PRODUCTO'], 2)
-                //            }
-                //        },
-                //        {
-                //            visible: function (e) {
-                //                var visible = false;
-                //                if (e.row.data.ESTADO == 1)
-                //                    visible = true;
-                //                return visible;
-                //            },
-                //            hint: "Agregar",
-                //            icon: "add",
-                //            onClick: function (e) {
-                //                Delete(e.row.data['ID_PRODUCTO'], 2)
-                //            }
-                //        }
-                //    ]
-                //},
-                //{
-                //    caption: "ESTADO",
-                //    alignment: "center",
-                //    cellTemplate: function (container, options) {
-                //        var fieldData = options.data;
-                //        container.addClass(fieldData.ESTADO != 1 ? "dec" : "");
-
-                //        if (fieldData.ESTADO == 1)
-                //            $("<span>").addClass("badge badge-success").text('ACTIVO').appendTo(container);
-                //        else
-                //            $("<span>").addClass("badge badge-danger").text('INACTIVO').appendTo(container);
-                //    }
-                //},
                 {
                     dataField: "ID_PRODUCTO",
                     caption: "ID PRODUCTO",
