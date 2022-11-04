@@ -1,6 +1,8 @@
 ﻿using GenesysOracleSV.Clases;
+using Microsoft.Ajax.Utilities;
 using OfficeOpenXml;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data.Common;
@@ -105,7 +107,7 @@ namespace Ventas.Controllers.Inventario
             List<Inventario_BE> lista = new List<Inventario_BE>();
             lista = Inventario_BLL.GetInventario_create(item);
             return lista;
-        }        
+        }
         private List<Inventario_BE> GetInventario_delete_(Inventario_BE item)
         {
             List<Inventario_BE> lista = new List<Inventario_BE>();
@@ -259,7 +261,7 @@ namespace Ventas.Controllers.Inventario
 
                         for (int rowIterator = 3; rowIterator <= noOfRow; rowIterator++)
                         {
-                            if (workSheet.Cells[rowIterator, 1].Value != null)
+                            if (workSheet.Cells[rowIterator, 4].Value != null)
                             {
                                 for (int i = 1; i <= 14; i++)
                                 {
@@ -279,9 +281,9 @@ namespace Ventas.Controllers.Inventario
                                 row.ANIO_FINAL = NullInt(workSheet.Cells[rowIterator, 9].Value.ToString());
                                 row.PATH_IMAGEN = NullString(workSheet.Cells[rowIterator, 10].Value.ToString());
                                 row.NOMBRE_MARCA_REPUESTO = NullString(workSheet.Cells[rowIterator, 11].Value.ToString());
-                                row.NOMBRE_MARCA_VEHICULO= NullString(workSheet.Cells[rowIterator, 12].Value.ToString());
-                                row.NOMBRE_SERIE_VEHICULO= NullString(workSheet.Cells[rowIterator, 13].Value.ToString());
-                                row.NOMBRE_DISTRIBUIDOR= NullString(workSheet.Cells[rowIterator, 14].Value.ToString());
+                                row.NOMBRE_MARCA_VEHICULO = NullString(workSheet.Cells[rowIterator, 12].Value.ToString());
+                                row.NOMBRE_SERIE_VEHICULO = NullString(workSheet.Cells[rowIterator, 13].Value.ToString());
+                                row.NOMBRE_DISTRIBUIDOR = NullString(workSheet.Cells[rowIterator, 14].Value.ToString());
 
                                 row.CREADO_POR = Session["usuario"].ToString();
                                 row.MTIPO = 1;
@@ -294,9 +296,18 @@ namespace Ventas.Controllers.Inventario
                     }
                 }
 
+                var groupCodigos1 = list.DistinctBy(i => i.CODIGO).ToList();
+
+                foreach (var row1 in groupCodigos1)
+                {
+                    row1.MTIPO = 1;
+                    var resultHeader = GetDatosInventario_(row1);
+                }
+
                 foreach (var dato in list)
                 {
-                    var lista = GetDatosInventario_(dato);
+                    dato.MTIPO = 4;
+                    var resultDetalleProducto = Inventario_BLL.GetSPInventario(dato);
                 }
                 return Json(new { State = 1, data = list }, JsonRequestBehavior.AllowGet);
             }
