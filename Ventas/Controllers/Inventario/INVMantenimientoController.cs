@@ -1,5 +1,5 @@
 ﻿using GenesysOracleSV.Clases;
-using Microsoft.Ajax.Utilities;
+using MoreLinq;
 using OfficeOpenXml;
 using System;
 using System.Collections;
@@ -261,7 +261,7 @@ namespace Ventas.Controllers.Inventario
 
                         for (int rowIterator = 3; rowIterator <= noOfRow; rowIterator++)
                         {
-                            if (workSheet.Cells[rowIterator, 4].Value != null)
+                            if (workSheet.Cells[rowIterator, 3].Value != null)
                             {
                                 for (int i = 1; i <= 14; i++)
                                 {
