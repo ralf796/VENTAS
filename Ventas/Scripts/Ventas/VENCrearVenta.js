@@ -432,15 +432,16 @@
         this.TOTAL_IVA = TOTAL_IVA;
         this.TOTAL_DESCUENTO = TOTAL_DESCUENTO;
     }
-    function DETALLE(ID_PRODUCTO, CANTIDAD, PRECIO_UNITARIO, TOTALTOTAL, IVA, DESCUENTO, SUBTOTAL) {
+    function DETALLE(ID_PRODUCTO, CANTIDAD, PRECIO_VENTA, TOTAL, IVA, TOTAL_DESCUENTO, SUBTOTAL) {
         this.ID_PRODUCTO = ID_PRODUCTO;
         this.CANTIDAD = CANTIDAD;
-        this.PRECIO_UNITARIO = PRECIO_UNITARIO;
-        this.TOTALTOTAL = TOTALTOTAL;
+        this.PRECIO_VENTA = PRECIO_VENTA;
+        this.TOTAL = TOTAL;
         this.IVA = IVA;
-        this.DESCUENTO = DESCUENTO;
+        this.TOTAL_DESCUENTO = TOTAL_DESCUENTO;
         this.SUBTOTAL = SUBTOTAL;
     }
+
     function SaveOrder(jsonEncabezado, jsonDetalles) {
         $.ajax({
             type: 'GET',
@@ -456,7 +457,7 @@
             success: function (data) {
                 var state = data["State"];
                 var compra = data["ORDEN_COMPRA"];
-                if (state == 1 ) {
+                if (state == 1) {
                     //ShowAlertMessage('success', 'Se creó la orden de compra: ' + compra.ID_VENTA)
 
                     Swal.fire({
@@ -531,7 +532,7 @@
         $(this).closest('tr').remove();
         RefreshSum();
     });
-
+    
     $("#txtNit").keypress(function (e) {
         var code = (e.keyCode ? e.keyCode : e.which);
         if (code == 13) {
@@ -630,13 +631,11 @@
         });
         console.log(listDetalles)
 
-        alert(idCliente)
         if (idCliente == '' || idCliente == null) {
             ShowAlertMessage('info', 'Debes seleccionar un cliente para la venta.');
             return;
         }
 
-        alert(listDetalles.length)
         if (listDetalles.length == 0)
             ShowAlertMessage('info', 'Debes agregar al menos un producto.');
         else {

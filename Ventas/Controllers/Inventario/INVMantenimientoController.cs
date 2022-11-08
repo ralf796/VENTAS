@@ -6,10 +6,12 @@ using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data.Common;
+using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.Razor.Parser.SyntaxTree;
 using Ventas_BE;
 using Ventas_BLL;
 
@@ -19,70 +21,70 @@ namespace Ventas.Controllers.Inventario
     {
         #region VIEWS
         // GET: BODEGA
-        [SessionExpireFilterAttribute]
+
         public ActionResult IndexBodega()
         {
             return View();
         }
         // GET: CATEGORIA
-        //[SessionExpireFilterAttribute]
-        [SessionExpireFilterAttribute]
+        //
+
         public ActionResult IndexCategoria()
         {
             return View();
         }
         // GET: SUBCATEGORIA
-        //[SessionExpireFilterAttribute]
-        [SessionExpireFilterAttribute]
+        //
+
         public ActionResult IndexSubcategoria()
         {
             return View();
         }
         // GET: MODELO
-        //[SessionExpireFilterAttribute]
-        [SessionExpireFilterAttribute]
+        //
+
         public ActionResult IndexModelo()
         {
             return View();
         }
         // GET: PROVEEDOR
-        //[SessionExpireFilterAttribute]
-        [SessionExpireFilterAttribute]
+        //
+
         public ActionResult IndexProveedor()
         {
             return View();
         }
         // GET: MARCA REPUESTO
-        //[SessionExpireFilterAttribute]
-        [SessionExpireFilterAttribute]
+        //
+
         public ActionResult IndexMarcaRepuesto()
         {
             return View();
         }
         // GET: MARCA VEHICULO
-        //[SessionExpireFilterAttribute]
-        [SessionExpireFilterAttribute]
+        //
+
         public ActionResult IndexMarcaVehiculo()
         {
             return View();
         }
         // GET: SERIE VEHICULO
-        //[SessionExpireFilterAttribute]
-        [SessionExpireFilterAttribute]
+        //
+
         public ActionResult IndexSerieVehiculo()
         {
             return View();
         }
         // GET: CREAR PRODUCTO
-        //[SessionExpireFilterAttribute]
-        [SessionExpireFilterAttribute]
+        //
+
         public ActionResult IndexCrearProducto()
         {
             return View();
         }
         // GET: LISTAR PRODUCTOS
-        //[SessionExpireFilterAttribute]
-        [SessionExpireFilterAttribute]
+        //
+
         public ActionResult IndexListarProductos()
         {
             return View();
@@ -117,7 +119,7 @@ namespace Ventas.Controllers.Inventario
         #endregion
 
         #region JSON_RESULTS
-        [SessionExpireFilter]
+
         public JsonResult GetDatosTable(int tipo = 0, int id = 0)
         {
             try
@@ -133,7 +135,7 @@ namespace Ventas.Controllers.Inventario
                 return Json(new { State = -1, Message = ex.Message }, JsonRequestBehavior.AllowGet);
             }
         }
-        [SessionExpireFilter]
+
         public JsonResult Guardar(string nombre = "", string descripcion = "", int tipo = 0, int estanteria = 0, int nivel = 0, int anioI = 0, int anioF = 0, int categoria = 0, string telefono = "", string direccion = "", string contacto = "", int marca = 0, int id = 0)
         {
             try
@@ -147,7 +149,7 @@ namespace Ventas.Controllers.Inventario
                 item.NIVEL = nivel;
                 item.NOMBRE = nombre;
                 item.DESCRIPCION = descripcion;
-                item.CREADO_POR = Session["usuario"].ToString();
+                item.CREADO_POR = "RALOPEZ";    // Session["usuario"].ToString();
                 item.ANIO_INICIAL = anioI;
                 item.ANIO_FINAL = anioF;
                 item.MTIPO = tipo;
@@ -174,7 +176,7 @@ namespace Ventas.Controllers.Inventario
                 return Json(new { State = -1, Message = ex.Message }, JsonRequestBehavior.AllowGet);
             }
         }
-        [SessionExpireFilter]
+
         public JsonResult Delete(int id = 0, int tipo = 0)
         {
             try
@@ -198,31 +200,32 @@ namespace Ventas.Controllers.Inventario
                 return Json(new { State = -1, Message = ex.Message }, JsonRequestBehavior.AllowGet);
             }
         }
-        [SessionExpireFilter]
-        public JsonResult OperacionesProducto(string NOMBRE = "", string DESCRIPCION = "", decimal PRECIO_COSTO = 0, decimal PRECIO_VENTA = 0, int STOCK = 0, string CODIGO = "", int ID_BODEGA = 0, int ID_MODELO = 0,
-            int ID_PROVEEDOR = 0, int ID_MARCA_REPUESTO = 0, int ID_SUBCATEGORIA = 0, int ID_SERIE_VEHICULO = 0, int ID_PRODUCTO = 0, int tipo = 0)
+
+        //public JsonResult OperacionesProducto(string NOMBRE = "", string DESCRIPCION = "", decimal PRECIO_COSTO = 0, decimal PRECIO_VENTA = 0, int STOCK = 0, string CODIGO = "", int ID_MARCA_REPUESTO = 0, int ID_SERIE_VEHICULO = 0, int ID_PRODUCTO = 0, int tipo = 0)
+        public JsonResult OperacionesProducto(string NOMBRE = "", string DESCRIPCION = "", string CODIGO = "", string CODIGO2 = "", int STOCK = 0, decimal PRECIO_COSTO = 0, decimal PRECIO_VENTA = 0, int ANIO_INICIAL = 0, int ANIO_FINAL = 0, string PATH = "", string NOMBRE_MARCA_REPUESTO = "", string NOMBRE_MARCA_VEHICULO = "", string NOMBRE_SERIE_VEHICULO = "", string NOMBRE_DISTRIBUIDOR = "", int tipo = 0)
         {
             try
             {
                 string respuesta = "";
-                var item = new Inventario_BE();
-                item.NOMBRE = NOMBRE;
-                item.DESCRIPCION = DESCRIPCION;
-                item.CREADO_POR = Session["usuario"].ToString();
-                item.ID_PRODUCTO = ID_PRODUCTO;
-                item.ID_MODELO = ID_MODELO;
-                item.ID_BODEGA = ID_BODEGA;
-                item.ID_SUBCATEGORIA = ID_SUBCATEGORIA;
-                item.ID_PROVEEDOR = ID_PROVEEDOR;
-                item.ID_MARCA_REPUESTO = ID_MARCA_REPUESTO;
-                item.ID_SERIE_VEHICULO = ID_SERIE_VEHICULO;
-                item.PRECIO_COSTO = PRECIO_COSTO;
-                item.PRECIO_VENTA = PRECIO_VENTA;
-                item.STOCK = STOCK;
-                item.CODIGO = CODIGO;
-                item.MTIPO = tipo;
+                var row = new Inventario_BE();
+                row.NOMBRE = NOMBRE;
+                row.DESCRIPCION = DESCRIPCION;
+                row.CODIGO = CODIGO;
+                row.CODIGO2 = CODIGO2;
+                row.STOCK = STOCK;
+                row.PRECIO_COSTO = PRECIO_COSTO;
+                row.PRECIO_VENTA = PRECIO_VENTA;
+                row.ANIO_INICIAL = ANIO_INICIAL;
+                row.ANIO_FINAL = ANIO_FINAL;
+                row.PATH_IMAGEN = PATH;
+                row.NOMBRE_MARCA_REPUESTO = NOMBRE_MARCA_REPUESTO;
+                row.NOMBRE_MARCA_VEHICULO = NOMBRE_MARCA_VEHICULO;
+                row.NOMBRE_SERIE_VEHICULO = NOMBRE_SERIE_VEHICULO;
+                row.NOMBRE_DISTRIBUIDOR = NOMBRE_DISTRIBUIDOR;
+                row.CREADO_POR = "RALOPEZ";//Session["usuario"].ToString();
+                row.MTIPO = tipo;
 
-                var lista = GetDatosInventario_(item);
+                var lista = GetDatosInventario_(row);
                 if (lista.Count > 0)
                 {
                     if (lista.FirstOrDefault().RESPUESTA != "")
@@ -238,7 +241,7 @@ namespace Ventas.Controllers.Inventario
             }
         }
 
-        [SessionExpireFilterAttribute]
+
         public JsonResult CargarExcel(FormCollection formCollection)
         {
             try
@@ -285,7 +288,7 @@ namespace Ventas.Controllers.Inventario
                                 row.NOMBRE_SERIE_VEHICULO = NullString(workSheet.Cells[rowIterator, 13].Value.ToString());
                                 row.NOMBRE_DISTRIBUIDOR = NullString(workSheet.Cells[rowIterator, 14].Value.ToString());
 
-                                row.CREADO_POR = Session["usuario"].ToString();
+                                row.CREADO_POR = "RALOPEZ";         // Session["usuario"].ToString();
                                 row.MTIPO = 1;
 
                                 //row.ID_PRODUCTO = workSheet.Cells[rowIterator, 1].Value.ToString();
