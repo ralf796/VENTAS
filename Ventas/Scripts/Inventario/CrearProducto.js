@@ -206,6 +206,7 @@ $(document).ready(function () {
                             var state = data['State'];
                             var lista = data['data'];
                             if (state == 1) {
+                                $("#txtUploadExcel").val('');
                                 Swal.fire({
                                     icon: 'success',
                                     type: 'success',

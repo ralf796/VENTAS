@@ -199,8 +199,8 @@
                         <input class="form-control text-right" id="txtPrecio" name="txtPrecio" type="number" disabled>
                     </div>
                     <div class="col-12 col-sm-6 col-md-3 col-lg-3 col-xl-3">
-                        <label for="txtDescuento">DESCUENTO</label>
-                        <input class="form-control text-right" id="txtDescuento" name="txtDescuento" type="number" min="0" value="0">
+                        <label for="txtDescuento">DESCUENTO (%)</label>
+                        <input class="form-control text-right" id="txtDescuento" name="txtDescuento" onkeypress="return valideKey(event);" type="text" value="0">
                     </div>
                     <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 text-right">
                         <button style="margin-top:5px" class="btn btn-success" id="btnAgregarDetalle">AGREGAR</button>

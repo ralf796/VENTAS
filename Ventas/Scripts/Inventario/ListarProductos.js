@@ -1,4 +1,5 @@
 ﻿$(document).ready(function () {
+    DevExpress.localization.locale(navigator.language);
     GetDatos()
 
     GetLists('#selCategoria', 4)
@@ -126,6 +127,43 @@
             loadPanel: {
                 text: "Cargando..."
             },
+
+            headerFilter: {
+                visible: true,
+                allowSearch: true
+            },
+
+            filterRow: {
+                visible: true,
+                applyFilter: "auto"
+            },
+            searchPanel: {
+                visible: true,
+                width: 240,
+                placeholder: "Buscar..."
+            },
+            headerFilter: {
+                visible: true
+            },
+            groupPanel: {
+                visible: true,
+
+            },
+            grouping: {
+                autoExpandAll: true,
+            },
+            paging: false,
+            pager: {
+                showPageSizeSelector: true,
+                allowedPageSizes: [10, 20, 50, 100],
+                showNavigationButtons: true,
+                showInfo: true,
+                infoText: "Pagina {0} de {1} ({2} items)"
+            },
+            sortByGroupSummaryInfo: [{
+                summaryItem: "count"
+            }],
+
             scrolling: {
                 useNative: false,
                 scrollByContent: true,
@@ -145,8 +183,8 @@
                 enabled: false
             },
             onRowPrepared(e) {
-                e.rowElement.css("background-color", "#A7BCD6");
-                e.rowElement.css("color", "#000000");
+                //e.rowElement.css("background-color", "#A7BCD6");
+                //e.rowElement.css("color", "#000000");
             },
             columns: [
                 {
@@ -198,14 +236,6 @@
                     visible: false
                 },
                 {
-                    dataField: "NOMBRE",
-                    caption: "NOMBRE"
-                },
-                {
-                    dataField: "DESCRIPCION",
-                    caption: "DESCRIPCION"
-                },
-                {
                     dataField: "CODIGO",
                     caption: "CODIGO 1",
                     alignment: "center"
@@ -214,10 +244,6 @@
                     dataField: "CODIGO2",
                     caption: "CODIGO 2",
                     alignment: "center"
-                },
-                {
-                    dataField: "NOMBRE_MODELO",
-                    caption: "MODELO"
                 },
                 {
                     dataField: "STOCK",
@@ -234,17 +260,31 @@
                     }
                 },
                 {
+                    dataField: "NOMBRE",
+                    caption: "NOMBRE"
+                },
+                {
+                    dataField: "DESCRIPCION",
+                    caption: "DESCRIPCION",
+                    visible:false
+                },
+                
+                {
+                    dataField: "NOMBRE_MODELO",
+                    caption: "MODELO"
+                },                
+                {
                     dataField: "PRECIO_COSTO",
                     caption: "PRECIO COSTO",
                     alignment: "right",
-                    format: ",##0.00"
+                    format: ",##0.00",  
                 },
                 {
                     dataField: "PRECIO_VENTA",
                     caption: "PRECIO VENTA",
                     alignment: "right",
                     alignment: "right",
-                    format: ",##0.00"
+                    format: "###,###.00",
                 },
                 {
                     dataField: "CREADO_POR",

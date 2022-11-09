@@ -272,6 +272,8 @@ namespace Ventas.Controllers.Inventario
                                         workSheet.Cells[rowIterator, i].Value = "";
                                 }
 
+
+
                                 var row = new Inventario_BE();
                                 row.NOMBRE = NullString(workSheet.Cells[rowIterator, 1].Value.ToString());
                                 row.DESCRIPCION = NullString(workSheet.Cells[rowIterator, 2].Value.ToString());
@@ -293,7 +295,10 @@ namespace Ventas.Controllers.Inventario
 
                                 //row.ID_PRODUCTO = workSheet.Cells[rowIterator, 1].Value.ToString();
                                 //var lista = GetDatosInventario_(row);
-                                list.Add(row);
+
+                                row.MTIPO = 1;
+                                if (existeProducto == 0)
+                                    list.Add(row);
                             }
                         }
                     }
