@@ -93,7 +93,7 @@ namespace Ventas.Controllers.Usuarios
                     string directory = Server.MapPath(@"~\Content\Fotografias");
                     if (!Directory.Exists(fileName))
                     {
-                        Directory.CreateDirectory(fileName);
+                        Directory.CreateDirectory(directory);
                     }
 
                     path = Server.MapPath(@"~\Content\Fotografias\" + separarNombre[0] + randomNumber + ".png");
@@ -174,7 +174,7 @@ namespace Ventas.Controllers.Usuarios
                     string directory = Server.MapPath(@"~\Content\Fotografias");
                     if (!Directory.Exists(fileName))
                     {
-                        Directory.CreateDirectory(fileName);
+                        Directory.CreateDirectory(directory);
                     }
 
                     path = Server.MapPath(@"~\Content\Fotografias\" + separarNombre[0] + randomNumber + ".png");
@@ -200,7 +200,7 @@ namespace Ventas.Controllers.Usuarios
                 item.CREADO_POR = "RALOPEZ";
                 item.ID_ROL = idRol;
                 item.PATH = url;
-                item.MTIPO = 2;
+                item.MTIPO = 5;
                 var lista = GetDatosUsuario_(item);
 
                 if (lista != null)

@@ -208,26 +208,18 @@ namespace Ventas.Controllers.Inventario
         }
 
         //public JsonResult OperacionesProducto(string NOMBRE = "", string DESCRIPCION = "", decimal PRECIO_COSTO = 0, decimal PRECIO_VENTA = 0, int STOCK = 0, string CODIGO = "", int ID_MARCA_REPUESTO = 0, int ID_SERIE_VEHICULO = 0, int ID_PRODUCTO = 0, int tipo = 0)
-        public JsonResult OperacionesProducto(string NOMBRE = "", string DESCRIPCION = "", string CODIGO = "", string CODIGO2 = "", int STOCK = 0, decimal PRECIO_COSTO = 0, decimal PRECIO_VENTA = 0, int ANIO_INICIAL = 0, int ANIO_FINAL = 0, string PATH = "", string NOMBRE_MARCA_REPUESTO = "", string NOMBRE_MARCA_VEHICULO = "", string NOMBRE_SERIE_VEHICULO = "", string NOMBRE_DISTRIBUIDOR = "", int tipo = 0)
+        public JsonResult OperacionesProducto(int ID_PRODUCTO = 0, string NOMBRE = "", int STOCK = 0, decimal PRECIO_COSTO = 0, decimal PRECIO_VENTA = 0, string PATH = "", int tipo = 0)
         {
             try
             {
                 string respuesta = "";
                 var row = new Inventario_BE();
+                row.ID_PRODUCTO = ID_PRODUCTO;
                 row.NOMBRE = NOMBRE;
-                row.DESCRIPCION = DESCRIPCION;
-                row.CODIGO = CODIGO;
-                row.CODIGO2 = CODIGO2;
                 row.STOCK = STOCK;
                 row.PRECIO_COSTO = PRECIO_COSTO;
                 row.PRECIO_VENTA = PRECIO_VENTA;
-                row.ANIO_INICIAL = ANIO_INICIAL;
-                row.ANIO_FINAL = ANIO_FINAL;
                 row.PATH_IMAGEN = PATH;
-                row.NOMBRE_MARCA_REPUESTO = NOMBRE_MARCA_REPUESTO;
-                row.NOMBRE_MARCA_VEHICULO = NOMBRE_MARCA_VEHICULO;
-                row.NOMBRE_SERIE_VEHICULO = NOMBRE_SERIE_VEHICULO;
-                row.NOMBRE_DISTRIBUIDOR = NOMBRE_DISTRIBUIDOR;
                 row.CREADO_POR = "RALOPEZ";//Session["usuario"].ToString();
                 row.MTIPO = tipo;
 
@@ -246,7 +238,6 @@ namespace Ventas.Controllers.Inventario
                 return Json(new { State = -1, Message = ex.Message }, JsonRequestBehavior.AllowGet);
             }
         }
-
 
         public JsonResult CargarExcel(FormCollection formCollection)
         {

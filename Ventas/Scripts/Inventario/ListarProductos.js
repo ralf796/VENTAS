@@ -5,35 +5,8 @@
     GetLists('#selLinea', 23)
 
 
-    var cont = 0;
-    function Update_Delete_Producto(id, tipo, ID_CATEGORIA, ID_MODELO, ID_TIPO, ID_BODEGA, NOMBRE, DESCRIPCION, PRECIO_COSTO, PRECIO_VENTA, STOCK, ANIO_FABRICADO, CODIGO) {
-        var mensaje = '';
-        if (tipo != 20)
-            mensaje = 'Datos actualizados correctamente';
-        else
-            mensaje = 'Se inactivó el item seleccionado';
 
-        $.ajax({
-            type: 'GET',
-            url: "/INVMantenimiento/Update_Delete_Producto",
-            contentType: "application/json; charset=utf-8",
-            dataType: 'json',
-            data: {
-                id, tipo, ID_CATEGORIA, ID_MODELO, ID_TIPO, ID_BODEGA, NOMBRE, DESCRIPCION, PRECIO_COSTO, PRECIO_VENTA, STOCK, ANIO_FABRICADO, CODIGO
-            },
-            cache: false,
-            success: function (data) {
-                var state = data["State"];
-                if (state == 1) {
-                    ShowAlertMessage('success', mensaje)
-                    GetDatos()
-                }
-                else if (state == -1) {
-                    ShowAlertMessage('warning', data['Message'])
-                }
-            }
-        });
-    }
+    var cont = 0;
     function GetLists(selObject, tipo) {
         return new Promise((resolve, reject) => {
             $.ajax({
@@ -72,27 +45,7 @@
             });
         });
     }
-
-    $('#formGuardarProducto').submit(function (e) {
-        e.preventDefault();
-
-        var ID_PRODUCTO = $('#hfIdProducto').val();
-        var ID_CATEGORIA = $('#selCategoria').val();
-        var ID_CATEGORIA = $('#selCategoria').val();
-        var ID_MODELO = $('#selModelo').val();
-        var ID_TIPO = $('#selTipo').val();
-        var ID_BODEGA = $('#selBodega').val();
-        var NOMBRE = $('#txtNombre').val();
-        var DESCRIPCION = $('#txtDescripcion').val();
-        var PRECIO_COSTO = $('#txtPrecioCosto').val();
-        var PRECIO_VENTA = $('#txtPrecioVenta').val();
-        var STOCK = $('#txtStock').val();
-        var ANIO_FABRICADO = $('#txtAnioFabricacion').val();
-        var CODIGO = $('#txtCodigo').val();
-        Update_Delete_Producto(ID_PRODUCTO, 19, ID_CATEGORIA, ID_MODELO, ID_TIPO, ID_BODEGA, NOMBRE, DESCRIPCION, PRECIO_COSTO, PRECIO_VENTA, STOCK, ANIO_FABRICADO, CODIGO);
-    });
-
-    function GetDatos() {
+    function GetDatosGridProductos() {
         var tipo = 20;
         var modelo = $('#selModelo').val();
         var marcaVehiculo = $('#selMarcaVehiculo').val();
@@ -129,8 +82,6 @@
             loadPanel: {
                 text: "Cargando..."
             },
-
-
             filterRow: {
                 visible: true,
                 applyFilter: "auto"
@@ -185,9 +136,9 @@
                         if (fieldData.ESTADO == 1) {
                             $("<span>").addClass(classBTN1).prop('title', 'Editar').appendTo(container);
                             $('.edit' + cont).click(function (e) {
-                                var id = parseInt(fieldData.ID_BODEGA);
-                                GetOpcion(2)
-                                GetInputsUpdate(id, fieldData.NOMBRE, fieldData.ESTANTERIA, fieldData.NIVEL)
+                                var id = parseInt(fieldData.ID_PRODUCTO);
+                                $('#modalEditarProducto').modal('show');
+                                GetDatosProductoUpdate(id, fieldData.NOMBRE, fieldData.STOCK, fieldData.PRECIO_COSTO, fieldData.PRECIO_VENTA, fieldData.PATH_IMAGEN)
                             })
                         }
 
@@ -197,8 +148,24 @@
 
                             $("<span>").addClass(classBTN2).prop('title', 'Inactivar').appendTo(container);
                             $('.remove' + cont).click(function (e) {
-                                var id = parseInt(fieldData.ID_BODEGA);
-                                Delete(id, 4);
+                                var id = parseInt(fieldData.ID_PRODUCTO);
+                                Update_Delete_Producto(id, fieldData.NOMBRE, fieldData.STOCK, fieldData.PRECIO_COSTO, fieldData.PRECIO_VENTA, fieldData.PATH_IMAGEN, 3)
+                            })
+                        }
+
+                        var classTmp3 = 'modifyStock' + cont;
+                        var classBTN3 = 'ml-2 hvr-grow fas fa-exchange-alt btn btn-warning ' + classTmp3;
+                        if (fieldData.ESTADO == 1) {
+
+                            $("<span>").addClass(classBTN3).prop('title', 'Modificar Stock').appendTo(container);
+                            $('.modifyStock' + cont).click(function (e) {
+                                var id = parseInt(fieldData.ID_PRODUCTO);
+                                var stock = parseInt(fieldData.STOCK);
+                                $('#hfIdProducto').text(id);
+                                $('#txtStockActual').text(stock);
+                                $('#txtNuevoStock').val(0);
+                                $('#modalAddStock').modal('show');
+                                //GetDatosProductoUpdate(id, fieldData.NOMBRE, fieldData.STOCK, fieldData.PRECIO_COSTO, fieldData.PRECIO_VENTA, fieldData.PATH_IMAGEN, 3)
                             })
                         }
                         cont++;
@@ -257,7 +224,6 @@
                     dataField: "PRECIO_VENTA",
                     caption: "PRECIO VENTA",
                     alignment: "right",
-                    alignment: "right",
                     format: "###,###.00",
                 },
                 {
@@ -285,17 +251,101 @@
         }).dxDataGrid('instance');
 
     }
+    function GetDatosProductoUpdate(ID_PRODUCTO, NOMBRE, STOCK, PRECIO_COSTO, PRECIO_VENTA, PATH) {
+        $('#hfIdProducto').val(ID_PRODUCTO);
+        $('#txtNombre').val(NOMBRE);
+        $('#txtStock').val(STOCK);
+        $('#txtPrecioCosto').val(PRECIO_COSTO);
+        $('#txtPrecioVenta').val(PRECIO_VENTA);
+        $('#idFotografia').val(PATH);
+        
+    }
+    function Update_Delete_Producto(ID_PRODUCTO, NOMBRE, STOCK, PRECIO_COSTO, PRECIO_VENTA, PATH, tipo) {
+        var mensaje = '';
+        if (tipo != 2)
+            mensaje = 'Datos actualizados correctamente';
+        else
+            mensaje = 'Se inactivó el producto seleccionado';
+
+        $.ajax({
+            type: 'GET',
+            url: "/INVMantenimiento/OperacionesProducto",
+            contentType: "application/json; charset=utf-8",
+            dataType: 'json',
+            data: { ID_PRODUCTO, NOMBRE, STOCK, PRECIO_COSTO, PRECIO_VENTA, PATH, tipo },
+            cache: false,
+            success: function (data) {
+                var state = data["State"];
+                if (state == 1) {
+                    GetDatosGridProductos()
+                    ShowAlertMessage('success', mensaje)
+                    $('#modalAddStock').modal('hide');
+                }
+                else if (state == -1) {
+                    ShowAlertMessage('warning', data['Message'])
+                }
+            }
+        });
+    }
 
     $('#selModelo').on('change', function (e) {
         e.preventDefault();
-        GetDatos()
+        GetDatosGridProductos()
     });
     $('#selMarcaVehiculo').on('change', function (e) {
         e.preventDefault();
-        GetDatos()
+        GetDatosGridProductos()
     });
     $('#selLinea').on('change', function (e) {
         e.preventDefault();
-        GetDatos()
+        GetDatosGridProductos()
+    });
+    $('#formModificarProducto').submit(function (e) {
+        e.preventDefault();
+
+        var ID_PRODUCTO = $('#hfIdProducto').val();
+        var NOMBRE = $('#txtNombre').val();
+        var STOCK = $('#txtStock').val();
+        var PRECIO_COSTO = $('#txtPrecioCosto').val();
+        var PRECIO_VENTA = $('#txtPrecioVenta').val();
+        var PATH = $('#idFotografia').val();
+        var tipo = 2;
+
+        Update_Delete_Producto(ID_PRODUCTO, NOMBRE, STOCK, PRECIO_COSTO, PRECIO_VENTA, PATH, tipo);
+    });
+
+    $('#modalAddStock').modal('show');
+    $('#tbnResStock').on('click', function (e) {
+        e.preventDefault();
+        var stockNuevo = $('#txtNuevoStock').val();
+
+        if (stockNuevo == '' || stockNuevo == null)
+            stockNuevo = 0;
+
+        var sum = parseFloat(stockNuevo) - 1;
+        $('#txtNuevoStock').val(sum);
+    });
+    $('#btnAddStock').on('click', function (e) {
+        e.preventDefault();
+        var stockNuevo = $('#txtNuevoStock').val();
+
+        if (stockNuevo == '' || stockNuevo == null)
+            stockNuevo = 0;
+
+        var sum = parseFloat(stockNuevo) + 1;
+        $('#txtNuevoStock').val(sum);
+    });
+    $('#btnUpdateStock').on('click', function (e) {
+        e.preventDefault();
+
+        var ID_PRODUCTO = $('#hfIdProducto').val();
+        var NOMBRE = '';
+        var STOCK = $('#txtNuevoStock').val();
+        var PRECIO_COSTO = 0;
+        var PRECIO_VENTA = 0;
+        var PATH = '';
+        var tipo = 6;
+
+        Update_Delete_Producto(ID_PRODUCTO, NOMBRE, STOCK, PRECIO_COSTO, PRECIO_VENTA, PATH, tipo);
     });
 });

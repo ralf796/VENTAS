@@ -1,6 +1,14 @@
 ﻿@{
     //int ROL = Convert.ToInt16(Session["id_rol"]);
     int ROL = 1;
+
+    /*
+    1 SUPER USUARIO
+    2 ADMINISTRADOR
+    3 CAJERO
+    4 BODEGUERO
+    5 VENDEDOR
+    */
 }
 
 <!DOCTYPE html>
@@ -216,7 +224,7 @@
                             </li>
                         }
 
-                        @if (ROL == 1 || ROL == 2 || ROL == 6)
+                        @if (ROL == 1 || ROL == 2 || ROL == 5)
                         {
                             <li class="nav-item">
                                 <a href="~/CLIListarClientes/Index" class="nav-link">
@@ -315,7 +323,7 @@
                             </li>
                         }
 
-                        @if (ROL == 1 || ROL == 2 || ROL == 6)
+                        @if (ROL == 1 || ROL == 2 || ROL == 5)
                         {
                             <li class="nav-item">
                                 <a href="~/VENCrearVenta/Index" class="nav-link">
@@ -326,6 +334,7 @@
                                 </a>
                             </li>
                         }
+
                         @if (ROL == 1 || ROL == 2 || ROL == 3)
                         {
                             <li class="nav-item">

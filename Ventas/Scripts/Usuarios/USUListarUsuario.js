@@ -1,5 +1,9 @@
 ﻿$(document).ready(function () {
-    GetDatos();
+    //GetLists('#selGuardarTipoEmpleado', 2);
+    //GetLists('#selGuardarRol', 3);
+    //GetDatos();
+
+    $('#modalCrearUsuario').modal('show');
 
     function ClearFormCreate() {
         $('#txtGuardarPrimerNombre').val('');
@@ -78,7 +82,7 @@
             });
         });
     }
-
+    var cont = 0;
     function GetDatos() {
         var customStore = new DevExpress.data.CustomStore({
             load: function (loadOptions) {
@@ -112,6 +116,20 @@
             loadPanel: {
                 text: "Cargando..."
             },
+
+
+            filterRow: {
+                visible: true,
+                applyFilter: "auto"
+            },
+            searchPanel: {
+                visible: true,
+                width: 240,
+                placeholder: "Buscar..."
+            },
+            headerFilter: {
+                visible: true
+            },
             scrolling: {
                 useNative: false,
                 scrollByContent: true,
@@ -123,12 +141,11 @@
                 width: 240,
                 placeholder: "Buscar..."
             },
-            headerFilter: {
-                visible: true
-            },
             columnAutoWidth: true,
-            export: {
-                enabled: false
+
+            onRowPrepared(e) {
+                //e.rowElement.css("background-color", "#A7BCD6");
+                //e.rowElement.css("color", "#000000");
             },
             columns: [
                 {
@@ -171,7 +188,7 @@
                             var classBTN1 = 'ml-2 hvr-grow far fa-edit btn btn-success ' + classTmp1;
                             $("<span>").addClass(classBTN1).prop('title', 'Editar').appendTo(container);
                             $('.edit' + cont).click(function (e) {
-                                var id = parseInt(fieldData.ID_BODEGA);
+                                var id = parseInt(fieldData.ID_USUARIO);
                                 ClearFormCreate();
                                 GetLists('#selEditarTipoEmpleado', 2);
                                 GetLists('#selEditarRol', 3);
@@ -183,7 +200,7 @@
                             var classBTN2 = 'ml-2 hvr-grow far fa-trash-alt btn btn-danger ' + classTmp2;
                             $("<span>").addClass(classBTN2).prop('title', 'Inactivar').appendTo(container);
                             $('.remove' + cont).click(function (e) {
-                                var id = parseInt(fieldData.ID_BODEGA);
+                                var id = parseInt(fieldData.ID_USUARIO);
                                 Delete(id);
                             })
                         }
