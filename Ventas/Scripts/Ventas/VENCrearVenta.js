@@ -8,7 +8,8 @@
         $('#txtNombreCliente').val('');
         $('#txtNit').val('');
     }
-    function ClearProduct() {
+    function ClearProduct() {]
+        [[[[]]]]
         $('#hfIdProducto').val('');
         $('#txtCodigo').val('');
         $('#txtNombreProducto').val('');
@@ -110,10 +111,6 @@
             searchPanel: {
                 visible: true,
                 highlightCaseSensitive: true,
-            },
-            groupPanel: { visible: true },
-            grouping: {
-                autoExpandAll: false,
             },
             allowColumnReordering: true,
             rowAlternationEnabled: true,
@@ -219,6 +216,10 @@
                 enabled: false
             },
             rowAlternationEnabled: true,
+            paging: false,
+            headerFilter: {
+                visible: true
+            },
             columns: [
                 {
                     dataField: 'PATH_IMAGEN',
@@ -244,7 +245,23 @@
                 {
                     dataField: "DESCRIPCION",
                     caption: "DESCRIPCION",
-                    width: 230
+                    width: 230,
+                    visible: false
+                },
+                {
+                    dataField: "STOCK",
+                    caption: "STOCK",
+                    alignment: "center",
+                    width: 200,
+                    cellTemplate: function (container, options) {
+                        var fieldData = options.data;
+                        container.addClass(fieldData.ESTADO != 1 ? "dec" : "");
+
+                        if (fieldData.STOCK > 0)
+                            $("<span>").addClass("badge badge-success").text(fieldData.STOCK).appendTo(container);
+                        else
+                            $("<span>").addClass("badge badge-danger").text('SIN STOCK').appendTo(container);
+                    }
                 },
                 {
                     dataField: "CODIGO",
@@ -264,24 +281,8 @@
                     width: 200
                 },
                 {
-                    dataField: "STOCK",
-                    caption: "STOCK",
-                    alignment: "center",
-                    width: 200,
-                    cellTemplate: function (container, options) {
-                        var fieldData = options.data;
-                        container.addClass(fieldData.ESTADO != 1 ? "dec" : "");
-
-                        if (fieldData.STOCK > 0)
-                            $("<span>").addClass("badge badge-success").text(fieldData.STOCK).appendTo(container);
-                        else
-                            $("<span>").addClass("badge badge-danger").text('SIN STOCK').appendTo(container);
-                    }
-                },
-                {
                     dataField: "PRECIO_VENTA",
                     caption: "PRECIO",
-                    alignment: "right",
                     alignment: "right",
                     format: ",##0.00",
                     width: 200
@@ -456,9 +457,9 @@
             success: function (data) {
                 var state = data["State"];
                 var compra = data["ORDEN_COMPRA"];
-                if (state == 1 ) {
+                if (state == 1) {
                     //ShowAlertMessage('success', 'Se creó la orden de compra: ' + compra.ID_VENTA)
-
+                    GetListProductos();
                     Swal.fire({
                         icon: 'success',
                         type: 'success',
@@ -509,7 +510,11 @@
         if (descuento == '')
             descuento = 0;
 
-        var subtotal = (parseFloat(cantidad) * parseFloat(precio)) - (parseFloat(cantidad) * parseFloat(descuento));
+        var total = 0, subtotal = 0;
+        total = parseFloat(precio) * parseFloat(cantidad);
+        descuento = (descuento / 100) * total;
+        subtotal = total - descuento;
+
         var remove = '<a title="Eliminar" class="btn btn-outline-danger removeDetail" style="margin-top:-10px"><i class="far fa-times"></i></a>';
         DetalleVenta.append('<tr>' +
             '<td class="text-center">' + remove + '</td>' +
@@ -630,13 +635,11 @@
         });
         console.log(listDetalles)
 
-        alert(idCliente)
         if (idCliente == '' || idCliente == null) {
             ShowAlertMessage('info', 'Debes seleccionar un cliente para la venta.');
             return;
         }
 
-        alert(listDetalles.length)
         if (listDetalles.length == 0)
             ShowAlertMessage('info', 'Debes agregar al menos un producto.');
         else {

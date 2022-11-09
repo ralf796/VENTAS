@@ -101,6 +101,24 @@ namespace Ventas.Controllers.Ventas
 
             return respuesta;
         }
+        private bool DescontProduct(int idVenta = 0)
+        {
+            bool respuesta = false;
+            var item = new Ventas__BE();
+            item.MTIPO = 7;
+            item.ID_VENTA = idVenta;
+            var resultHeader = GetDatosSP_(item);
+
+            if (resultHeader != null)
+            {
+                if (resultHeader.FirstOrDefault().CODIGO_RESPUESTA == "01")
+                    respuesta = true;
+            }
+            else
+                respuesta = false;
+
+            return respuesta;
+        }
         #endregion
 
         #region JSON_RESULTS
@@ -180,7 +198,10 @@ namespace Ventas.Controllers.Ventas
 
                 if (banderaDetail == true)
                     state = 2;
-
+                else
+                {
+                    DescontProduct(Convert.ToInt32(item.ID_VENTA));
+                }
                 return Json(new { State = state, ORDEN_COMPRA = item.ID_VENTA }, JsonRequestBehavior.AllowGet);
             }
             catch (Exception ex)
@@ -251,6 +272,10 @@ namespace Ventas.Controllers.Ventas
             decimal total = 0, descuento = 0;
             foreach (var dato in listaDetalles)
             {
+                decimal tot = 0, sub = 0, desc = 0;
+                tot = dato.CANTIDAD * dato.PRECIO_VENTA;
+                desc=(dato.DESCUENTO)
+
                 html.AppendLine("<tr>");
                 html.AppendLine($"<td class='text-center'>{dato.CANTIDAD}</td>");
                 html.AppendLine($"<td class='text-left'>{dato.CODIGO} - {dato.CODIGO2}</td>");
