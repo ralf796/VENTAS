@@ -205,12 +205,13 @@ $(document).ready(function () {
                         success: function (data) {
                             var state = data['State'];
                             var lista = data['data'];
+                            var contRows = data['dataGroup'];
                             if (state == 1) {
                                 $("#txtUploadExcel").val('');
                                 Swal.fire({
                                     icon: 'success',
                                     type: 'success',
-                                    html: '¡Se crearon ' + lista.length + ' productos correctamente.!',
+                                    html: '¡Se crearon ' + contRows + ' productos correctamente.!',
                                     showCancelButton: true,
                                     cancelButtonText: 'Cerrar',
                                     showConfirmButton: false,

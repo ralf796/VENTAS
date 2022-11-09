@@ -7,3 +7,12 @@ C:\Users\raul.lopez\source\repos\VENTAS\Ventas_DAL\obj\Debug\Ventas_DAL.csproj.C
 C:\Users\raul.lopez\source\repos\VENTAS\Ventas_DAL\obj\Debug\Ventas_DAL.csproj.CopyComplete
 C:\Users\raul.lopez\source\repos\VENTAS\Ventas_DAL\obj\Debug\Ventas_DAL.dll
 C:\Users\raul.lopez\source\repos\VENTAS\Ventas_DAL\obj\Debug\Ventas_DAL.pdb
+C:\Development\Ventas\Ventas_DAL\bin\Debug\Ventas_DAL.dll
+C:\Development\Ventas\Ventas_DAL\bin\Debug\Ventas_DAL.pdb
+C:\Development\Ventas\Ventas_DAL\bin\Debug\Ventas_BE.dll
+C:\Development\Ventas\Ventas_DAL\bin\Debug\Ventas_BE.pdb
+C:\Development\Ventas\Ventas_DAL\obj\Debug\Ventas_DAL.csproj.AssemblyReference.cache
+C:\Development\Ventas\Ventas_DAL\obj\Debug\Ventas_DAL.csproj.CoreCompileInputs.cache
+C:\Development\Ventas\Ventas_DAL\obj\Debug\Ventas_DAL.csproj.CopyComplete
+C:\Development\Ventas\Ventas_DAL\obj\Debug\Ventas_DAL.dll
+C:\Development\Ventas\Ventas_DAL\obj\Debug\Ventas_DAL.pdb

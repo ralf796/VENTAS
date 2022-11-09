@@ -50,48 +50,42 @@
     <span class="badge badge-pill badge-secondary">LISTADO DE PRODUCTOS</span>
     <div class="card-body">
         <div class="row">
+            <div class="col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6 pt-1">
+                <div class="input-group mb-12">
+                    <div class="input-group-prepend">
+                        <label style="width:180px" class="input-group-text" for="selCategoria">MODELO VEHICULO</label>
+                    </div>
+                    <select class="custom-select" id="selModelo">
+                        <option selected disabled>SELECCIONE</option>
+                    </select>
+                </div>
+            </div>
+            <div class="col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6 pt-1">
+                <div class="input-group mb-12">
+                    <div class="input-group-prepend">
+                        <label style="width:180px" class="input-group-text" for="selCategoria">MARCA VEHICULO</label>
+                    </div>
+                    <select class="custom-select" id="selMarcaVehiculo">
+                        <option selected disabled>SELECCIONE</option>
+                    </select>
+                </div>
+            </div>
+            <div class="col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6 pt-1">
+                <div class="input-group mb-12">
+                    <div class="input-group-prepend">
+                        <label style="width:180px" class="input-group-text" for="selCategoria">LINEA VEHICULO</label>
+                    </div>
+                    <select class="custom-select" id="selLinea">
+                        <option selected disabled>SELECCIONE</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="row">
             <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
                 <div class="demo-container">
                     <div id="exportButton"></div>
                     <div id="gridContainer"></div>
-                </div>
-            </div>
-            <div class="col-12 col-md-12 col-xl-12 d-none">
-                <div class="table-responsive">
-                    <table id="tblProductos" width="100%">
-                        <thead class="headColor">
-                            <tr>
-                                <th class="border text-center pl-2 pr-2 d-none">ID_PRODUCTO</th>
-                                <th class="border text-center pl-2 pr-2">NOMBRE</th>
-                                <th class="border text-center pl-2 pr-2">DESCRIPCION</th>
-                                <th class="border text-center pl-2 pr-2">P/COSTO</th>
-                                <th class="border text-center pl-2 pr-2">P/VENTA</th>
-                                <th class="border text-center pl-2 pr-2">STOCK</th>
-                                <th class="border text-center pl-2 pr-2">CODIGO</th>
-                                <th class="border text-center pl-2 pr-2">CREADO POR</th>
-                                <th class="border text-center pl-2 pr-2 d-none">ID BODEGA</th>
-                                <th class="border text-center pl-2 pr-2">BODEGA</th>
-                                <th class="border text-center pl-2 pr-2 d-none">ID MODELO</th>
-                                <th class="border text-center pl-2 pr-2">MODELO</th>
-                                <th class="border text-center pl-2 pr-2 d-none">ID PROVEEDOR</th>
-                                <th class="border text-center pl-2 pr-2">PROVEEDOR</th>
-                                <th class="border text-center pl-2 pr-2 d-none">ID MARCA REPUESTO</th>
-                                <th class="border text-center pl-2 pr-2">MARCA REPUESTO</th>
-                                <th class="border text-center pl-2 pr-2 d-none">ID CATEGORIA</th>
-                                <th class="border text-center pl-2 pr-2">CATEGORIA</th>
-                                <th class="border text-center pl-2 pr-2 d-none">ID SUBCATEGORIA</th>
-                                <th class="border text-center pl-2 pr-2">SUBCATEGORIA</th>
-                                <th class="border text-center pl-2 pr-2 d-none">ID MARCA VEHICULO</th>
-                                <th class="border text-center pl-2 pr-2">MARCA VEHICULO</th>
-                                <th class="border text-center pl-2 pr-2 d-none">ID SERIE VEHICULO</th>
-                                <th class="border text-center pl-2 pr-2">SERIE VEHICULO</th>
-                                <th class="border text-center pl-2 pr-2">ESTADO</th>
-                                <th class="border text-center pl-2 pr-2">ACCIONES</th>
-                            </tr>
-                        </thead>
-                        <tbody id="tbodyProductos">
-                        </tbody>
-                    </table>
                 </div>
             </div>
         </div>

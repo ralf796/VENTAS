@@ -120,13 +120,19 @@ namespace Ventas.Controllers.Inventario
 
         #region JSON_RESULTS
 
-        public JsonResult GetDatosTable(int tipo = 0, int id = 0)
+        public JsonResult GetDatosTable(int tipo = 0, int id = 0, string modelo = "", string marcaVehiculo = "", string nombreLinea = "")
         {
             try
             {
                 var item = new Inventario_BE();
                 item.MTIPO = tipo;
                 item.ID_UPDATE = id;
+                if (modelo != "" && modelo != "0")
+                    item.NOMBRE_MODELO = modelo;
+                if (marcaVehiculo != "" && marcaVehiculo != "0")
+                    item.NOMBRE_MARCA_VEHICULO = marcaVehiculo;
+                if (nombreLinea != "" && nombreLinea != "0")
+                    item.NOMBRE_LINEA_VEHICULO = nombreLinea;
                 var lista = GetInventario_select_(item);
                 return Json(new { State = 1, data = lista }, JsonRequestBehavior.AllowGet);
             }
@@ -291,12 +297,10 @@ namespace Ventas.Controllers.Inventario
                                 row.NOMBRE_DISTRIBUIDOR = NullString(workSheet.Cells[rowIterator, 14].Value.ToString());
 
                                 row.CREADO_POR = "RALOPEZ";         // Session["usuario"].ToString();
-                                row.MTIPO = 1;
 
-                                //row.ID_PRODUCTO = workSheet.Cells[rowIterator, 1].Value.ToString();
-                                //var lista = GetDatosInventario_(row);
+                                row.MTIPO = 5;
+                                int existeProducto = GetDatosInventario_(row).FirstOrDefault().STOCK;
 
-                                row.MTIPO = 1;
                                 if (existeProducto == 0)
                                     list.Add(row);
                             }
@@ -317,7 +321,7 @@ namespace Ventas.Controllers.Inventario
                     dato.MTIPO = 4;
                     var resultDetalleProducto = Inventario_BLL.GetSPInventario(dato);
                 }
-                return Json(new { State = 1, data = list }, JsonRequestBehavior.AllowGet);
+                return Json(new { State = 1, data = list, dataGroup = groupCodigos1.Count() }, JsonRequestBehavior.AllowGet);
             }
             catch (Exception ex)
             {

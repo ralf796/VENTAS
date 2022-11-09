@@ -1,11 +1,9 @@
 ﻿$(document).ready(function () {
     DevExpress.localization.locale(navigator.language);
-    GetDatos()
+    GetLists('#selModelo', 21)
+    GetLists('#selMarcaVehiculo', 22)
+    GetLists('#selLinea', 23)
 
-    GetLists('#selCategoria', 4)
-    GetLists('#selModelo', 8)
-    GetLists('#selTipo', 12)
-    GetLists('#selBodega', 16)
 
     var cont = 0;
     function Update_Delete_Producto(id, tipo, ID_CATEGORIA, ID_MODELO, ID_TIPO, ID_BODEGA, NOMBRE, DESCRIPCION, PRECIO_COSTO, PRECIO_VENTA, STOCK, ANIO_FABRICADO, CODIGO) {
@@ -51,15 +49,16 @@
                     if (state == 1) {
                         $(selObject).empty();
                         $(selObject).append('<option selected value="-1" disabled>Seleccione una opción</option>');
+                        $(selObject).append('<option value="0">Todos</option>');
                         list.forEach(function (dato) {
-                            if (tipo == 4) {
-                                $(selObject).append('<option value="' + dato.ID_CATEGORIA + '">' + dato.NOMBRE + '</option>');
+                            if (tipo == 21) {
+                                $(selObject).append('<option value="' + dato.NOMBRE_MODELO + '">' + dato.NOMBRE_MODELO + '</option>');
                             }
-                            else if (tipo == 8) {
-                                $(selObject).append('<option value="' + dato.ID_MODELO + '">' + dato.NOMBRE + '</option>');
+                            else if (tipo == 22) {
+                                $(selObject).append('<option value="' + dato.NOMBRE_MARCA_VEHICULO + '">' + dato.NOMBRE_MARCA_VEHICULO + '</option>');
                             }
-                            else if (tipo == 12) {
-                                $(selObject).append('<option value="' + dato.ID_TIPO + '">' + dato.NOMBRE + '</option>');
+                            else if (tipo == 23) {
+                                $(selObject).append('<option value="' + dato.NOMBRE_SERIE_VEHICULO + '">' + dato.NOMBRE_SERIE_VEHICULO + '</option>');
                             }
                             else if (tipo == 16) {
                                 $(selObject).append('<option value="' + dato.ID_BODEGA + '">' + dato.NOMBRE + '</option>');
@@ -95,6 +94,9 @@
 
     function GetDatos() {
         var tipo = 20;
+        var modelo = $('#selModelo').val();
+        var marcaVehiculo = $('#selMarcaVehiculo').val();
+        var nombreLinea = $('#selLinea').val();
         var customStore = new DevExpress.data.CustomStore({
             load: function (loadOptions) {
                 var d = $.Deferred();
@@ -103,7 +105,7 @@
                     url: '/INVMantenimiento/GetDatosTable',
                     contentType: "application/json; charset=utf-8",
                     dataType: 'json',
-                    data: { tipo },
+                    data: { tipo, modelo, marcaVehiculo, nombreLinea },
                     cache: false,
                     success: function (data) {
                         var state = data["State"];
@@ -128,10 +130,6 @@
                 text: "Cargando..."
             },
 
-            headerFilter: {
-                visible: true,
-                allowSearch: true
-            },
 
             filterRow: {
                 visible: true,
@@ -145,25 +143,6 @@
             headerFilter: {
                 visible: true
             },
-            groupPanel: {
-                visible: true,
-
-            },
-            grouping: {
-                autoExpandAll: true,
-            },
-            paging: false,
-            pager: {
-                showPageSizeSelector: true,
-                allowedPageSizes: [10, 20, 50, 100],
-                showNavigationButtons: true,
-                showInfo: true,
-                infoText: "Pagina {0} de {1} ({2} items)"
-            },
-            sortByGroupSummaryInfo: [{
-                summaryItem: "count"
-            }],
-
             scrolling: {
                 useNative: false,
                 scrollByContent: true,
@@ -175,13 +154,8 @@
                 width: 240,
                 placeholder: "Buscar..."
             },
-            headerFilter: {
-                visible: true
-            },
             columnAutoWidth: true,
-            export: {
-                enabled: false
-            },
+
             onRowPrepared(e) {
                 //e.rowElement.css("background-color", "#A7BCD6");
                 //e.rowElement.css("color", "#000000");
@@ -266,18 +240,18 @@
                 {
                     dataField: "DESCRIPCION",
                     caption: "DESCRIPCION",
-                    visible:false
+                    visible: false
                 },
-                
+
                 {
                     dataField: "NOMBRE_MODELO",
                     caption: "MODELO"
-                },                
+                },
                 {
                     dataField: "PRECIO_COSTO",
                     caption: "PRECIO COSTO",
                     alignment: "right",
-                    format: ",##0.00",  
+                    format: ",##0.00",
                 },
                 {
                     dataField: "PRECIO_VENTA",
@@ -311,4 +285,17 @@
         }).dxDataGrid('instance');
 
     }
+
+    $('#selModelo').on('change', function (e) {
+        e.preventDefault();
+        GetDatos()
+    });
+    $('#selMarcaVehiculo').on('change', function (e) {
+        e.preventDefault();
+        GetDatos()
+    });
+    $('#selLinea').on('change', function (e) {
+        e.preventDefault();
+        GetDatos()
+    });
 });

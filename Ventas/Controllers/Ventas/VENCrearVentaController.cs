@@ -119,6 +119,12 @@ namespace Ventas.Controllers.Ventas
 
             return respuesta;
         }
+        private List<Inventario_BE> GetInventario_select_(Inventario_BE item)
+        {
+            List<Inventario_BE> lista = new List<Inventario_BE>();
+            lista = Inventario_BLL.GetInventario_select(item);
+            return lista;
+        }
         #endregion
 
         #region JSON_RESULTS
@@ -209,6 +215,26 @@ namespace Ventas.Controllers.Ventas
                 return Json(new { State = -1, Message = ex.Message }, JsonRequestBehavior.AllowGet);
             }
         }
+        public JsonResult GetDatosProductos(int tipo = 0, int id = 0, string modelo = "", string marcaVehiculo = "", string nombreLinea = "")
+        {
+            try
+            {
+                var item = new Ventas__BE();
+                item.MTIPO = tipo;
+                if (modelo != "" && modelo != "0")
+                    item.NOMBRE_MODELO = modelo;
+                if (marcaVehiculo != "" && marcaVehiculo != "0")
+                    item.NOMBRE_MARCA_VEHICULO = marcaVehiculo;
+                if (nombreLinea != "" && nombreLinea != "0")
+                    item.NOMBRE_LINEA_VEHICULO = nombreLinea;
+                var lista = GetDatosSP_(item);
+                return Json(new { State = 1, data = lista }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                return Json(new { State = -1, Message = ex.Message }, JsonRequestBehavior.AllowGet);
+            }
+        }
         #endregion
 
         #region COTIZACION
@@ -274,7 +300,7 @@ namespace Ventas.Controllers.Ventas
             {
                 decimal tot = 0, sub = 0, desc = 0;
                 tot = dato.CANTIDAD * dato.PRECIO_VENTA;
-                desc=(dato.DESCUENTO)
+                desc = (dato.DESCUENTO);
 
                 html.AppendLine("<tr>");
                 html.AppendLine($"<td class='text-center'>{dato.CANTIDAD}</td>");
