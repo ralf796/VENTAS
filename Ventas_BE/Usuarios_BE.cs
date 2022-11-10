@@ -33,5 +33,6 @@ namespace Ventas_BE
         public string PATH { get; set; }
         //public string URL_FOTOGRAFIA { get; set; }
         public int ESTADO { get; set; }
+        public int ID_EMPLEADO { get; set; }
     }
 }

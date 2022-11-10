@@ -157,7 +157,7 @@ namespace Ventas.Controllers.Usuarios
                 string email = Request.Form["email"].ToString();
                 int idRol = Convert.ToInt16(Request.Form["idRol"]);
                 string urlFoto = Request.Form["urlFoto"].ToString();
-                int id   = Convert.ToInt16(Request.Form["id"]);
+                int id = Convert.ToInt16(Request.Form["id"]);
 
                 int estado = 1;
                 var randomNumber = new Random().Next(0, 100);
@@ -173,9 +173,7 @@ namespace Ventas.Controllers.Usuarios
 
                     string directory = Server.MapPath(@"~\Content\Fotografias");
                     if (!Directory.Exists(fileName))
-                    {
                         Directory.CreateDirectory(directory);
-                    }
 
                     path = Server.MapPath(@"~\Content\Fotografias\" + separarNombre[0] + randomNumber + ".png");
                     filee.Save(path);
@@ -201,6 +199,7 @@ namespace Ventas.Controllers.Usuarios
                 item.ID_ROL = idRol;
                 item.PATH = url;
                 item.MTIPO = 5;
+                item.ID_EMPLEADO = id;
                 var lista = GetDatosUsuario_(item);
 
                 if (lista != null)
@@ -228,8 +227,8 @@ namespace Ventas.Controllers.Usuarios
             {
                 string respuesta = "";
                 var item = new Usuarios_BE();
-                item.ID_USUARIO = id;
-                item.MTIPO = 3;
+                item.ID_TIPO_EMPLEADO = id;
+                item.MTIPO = 6;
                 var lista = GetDatosUsuario_(item);
                 if (lista.Count > 0)
                 {
