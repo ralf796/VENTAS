@@ -1,9 +1,7 @@
 ﻿$(document).ready(function () {
-    //GetLists('#selGuardarTipoEmpleado', 2);
-    //GetLists('#selGuardarRol', 3);
-    //GetDatos();
-
-    $('#modalCrearUsuario').modal('show');
+    GetLists('#selGuardarTipoEmpleado', 2);
+    GetLists('#selGuardarRol', 3);
+    GetDatos();
 
     function ClearFormCreate() {
         $('#txtGuardarPrimerNombre').val('');
