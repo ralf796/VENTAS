@@ -33,7 +33,9 @@
         $('#selEditarRol').val(-1);
     }
 
-    function CallBtnEdit(primerNombre, segundoNombre, primerApellido, segundoApellido, celular, telefono, direccion, email, tipoEmpleado, rol, idPath) {
+    function CallBtnEdit(primerNombre, segundoNombre, primerApellido, segundoApellido, celular, telefono, direccion, email, tipoEmpleado, rol, idPath, id) {
+
+        $('#modalEditarUsuario').modal('show')
         $('#txtEditarPrimerNombre').val(primerNombre);
         $('#txtEditarSegundoNombre').val(segundoNombre);
         $('#txtEditarPrimerApellido').val(primerApellido);
@@ -44,9 +46,10 @@
         $('#selEditarTipoEmpleado').val(tipoEmpleado);
         $('#txtEditarEmail').val(email);
         $('#selEditarRol').val(rol);
+        /*
         $('#idFotografiaEditar').val(idPath);
-
-        $('#modalEditarUsuario').modal('show')
+            */
+        $('#hfId').val(id);
     }
 
     function GetLists(selObject, tipo) {
@@ -147,26 +150,12 @@
             },
             columns: [
                 {
-                    dataField: 'PATH_IMAGEN',
+                    dataField: 'PATH',
                     width: 90,
                     cellTemplate(container, options) {
-                        $('<div>').append($('<img>', { src: options.value })).appendTo(container);
-                    },
-                },
-                {
-                    caption: "ESTADO",
-                    alignment: "center",
-                    cellTemplate: function (container, options) {
                         var fieldData = options.data;
-
-                        container.addClass(fieldData.ESTADO != 1 ? "dec" : "");
-
-                        if (fieldData.ESTADO == 1)
-                            $("<span>").addClass("badge badge-success").text('ACTIVO').appendTo(container);
-                        else
-                            $("<span>").addClass("badge badge-danger").text('INACTIVO').appendTo(container);
-
-                    }
+                        $("<img>").attr('src', fieldData.PATH).css('width', '70px').appendTo(container);
+                    },
                 },
                 {
                     caption: 'ACCIONES',
@@ -186,11 +175,23 @@
                             var classBTN1 = 'ml-2 hvr-grow far fa-edit btn btn-success ' + classTmp1;
                             $("<span>").addClass(classBTN1).prop('title', 'Editar').appendTo(container);
                             $('.edit' + cont).click(function (e) {
-                                var id = parseInt(fieldData.ID_USUARIO);
+                                var id = parseInt(fieldData.ID_EMPLEADO);
                                 ClearFormCreate();
                                 GetLists('#selEditarTipoEmpleado', 2);
                                 GetLists('#selEditarRol', 3);
-                                CallBtnEdit(fieldData.PRIMER_NOMBRE, fieldData.SEGUNDO_NOMBRE, fieldData.PRIMER_APELLIDO, fieldData.SEGUNDO_APELLIDO, dataField.CELULAR, dataField.TELEFONO, dataField.EMAIL, dataField.ID_TIPO_EMPLEADO, dataField.ID_ROL, dataField.PATH_IMAGEN);
+                                CallBtnEdit(
+                                    fieldData.PRIMER_NOMBRE,
+                                    fieldData.SEGUNDO_NOMBRE,
+                                    fieldData.PRIMER_APELLIDO,
+                                    fieldData.SEGUNDO_APELLIDO,
+                                    fieldData.CELULAR,
+                                    fieldData.TELEFONO,
+                                    fieldData.DIRECCION,
+                                    fieldData.EMAIL,
+                                    fieldData.ID_TIPO_EMPLEADO,
+                                    fieldData.ID_ROL,
+                                    fieldData.PATH,
+                                    id);
                             })
 
                             //BTN ELIMINAR
@@ -198,7 +199,7 @@
                             var classBTN2 = 'ml-2 hvr-grow far fa-trash-alt btn btn-danger ' + classTmp2;
                             $("<span>").addClass(classBTN2).prop('title', 'Inactivar').appendTo(container);
                             $('.remove' + cont).click(function (e) {
-                                var id = parseInt(fieldData.ID_USUARIO);
+                                var id = parseInt(fieldData.ID_EMPLEADO);
                                 Delete(id);
                             })
                         }
@@ -213,6 +214,11 @@
                 {
                     dataField: "ID_ROL",
                     caption: "ID ROL",
+                    visible: false
+                },
+                {
+                    dataField: "ID_EMPLEADO",
+                    caption: "ID_EMPLEADO",
                     visible: false
                 },
                 {
@@ -343,30 +349,30 @@
     }
 
     function EditarUsuarioFoto() {
-        var primerNombre = $('#txtGuardarPrimerNombre').val();
-        var segundoNombre = $('#txtGuardarSegundoNombre').val();
-        var primerApellido = $('#txtGuardarPrimerApellido').val();
-        var segundoApellido = $('#txtGuardarSegundoApellido').val();
-        var celular = $('#txtGuardarCelular').val();
-        var telefono = $('#txtGuardarTelCasa').val();
-        var direccion = $('#txtGuardarDireccion').val();
-        var idTipoEmpleado = $('#selGuardarTipoEmpleado').val();
-        var email = $('#txtGuardarEmail').val();
-        var urlFoto = $('#idFotografia').val();
-        var idRol = $('#selGuardarRol').val();
+        var primerNombre = $('#txtEditarPrimerNombre').val();
+        var segundoNombre = $('#txtEditarSegundoNombre').val();
+        var primerApellido = $('#txtEditarPrimerApellido').val();
+        var segundoApellido = $('#txtEditarSegundoApellido').val();
+        var celular = $('#txtEditarCelular').val();
+        var telefono = $('#txtEditarTelCasa').val();
+        var direccion = $('#txtEditarDireccion').val();
+        var idTipoEmpleado = $('#selEditarTipoEmpleado').val();
+        var email = $('#txtEditarEmail').val();
+        var urlFoto = $('#idFotografiaEditar').val();
+        var idRol = $('#selEditarRol').val();
         var id = $('#hfId').val();
-
+        /*
         if (idTipoEmpleado == '' || idTipoEmpleado == null) {
             ShowAlertMessage('warning', '¡DEBES SELECCIONAR EL TIPO DE EMPLEADO!');
-            $('#selGuardarTipoEmpleado').focus();
+            $('#selEditarTipoEmpleado').focus();
             return;
         }
         if (idRol == '' || idRol == null) {
             ShowAlertMessage('warning', '¡DEBES SELECCIONAR EL ROL DE ACCESOS!');
-            $('#selGuardarRol').focus();
+            $('#selEditarRol').focus();
             return;
         }
-
+        */
         var formData = new FormData();
         formData.append('primerNombre', primerNombre);
         formData.append('segundoNombre', segundoNombre);

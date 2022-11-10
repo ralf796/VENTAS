@@ -29,6 +29,7 @@ namespace Ventas_DAL
                 model.Command.Parameters.AddWithValue("@ID_ROL", item.ID_ROL);
                 model.Command.Parameters.AddWithValue("@URL_FOTOGRAFIA", item.PATH);
                 model.Command.Parameters.AddWithValue("@MTIPO", item.MTIPO);
+                model.Command.Parameters.AddWithValue("@ID_EMPLEADO_EDITAR", item.ID_EMPLEADO);
                 result = model.GetData<Usuarios_BE>();
             }
             return result;
