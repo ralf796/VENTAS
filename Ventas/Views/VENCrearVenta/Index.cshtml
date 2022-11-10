@@ -19,11 +19,11 @@
                 this.NOMBRE= NOMBRE;
                 this.DIRECCION= DIRECCION;
             }
-            function DETALLE(ID_PRODUCTO, CANTIDAD, PRECIO_VENTA, TOTALTOTAL, IVA, TOTAL_DESCUENTO, SUBTOTAL, CODIGO, CODIGO2, NOMBRE_MARCA_REPUESTO, NOMBRE_PRODUCTO) {
+            function DETALLE(ID_PRODUCTO, CANTIDAD, PRECIO_VENTA, TOTAL, IVA, TOTAL_DESCUENTO, SUBTOTAL, CODIGO, CODIGO2, NOMBRE_MARCA_REPUESTO, NOMBRE_PRODUCTO) {
                 this.ID_PRODUCTO = ID_PRODUCTO;
                 this.CANTIDAD = CANTIDAD;
                 this.PRECIO_VENTA = PRECIO_VENTA;
-                this.TOTALTOTAL = TOTALTOTAL;
+                this.TOTAL = TOTAL;
                 this.IVA = IVA;
                 this.TOTAL_DESCUENTO = TOTAL_DESCUENTO;
                 this.SUBTOTAL = SUBTOTAL;
@@ -124,9 +124,6 @@
             margin-top: -10px;
         }
 
-        .custom-select {
-            margin-top: -10px;
-        }
 
         #gridContainer span.current-value {
             display: inline-block;
@@ -199,8 +196,8 @@
                         <input class="form-control text-right" id="txtPrecio" name="txtPrecio" type="number" disabled>
                     </div>
                     <div class="col-12 col-sm-6 col-md-3 col-lg-3 col-xl-3">
-                        <label for="txtDescuento">DESCUENTO</label>
-                        <input class="form-control text-right" id="txtDescuento" name="txtDescuento" type="number" min="0" value="0">
+                        <label for="txtDescuento">DESCUENTO (%)</label>
+                        <input class="form-control text-right" id="txtDescuento" name="txtDescuento" onkeypress="return valideKey(event);" type="text" value="0">
                     </div>
                     <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 text-right">
                         <button style="margin-top:5px" class="btn btn-success" id="btnAgregarDetalle">AGREGAR</button>
@@ -257,6 +254,38 @@
                 </button>
             </div>
             <div class="modal-body">
+                <div class="row">
+                    <div class="col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6 pt-1">
+                        <div class="input-group mb-12">
+                            <div class="input-group-prepend">
+                                <label style="width:180px" class="input-group-text" for="selCategoria">MODELO VEHICULO</label>
+                            </div>
+                            <select class="custom-select" id="selModelo">
+                                <option selected disabled>SELECCIONE</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6 pt-1">
+                        <div class="input-group mb-12">
+                            <div class="input-group-prepend">
+                                <label style="width:180px" class="input-group-text" for="selCategoria">MARCA VEHICULO</label>
+                            </div>
+                            <select class="custom-select" id="selMarcaVehiculo">
+                                <option selected disabled>SELECCIONE</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6 pt-1">
+                        <div class="input-group mb-12">
+                            <div class="input-group-prepend">
+                                <label style="width:180px" class="input-group-text" for="selCategoria">LINEA VEHICULO</label>
+                            </div>
+                            <select class="custom-select" id="selLinea">
+                                <option selected disabled>SELECCIONE</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
                 <div class="row">
                     <div class="col-12 col-md-12 col-xl-12" style="margin-top:-8px">
                         <div class="demo-container">

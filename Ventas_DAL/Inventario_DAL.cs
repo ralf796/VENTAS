@@ -16,9 +16,9 @@ namespace Ventas_DAL
             using (var model = new Base_SQL("sp_inventario"))
             {
                 model.Command.Parameters.AddWithValue("@NOMBRE", item.NOMBRE);
-                model.Command.Parameters.AddWithValue("@DESCRIPCION", item.DESCRIPCION);                
+                model.Command.Parameters.AddWithValue("@DESCRIPCION", item.DESCRIPCION);
                 model.Command.Parameters.AddWithValue("@CREADO_POR", item.CREADO_POR);
-                model.Command.Parameters.AddWithValue("@ID_PRODUCTO", item.ID_PRODUCTO);                
+                model.Command.Parameters.AddWithValue("@ID_PRODUCTO", item.ID_PRODUCTO);
                 model.Command.Parameters.AddWithValue("@ID_MODELO", item.ID_MODELO);
                 model.Command.Parameters.AddWithValue("@ID_BODEGA", item.ID_BODEGA);
                 model.Command.Parameters.AddWithValue("@ID_SUBCATEGORIA", item.ID_SUBCATEGORIA);
@@ -49,6 +49,9 @@ namespace Ventas_DAL
             {
                 model.Command.Parameters.AddWithValue("@MTIPO", item.MTIPO);
                 model.Command.Parameters.AddWithValue("@ID", item.ID_UPDATE);
+                model.Command.Parameters.AddWithValue("@nombreModelo", item.NOMBRE_MODELO);
+                model.Command.Parameters.AddWithValue("@nombreMarcaVehiculo", item.NOMBRE_MARCA_VEHICULO);
+                model.Command.Parameters.AddWithValue("@nombreLineaVehiculo", item.NOMBRE_LINEA_VEHICULO);
                 result = model.GetData<Inventario_BE>();
             }
             return result;
@@ -89,7 +92,7 @@ namespace Ventas_DAL
                 model.Command.Parameters.AddWithValue("@ANIO_FINAL", item.ANIO_FINAL);
                 model.Command.Parameters.AddWithValue("@CREADO_POR", item.CREADO_POR);
                 model.Command.Parameters.AddWithValue("@ID_CATEGORIA", item.ID_CATEGORIA);
-                model.Command.Parameters.AddWithValue("@ID_MARCA_VEHICULO", item.ID_MARCA_VEHICULO);                
+                model.Command.Parameters.AddWithValue("@ID_MARCA_VEHICULO", item.ID_MARCA_VEHICULO);
                 model.Command.Parameters.AddWithValue("@MTIPO", item.MTIPO);
                 result = model.GetData<Inventario_BE>();
             }

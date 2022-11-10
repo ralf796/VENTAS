@@ -6,17 +6,6 @@
     <script src="~/Scripts/Inventario/ListarProductos.js"></script>
 
 }
-<style>
-    #gridContainer span.current-value {
-        display: inline-block;
-        margin-right: 5px;
-    }
-
-    #gridContainer span.diff {
-        width: 50px;
-        display: inline-block;
-    }
-</style>
 
 @section styles{
     <style>
@@ -50,48 +39,42 @@
     <span class="badge badge-pill badge-secondary">LISTADO DE PRODUCTOS</span>
     <div class="card-body">
         <div class="row">
+            <div class="col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6 pt-1">
+                <div class="input-group mb-12">
+                    <div class="input-group-prepend">
+                        <label style="width:180px" class="input-group-text" for="selCategoria">MODELO VEHICULO</label>
+                    </div>
+                    <select class="custom-select" id="selModelo">
+                        <option selected disabled>SELECCIONE</option>
+                    </select>
+                </div>
+            </div>
+            <div class="col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6 pt-1">
+                <div class="input-group mb-12">
+                    <div class="input-group-prepend">
+                        <label style="width:180px" class="input-group-text" for="selCategoria">MARCA VEHICULO</label>
+                    </div>
+                    <select class="custom-select" id="selMarcaVehiculo">
+                        <option selected disabled>SELECCIONE</option>
+                    </select>
+                </div>
+            </div>
+            <div class="col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6 pt-1">
+                <div class="input-group mb-12">
+                    <div class="input-group-prepend">
+                        <label style="width:180px" class="input-group-text" for="selCategoria">LINEA VEHICULO</label>
+                    </div>
+                    <select class="custom-select" id="selLinea">
+                        <option selected disabled>SELECCIONE</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="row">
             <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
                 <div class="demo-container">
                     <div id="exportButton"></div>
                     <div id="gridContainer"></div>
-                </div>
-            </div>
-            <div class="col-12 col-md-12 col-xl-12 d-none">
-                <div class="table-responsive">
-                    <table id="tblProductos" width="100%">
-                        <thead class="headColor">
-                            <tr>
-                                <th class="border text-center pl-2 pr-2 d-none">ID_PRODUCTO</th>
-                                <th class="border text-center pl-2 pr-2">NOMBRE</th>
-                                <th class="border text-center pl-2 pr-2">DESCRIPCION</th>
-                                <th class="border text-center pl-2 pr-2">P/COSTO</th>
-                                <th class="border text-center pl-2 pr-2">P/VENTA</th>
-                                <th class="border text-center pl-2 pr-2">STOCK</th>
-                                <th class="border text-center pl-2 pr-2">CODIGO</th>
-                                <th class="border text-center pl-2 pr-2">CREADO POR</th>
-                                <th class="border text-center pl-2 pr-2 d-none">ID BODEGA</th>
-                                <th class="border text-center pl-2 pr-2">BODEGA</th>
-                                <th class="border text-center pl-2 pr-2 d-none">ID MODELO</th>
-                                <th class="border text-center pl-2 pr-2">MODELO</th>
-                                <th class="border text-center pl-2 pr-2 d-none">ID PROVEEDOR</th>
-                                <th class="border text-center pl-2 pr-2">PROVEEDOR</th>
-                                <th class="border text-center pl-2 pr-2 d-none">ID MARCA REPUESTO</th>
-                                <th class="border text-center pl-2 pr-2">MARCA REPUESTO</th>
-                                <th class="border text-center pl-2 pr-2 d-none">ID CATEGORIA</th>
-                                <th class="border text-center pl-2 pr-2">CATEGORIA</th>
-                                <th class="border text-center pl-2 pr-2 d-none">ID SUBCATEGORIA</th>
-                                <th class="border text-center pl-2 pr-2">SUBCATEGORIA</th>
-                                <th class="border text-center pl-2 pr-2 d-none">ID MARCA VEHICULO</th>
-                                <th class="border text-center pl-2 pr-2">MARCA VEHICULO</th>
-                                <th class="border text-center pl-2 pr-2 d-none">ID SERIE VEHICULO</th>
-                                <th class="border text-center pl-2 pr-2">SERIE VEHICULO</th>
-                                <th class="border text-center pl-2 pr-2">ESTADO</th>
-                                <th class="border text-center pl-2 pr-2">ACCIONES</th>
-                            </tr>
-                        </thead>
-                        <tbody id="tbodyProductos">
-                        </tbody>
-                    </table>
                 </div>
             </div>
         </div>
@@ -99,7 +82,7 @@
 </div>
 
 <input type="hidden" id="hfIdProducto" />
-<div class="modal fade" id="modalDatos">
+<div class="modal fade" id="modalEditarProducto">
     <div class="modal-dialog modal-xl">
         <div class="modal-content  bg-light">
             <div class="modal-header">
@@ -109,18 +92,12 @@
                 </button>
             </div>
             <div class="modal-body">
-                <form id="formGuardarProducto">
+                <form id="formModificarProducto">
                     <div class="row">
                         <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 pt-1">
                             <div class="input-group text-right">
                                 <span class="col-form-label">NOMBRE:</span>
                                 <input type="text" class="form-control" id="txtNombre" name="txtNombre" required>
-                            </div>
-                        </div>
-                        <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 pt-1">
-                            <div class="input-group text-right">
-                                <span class="col-form-label">DESCRIPCIÓN:</span>
-                                <input type="text" class="form-control" id="txtDescripcion" name="txtDescripcion">
                             </div>
                         </div>
                         <div class="col-12 col-sm-12 col-md-6 col-lg-6 col-xl-4 pt-1">
@@ -141,44 +118,12 @@
                                 <input type="number" class="form-control text-center" id="txtStock" name="txtStock" required>
                             </div>
                         </div>
-                        <div class="col-12 col-sm-12 col-md-6 col-lg-6 col-xl-4 pt-1">
-                            <div class="input-group text-right">
-                                <span class="col-form-label">ANIO FABRICACIÓN:</span>
-                                <input type="number" class="form-control text-center" id="txtAnioFabricacion" name="txtAnioFabricacion">
-                            </div>
-                        </div>
-                        <div class="col-12 col-sm-12 col-md-6 col-lg-6 col-xl-4 pt-1">
-                            <div class="input-group text-right">
-                                <span class="col-form-label">CÓDIGO:</span>
-                                <input type="text" class="form-control text-center" id="txtCodigo" name="txtCodigo" required>
-                            </div>
-                        </div>
-                        <div class="col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6 pt-1">
-                            <div class="input-group text-right">
-                                <span class="col-form-label">CATEGORÍA:</span>
-                                <select class="form-control select2bs4" id="selCategoria" name="selCategoria" required>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6 pt-1">
-                            <div class="input-group">
-                                <span class="col-form-label">MODELO:</span>
-                                <select class="form-control select2bs4" id="selModelo" name="selModelo" required>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6 pt-1">
-                            <div class="input-group text-right">
-                                <span class="col-form-label">TIPO:</span>
-                                <select class="form-control select2bs4" id="selTipo" name="selTipo" required>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6 pt-1">
-                            <div class="input-group">
-                                <span class="col-form-label">BODEGA:</span>
-                                <select class="form-control select2bs4" id="selBodega" name="selBodega" required>
-                                </select>
+                        <div class="col-12 col-sm-12 col-md-4 col-lg-6 col-xl-6 pt-1">
+                            <div class="custom-file" id="customFile">
+                                <input type="file" class="custom-file-input" id="idFotografia" aria-describedby="fileHelp">
+                                <label class="custom-file-label" for="idFotografia">
+                                    Seleccionar fotografía
+                                </label>
                             </div>
                         </div>
                     </div>
@@ -187,6 +132,40 @@
                         <button type="submit" class="btn btn-success" id="btnProcesar">PROCESAR</button>
                     </div>
                 </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="modalAddStock">
+    <div class="modal-dialog modal-ms">
+        <div class="modal-content  bg-light">
+            <div class="modal-header">
+                <h5 class="modal-title">AGREGAR STOCK</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 text-center">
+                    <label class="h5 mt-3">STOCK ACTUAL</label><br />
+                    <label class="h2 text-success" id="txtStockActual"></label>
+                </div>
+                <div class="row">
+                    <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 pt-1 text-center justify-content-center">
+                        <div class="input-group justify-content-center" id="divNit">
+                            <div class="input-group-prepend">
+                                <button id="tbnResStock" style="" type="button" class="btn btn-danger"><i class="far fa-minus-circle"></i></button>
+                                <input type="text" class="form-control" id="txtNuevoStock" value="0">
+                                <button id="btnAddStock" style="" type="button" class="btn btn-info"><i class="far fa-plus-circle"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer justify-content-center">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">CERRAR</button>
+                    <button type="submit" class="btn btn-success" id="btnUpdateStock">ACTUALIZAR</button>
+                </div>
             </div>
         </div>
     </div>

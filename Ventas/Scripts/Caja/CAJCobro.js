@@ -20,9 +20,7 @@
                         var state = data["State"];
                         if (state == 1) {
                             data = JSON && JSON.parse(JSON.stringify(data)) || $.parseJSON(data);
-
                             d.resolve(data);
-
                         }
                         else if (state == -1)
                             alert(data["Message"])

@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using Ventas.Provider;
 using Ventas_BE;
 using Ventas_BLL;
 
@@ -37,8 +38,14 @@ namespace Ventas.Controllers.WS
                 UserProvider userProvider = new UserProvider(((OwinContext)Request.GetOwinContext()).Authentication.User);
 
                 var item = new Inventario_BE();
-                item.MTIPO = 20;                
+                item.MTIPO = 20;
                 var lista = GetInventario_select_(item);
+
+                foreach(var dato in lista)
+                {
+                    dato.DIRECCION = "";
+                    dato.TELEFONO = "";
+                }
 
                 return this.Json<List<Inventario_BE>>(lista, new JsonSerializerSettings()
                 {

@@ -1,13 +1,17 @@
 ﻿using GenesysOracleSV.Clases;
+using MoreLinq;
 using OfficeOpenXml;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data.Common;
+using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.Razor.Parser.SyntaxTree;
 using Ventas_BE;
 using Ventas_BLL;
 
@@ -17,70 +21,70 @@ namespace Ventas.Controllers.Inventario
     {
         #region VIEWS
         // GET: BODEGA
-        [SessionExpireFilterAttribute]
+
         public ActionResult IndexBodega()
         {
             return View();
         }
         // GET: CATEGORIA
-        //[SessionExpireFilterAttribute]
-        [SessionExpireFilterAttribute]
+        //
+
         public ActionResult IndexCategoria()
         {
             return View();
         }
         // GET: SUBCATEGORIA
-        //[SessionExpireFilterAttribute]
-        [SessionExpireFilterAttribute]
+        //
+
         public ActionResult IndexSubcategoria()
         {
             return View();
         }
         // GET: MODELO
-        //[SessionExpireFilterAttribute]
-        [SessionExpireFilterAttribute]
+        //
+
         public ActionResult IndexModelo()
         {
             return View();
         }
         // GET: PROVEEDOR
-        //[SessionExpireFilterAttribute]
-        [SessionExpireFilterAttribute]
+        //
+
         public ActionResult IndexProveedor()
         {
             return View();
         }
         // GET: MARCA REPUESTO
-        //[SessionExpireFilterAttribute]
-        [SessionExpireFilterAttribute]
+        //
+
         public ActionResult IndexMarcaRepuesto()
         {
             return View();
         }
         // GET: MARCA VEHICULO
-        //[SessionExpireFilterAttribute]
-        [SessionExpireFilterAttribute]
+        //
+
         public ActionResult IndexMarcaVehiculo()
         {
             return View();
         }
         // GET: SERIE VEHICULO
-        //[SessionExpireFilterAttribute]
-        [SessionExpireFilterAttribute]
+        //
+
         public ActionResult IndexSerieVehiculo()
         {
             return View();
         }
         // GET: CREAR PRODUCTO
-        //[SessionExpireFilterAttribute]
-        [SessionExpireFilterAttribute]
+        //
+
         public ActionResult IndexCrearProducto()
         {
             return View();
         }
         // GET: LISTAR PRODUCTOS
-        //[SessionExpireFilterAttribute]
-        [SessionExpireFilterAttribute]
+        //
+
         public ActionResult IndexListarProductos()
         {
             return View();
@@ -105,7 +109,7 @@ namespace Ventas.Controllers.Inventario
             List<Inventario_BE> lista = new List<Inventario_BE>();
             lista = Inventario_BLL.GetInventario_create(item);
             return lista;
-        }        
+        }
         private List<Inventario_BE> GetInventario_delete_(Inventario_BE item)
         {
             List<Inventario_BE> lista = new List<Inventario_BE>();
@@ -115,14 +119,20 @@ namespace Ventas.Controllers.Inventario
         #endregion
 
         #region JSON_RESULTS
-        [SessionExpireFilter]
-        public JsonResult GetDatosTable(int tipo = 0, int id = 0)
+
+        public JsonResult GetDatosTable(int tipo = 0, int id = 0, string modelo = "", string marcaVehiculo = "", string nombreLinea = "")
         {
             try
             {
                 var item = new Inventario_BE();
                 item.MTIPO = tipo;
                 item.ID_UPDATE = id;
+                if (modelo != "" && modelo != "0")
+                    item.NOMBRE_MODELO = modelo;
+                if (marcaVehiculo != "" && marcaVehiculo != "0")
+                    item.NOMBRE_MARCA_VEHICULO = marcaVehiculo;
+                if (nombreLinea != "" && nombreLinea != "0")
+                    item.NOMBRE_LINEA_VEHICULO = nombreLinea;
                 var lista = GetInventario_select_(item);
                 return Json(new { State = 1, data = lista }, JsonRequestBehavior.AllowGet);
             }
@@ -131,7 +141,7 @@ namespace Ventas.Controllers.Inventario
                 return Json(new { State = -1, Message = ex.Message }, JsonRequestBehavior.AllowGet);
             }
         }
-        [SessionExpireFilter]
+
         public JsonResult Guardar(string nombre = "", string descripcion = "", int tipo = 0, int estanteria = 0, int nivel = 0, int anioI = 0, int anioF = 0, int categoria = 0, string telefono = "", string direccion = "", string contacto = "", int marca = 0, int id = 0)
         {
             try
@@ -145,7 +155,7 @@ namespace Ventas.Controllers.Inventario
                 item.NIVEL = nivel;
                 item.NOMBRE = nombre;
                 item.DESCRIPCION = descripcion;
-                item.CREADO_POR = Session["usuario"].ToString();
+                item.CREADO_POR = "RALOPEZ";    // Session["usuario"].ToString();
                 item.ANIO_INICIAL = anioI;
                 item.ANIO_FINAL = anioF;
                 item.MTIPO = tipo;
@@ -172,7 +182,7 @@ namespace Ventas.Controllers.Inventario
                 return Json(new { State = -1, Message = ex.Message }, JsonRequestBehavior.AllowGet);
             }
         }
-        [SessionExpireFilter]
+
         public JsonResult Delete(int id = 0, int tipo = 0)
         {
             try
@@ -196,31 +206,24 @@ namespace Ventas.Controllers.Inventario
                 return Json(new { State = -1, Message = ex.Message }, JsonRequestBehavior.AllowGet);
             }
         }
-        [SessionExpireFilter]
-        public JsonResult OperacionesProducto(string NOMBRE = "", string DESCRIPCION = "", decimal PRECIO_COSTO = 0, decimal PRECIO_VENTA = 0, int STOCK = 0, string CODIGO = "", int ID_BODEGA = 0, int ID_MODELO = 0,
-            int ID_PROVEEDOR = 0, int ID_MARCA_REPUESTO = 0, int ID_SUBCATEGORIA = 0, int ID_SERIE_VEHICULO = 0, int ID_PRODUCTO = 0, int tipo = 0)
+
+        //public JsonResult OperacionesProducto(string NOMBRE = "", string DESCRIPCION = "", decimal PRECIO_COSTO = 0, decimal PRECIO_VENTA = 0, int STOCK = 0, string CODIGO = "", int ID_MARCA_REPUESTO = 0, int ID_SERIE_VEHICULO = 0, int ID_PRODUCTO = 0, int tipo = 0)
+        public JsonResult OperacionesProducto(int ID_PRODUCTO = 0, string NOMBRE = "", int STOCK = 0, decimal PRECIO_COSTO = 0, decimal PRECIO_VENTA = 0, string PATH = "", int tipo = 0)
         {
             try
             {
                 string respuesta = "";
-                var item = new Inventario_BE();
-                item.NOMBRE = NOMBRE;
-                item.DESCRIPCION = DESCRIPCION;
-                item.CREADO_POR = Session["usuario"].ToString();
-                item.ID_PRODUCTO = ID_PRODUCTO;
-                item.ID_MODELO = ID_MODELO;
-                item.ID_BODEGA = ID_BODEGA;
-                item.ID_SUBCATEGORIA = ID_SUBCATEGORIA;
-                item.ID_PROVEEDOR = ID_PROVEEDOR;
-                item.ID_MARCA_REPUESTO = ID_MARCA_REPUESTO;
-                item.ID_SERIE_VEHICULO = ID_SERIE_VEHICULO;
-                item.PRECIO_COSTO = PRECIO_COSTO;
-                item.PRECIO_VENTA = PRECIO_VENTA;
-                item.STOCK = STOCK;
-                item.CODIGO = CODIGO;
-                item.MTIPO = tipo;
+                var row = new Inventario_BE();
+                row.ID_PRODUCTO = ID_PRODUCTO;
+                row.NOMBRE = NOMBRE;
+                row.STOCK = STOCK;
+                row.PRECIO_COSTO = PRECIO_COSTO;
+                row.PRECIO_VENTA = PRECIO_VENTA;
+                row.PATH_IMAGEN = PATH;
+                row.CREADO_POR = "RALOPEZ";//Session["usuario"].ToString();
+                row.MTIPO = tipo;
 
-                var lista = GetDatosInventario_(item);
+                var lista = GetDatosInventario_(row);
                 if (lista.Count > 0)
                 {
                     if (lista.FirstOrDefault().RESPUESTA != "")
@@ -236,7 +239,6 @@ namespace Ventas.Controllers.Inventario
             }
         }
 
-        [SessionExpireFilterAttribute]
         public JsonResult CargarExcel(FormCollection formCollection)
         {
             try
@@ -259,13 +261,15 @@ namespace Ventas.Controllers.Inventario
 
                         for (int rowIterator = 3; rowIterator <= noOfRow; rowIterator++)
                         {
-                            if (workSheet.Cells[rowIterator, 1].Value != null)
+                            if (workSheet.Cells[rowIterator, 3].Value != null)
                             {
                                 for (int i = 1; i <= 14; i++)
                                 {
                                     if (workSheet.Cells[rowIterator, i].Value == null)
                                         workSheet.Cells[rowIterator, i].Value = "";
                                 }
+
+
 
                                 var row = new Inventario_BE();
                                 row.NOMBRE = NullString(workSheet.Cells[rowIterator, 1].Value.ToString());
@@ -279,26 +283,41 @@ namespace Ventas.Controllers.Inventario
                                 row.ANIO_FINAL = NullInt(workSheet.Cells[rowIterator, 9].Value.ToString());
                                 row.PATH_IMAGEN = NullString(workSheet.Cells[rowIterator, 10].Value.ToString());
                                 row.NOMBRE_MARCA_REPUESTO = NullString(workSheet.Cells[rowIterator, 11].Value.ToString());
-                                row.NOMBRE_MARCA_VEHICULO= NullString(workSheet.Cells[rowIterator, 12].Value.ToString());
-                                row.NOMBRE_SERIE_VEHICULO= NullString(workSheet.Cells[rowIterator, 13].Value.ToString());
-                                row.NOMBRE_DISTRIBUIDOR= NullString(workSheet.Cells[rowIterator, 14].Value.ToString());
-
-                                row.CREADO_POR = Session["usuario"].ToString();
-                                row.MTIPO = 1;
-
-                                //row.ID_PRODUCTO = workSheet.Cells[rowIterator, 1].Value.ToString();
-                                //var lista = GetDatosInventario_(row);
+                                row.NOMBRE_MARCA_VEHICULO = NullString(workSheet.Cells[rowIterator, 12].Value.ToString());
+                                row.NOMBRE_SERIE_VEHICULO = NullString(workSheet.Cells[rowIterator, 13].Value.ToString());
+                                row.NOMBRE_DISTRIBUIDOR = NullString(workSheet.Cells[rowIterator, 14].Value.ToString());
+                                row.CREADO_POR = "RALOPEZ";         // Session["usuario"].ToString();
+                                /*
+                                row.MTIPO = 5;
+                                int existeProducto = GetDatosInventario_(row).FirstOrDefault().STOCK;
+                                if (existeProducto == 0)
+                                */
                                 list.Add(row);
+
                             }
                         }
                     }
                 }
 
+                var groupCodigos1 = list.DistinctBy(i => i.CODIGO).ToList();
+
+                foreach (var row1 in groupCodigos1)
+                {
+                    row1.MTIPO = 1;
+                    var resultHeader = GetDatosInventario_(row1);
+                    if (resultHeader != null)
+                    {
+                        if (resultHeader.FirstOrDefault().RESPUESTA == "02")
+                            list.RemoveAll(x => x.CODIGO == row1.CODIGO && x.CODIGO2 == row1.CODIGO2);
+                    }
+                }
+
                 foreach (var dato in list)
                 {
-                    var lista = GetDatosInventario_(dato);
+                    dato.MTIPO = 4;
+                    var resultDetalleProducto = Inventario_BLL.GetSPInventario(dato);
                 }
-                return Json(new { State = 1, data = list }, JsonRequestBehavior.AllowGet);
+                return Json(new { State = 1, data = list, dataGroup = groupCodigos1.Count() }, JsonRequestBehavior.AllowGet);
             }
             catch (Exception ex)
             {

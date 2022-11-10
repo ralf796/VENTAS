@@ -6,6 +6,18 @@
     <script src="~/Scripts/Usuarios/USUListarUsuario.js"></script>
 }
 
+<style>
+    #gridContainer span.current-value {
+        display: inline-block;
+        margin-right: 5px;
+    }
+
+    #gridContainer span.diff {
+        width: 50px;
+        display: inline-block;
+    }
+</style>
+
 <div class="card">
     <span class="badge badge-pill badge-secondary">LISTADO DE USUARIOS</span>
     <div class="card-body">
@@ -28,7 +40,7 @@
 <div class="modal fade" id="modalCrearUsuario">
     <div class="modal-dialog modal-xl">
         <div class="modal-content">
-            <div class="modal-header">
+            <div class="modal-header d-none">
                 <h5 class="modal-title">CREAR USUARIO</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span style="color:red" aria-hidden="true">&times;</span>
@@ -40,55 +52,55 @@
                         <div class="col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6 pt-1">
                             <div class="input-group text-right">
                                 <span class="col-form-label">PRIMER NOMBRE:</span>
-                                <input type="text" class="form-control" id="txtGuardarPrimerNombre" name="txtGuardarPrimerNombre" required>
+                                <input type="text" class="form-control" id="txtGuardarPrimerNombre" name="txtGuardarPrimerNombre" value="test" required>
                             </div>
                         </div>
                         <div class="col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6 pt-1">
                             <div class="input-group text-right">
                                 <span class="col-form-label">SEGUNDO NOMBRE:</span>
-                                <input type="text" class="form-control" id="txtGuardarSegundoNombre" name="txtGuardarPrimerNombre">
+                                <input type="text" class="form-control" id="txtGuardarSegundoNombre" name="txtGuardarPrimerNombre" value="test">
                             </div>
                         </div>
                         <div class="col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6 pt-1">
                             <div class="input-group text-right">
                                 <span class="col-form-label">PRIMER APELLIDO:</span>
-                                <input type="text" class="form-control" id="txtGuardarPrimerApellido" required>
+                                <input type="text" class="form-control" id="txtGuardarPrimerApellido" required value="test">
                             </div>
                         </div>
                         <div class="col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6 pt-1">
                             <div class="input-group text-right">
                                 <span class="col-form-label">SEGUNDO APELLIDO:</span>
-                                <input type="text" class="form-control" id="txtGuardarSegundoApellido">
+                                <input type="text" class="form-control" id="txtGuardarSegundoApellido" value="test">
                             </div>
                         </div>
                         <div class="col-12 col-sm-12 col-md-12 col-lg-6 col-xl-6 pt-1">
                             <div class="input-group text-right">
                                 <span class="col-form-label">CELULAR:</span>
-                                <input type="text" class="form-control" id="txtGuardarCelular" required>
+                                <input type="text" class="form-control" id="txtGuardarCelular" required value="test">
                             </div>
                         </div>
                         <div class="col-12 col-sm-12 col-md-12 col-lg-6 col-xl-6 pt-1">
                             <div class="input-group text-right">
                                 <span class="col-form-label">TEL. CASA:</span>
-                                <input type="text" class="form-control" id="txtGuardarTelCasa">
+                                <input type="text" class="form-control" id="txtGuardarTelCasa" value="test">
                             </div>
                         </div>
                         <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 pt-1">
                             <div class="input-group text-right">
                                 <span class="col-form-label">DIRECCIÓN:</span>
-                                <input type="text" class="form-control" id="txtGuardarDireccion" required>
+                                <input type="text" class="form-control" id="txtGuardarDireccion" required value="test">
                             </div>
                         </div>
                         <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 pt-1">
                             <div class="input-group text-right">
                                 <span class="col-form-label">EMAIL:</span>
-                                <input type="text" class="form-control" id="txtGuardarEmail">
+                                <input type="text" class="form-control" id="txtGuardarEmail" value="test">
                             </div>
                         </div>
                         <div class="col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6 pt-1">
                             <div class="input-group text-right">
                                 <span class="col-form-label">TIPO EMPLEADO:</span>
-                                <select class="form-control select2bs4" id="selGuardarTipoEmpleado" required>
+                                <select class="form-control select2bs4" id="selGuardarTipoEmpleado" required value="test">
                                 </select>
                             </div>
                         </div>
@@ -102,13 +114,13 @@
                         <div class="col-12 col-sm-12 col-md-12 col-lg-6 col-xl-6 pt-1">
                             <div class="input-group text-right">
                                 <span class="col-form-label">USUARIO:</span>
-                                <input type="text" class="form-control" id="txtGuardarUsuario" required>
+                                <input type="text" class="form-control" id="txtGuardarUsuario" required value="test">
                             </div>
                         </div>
                         <div class="col-12 col-sm-12 col-md-4 col-lg-6 col-xl-6 pt-1">
                             <div class="input-group text-right">
                                 <span class="col-form-label">CONTRASEÑA:</span>
-                                <input type="text" class="form-control" id="txtGuardarPassword" required>
+                                <input type="text" class="form-control" id="txtGuardarPassword" required value="test">
                             </div>
                         </div>
                         <div class="col-12 col-sm-12 col-md-4 col-lg-6 col-xl-6 pt-1">

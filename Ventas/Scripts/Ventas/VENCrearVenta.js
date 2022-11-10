@@ -1,6 +1,6 @@
 ﻿$(document).ready(function () {
     //CallLoadingFire('Cargandoo-.')
-    GetListProductos();
+    //GetListProductos();
 
 
     function ClearCustomer() {
@@ -111,10 +111,6 @@
                 visible: true,
                 highlightCaseSensitive: true,
             },
-            groupPanel: { visible: true },
-            grouping: {
-                autoExpandAll: false,
-            },
             allowColumnReordering: true,
             rowAlternationEnabled: true,
             columns: [
@@ -159,6 +155,182 @@
             }
         }).dxDataGrid('instance');
     }
+
+    var cont = 0;
+    function GetDatos() {
+        var tipo = 1;
+        var modelo = $('#selModelo').val();
+        var marcaVehiculo = $('#selMarcaVehiculo').val();
+        var nombreLinea = $('#selLinea').val();
+        var customStore = new DevExpress.data.CustomStore({
+            load: function (loadOptions) {
+                var d = $.Deferred();
+                $.ajax({
+                    type: 'GET',
+                    url: '/VENCrearVenta/GetDatosProductos',
+                    contentType: "application/json; charset=utf-8",
+                    dataType: 'json',
+                    data: { tipo, modelo, marcaVehiculo, nombreLinea },
+                    cache: false,
+                    success: function (data) {
+                        var state = data["State"];
+                        if (state == 1) {
+                            data = JSON && JSON.parse(JSON.stringify(data)) || $.parseJSON(data);
+                            d.resolve(data);
+                        }
+                        else if (state == -1)
+                            alert(data["Message"])
+                    },
+                    error: function (jqXHR, exception) {
+                        getErrorMessage(jqXHR, exception);
+                    }
+                });
+                return d.promise();
+            }
+        });
+        var salesPivotGrid = $("#gridProductos").dxDataGrid({
+            dataSource: new DevExpress.data.DataSource(customStore),
+            showBorders: true,
+            loadPanel: {
+                text: "Cargando..."
+            },
+
+
+            filterRow: {
+                visible: true,
+                applyFilter: "auto"
+            },
+            searchPanel: {
+                visible: true,
+                width: 240,
+                placeholder: "Buscar..."
+            },
+            headerFilter: {
+                visible: true
+            },
+            scrolling: {
+                useNative: false,
+                scrollByContent: true,
+                scrollByThumb: true,
+                showScrollbar: "always" // or "onScroll" | "always" | "never"
+            },
+            searchPanel: {
+                visible: true,
+                width: 240,
+                placeholder: "Buscar..."
+            },
+            columnAutoWidth: true,
+
+            onRowPrepared(e) {
+                //e.rowElement.css("background-color", "#A7BCD6");
+                //e.rowElement.css("color", "#000000");
+            },
+            columns: [
+                {
+                    dataField: 'PATH_IMAGEN',
+                    caption: 'IMAGEN',
+                    cellTemplate: function (container, options) {
+                        var fieldData = options.data;
+                        $("<img>").attr('src', fieldData.PATH_IMAGEN).css('width', '70px').appendTo(container);
+                    }
+                },                
+                {
+                    dataField: "ID_PRODUCTO",
+                    caption: "ID PRODUCTO",
+                    visible: false
+                },
+                {
+                    dataField: "CODIGO",
+                    caption: "CODIGO 1",
+                    alignment: "center",
+                    width: 150
+                },
+                {
+                    dataField: "CODIGO2",
+                    caption: "CODIGO 2",
+                    alignment: "center",
+                    width: 150
+                },
+                {
+                    dataField: "STOCK",
+                    caption: "STOCK",
+                    alignment: "center",
+                    cellTemplate: function (container, options) {
+                        var fieldData = options.data;
+                        container.addClass(fieldData.ESTADO != 1 ? "dec" : "");
+
+                        if (fieldData.STOCK > 0)
+                            $("<span>").addClass("badge badge-success").text(fieldData.STOCK).appendTo(container);
+                        else
+                            $("<span>").addClass("badge badge-danger").text('SIN STOCK').appendTo(container);
+                    },
+                    width: 115
+                },
+                {
+                    dataField: "PRECIO_VENTA",
+                    caption: "PRECIO",
+                    alignment: "right",
+                    format: "###,###.00",
+                    width: 115
+                },
+                {
+                    dataField: "NOMBRE",
+                    caption: "NOMBRE",
+                    width: 400
+                },
+                {
+                    dataField: "DESCRIPCION",
+                    caption: "DESCRIPCION",
+                    visible: false
+                },
+
+                {
+                    dataField: "NOMBRE_MODELO",
+                    caption: "MODELO",
+                    width: 200
+                },                
+                {
+                    dataField: "CREADO_POR",
+                    caption: "CREADO_POR",
+                    visible: false
+                },
+                {
+                    dataField: "NOMBRE_DISTRIBUIDOR",
+                    caption: "DISTRIBUIDOR",
+                    width: 200
+                },
+                {
+                    dataField: "NOMBRE_MARCA_REPUESTO",
+                    caption: "MARCA PRODUCTO",
+                    width: 200
+                },
+                {
+                    dataField: "NOMBRE_MARCA_VEHICULO",
+                    caption: "MARCA VEHICULO",
+                    width: 200
+                },
+                {
+                    dataField: "NOMBRE_LINEA_VEHICULO",
+                    caption: "LINEA VEHICULO",
+                    width: 200
+                }
+            ],
+            onRowDblClick: function (e) {
+                $('#hfIdProducto').val(e.data["ID_PRODUCTO"]);
+                $('#txtCodigo').val(e.data["CODIGO"]);
+                $('#txtNombreProducto').val(e.data["NOMBRE"]);
+                $('#txtStock').val(e.data["STOCK"]);
+                $('#txtPrecio').val(e.data["PRECIO_VENTA"]);
+                $('#hfCodigo1').val(e.data["CODIGO"]);
+                $('#hfCodigo2').val(e.data["CODIGO2"]);
+                $('#hfMarcaR').val(e.data["NOMBRE_MARCA_REPUESTO"]);
+                $('#hfNombre').val(e.data["NOMBRE"]);
+                $('#modalProductos').modal('hide');
+            }
+        }).dxDataGrid('instance');
+
+    }
+
     function GetListProductos() {
         var tipo = 1;
         var ID_MARCA_REPUESTO = $('#selMarcaRepuesto').val();
@@ -219,6 +391,10 @@
                 enabled: false
             },
             rowAlternationEnabled: true,
+            paging: false,
+            headerFilter: {
+                visible: true
+            },
             columns: [
                 {
                     dataField: 'PATH_IMAGEN',
@@ -244,7 +420,23 @@
                 {
                     dataField: "DESCRIPCION",
                     caption: "DESCRIPCION",
-                    width: 230
+                    width: 230,
+                    visible: false
+                },
+                {
+                    dataField: "STOCK",
+                    caption: "STOCK",
+                    alignment: "center",
+                    width: 200,
+                    cellTemplate: function (container, options) {
+                        var fieldData = options.data;
+                        container.addClass(fieldData.ESTADO != 1 ? "dec" : "");
+
+                        if (fieldData.STOCK > 0)
+                            $("<span>").addClass("badge badge-success").text(fieldData.STOCK).appendTo(container);
+                        else
+                            $("<span>").addClass("badge badge-danger").text('SIN STOCK').appendTo(container);
+                    }
                 },
                 {
                     dataField: "CODIGO",
@@ -264,24 +456,8 @@
                     width: 200
                 },
                 {
-                    dataField: "STOCK",
-                    caption: "STOCK",
-                    alignment: "center",
-                    width: 200,
-                    cellTemplate: function (container, options) {
-                        var fieldData = options.data;
-                        container.addClass(fieldData.ESTADO != 1 ? "dec" : "");
-
-                        if (fieldData.STOCK > 0)
-                            $("<span>").addClass("badge badge-success").text(fieldData.STOCK).appendTo(container);
-                        else
-                            $("<span>").addClass("badge badge-danger").text('SIN STOCK').appendTo(container);
-                    }
-                },
-                {
                     dataField: "PRECIO_VENTA",
                     caption: "PRECIO",
-                    alignment: "right",
                     alignment: "right",
                     format: ",##0.00",
                     width: 200
@@ -339,23 +515,14 @@
                         $(selObject).append('<option selected value="-1" disabled>Seleccione una opción</option>');
                         $(selObject).append('<option value="0">Todos</option>');
                         list.forEach(function (dato) {
-                            if (tipo == 8) {
-                                $(selObject).append('<option value="' + dato.ID_BODEGA + '">' + dato.NOMBRE + '</option>');
+                            if (tipo == 21) {
+                                $(selObject).append('<option value="' + dato.NOMBRE_MODELO + '">' + dato.NOMBRE_MODELO + '</option>');
                             }
-                            else if (tipo == 6) {
-                                $(selObject).append('<option class="text-center" value="' + dato.ID_MODELO + '">' + + dato.ANIO_INICIAL + ' - ' + dato.ANIO_FINAL + '</option>');
+                            else if (tipo == 22) {
+                                $(selObject).append('<option value="' + dato.NOMBRE_MARCA_VEHICULO + '">' + dato.NOMBRE_MARCA_VEHICULO + '</option>');
                             }
-                            else if (tipo == 10) {
-                                $(selObject).append('<option value="' + dato.ID_PROVEEDOR + '">' + dato.NOMBRE + '</option>');
-                            }
-                            else if (tipo == 12) {
-                                $(selObject).append('<option value="' + dato.ID_MARCA_REPUESTO + '">' + dato.ID_MARCA_REPUESTO + ' -  ' + dato.NOMBRE + '</option>');
-                            }
-                            else if (tipo == 2) {
-                                $(selObject).append('<option value="' + dato.ID_CATEGORIA + '">' + dato.NOMBRE + '</option>');
-                            }
-                            else if (tipo == 14) {
-                                $(selObject).append('<option value="' + dato.ID_MARCA_VEHICULO + '">' + dato.NOMBRE + '</option>');
+                            else if (tipo == 23) {
+                                $(selObject).append('<option value="' + dato.NOMBRE_SERIE_VEHICULO + '">' + dato.NOMBRE_SERIE_VEHICULO + '</option>');
                             }
                         });
                         resolve(1);
@@ -432,15 +599,16 @@
         this.TOTAL_IVA = TOTAL_IVA;
         this.TOTAL_DESCUENTO = TOTAL_DESCUENTO;
     }
-    function DETALLE(ID_PRODUCTO, CANTIDAD, PRECIO_UNITARIO, TOTALTOTAL, IVA, DESCUENTO, SUBTOTAL) {
+    function DETALLE(ID_PRODUCTO, CANTIDAD, PRECIO_VENTA, TOTAL, IVA, TOTAL_DESCUENTO, SUBTOTAL) {
         this.ID_PRODUCTO = ID_PRODUCTO;
         this.CANTIDAD = CANTIDAD;
-        this.PRECIO_UNITARIO = PRECIO_UNITARIO;
-        this.TOTALTOTAL = TOTALTOTAL;
+        this.PRECIO_VENTA = PRECIO_VENTA;
+        this.TOTAL = TOTAL;
         this.IVA = IVA;
-        this.DESCUENTO = DESCUENTO;
+        this.TOTAL_DESCUENTO = TOTAL_DESCUENTO;
         this.SUBTOTAL = SUBTOTAL;
     }
+
     function SaveOrder(jsonEncabezado, jsonDetalles) {
         $.ajax({
             type: 'GET',
@@ -456,9 +624,9 @@
             success: function (data) {
                 var state = data["State"];
                 var compra = data["ORDEN_COMPRA"];
-                if (state == 1 ) {
+                if (state == 1) {
                     //ShowAlertMessage('success', 'Se creó la orden de compra: ' + compra.ID_VENTA)
-
+                    
                     Swal.fire({
                         icon: 'success',
                         type: 'success',
@@ -509,7 +677,11 @@
         if (descuento == '')
             descuento = 0;
 
-        var subtotal = (parseFloat(cantidad) * parseFloat(precio)) - (parseFloat(cantidad) * parseFloat(descuento));
+        var total = 0, subtotal = 0;
+        total = parseFloat(precio) * parseFloat(cantidad);
+        descuento = (descuento / 100) * total;
+        subtotal = total - descuento;
+
         var remove = '<a title="Eliminar" class="btn btn-outline-danger removeDetail" style="margin-top:-10px"><i class="far fa-times"></i></a>';
         DetalleVenta.append('<tr>' +
             '<td class="text-center">' + remove + '</td>' +
@@ -552,6 +724,11 @@
         e.preventDefault();
 
         $('#modalProductos').modal('show');
+
+        GetLists('#selModelo', 21)
+        GetLists('#selMarcaVehiculo', 22)
+        GetLists('#selLinea', 23)
+
     });
     $('#btnAgregarDetalle').on('click', function (e) {
         var id = $('#hfIdProducto').val();
@@ -630,13 +807,11 @@
         });
         console.log(listDetalles)
 
-        alert(idCliente)
         if (idCliente == '' || idCliente == null) {
             ShowAlertMessage('info', 'Debes seleccionar un cliente para la venta.');
             return;
         }
 
-        alert(listDetalles.length)
         if (listDetalles.length == 0)
             ShowAlertMessage('info', 'Debes agregar al menos un producto.');
         else {
@@ -651,5 +826,18 @@
         var email = $('#txtEmailCrear').val();
         var nit = $('#txtNitCrear').val();
         SaveCustomer(nombre, direccion, telefono, email, nit);
+    });
+
+    $('#selModelo').on('change', function (e) {
+        e.preventDefault();
+        GetDatos()
+    });
+    $('#selMarcaVehiculo').on('change', function (e) {
+        e.preventDefault();
+        GetDatos()
+    });
+    $('#selLinea').on('change', function (e) {
+        e.preventDefault();
+        GetDatos()
     });
 });
