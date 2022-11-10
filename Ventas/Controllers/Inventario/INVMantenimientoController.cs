@@ -286,14 +286,14 @@ namespace Ventas.Controllers.Inventario
                                 row.NOMBRE_MARCA_VEHICULO = NullString(workSheet.Cells[rowIterator, 12].Value.ToString());
                                 row.NOMBRE_SERIE_VEHICULO = NullString(workSheet.Cells[rowIterator, 13].Value.ToString());
                                 row.NOMBRE_DISTRIBUIDOR = NullString(workSheet.Cells[rowIterator, 14].Value.ToString());
-
                                 row.CREADO_POR = "RALOPEZ";         // Session["usuario"].ToString();
-
+                                /*
                                 row.MTIPO = 5;
                                 int existeProducto = GetDatosInventario_(row).FirstOrDefault().STOCK;
-
                                 if (existeProducto == 0)
-                                    list.Add(row);
+                                */
+                                list.Add(row);
+
                             }
                         }
                     }
@@ -305,6 +305,11 @@ namespace Ventas.Controllers.Inventario
                 {
                     row1.MTIPO = 1;
                     var resultHeader = GetDatosInventario_(row1);
+                    if (resultHeader != null)
+                    {
+                        if (resultHeader.FirstOrDefault().RESPUESTA == "02")
+                            list.RemoveAll(x => x.CODIGO == row1.CODIGO && x.CODIGO2 == row1.CODIGO2);
+                    }
                 }
 
                 foreach (var dato in list)
