@@ -208,7 +208,7 @@ namespace Ventas.Controllers.Inventario
         }
 
         //public JsonResult OperacionesProducto(string NOMBRE = "", string DESCRIPCION = "", decimal PRECIO_COSTO = 0, decimal PRECIO_VENTA = 0, int STOCK = 0, string CODIGO = "", int ID_MARCA_REPUESTO = 0, int ID_SERIE_VEHICULO = 0, int ID_PRODUCTO = 0, int tipo = 0)
-        public JsonResult OperacionesProducto(int ID_PRODUCTO = 0, string NOMBRE = "", int STOCK = 0, decimal PRECIO_COSTO = 0, decimal PRECIO_VENTA = 0, string PATH = "", int tipo = 0)
+        public JsonResult OperacionesProducto(int ID_PRODUCTO = 0, string NOMBRE = "", int STOCK = 0, decimal PRECIO_COSTO = 0, decimal PRECIO_VENTA = 0, string PATH = "", int tipo = 0, string DESCRIPCION = "")
         {
             try
             {
@@ -216,6 +216,7 @@ namespace Ventas.Controllers.Inventario
                 var row = new Inventario_BE();
                 row.ID_PRODUCTO = ID_PRODUCTO;
                 row.NOMBRE = NOMBRE;
+                row.DESCRIPCION = DESCRIPCION;
                 row.STOCK = STOCK;
                 row.PRECIO_COSTO = PRECIO_COSTO;
                 row.PRECIO_VENTA = PRECIO_VENTA;

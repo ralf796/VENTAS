@@ -4,8 +4,6 @@
     GetLists('#selMarcaVehiculo', 22)
     GetLists('#selLinea', 23)
 
-
-
     var cont = 0;
     function GetLists(selObject, tipo) {
         return new Promise((resolve, reject) => {
@@ -149,7 +147,7 @@
                             $("<span>").addClass(classBTN2).prop('title', 'Inactivar').appendTo(container);
                             $('.remove' + cont).click(function (e) {
                                 var id = parseInt(fieldData.ID_PRODUCTO);
-                                Update_Delete_Producto(id, fieldData.NOMBRE, fieldData.STOCK, fieldData.PRECIO_COSTO, fieldData.PRECIO_VENTA, fieldData.PATH_IMAGEN, 3)
+                                Update_Delete_Producto(id, fieldData.NOMBRE, fieldData.STOCK, fieldData.PRECIO_COSTO, fieldData.PRECIO_VENTA, fieldData.PATH_IMAGEN, 3, '')
                             })
                         }
 
@@ -258,9 +256,9 @@
         $('#txtPrecioCosto').val(PRECIO_COSTO);
         $('#txtPrecioVenta').val(PRECIO_VENTA);
         $('#idFotografia').val(PATH);
-        
+
     }
-    function Update_Delete_Producto(ID_PRODUCTO, NOMBRE, STOCK, PRECIO_COSTO, PRECIO_VENTA, PATH, tipo) {
+    function Update_Delete_Producto(ID_PRODUCTO, NOMBRE, STOCK, PRECIO_COSTO, PRECIO_VENTA, PATH, tipo, DESCRIPCION) {
         var mensaje = '';
         if (tipo != 2)
             mensaje = 'Datos actualizados correctamente';
@@ -272,7 +270,7 @@
             url: "/INVMantenimiento/OperacionesProducto",
             contentType: "application/json; charset=utf-8",
             dataType: 'json',
-            data: { ID_PRODUCTO, NOMBRE, STOCK, PRECIO_COSTO, PRECIO_VENTA, PATH, tipo },
+            data: { ID_PRODUCTO, NOMBRE, STOCK, PRECIO_COSTO, PRECIO_VENTA, PATH, tipo, DESCRIPCION },
             cache: false,
             success: function (data) {
                 var state = data["State"];
@@ -305,16 +303,15 @@
 
         var ID_PRODUCTO = $('#hfIdProducto').val();
         var NOMBRE = $('#txtNombre').val();
+        var DESCRIPCION = $('#txtDescripcion').val();
         var STOCK = $('#txtStock').val();
         var PRECIO_COSTO = $('#txtPrecioCosto').val();
         var PRECIO_VENTA = $('#txtPrecioVenta').val();
         var PATH = $('#idFotografia').val();
         var tipo = 2;
 
-        Update_Delete_Producto(ID_PRODUCTO, NOMBRE, STOCK, PRECIO_COSTO, PRECIO_VENTA, PATH, tipo);
+        Update_Delete_Producto(ID_PRODUCTO, NOMBRE, STOCK, PRECIO_COSTO, PRECIO_VENTA, PATH, tipo, DESCRIPCION);
     });
-
-    $('#modalAddStock').modal('show');
     $('#tbnResStock').on('click', function (e) {
         e.preventDefault();
         var stockNuevo = $('#txtNuevoStock').val();
@@ -346,6 +343,6 @@
         var PATH = '';
         var tipo = 6;
 
-        Update_Delete_Producto(ID_PRODUCTO, NOMBRE, STOCK, PRECIO_COSTO, PRECIO_VENTA, PATH, tipo);
+        Update_Delete_Producto(ID_PRODUCTO, NOMBRE, STOCK, PRECIO_COSTO, PRECIO_VENTA, PATH, tipo, '');
     });
 });

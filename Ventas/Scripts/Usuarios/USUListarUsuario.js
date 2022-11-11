@@ -1,5 +1,9 @@
 ﻿$(document).ready(function () {
-    GetLists('#selGuardarTipoEmpleado', 2);
+    $("#acordion").accordion({
+        collapsible: true
+    });
+
+    //GetLists('#selGuardarTipoEmpleado', 2);
     GetLists('#selGuardarRol', 3);
     GetDatos();
 
@@ -11,7 +15,7 @@
         $('#txtGuardarCelular').val('');
         $('#txtGuardarTelCasa').val('');
         $('#txtGuardarDireccion').val('');
-        $('#selGuardarTipoEmpleado').val(-1);
+        //$('#selGuardarTipoEmpleado').val(-1);
         $('#txtGuardarEmail').val('');
         $('#txtGuardarUsuario').val('');
         $('#txtGuardarPassword').val('');
@@ -33,14 +37,12 @@
         $('#selEditarRol').val(-1);
     }
 
-    function CallBtnEdit(primerNombre, segundoNombre, primerApellido, segundoApellido, celular, telefono, direccion, email, tipoEmpleado, rol, idPath, id) {
-
+    function CallBtnEdit(primerNombre, segundoNombre, primerApellido, segundoApellido, telefono, direccion, email, tipoEmpleado, rol, idPath, id) {
         $('#modalEditarUsuario').modal('show')
         $('#txtEditarPrimerNombre').val(primerNombre);
         $('#txtEditarSegundoNombre').val(segundoNombre);
         $('#txtEditarPrimerApellido').val(primerApellido);
-        $('#txtEditarSegundoApellido').val(segundoApellido);
-        $('#txtEditarCelular').val(celular);
+        $('#txtEditarSegundoApellido').val(segundoApellido);        
         $('#txtEditarTelCasa').val(telefono);
         $('#txtEditarDireccion').val(direccion);
         $('#selEditarTipoEmpleado').val(tipoEmpleado);
@@ -264,7 +266,7 @@
                     caption: "TELEFONO"
                 },
                 {
-                    dataField: "DIRECION",
+                    dataField: "DIRECCION",
                     caption: "DIRECCION"
                 },
                 {
@@ -289,18 +291,20 @@
         var celular = $('#txtGuardarCelular').val();
         var telefono = $('#txtGuardarTelCasa').val();
         var direccion = $('#txtGuardarDireccion').val();
-        var idTipoEmpleado = $('#selGuardarTipoEmpleado').val();
+        var idTipoEmpleado;// = $('#selGuardarTipoEmpleado').val();
         var email = $('#txtGuardarEmail').val();
         var usuario = $('#txtGuardarUsuario').val();
         var password = $('#txtGuardarPassword').val();
         var urlFoto = $('#idFotografia').val();
         var idRol = $('#selGuardarRol').val();
 
+        /*
         if (idTipoEmpleado == '' || idTipoEmpleado == null) {
             ShowAlertMessage('warning', '¡DEBES SELECCIONAR EL TIPO DE EMPLEADO!');
             $('#selGuardarTipoEmpleado').focus();
             return;
         }
+        */
         if (idRol == '' || idRol == null) {
             ShowAlertMessage('warning', '¡DEBES SELECCIONAR EL ROL DE ACCESOS!');
             $('#selGuardarRol').focus();
@@ -438,7 +442,7 @@
         e.preventDefault();
         $('#modalCrearUsuario').modal('show')
         ClearFormCreate()
-        GetLists('#selGuardarTipoEmpleado', 2);
+        //GetLists('#selGuardarTipoEmpleado', 2);
         GetLists('#selGuardarRol', 3);
     });
 

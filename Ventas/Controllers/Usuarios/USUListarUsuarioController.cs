@@ -150,13 +150,13 @@ namespace Ventas.Controllers.Usuarios
                 string segundoNombre = Request.Form["segundoNombre"].ToString();
                 string primerApellido = Request.Form["primerApellido"].ToString();
                 string segundoApellido = Request.Form["segundoApellido"].ToString();
-                string celular = Request.Form["celular"].ToString();
+                //string celular = Request.Form["celular"].ToString();
                 string telefono = Request.Form["telefono"].ToString();
                 string direccion = Request.Form["direccion"].ToString();
-                int idTipoEmpleado = Convert.ToInt16(Request.Form["idTipoEmpleado"]);
                 string email = Request.Form["email"].ToString();
-                int idRol = Convert.ToInt16(Request.Form["idRol"]);
+                int idTipoEmpleado = Convert.ToInt16(Request.Form["idTipoEmpleado"]);
                 string urlFoto = Request.Form["urlFoto"].ToString();
+                int idRol = Convert.ToInt16(Request.Form["idRol"]);
                 int id = Convert.ToInt16(Request.Form["id"]);
 
                 int estado = 1;
