@@ -28,9 +28,9 @@
 
 <div class="modal" id="modalCerrarCorte" tabindex="-1">
     <div class="modal-dialog">
-        <div class="modal-content">
+        <div class="modal-content bg-secondary">
             <div class="modal-header">
-                <h5 class="modal-title">DISTRIBUIDORA DE REPUESTOS EL EDEN</h5>
+                <h5 class="modal-title">CIERRE DE CAJA DISTRIBUIDORA EL EDEN</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -41,14 +41,55 @@
                     <input id="hfOpcion" type="hidden" />
                     <input id="hfCreadoPor" type="hidden" />
                     <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 text-center">
-                        <h5>¿Desea realizar el cierre de caja?</h5>
+                        <h5 class="">CORTE TOTAL:</h5>
+                    </div>
+                    <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 text-center">
+                        <label class="h1 mt-3  font-weight-bold" id="ventaTotal"></label>
+                    </div>
+                    <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 text-center">
+                        <label class="">¿DESEA REALIZAR EL CORTE?</label>
                     </div>
                 </div>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-success" id="btnAnular" data-dismiss="modal">SI</button>
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">NO</button>
+                <button type="button" class="btn btn-danger" data-dismiss="modal">NO</button>
             </div>
         </div>
+    </div>
+</div>
+
+@*------------------------------------CARD QUE MUESTRA EL TOTAL DE VENTAS EN TARJETA---------------O*@
+<div class="card">
+    <span class="badge badge-pill badge-secondary"></span>
+    <div class="card-body">
+        <div class="row">
+            <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 text-center">
+                <label class="h3 text-center  mt-1">COBROS EN TARJETA:</label>
+            </div>
+            <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 text-center">
+                <label class="h1 mt-3 text-success font-weight-bold" id="totalCobrosTarjeta"></label>
+            </div>
+
+        </div>
+
+    </div>
+</div>
+
+
+@*------------------------------------CARD QUE MUESTRA EL TOTAL DE VENTAS EN EFECTIVO---------------O*@
+<div class="card">
+    <span class="badge badge-pill badge-secondary"></span>
+    <div class="card-body">
+        <div class="row">
+            <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 text-center">
+                <label class="h3 text-center  mt-1">COBROS EN EFECTIVO:</label>
+            </div>
+            <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 text-center">
+                <label class="h1 mt-3 text-success font-weight-bold" id="totalCobrosEfectivo"></label>
+            </div>
+
+        </div>
+
     </div>
 </div>

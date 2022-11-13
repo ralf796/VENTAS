@@ -2,6 +2,7 @@
     DevExpress.localization.locale(navigator.language);
     GetDatos();
     function GetDatos() {
+        var cont = 0;
         var tipo = 4;
         var customStore = new DevExpress.data.CustomStore({
             load: function (loadOptions) {
@@ -55,52 +56,48 @@
             },
             columns: [
                 {
-                    caption: "ESTADO",
+                    caption: "ACCIONES",
                     alignment: "center",
                     cellTemplate: function (container, options) {
                         var fieldData = options.data;
-
-                        container.addClass(fieldData.ESTADO != 1 ? "dec" : "");
-
+                        //ESTADO
                         if (fieldData.ESTADO == 1)
                             $("<span>").addClass("badge badge-success").text('ACTIVO').appendTo(container);
                         else
                             $("<span>").addClass("badge badge-danger").text('INACTIVO').appendTo(container);
+                        //BTN EDITAR
+                        if (fieldData.ESTADO == 1) {
+                            var classTmp1 = 'edit' + cont;
+                            var classBTN1 = 'ml-2 hvr-grow far fa-edit btn btn-success ' + classTmp1;
+                            $("<span>").addClass(classBTN1).prop('title', 'Editar').appendTo(container);
+                            $('.edit' + cont).click(function (e) {
+                                var id = fieldData.ID_CLIENTE;
+                                var nombre = $(this).closest("tr").find("td").eq(1).text();
+                                var direccion = $(this).closest("tr").find("td").eq(2).text();
+                                var telefono = $(this).closest("tr").find("td").eq(3).text();
+                                var email = $(this).closest("tr").find("td").eq(4).text();
+                                var nit = $(this).closest("tr").find("td").eq(5).text();
+                                $('#hfID').val(id);
+                                $('#hfOpcion').val(2);
+                                $('#txtGuardarNombre').val(nombre);
+                                $('#txtGuardarDireccion').val(direccion);
+                                $('#txtGuardarTelefono').val(telefono);
+                                $('#txtGuardarEmail').val(email);
+                                $('#txtGuardarNit').val(nit);
+                                $('#modalCliente').modal('show');
 
-                    }
-                },
-                {
-                    caption: "ACCIONES",
-                    type: "buttons",
-                    alignment: "center",
-                    buttons: [
-                        {
-                            visible: function (e) {
-                                var visible = false;
-                                if (e.row.data.ESTADO == 1)
-                                    visible = true;
-                                return visible;
-                            },
-                            hint: "Editar",
-                            icon: "edit",
-                            onClick: function (e) {
-                                alert('en desarrollo')
-                            }
-                        },
-                        {
-                            visible: function (e) {
-                                var visible = false;
-                                if (e.row.data.ESTADO == 1)
-                                    visible = true;
-                                return visible;
-                            },
-                            hint: "Inactivar",
-                            icon: "clear",
-                            onClick: function (e) {
-                                Delete(e.row.data['ID_CLIENTE'], 3)
-                            }
+                            })
+                            //BTN ELIMINAR
+                            var classTmp2 = 'remove' + cont;
+                            var classBTN2 = 'ml-2 hvr-grow far fa-trash-alt btn btn-danger ' + classTmp2;
+                            $("<span>").addClass(classBTN2).prop('title', 'Inactivar').appendTo(container);
+                            $('.remove' + cont).click(function (e) {
+                                var id = parseInt(fieldData.ID_CLIENTE);
+                                Delete(id);
+                            })
                         }
-                    ]
+                        cont++;
+                    }
                 },
                 {
                     dataField: "ID_CLIENTE",
@@ -164,20 +161,46 @@
             }
         });
     }
-
+    //funcion actualizar cliente
+    function Update_Delete(id, nombre, direccion, telefono, email, nit) {
+        $.ajax({
+            type: 'GET',
+            url: "/CLIListarClientes/UpdateClientes",
+            contentType: "application/json; charset=utf-8",
+            dataType: 'json',
+            data: { id, nombre, direccion, telefono, email, nit },
+            cache: false,
+            success: function (data) {
+                var state = data["State"];
+                if (state == 1) {
+                    ShowAlertMessage('success', 'Cliente actualizado correctamente');
+                    $('#txtGuardarNombre').val('');
+                    $('#txtGuardarDireccion').val('');
+                    $('#txtGuardarTelefono').val('');
+                    $('#txtGuardarEmail').val('');
+                    $('#txtGuardarNit').val('');
+                    $('#modalCliente').modal('hide');
+                    GetDatos()
+                }
+                else if (state == -1) {
+                    ShowAlertMessage('warning', data['Message'])
+                }
+            }
+        });
+    }
     //funcion delete
-    function Delete(id, tipo) {
+    function Delete(id) {
         $.ajax({
             type: 'GET',
             url: "/CLIListarClientes/Delete",
             contentType: "application/json; charset=utf-8",
             dataType: 'json',
-            data: { id, tipo },
+            data: { id },
             cache: false,
             success: function (data) {
                 var state = data["State"];
                 if (state == 1) {
-                    ShowAlertMessage('success', 'La bodega seleccionada se inactivó correctamente.')
+                    ShowAlertMessage('success', 'El Cliente seleccionado se inactivó correctamente.')
                     GetDatos()
                 }
                 else if (state == -1) {
@@ -212,12 +235,36 @@
         var telefono = $('#txtGuardarTelefono').val();
         var email = $('#txtGuardarEmail').val();
         var nit = $('#txtGuardarNit').val();
-        if (opcion == 1) {
-            guardarCliente(nombre, direccion, telefono, email, nit);
+        if (nombre == "" || telefono == "" || nit == "") {
+            ShowAlertMessage('warning', 'Los campos nombre, telefono y nit son obligatorios')
         }
-        else if (opcion == 2) {
-            Update_Delete(nid, nombre, direccion, telefono, email, nit, 3);
+        else {
+            if (email.trim() != '' && email.trim()!=null) {
+                const regex = /^\w+([.-_+]?\w+)*@\w+([.-]?\w+)*(\.\w{2,10})+$/
+                if (regex.test(email) && email!='' && email!=null) {
+                    if (opcion == 1) {
+                        guardarCliente(nombre, direccion, telefono, email, nit);
+                    }
+                    else if (opcion == 2) {
+                        Update_Delete(id, nombre, direccion, telefono, email, nit);
+                    }
+                }
+                else {
+                    ShowAlertMessage('warning', 'EMAIL con formato incorrecto');
+                }
+            }
+            else {
+                if (opcion == 1) {
+                    guardarCliente(nombre, direccion, telefono, email, nit);
+                }
+                else if (opcion == 2) {
+                    Update_Delete(id, nombre, direccion, telefono, email, nit);
+                }
+            }
+
         }
+
+
     });
 
     //boton para abrir modal

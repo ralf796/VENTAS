@@ -135,6 +135,23 @@
             display: inline-block;
         }
     </style>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        .zoom {
+            transition: transform .2s;
+            margin: 0 auto;
+        }
+
+            .zoom:hover {
+                -ms-transform: scale(5); /* IE 9 */
+                -webkit-transform: scale(5); /* Safari 3-8 */
+                transform: scale(2);
+            }
+    </style>
 }
 
 
@@ -193,11 +210,34 @@
                     </div>
                     <div class="col-12 col-sm-6 col-md-3 col-lg-3 col-xl-3">
                         <label for="txtPrecio">PRECIO</label>
-                        <input class="form-control text-right" id="txtPrecio" name="txtPrecio" type="number" disabled>
+                        <input class="form-control text-center" id="txtPrecio" name="txtPrecio" type="number" disabled>
+                    </div>                    
+                </div>
+                <div class="row">
+                    <div class="col-12 col-sm-6 col-md-3 col-lg-3 col-xl-1 justify-content-end text-right" style="margin-top:25px">
+                        <div class="form-group clearfix justify-content-end text-right">
+                            <div class="icheck-primary d-inline">
+                                <input type="checkbox" id="checkAutorizaDescuento">
+                                <label for="checkAutorizaDescuento">
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 col-sm-6 col-md-3 col-lg-3 col-xl-2">
+                        <label for="txtDescuento">DESCUENTO (%)</label>
+                        <input class="form-control text-center" id="txtDescuento" name="txtDescuento" onkeypress="return valideKey(event);" type="text">
                     </div>
                     <div class="col-12 col-sm-6 col-md-3 col-lg-3 col-xl-3">
-                        <label for="txtDescuento">DESCUENTO (%)</label>
-                        <input class="form-control text-right" id="txtDescuento" name="txtDescuento" onkeypress="return valideKey(event);" type="text" value="0">
+                        <label for="txtDescuento">DESCUENTO (Q)</label>
+                        <input class="form-control text-center font-weight-bold" id="txtDescuentoTotal" name="txtDescuentoTotal" type="text" readonly>
+                    </div>
+                    <div class="col-12 col-sm-6 col-md-3 col-lg-3 col-xl-3">
+                        <label for="txtDescuento">SIN DESCUENTO (Q)</label>
+                        <input class="form-control text-center text-danger font-weight-bold" id="txtSinDescuento" name="txtSinDescuento" type="text" readonly>
+                    </div>
+                    <div class="col-12 col-sm-6 col-md-3 col-lg-3 col-xl-3">
+                        <label for="txtDescuento">CON DESCUENTO (Q)</label>
+                        <input class="form-control text-center text-success font-weight-bold" id="txtConDescuento" name="txtConDescuento" type="text" readonly>
                     </div>
                     <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 text-right">
                         <button style="margin-top:5px" class="btn btn-success" id="btnAgregarDetalle">AGREGAR</button>
@@ -236,7 +276,7 @@
                 </div>
                 <div class="float-right" style="margin-top:3px">
                     <button class="btn btn-secondary" type="reset" id="btnCancelarVenta">CANCELAR</button>
-                    <button class="btn btn-primary" id="btnCrearCotizacion">CREAR COTIZACION</button>
+                    <button class="btn btn-danger" id="btnCrearCotizacion">CREAR COTIZACION</button>
                     <button class="btn btn-primary" id="btnGuardarVenta">CREAR VENTA</button>
                 </div>
             </div>
@@ -247,24 +287,14 @@
 <div class="modal fade" id="modalProductos">
     <div class="modal-dialog modal-xl">
         <div class="modal-content">
-            <div class="modal-header">
+            <div class="modal-header d-none">
                 <h5 class="modal-title">BUSQUEDA DE REPUESTOS</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span style="color:red" aria-hidden="true">&times;</span>
                 </button>
             </div>
             <div class="modal-body">
-                <div class="row">
-                    <div class="col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6 pt-1">
-                        <div class="input-group mb-12">
-                            <div class="input-group-prepend">
-                                <label style="width:180px" class="input-group-text" for="selCategoria">MODELO VEHICULO</label>
-                            </div>
-                            <select class="custom-select" id="selModelo">
-                                <option selected disabled>SELECCIONE</option>
-                            </select>
-                        </div>
-                    </div>
+                <div class="row justify-content-center" style="margin-top:-15px">
                     <div class="col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6 pt-1">
                         <div class="input-group mb-12">
                             <div class="input-group-prepend">
@@ -275,24 +305,63 @@
                             </select>
                         </div>
                     </div>
-                    <div class="col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6 pt-1">
+                    <div class="col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6 pt-1 d-none">
                         <div class="input-group mb-12">
                             <div class="input-group-prepend">
                                 <label style="width:180px" class="input-group-text" for="selCategoria">LINEA VEHICULO</label>
                             </div>
-                            <select class="custom-select" id="selLinea">
+                            <select class="custom-select" id="selLinea" data-live="search">
                                 <option selected disabled>SELECCIONE</option>
                             </select>
                         </div>
                     </div>
+                    <div class="col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6 pt-1 d-none">
+                        <div class="input-group mb-12">
+                            <div class="input-group-prepend">
+                                <label style="width:180px" class="input-group-text" for="selCategoria">MODELO VEHICULO</label>
+                            </div>
+                            <select class="custom-select" id="selModelo">
+                                <option selected disabled>SELECCIONE</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-12 col-sm-12 col-md-3 col-lg-3 col-xl-5 mt-3">
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <button style="margin-top:-10px" type="button" class="btn btn-secondary" disabled>LINEA DE VEHICULO</button>
+                            </div>
+                            <input type="text" class="form-control text-center" id="txtBuscarLinea" placeholder="LINEA" style="width:100px">
+                        </div>
+                    </div>
+                </div>
+                <div class="row justify-content-center mt-3">
+                    <div class="col-12 col-sm-12 col-md-5 col-lg-6 col-xl-6">
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <button style="margin-top:-10px" type="button" class="btn btn-secondary" disabled>NOMBRE/DESCRIPCION</button>
+                            </div>
+                            <input type="text" class="form-control text-center" id="txtBuscarNombreDescripcion" placeholder="NOMBRE/DESCRIPCION" style="width:100px">
+                        </div>
+                    </div>
+                    <div class="col-12 col-sm-12 col-md-3 col-lg-3 col-xl-3">
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <button style="margin-top:-10px" type="button" class="btn btn-secondary" disabled>AÑO</button>
+                            </div>
+                            <input type="text" class="form-control text-center" id="txtBuscarAnio" placeholder="AÑO" style="width:100px">
+                        </div>
+                    </div>
                 </div>
                 <div class="row">
-                    <div class="col-12 col-md-12 col-xl-12" style="margin-top:-8px">
+                    <div class="col-12 col-md-12 col-xl-12" style="margin-top:1px">
                         <div class="demo-container">
                             <div id="gridProductos"></div>
                         </div>
                     </div>
                 </div>
+            </div>
+            <div class="modal-footer justify-content-center">
+                <button type="button" class="btn btn-danger" data-dismiss="modal">CERRAR</button>
             </div>
         </div>
     </div>
@@ -335,28 +404,28 @@
                     <div class="form-row">
                         <div class="form-group col-md-12">
                             <label for="inputCity">NOMBRE</label>
-                            <input type="text" class="form-control" id="txtNombreCrear" maxlength="150">
+                            <input type="text" class="form-control" id="txtNombreCrear" maxlength="150" required>
                         </div>
                         <div class="form-group col-md-12">
                             <label for="inputCity">DIRECCION</label>
                             <input type="text" class="form-control" id="txtDireccionCrear" maxlength="150">
                         </div>
-                        <div class="form-group col-md-12">
-                            <label for="inputCity">TELEFONO</label>
-                            <input type="text" class="form-control text-center" id="txtTelefonoCrear" onkeypress="return valideKey(event);" placeholder="+502 ____-____" data-slots="_">
-                        </div>
-                        <div class="form-group col-md-12">
+                        <div class="form-group col-md-12 d-none">
                             <label for="inputCity">EMAIL</label>
-                            <input type="email" class="form-control" id="txtEmailCrear" maxlength="100" placeholder="email@gmail.com">
+                            <input type="email" class="form-control" id="txtEmailCrear" maxlength="100">
                         </div>
-                        <div class="form-group col-md-12">
+                        <div class="form-group col-md-6 d-none">
+                            <label for="inputCity">TELEFONO</label>
+                            <input type="text" class="form-control text-center" id="txtTelefonoCrear" onkeypress="return valideKey(event);">
+                        </div>
+                        <div class="form-group col-md-6">
                             <label for="inputCity">NIT</label>
                             <input type="text" class="form-control text-center" id="txtNitCrear" maxlength="50">
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="modal-footer justify-content-between">
+            <div class="modal-footer justify-content-center">
                 <button type="button" class="btn btn-danger" data-dismiss="modal">CERRAR</button>
                 <button type="button" class="btn btn-success" id="btnGuardarCliente">GUARDAR</button>
             </div>
@@ -365,3 +434,33 @@
 </div>
 
 
+<div class="modal fade" id="modalValidarAutorizacion">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content  bg-secondary">
+            <div class="modal-header">
+                <h5 class="modal-title">VALIDAR AUTORIZACIÓN</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="form-row">
+                        <div class="form-group col-md-12">
+                            <label for="txtUser">USUARIO</label>
+                            <input type="text" class="form-control" id="txtUser" required>
+                        </div>
+                        <div class="form-group col-md-12">
+                            <label for="txtPassword">CLAVE</label>
+                            <input type="text" class="form-control" id="txtPassword" required>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer justify-content-center">
+                <button type="button" class="btn btn-danger" data-dismiss="modal">CERRAR</button>
+                <button type="button" class="btn btn-success" id="btnValidarUsuario">VALIDAR</button>
+            </div>
+        </div>
+    </div>
+</div>

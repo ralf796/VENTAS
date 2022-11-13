@@ -78,6 +78,7 @@ namespace Ventas.Controllers.Inventario
         // GET: CREAR PRODUCTO
         //
 
+        [SessionExpireFilter]
         public ActionResult IndexCrearProducto()
         {
             return View();
@@ -85,6 +86,7 @@ namespace Ventas.Controllers.Inventario
         // GET: LISTAR PRODUCTOS
         //
 
+        [SessionExpireFilter]
         public ActionResult IndexListarProductos()
         {
             return View();
@@ -155,7 +157,7 @@ namespace Ventas.Controllers.Inventario
                 item.NIVEL = nivel;
                 item.NOMBRE = nombre;
                 item.DESCRIPCION = descripcion;
-                item.CREADO_POR = "RALOPEZ";    // Session["usuario"].ToString();
+                item.CREADO_POR = Session["usuario"].ToString();    // Session["usuario"].ToString();
                 item.ANIO_INICIAL = anioI;
                 item.ANIO_FINAL = anioF;
                 item.MTIPO = tipo;
@@ -220,8 +222,11 @@ namespace Ventas.Controllers.Inventario
                 row.STOCK = STOCK;
                 row.PRECIO_COSTO = PRECIO_COSTO;
                 row.PRECIO_VENTA = PRECIO_VENTA;
-                row.PATH_IMAGEN = PATH;
-                row.CREADO_POR = "RALOPEZ";//Session["usuario"].ToString();
+                
+                if (PATH != "" && PATH != null)
+                    row.PATH_IMAGEN = PATH;
+
+                row.CREADO_POR = Session["usuario"].ToString();//Session["usuario"].ToString();
                 row.MTIPO = tipo;
 
                 var lista = GetDatosInventario_(row);
@@ -239,6 +244,7 @@ namespace Ventas.Controllers.Inventario
                 return Json(new { State = -1, Message = ex.Message }, JsonRequestBehavior.AllowGet);
             }
         }
+
 
         public JsonResult CargarExcel(FormCollection formCollection)
         {
@@ -287,7 +293,7 @@ namespace Ventas.Controllers.Inventario
                                 row.NOMBRE_MARCA_VEHICULO = NullString(workSheet.Cells[rowIterator, 12].Value.ToString());
                                 row.NOMBRE_SERIE_VEHICULO = NullString(workSheet.Cells[rowIterator, 13].Value.ToString());
                                 row.NOMBRE_DISTRIBUIDOR = NullString(workSheet.Cells[rowIterator, 14].Value.ToString());
-                                row.CREADO_POR = "RALOPEZ";         // Session["usuario"].ToString();
+                                row.CREADO_POR = Session["usuario"].ToString();         // Session["usuario"].ToString();
                                 /*
                                 row.MTIPO = 5;
                                 int existeProducto = GetDatosInventario_(row).FirstOrDefault().STOCK;

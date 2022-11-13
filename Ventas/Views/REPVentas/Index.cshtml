@@ -1,0 +1,72 @@
+﻿
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section scripts{
+    <script src="~/Scripts/Reportes/REPVentas.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-polyfill/7.4.0/polyfill.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/exceljs/4.1.1/exceljs.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.2/FileSaver.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.0.0/jspdf.umd.min.js"></script>
+}
+
+<div class="card">
+    <span class="badge badge-pill badge-secondary">REPORTE DE VENTAS</span>
+    <div class="card-body">
+        <form id="formVentas">
+            <div class="row justify-content-center">
+                <div class="col-12 col-sm-6 col-md-6 col-lg-6 col-xl-3 pt-1">
+                    <div class="input-group text-center">
+                        <span class="col-form-label">FECHA INICIAL:</span>
+                        <input type="text" class="form-control" id="txtAnioI" name="txtAnioI" required readonly>
+                    </div>
+                </div>
+                <div class="col-12 col-sm-6 col-md-6 col-lg-6 col-xl-3 pt-1">
+                    <div class="input-group text-center">
+                        <span class="col-form-label">FECHA FINAL:</span>
+                        <input type="text" class="form-control" id="txtAnioF" name="txtAnioF" required readonly>
+                    </div>
+                </div>
+                <div class="col-12 col-sm-6 col-md-6 col-lg-6 col-xl-3 pt-1 text-center">
+                    <button class="btn btn-secondary" id="botonInforme"><i class="far fa-filter"></i> GENERAR REPORTE</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+@*-------------------------------CARD QUE MUESTRA LAS VENTAS-----------------------------*@
+<div class="card">
+    <span class="badge badge-pill badge-secondary">LISTADO DE VENTAS</span>
+    <div class="card-body">
+        <div class="row">
+            <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                <div class="dx-datagrid-container  col-md-12">
+                    <div id="gridContainer"></div>
+                </div>
+                <div class="col-md-12">
+                    <div id="chart"></div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+</div>
+@*----------------------------------CARD QUE MUESTRA EL TOTAL DE VENTAS--------------------------*@
+<div class="card">
+    <span class="badge badge-pill badge-secondary"></span>
+    <div class="card-body">
+        <div class="row">
+            <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 text-center">
+                <label class="h3 text-center  mt-1">TOTAL DE VENTAS:</label>
+            </div>
+            <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 text-center">
+                <label class="h1 mt-3 text-success font-weight-bold" id="totalVenta"></label>
+            </div>
+
+        </div>
+
+    </div>
+</div>

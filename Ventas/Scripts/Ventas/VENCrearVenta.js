@@ -1,4 +1,5 @@
-﻿$(document).ready(function () {
+﻿var gridProductos = null;
+$(document).ready(function () {
     //CallLoadingFire('Cargandoo-.')
     //GetListProductos();
 
@@ -15,7 +16,11 @@
         $('#txtCantidad').val(0);
         $('#txtStock').val('');
         $('#txtPrecio').val('');
-        $('#txtDescuento').val(0);
+        $('#txtDescuento').val('');
+        $('#txtDescuentoTotal').val('');
+        $('#txtSinDescuento').val('');
+        $('#txtConDescuento').val('');
+        $('#checkAutorizaDescuento').prop('checked', false);
     }
     function GetCliente(nit) {
         var tipo = 2;
@@ -38,6 +43,41 @@
                     else {
                         $('#hfIdCliente').val(CLIENTE.ID_CLIENTE);
                         $('#txtNombreCliente').val(CLIENTE.NOMBRE);
+                    }
+                }
+                else if (state == -1) {
+                    ShowAlertMessage('warning', data['Message'])
+                }
+            }
+        });
+    }
+    function GetClienteId(id) {
+
+        var tipo = 9;
+        $.ajax({
+            type: 'GET',
+            url: '/VENCrearVenta/GetClienteID',
+            contentType: "application/json; charset=utf-8",
+            dataType: 'json',
+            data: { id, tipo },
+            cache: false,
+            success: function (data) {
+                var state = data["State"];
+                if (state == 1) {
+                    var CLIENTE = data["data"];
+                    console.log(CLIENTE)
+                    if (CLIENTE == null) {
+                        ShowAlertMessage('warning', 'No existe el cliente con el nit ingresado.');
+                        ClearCustomer();
+                    }
+                    else {
+                        $('#txtNit').val(CLIENTE.NIT);
+                        $('#hfIdCliente').val(CLIENTE.ID_CLIENTE);
+                        $('#txtNombreCliente').val(CLIENTE.NOMBRE);
+                        $('#txtNombreCrear').val('');
+                        $('#txtDireccionCrear').val('');
+                        $('#txtEmailCrear').val('');
+                        $('#txtNitCrear').val('');
                     }
                 }
                 else if (state == -1) {
@@ -159,9 +199,10 @@
     var cont = 0;
     function GetDatos() {
         var tipo = 1;
-        var modelo = $('#selModelo').val();
+        var modelo = $('#txtBuscarAnio').val();
         var marcaVehiculo = $('#selMarcaVehiculo').val();
-        var nombreLinea = $('#selLinea').val();
+        var nombreLinea = $('#txtBuscarLinea').val();
+        var nombreDescripcion = $('#txtBuscarNombreDescripcion').val();
         var customStore = new DevExpress.data.CustomStore({
             load: function (loadOptions) {
                 var d = $.Deferred();
@@ -170,7 +211,7 @@
                     url: '/VENCrearVenta/GetDatosProductos',
                     contentType: "application/json; charset=utf-8",
                     dataType: 'json',
-                    data: { tipo, modelo, marcaVehiculo, nombreLinea },
+                    data: { tipo, modelo, marcaVehiculo, nombreLinea, nombreDescripcion },
                     cache: false,
                     success: function (data) {
                         var state = data["State"];
@@ -188,7 +229,7 @@
                 return d.promise();
             }
         });
-        var salesPivotGrid = $("#gridProductos").dxDataGrid({
+        gridProductos = $("#gridProductos").dxDataGrid({
             dataSource: new DevExpress.data.DataSource(customStore),
             showBorders: true,
             loadPanel: {
@@ -231,9 +272,9 @@
                     caption: 'IMAGEN',
                     cellTemplate: function (container, options) {
                         var fieldData = options.data;
-                        $("<img>").attr('src', fieldData.PATH_IMAGEN).css('width', '70px').appendTo(container);
+                        $("<img>").addClass('zoom hover').attr('src', fieldData.PATH_IMAGEN).css('width', '70px').appendTo(container);
                     }
-                },                
+                },
                 {
                     dataField: "ID_PRODUCTO",
                     caption: "ID PRODUCTO",
@@ -274,9 +315,19 @@
                     width: 115
                 },
                 {
-                    dataField: "NOMBRE",
+                    dataField: "NOMBRE_COMPLETO",
                     caption: "NOMBRE",
                     width: 400
+                },
+                {
+                    dataField: "NOMBRE_MARCA_VEHICULO",
+                    caption: "MARCA VEHICULO",
+                    width: 200
+                },
+                {
+                    dataField: "NOMBRE_LINEA_VEHICULO",
+                    caption: "LINEA VEHICULO",
+                    width: 200
                 },
                 {
                     dataField: "DESCRIPCION",
@@ -288,7 +339,7 @@
                     dataField: "NOMBRE_MODELO",
                     caption: "MODELO",
                     width: 200
-                },                
+                },
                 {
                     dataField: "CREADO_POR",
                     caption: "CREADO_POR",
@@ -303,22 +354,18 @@
                     dataField: "NOMBRE_MARCA_REPUESTO",
                     caption: "MARCA PRODUCTO",
                     width: 200
-                },
-                {
-                    dataField: "NOMBRE_MARCA_VEHICULO",
-                    caption: "MARCA VEHICULO",
-                    width: 200
-                },
-                {
-                    dataField: "NOMBRE_LINEA_VEHICULO",
-                    caption: "LINEA VEHICULO",
-                    width: 200
                 }
             ],
+            onCellClick: function (e) {
+                if (e.column.dataField == 'PATH_IMAGEN') {
+                    console.log(e.data)
+                    ZoomImage((e.data['NOMBRE_COMPLETO']), 'MARCA: ' + e.data['NOMBRE_MARCA_REPUESTO'] + '.     Stock: ' + e.data['STOCK'] + '.     Precio: Q' + e.data['PRECIO_VENTA'], e.data['PATH_IMAGEN'])
+                }
+            },
             onRowDblClick: function (e) {
                 $('#hfIdProducto').val(e.data["ID_PRODUCTO"]);
                 $('#txtCodigo').val(e.data["CODIGO"]);
-                $('#txtNombreProducto').val(e.data["NOMBRE"]);
+                $('#txtNombreProducto').val(e.data["NOMBRE_COMPLETO"]);
                 $('#txtStock').val(e.data["STOCK"]);
                 $('#txtPrecio').val(e.data["PRECIO_VENTA"]);
                 $('#hfCodigo1').val(e.data["CODIGO"]);
@@ -497,14 +544,14 @@
             }
         }).dxDataGrid('instance');
     }
-    function GetLists(selObject, tipo) {
+    function GetLists(selObject, tipo, marcaVehiculo) {
         return new Promise((resolve, reject) => {
             $.ajax({
                 type: 'GET',
-                url: '/INVMantenimiento/GetDatosTable',
+                url: '/VENCrearVenta/GetDatosTable',
                 contentType: "application/json; charset=utf-8",
                 dataType: 'json',
-                data: { tipo },
+                data: { tipo, marcaVehiculo },
                 cache: false,
                 success: function (data) {
                     var list = data["data"];
@@ -515,10 +562,7 @@
                         $(selObject).append('<option selected value="-1" disabled>Seleccione una opción</option>');
                         $(selObject).append('<option value="0">Todos</option>');
                         list.forEach(function (dato) {
-                            if (tipo == 21) {
-                                $(selObject).append('<option value="' + dato.NOMBRE_MODELO + '">' + dato.NOMBRE_MODELO + '</option>');
-                            }
-                            else if (tipo == 22) {
+                            if (tipo == 22) {
                                 $(selObject).append('<option value="' + dato.NOMBRE_MARCA_VEHICULO + '">' + dato.NOMBRE_MARCA_VEHICULO + '</option>');
                             }
                             else if (tipo == 23) {
@@ -533,42 +577,12 @@
             });
         });
     }
-    function GetListsID(selObject, tipo, id) {
-        return new Promise((resolve, reject) => {
-            $.ajax({
-                type: 'GET',
-                url: '/INVMantenimiento/GetDatosTable',
-                contentType: "application/json; charset=utf-8",
-                dataType: 'json',
-                data: { tipo, id },
-                cache: false,
-                success: function (data) {
-                    var list = data["data"];
-                    var state = data["State"];
-                    if (state == 1) {
-                        $(selObject).empty();
-                        $(selObject).append('<option selected value="-1" disabled>Seleccione una opción</option>');
-                        $(selObject).append('<option value="0">Todos</option>');
-                        list.forEach(function (dato) {
-                            if (tipo == 4) {
-                                $(selObject).append('<option value="' + dato.ID_SUBCATEGORIA + '">' + dato.NOMBRE + '</option>');
-                            }
-                            else if (tipo == 16) {
-                                $(selObject).append('<option value="' + dato.ID_SERIE_VEHICULO + '">' + dato.NOMBRE + '</option>');
-                            }
-                        });
-                        resolve(1);
-                    }
-                    else if (state == -1)
-                        alert(data["Message"])
-                }
-            });
-        });
-    }
+
     function SaveCustomer(nombre, direccion, telefono, email, nit) {
+
         $.ajax({
             type: 'GET',
-            url: "/CLIListarClientes/GuardarCliente",
+            url: "/VENCrearVenta/GuardarCliente",
             contentType: "application/json; charset=utf-8",
             dataType: 'json',
             data: {
@@ -578,9 +592,12 @@
             success: function (data) {
                 var state = data["State"];
                 if (state == 1) {
+                    var idC = data["ID_CLIENTE"];
+
+
                     ShowAlertMessage('success', 'Datos ingresados correctamente')
-                    $('#txtNit').val(nit);
-                    GetCliente(nit);
+                    //$('#txtNit').val(nit);
+                    GetClienteId(idC);
                     $('#modalCrearCliente').modal('hide');
                 }
                 else if (state == -1) {
@@ -626,7 +643,7 @@
                 var compra = data["ORDEN_COMPRA"];
                 if (state == 1) {
                     //ShowAlertMessage('success', 'Se creó la orden de compra: ' + compra.ID_VENTA)
-                    
+
                     Swal.fire({
                         icon: 'success',
                         type: 'success',
@@ -722,12 +739,21 @@
     });
     $('#btnBuscarProductos').on('click', function (e) {
         e.preventDefault();
+        /*
+        var grid = $('#gridProductos').dxDataGrid('instance');
+        grid.option('dataSource', []);
+        */
 
+        if (gridProductos != null)
+            gridProductos.option('dataSource', []);
+
+        //GetLists('#selModelo', 21)
+        $('#txtBuscarNombreDescripcion').val('');
+        $('#txtBuscarLinea').val('');
+        $('#txtBuscarAnio').val('');
+        GetLists('#selMarcaVehiculo', 22, '')
         $('#modalProductos').modal('show');
-
-        GetLists('#selModelo', 21)
-        GetLists('#selMarcaVehiculo', 22)
-        GetLists('#selLinea', 23)
+        //GetLists('#selLinea', 23)
 
     });
     $('#btnAgregarDetalle').on('click', function (e) {
@@ -828,16 +854,190 @@
         SaveCustomer(nombre, direccion, telefono, email, nit);
     });
 
-    $('#selModelo').on('change', function (e) {
-        e.preventDefault();
-        GetDatos()
-    });
+
     $('#selMarcaVehiculo').on('change', function (e) {
         e.preventDefault();
         GetDatos()
+        GetLists('#selLinea', 23, $(this).val())
     });
     $('#selLinea').on('change', function (e) {
         e.preventDefault();
         GetDatos()
     });
+
+    $("#txtBuscarAnio").keypress(function (e) {
+        var code = (e.keyCode ? e.keyCode : e.which);
+        if (code == 13) {
+            e.preventDefault();
+            GetDatos()
+        }
+    });
+    $("#txtBuscarLinea").keypress(function (e) {
+        var code = (e.keyCode ? e.keyCode : e.which);
+        if (code == 13) {
+            e.preventDefault();
+            GetDatos()
+        }
+    });
+    $("#txtBuscarNombreDescripcion").keypress(function (e) {
+        var code = (e.keyCode ? e.keyCode : e.which);
+        if (code == 13) {
+            e.preventDefault();
+
+            GetDatos()
+        }
+    });
+    $('#txtDescuento').on('keyup', function (e) {
+        e.preventDefault();
+        var cantidad = $('#txtCantidad').val();
+        var precio = $('#txtPrecio').val();
+        var descuento = $(this).val();
+        var total = 0, subtotal = 0;
+
+        if (descuento == '')
+            descuento = 0;
+        if (!$('#checkAutorizaDescuento').is(':checked')) {
+            if (parseFloat(descuento) > 25) {
+                $('#txtDescuento').val();
+                descuento = 0;
+                ShowAlertMessage('warning', 'El máximo descuento a aplicar es de 25%.');
+                $('#txtDescuentoTotal').val('');
+                $('#txtConDescuento').val('');
+                $('#txtSinDescuento').val('');
+                $('#txtDescuento').val('');
+                return;
+            }
+        }
+
+        if ($('#txtCantidad').val() == '')
+            $('#txtCantidad').val() = 0;
+        if ($('#txtPrecio').val() == '')
+            $('#txtPrecio').val() = 0;
+
+        total = parseFloat(precio) * parseFloat(cantidad);
+        var totalAux = total;
+        descuento = (descuento / 100) * total;
+        total = total - descuento;
+        $('#txtDescuentoTotal').val(formatNumber(parseFloat(descuento).toFixed(2)));
+        $('#txtConDescuento').val(formatNumber(parseFloat(total).toFixed(2)));
+        $('#txtSinDescuento').val(formatNumber(parseFloat(totalAux).toFixed(2)));
+    });
+
+
+
+    function ZoomImage(nombre, descripcion, url) {
+        Swal.fire({
+            title: nombre,
+            text: descripcion,
+            imageUrl: url,
+            imageWidth: 400,
+            imageHeight: 400,
+            imageAlt: 'Custom image',
+            confirmButtonText: 'Cerrar'
+        })
+    }
+
+
+    function GetProducto(codigo) {
+        var tipo = 10;
+        $.ajax({
+            type: 'GET',
+            url: '/VENCrearVenta/GetProductoPorCodigo',
+            contentType: "application/json; charset=utf-8",
+            dataType: 'json',
+            data: { codigo, tipo },
+            cache: false,
+            success: function (data) {
+                var state = data["State"];
+                if (state == 1) {
+                    var PROD = data["data"];
+                    console.log(PROD)
+                    if (PROD == null) {
+                        ShowAlertMessage('warning', 'No existen productos con el código ingresado.');
+                    }
+                    else {
+                        $('#hfIdProducto').val(PROD.ID_PRODUCTO);
+                        $('#txtCodigo').val(PROD.CODIGO);
+                        $('#txtNombreProducto').val(PROD.NOMBRE_COMPLETO);
+                        $('#txtStock').val(PROD.STOCK);
+                        $('#txtPrecio').val(PROD.PRECIO_VENTA);
+                        $('#hfCodigo1').val(PROD.CODIGO);
+                        $('#hfCodigo2').val(PROD.CODIGO2);
+                        $('#hfMarcaR').val(PROD.NOMBRE_MARCA_REPUESTO);
+                        $('#hfNombre').val(PROD.NOMBRE);
+                    }
+                }
+                else if (state == -1) {
+                    ShowAlertMessage('warning', data['Message'])
+                }
+            }
+        });
+    }
+    function ValidarLogin() {
+        var usuario = $('#txtUser').val();
+        var password = $('#txtPassword').val();
+        $.ajax({
+            type: 'GET',
+            url: '/VENCrearVenta/ValidarLogin',
+            contentType: "application/json; charset=utf-8",
+            dataType: 'json',
+            data: { usuario, password },
+            cache: false,
+            success: function (data) {
+                var state = data["State"];
+                if (state == 1) {
+                    $('#checkAutorizaDescuento').prop('checked', true)
+                    $('#modalValidarAutorizacion').modal('hide');
+                }
+                else {
+                    $('#checkAutorizaDescuento').prop('checked', false);
+                    $('#txtUser').val('');
+                    $('#txtPassword').val('');
+                }
+            }
+        });
+    }
+    $("#txtCodigo").keypress(function (e) {
+        var code = (e.keyCode ? e.keyCode : e.which);
+        if (code == 13) {
+            e.preventDefault();
+            var codigo = $(this).val();
+            GetProducto(codigo);
+        }
+    });
+    $('#txtCodigo').on('click', function (e) {
+        e.preventDefault();
+        ClearProducto()
+    });
+    $('#checkAutorizaDescuento').on('change', function (e) {
+        e.preventDefault();
+        if ($('#checkAutorizaDescuento').is(':checked')) {
+            $('#txtUser').val('');
+            $('#txtPassword').val('');
+            $('#modalValidarAutorizacion').modal('show');
+            $('#checkAutorizaDescuento').prop('checked', false);
+        }
+        else {
+            $('#txtDescuentoTotal').val('');
+            $('#txtConDescuento').val('');
+            $('#txtSinDescuento').val('');
+            $('#txtDescuento').val('');
+        }
+    });
+    $('#btnValidarUsuario').on('click', function (e) {
+        e.preventDefault();
+        ValidarLogin()
+    });
+
+    function ClearProducto() {
+        $('#hfIdProducto').val('');
+        $('#txtCodigo').val('');
+        $('#txtNombreProducto').val('');
+        $('#txtStock').val('');
+        $('#txtPrecio').val('');
+        $('#hfCodigo1').val('');
+        $('#hfCodigo2').val('');
+        $('#hfMarcaR').val('');
+        $('#hfNombre').val('');
+    }
 });

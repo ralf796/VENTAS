@@ -3,6 +3,7 @@
 }
 @section scripts{
     <script src="~/Scripts/Caja/CAJCobro.js"></script>
+    
 }
 
 <div class="card">
@@ -18,7 +19,9 @@
         </div>
     </div>
 </div>
+@*--------------------------------------datos---------------------------------------*@
 
+inpu
 @*---------------------------------------------MODAL DETALLE VENTA------------------------------------------------*@
 <div class="modal" id="modalDetalle" tabindex="-1">
     <div class="modal-dialog modal-xl">
@@ -40,7 +43,7 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
             </div>
         </div>
     </div>
@@ -48,7 +51,7 @@
 @*----------------------------------------------------MODAL COBRO-------------------------------------------------*@
 <div class="modal" id="modalCobro" tabindex="-1">
     <div class="modal-dialog">
-        <div class="modal-content">
+        <div class="modal-content bg-secondary">
             <div class="modal-header">
                 <h5 class="modal-title">COBRO DISTRIBUIDORA EL EDEN</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -60,15 +63,22 @@
                     <input id="hfID" type="hidden" />
                     <input id="hfOpcion" type="hidden" />
                     <input id="hfMonto" type="hidden" />
+                    <input id="hfSerie" type="hidden" />
+                    <input id="hfCorrelativo" type="hidden" />
+                    <input id="hfIDCliente" type="hidden" />
+                    <input id="hfNombreCliente" type="hidden" />
+                    <input id="hfNit" type="hidden" />
+                    <input id="hfDireccion" type="hidden" />
+                    <input id="hfSubtotal" type="hidden" />
+                    <input id="hfTotal" type="hidden" />
                     <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 text-center">
                         <label class="h3 text-center  mt-1">Total a Cobrar</label>
                     </div>
                     <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 text-center">
-                        <label class="h2 mt-3 text-danger" id="totalCobro"></label>
+                        <label class="h1 mt-3 text-success font-weight-bold" id="totalCobro"></label>
                     </div>
                     <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
                         <select class="custom-select mt-2" id="selTipoPago">
-                            <option selected disabled>SELECCIONE FORMA DE PAGO</option>
                             <option value="1">EFECTIVO</option>
                             <option value="2">TARJETA</option>
                         </select>
@@ -77,7 +87,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-success" id="btnCobrar">COBRAR</button>
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">CANCELAR</button>
+                <button type="button" class="btn btn-danger" data-dismiss="modal">CANCELAR</button>
             </div>
         </div>
     </div>
@@ -86,7 +96,7 @@
 @*------------------------------------------------MODAL ANULADO-----------------------------------------------------*@
 <div class="modal" id="modalAnulado" tabindex="-1">
     <div class="modal-dialog">
-        <div class="modal-content">
+        <div class="modal-content bg-secondary">
             <div class="modal-header">
                 <h5 class="modal-title">DISTRIBUIDORA DE REPUESTOS EL EDEN</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -105,7 +115,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-success" id="btnAnular" data-dismiss="modal">SI</button>
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">NO</button>
+                <button type="button" class="btn btn-danger" data-dismiss="modal">NO</button>
             </div>
         </div>
     </div>

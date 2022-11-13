@@ -14,6 +14,7 @@ namespace Ventas.Controllers.Usuarios
     public class USUListarUsuarioController : Controller
     {
         // GET: USUListarUsuario
+        [SessionExpireFilter]
         public ActionResult Index()
         {
             return View();
@@ -68,7 +69,7 @@ namespace Ventas.Controllers.Usuarios
                 string celular = Request.Form["celular"].ToString();
                 string telefono = Request.Form["telefono"].ToString();
                 string direccion = Request.Form["direccion"].ToString();
-                int idTipoEmpleado = Convert.ToInt16(Request.Form["idTipoEmpleado"]);
+                //int idTipoEmpleado = Convert.ToInt16(Request.Form["idTipoEmpleado"]);
                 string email = Request.Form["email"].ToString();
                 string usuario = Request.Form["usuario"].ToString();
                 string password = Request.Form["password"].ToString();
@@ -113,9 +114,9 @@ namespace Ventas.Controllers.Usuarios
                 item.DIRECCION = direccion;
                 item.CELULAR = celular;
                 item.TELEFONO = telefono;
-                item.ID_TIPO_EMPLEADO = idTipoEmpleado;
+                //item.ID_TIPO_EMPLEADO = idTipoEmpleado;
                 item.EMAIL = email;
-                item.CREADO_POR = "RALOPEZ";
+                item.CREADO_POR = Session["usuario"].ToString();
                 item.USUARIO = usuario;
                 item.PASSWORD = new Encryption().Encrypt(password.Trim());
                 item.ID_ROL = idRol;
@@ -154,10 +155,11 @@ namespace Ventas.Controllers.Usuarios
                 string telefono = Request.Form["telefono"].ToString();
                 string direccion = Request.Form["direccion"].ToString();
                 string email = Request.Form["email"].ToString();
-                int idTipoEmpleado = Convert.ToInt16(Request.Form["idTipoEmpleado"]);
+                //int idTipoEmpleado = Convert.ToInt16(Request.Form["idTipoEmpleado"]);
                 string urlFoto = Request.Form["urlFoto"].ToString();
-                int idRol = Convert.ToInt16(Request.Form["idRol"]);
+                string idRol = Request.Form["idRol"].ToString();
                 int id = Convert.ToInt16(Request.Form["id"]);
+
 
                 int estado = 1;
                 var randomNumber = new Random().Next(0, 100);
@@ -191,13 +193,16 @@ namespace Ventas.Controllers.Usuarios
                 item.PRIMER_APELLIDO = primerApellido;
                 item.SEGUNDO_APELLIDO = segundoApellido;
                 item.DIRECCION = direccion;
-                item.CELULAR = celular;
+                //item.CELULAR = celular;
                 item.TELEFONO = telefono;
-                item.ID_TIPO_EMPLEADO = idTipoEmpleado;
+                //item.ID_TIPO_EMPLEADO = idTipoEmpleado;
                 item.EMAIL = email;
-                item.CREADO_POR = "RALOPEZ";
-                item.ID_ROL = idRol;
-                item.PATH = url;
+                item.CREADO_POR = Session["usuario"].ToString();
+
+                if (idRol != "" && idRol != null && idRol != "null")
+                    item.ID_ROL = Convert.ToInt32(idRol);
+                if (url != "" && url != null)
+                    item.PATH = url;
                 item.MTIPO = 5;
                 item.ID_EMPLEADO = id;
                 var lista = GetDatosUsuario_(item);

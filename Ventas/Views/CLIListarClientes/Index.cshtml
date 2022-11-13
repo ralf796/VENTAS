@@ -57,27 +57,27 @@
                     <input id="hfOpcion" type="hidden" />
                     <div class="col-lg-12">
                         <label class="form-label" for="nombre">NOMBRE DEL CLIENTE:</label>
-                        <input type="text" name="nombre" class="form-control" value="" id="txtGuardarNombre" placeholder="NOMBRE" required />
+                        <input type="text" name="nombre" class="form-control" value="" id="txtGuardarNombre" placeholder="NOMBRE" pattern="[a-z]" required />
                     </div>
                     <div class="col-lg-12">
                         <label class="form-label" for="direccion">DIRECCION:</label>
                         <input type="text" name="direccion" class="form-control" value="" id="txtGuardarDireccion" placeholder="DIRECCION" maxlength="150" />
                     </div>
                     <div class="col-lg-12">
-                        <label class="form-label" for="telefono">TELEFONO:</label>
-                        <input type="text" name="telefono" class="form-control text-center" onkeypress="return valideKey(event);" id="txtGuardarTelefono" placeholder="TELEFONO" maxlength="8" required />
-                    </div>
-                    <div class="col-lg-12">
                         <label class="form-label" for="email">EMAIL:</label>
                         <input type="text" name="email" class="form-control" value="" id="txtGuardarEmail" placeholder="EMAIL" maxlength="50" />
                     </div>
-                    <div class="col-lg-12">
+                    <div class="col-lg-6">
+                        <label class="form-label" for="telefono">TELEFONO:</label>
+                        <input type="text" name="telefono" class="form-control text-center" onkeypress="return valideKey(event);" id="txtGuardarTelefono" placeholder="TELEFONO" maxlength="8" required />
+                    </div>
+                    <div class="col-lg-6">
                         <label class="form-label" for="nit">NIT:</label>
-                        <input type="text" name="nit" class="form-control text-center" value="" id="txtGuardarNit" placeholder="NIT" maxlength="10" />
+                        <input type="text" name="nit" class="form-control text-center" value="" id="txtGuardarNit" placeholder="NIT" maxlength="10" required />
                     </div>
                 </div>
             </div>
-            <div class="modal-footer justify-content-between">
+            <div class="modal-footer justify-content-center">
                 <button type="button" class="btn btn-danger" data-dismiss="modal">CERRAR</button>
                 <button type="button" class="btn btn-success" id="guardarClienteModal">GUARDAR</button>
             </div>

@@ -136,7 +136,7 @@
                             $('.edit' + cont).click(function (e) {
                                 var id = parseInt(fieldData.ID_PRODUCTO);
                                 $('#modalEditarProducto').modal('show');
-                                GetDatosProductoUpdate(id, fieldData.NOMBRE, fieldData.STOCK, fieldData.PRECIO_COSTO, fieldData.PRECIO_VENTA, fieldData.PATH_IMAGEN)
+                                GetDatosProductoUpdate(id, fieldData.NOMBRE, fieldData.STOCK, fieldData.PRECIO_COSTO, fieldData.PRECIO_VENTA, fieldData.PATH_IMAGEN, fieldData.DESCRIPCION)
                             })
                         }
 
@@ -159,7 +159,7 @@
                             $('.modifyStock' + cont).click(function (e) {
                                 var id = parseInt(fieldData.ID_PRODUCTO);
                                 var stock = parseInt(fieldData.STOCK);
-                                $('#hfIdProducto').text(id);
+                                $('#hfIdProducto').val(id);
                                 $('#txtStockActual').text(stock);
                                 $('#txtNuevoStock').val(0);
                                 $('#modalAddStock').modal('show');
@@ -199,8 +199,13 @@
                     }
                 },
                 {
-                    dataField: "NOMBRE",
+                    dataField: "NOMBRE_COMPLETO",
                     caption: "NOMBRE"
+                },
+                {
+                    dataField: "NOMBRE",
+                    caption: "NOMBRE",
+                    visible:false
                 },
                 {
                     dataField: "DESCRIPCION",
@@ -249,14 +254,14 @@
         }).dxDataGrid('instance');
 
     }
-    function GetDatosProductoUpdate(ID_PRODUCTO, NOMBRE, STOCK, PRECIO_COSTO, PRECIO_VENTA, PATH) {
+    function GetDatosProductoUpdate(ID_PRODUCTO, NOMBRE, STOCK, PRECIO_COSTO, PRECIO_VENTA, PATH, DESCRIPCION) {
         $('#hfIdProducto').val(ID_PRODUCTO);
         $('#txtNombre').val(NOMBRE);
+        $('#txtDescripcion').val(DESCRIPCION);
         $('#txtStock').val(STOCK);
         $('#txtPrecioCosto').val(PRECIO_COSTO);
         $('#txtPrecioVenta').val(PRECIO_VENTA);
-        $('#idFotografia').val(PATH);
-
+        //$('#idFotografia').val(PATH);
     }
     function Update_Delete_Producto(ID_PRODUCTO, NOMBRE, STOCK, PRECIO_COSTO, PRECIO_VENTA, PATH, tipo, DESCRIPCION) {
         var mensaje = '';

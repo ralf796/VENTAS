@@ -37,6 +37,10 @@ namespace Ventas_DAL
                 model.Command.Parameters.AddWithValue("@nombreModelo", item.NOMBRE_MODELO);
                 model.Command.Parameters.AddWithValue("@nombreMarcaVehiculo", item.NOMBRE_MARCA_VEHICULO);
                 model.Command.Parameters.AddWithValue("@nombreLineaVehiculo", item.NOMBRE_LINEA_VEHICULO);
+                model.Command.Parameters.AddWithValue("@anioVehiculo", item.ANIO_VEHICULO);
+                model.Command.Parameters.AddWithValue("@CODIGO", item.CODIGO);
+                model.Command.Parameters.AddWithValue("@CODIGO2", item.CODIGO2);
+                //model.Command.Parameters.AddWithValue("@NOMBREDESC", item.NOMBRE);
                 result = model.GetData<Ventas__BE>();
             }
             return result;

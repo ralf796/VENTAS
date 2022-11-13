@@ -44,13 +44,10 @@
         $('#txtEditarPrimerApellido').val(primerApellido);
         $('#txtEditarSegundoApellido').val(segundoApellido);        
         $('#txtEditarTelCasa').val(telefono);
-        $('#txtEditarDireccion').val(direccion);
-        $('#selEditarTipoEmpleado').val(tipoEmpleado);
+        $('#txtEditarDireccion').val(direccion);        
         $('#txtEditarEmail').val(email);
-        $('#selEditarRol').val(rol);
-        /*
-        $('#idFotografiaEditar').val(idPath);
-            */
+        $('#selEditarRol').val(rol);        
+        $('#idFotografiaEditar').val('');
         $('#hfId').val(id);
     }
 
@@ -153,7 +150,8 @@
             columns: [
                 {
                     dataField: 'PATH',
-                    width: 90,
+                    caption:'FOTO',
+                    width: 100,
                     cellTemplate(container, options) {
                         var fieldData = options.data;
                         $("<img>").attr('src', fieldData.PATH).css('width', '70px').appendTo(container);
@@ -179,14 +177,14 @@
                             $('.edit' + cont).click(function (e) {
                                 var id = parseInt(fieldData.ID_EMPLEADO);
                                 ClearFormCreate();
-                                GetLists('#selEditarTipoEmpleado', 2);
+                                //GetLists('#selEditarTipoEmpleado', 2);
                                 GetLists('#selEditarRol', 3);
+                                
                                 CallBtnEdit(
                                     fieldData.PRIMER_NOMBRE,
                                     fieldData.SEGUNDO_NOMBRE,
                                     fieldData.PRIMER_APELLIDO,
                                     fieldData.SEGUNDO_APELLIDO,
-                                    fieldData.CELULAR,
                                     fieldData.TELEFONO,
                                     fieldData.DIRECCION,
                                     fieldData.EMAIL,
@@ -221,12 +219,7 @@
                 {
                     dataField: "ID_EMPLEADO",
                     caption: "ID_EMPLEADO",
-                    visible: false
-                },
-                {
-                    dataField: "ID_TIPO_EMPLEADO",
-                    caption: "ID TIPO EMPLEADO",
-                    visible: false
+                    visible:false
                 },
                 {
                     dataField: "USUARIO",
@@ -236,10 +229,6 @@
                 {
                     dataField: "NOMBRE_ROL",
                     caption: "ROL"
-                },
-                {
-                    dataField: "NOMBRE_TIPO_EMPLEADO",
-                    caption: "TIPO EMPLEADO"
                 },
                 {
                     dataField: "PRIMER_NOMBRE",
@@ -255,12 +244,8 @@
                 },
                 {
                     dataField: "SEGUNDO_APELLIDO",
-                    caption: "SEGUNDO_APELLIDO"
-                },
-                {
-                    dataField: "CELULAR",
-                    caption: "CELULAR"
-                },
+                    caption: "SEGUNDO APELLIDO"
+                },                
                 {
                     dataField: "TELEFONO",
                     caption: "TELEFONO"
@@ -357,10 +342,9 @@
         var segundoNombre = $('#txtEditarSegundoNombre').val();
         var primerApellido = $('#txtEditarPrimerApellido').val();
         var segundoApellido = $('#txtEditarSegundoApellido').val();
-        var celular = $('#txtEditarCelular').val();
         var telefono = $('#txtEditarTelCasa').val();
         var direccion = $('#txtEditarDireccion').val();
-        var idTipoEmpleado = $('#selEditarTipoEmpleado').val();
+        //var idTipoEmpleado = $('#selEditarTipoEmpleado').val();
         var email = $('#txtEditarEmail').val();
         var urlFoto = $('#idFotografiaEditar').val();
         var idRol = $('#selEditarRol').val();
@@ -382,16 +366,18 @@
         formData.append('segundoNombre', segundoNombre);
         formData.append('primerApellido', primerApellido);
         formData.append('segundoApellido', segundoApellido);
-        formData.append('celular', celular);
+        //formData.append('celular', celular);
         formData.append('telefono', telefono);
         formData.append('direccion', direccion);
-        formData.append('idTipoEmpleado', idTipoEmpleado);
+        //formData.append('idTipoEmpleado', idTipoEmpleado);
         formData.append('email', email);
         formData.append('idRol', idRol);
         formData.append('urlFoto', urlFoto);
         formData.append('id', id);
-        if ($('#idFotografia')[0].files != undefined) {
-            let files = $('#idFotografia')[0].files;
+        
+        if ($('#idFotografiaEditar')[0].files != undefined) {
+            let files = $('#idFotografiaEditar')[0].files;
+            console.log(files)
             formData.append('foto', files[0]);
         }
         $.ajax({

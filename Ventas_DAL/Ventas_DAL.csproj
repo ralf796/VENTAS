@@ -42,6 +42,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Anulacion_DAL.cs" />
     <Compile Include="Base_SQL.cs" />
     <Compile Include="Caja_DAL.cs" />
     <Compile Include="Clientes_DAL.cs" />

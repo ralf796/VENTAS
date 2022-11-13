@@ -125,6 +125,18 @@ namespace Ventas.Controllers.Ventas
             lista = Inventario_BLL.GetInventario_select(item);
             return lista;
         }
+        private List<Clientes_BE> GetDatosCliente_(Clientes_BE item)
+        {
+            List<Clientes_BE> lista = new List<Clientes_BE>();
+            lista = Clientes_BLL.GetSPCliente(item);
+            return lista;
+        }
+        private List<Usuarios_BE> GetSPLogin_(Usuarios_BE item)
+        {
+            List<Usuarios_BE> lista = new List<Usuarios_BE>();
+            lista = Usuarios_BLL.GetSPLogin(item);
+            return lista;
+        }
         #endregion
 
         #region JSON_RESULTS
@@ -135,6 +147,21 @@ namespace Ventas.Controllers.Ventas
                 var item = new Ventas__BE();
                 item.MTIPO = tipo;
                 item.NIT = nit.Trim();
+                item = GetDatosSP_(item).FirstOrDefault();
+                return Json(new { State = 1, data = item }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                return Json(new { State = -1, Message = ex.Message }, JsonRequestBehavior.AllowGet);
+            }
+        }
+        public JsonResult GetClienteID(int tipo = 0, int id = 0)
+        {
+            try
+            {
+                var item = new Ventas__BE();
+                item.MTIPO = tipo;
+                item.ID_CLIENTE = id;
                 item = GetDatosSP_(item).FirstOrDefault();
                 return Json(new { State = 1, data = item }, JsonRequestBehavior.AllowGet);
             }
@@ -162,8 +189,6 @@ namespace Ventas.Controllers.Ventas
                 if (ID_MODELO != 0)
                     item.ID_MODELO = ID_MODELO;
                 var lista = GetDatosSP_(item);
-
-
 
                 return Json(new { State = 1, data = lista }, JsonRequestBehavior.AllowGet);
             }
@@ -215,11 +240,17 @@ namespace Ventas.Controllers.Ventas
                 return Json(new { State = -1, Message = ex.Message }, JsonRequestBehavior.AllowGet);
             }
         }
-        public JsonResult GetDatosProductos(int tipo = 0, int id = 0, string modelo = "", string marcaVehiculo = "", string nombreLinea = "")
+        public JsonResult GetDatosProductos(int tipo = 0, int id = 0, string modelo = "", string marcaVehiculo = "", string nombreLinea = "", string nombreDescripcion = "")
         {
             try
             {
                 var item = new Ventas__BE();
+
+
+                if (modelo.Length == 4)
+                {
+                    item.ANIO_VEHICULO = Convert.ToInt32(modelo);
+                }
                 item.MTIPO = tipo;
                 if (modelo != "" && modelo != "0")
                     item.NOMBRE_MODELO = modelo;
@@ -228,7 +259,114 @@ namespace Ventas.Controllers.Ventas
                 if (nombreLinea != "" && nombreLinea != "0")
                     item.NOMBRE_LINEA_VEHICULO = nombreLinea;
                 var lista = GetDatosSP_(item);
+
+                if (nombreLinea.Length > 2 && lista != null)
+                    lista = lista.Where(x => x.NOMBRE_SERIE_VEHICULO.Contains(nombreLinea.ToUpper())).ToList();
+
+                if (nombreDescripcion.Length > 2 && lista != null)
+                    lista = lista.Where(x => x.NOMBRE_COMPLETO.Contains(nombreDescripcion.ToUpper())).ToList();
+
                 return Json(new { State = 1, data = lista }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                return Json(new { State = -1, Message = ex.Message }, JsonRequestBehavior.AllowGet);
+            }
+        }
+        public JsonResult GuardarCliente(string nombre = "", string direccion = "", string telefono = "", string email = "", string nit = "")
+        {
+            try
+            {
+                nit = nit.Trim().Replace("-", "").Replace("-", "");
+                if (nit == "")
+                    nit = "CF";
+
+                if (direccion.Trim() == "")
+                    direccion = "Ciudad";
+
+                string respuesta = "";
+                var item = new Clientes_BE();
+                item.NOMBRE = nombre;
+                item.DIRECCION = direccion;
+                item.TELEFONO = telefono;
+                item.EMAIL = email;
+                item.NIT = nit;
+                item.CREADO_POR = Session["usuario"].ToString();
+                item.MTIPO = 1;
+                var lista = GetDatosCliente_(item);
+
+                int idCli = 0;
+                if (lista.Count > 0)
+                {
+                    if (lista.FirstOrDefault().RESPUESTA != "")
+                    {
+                        respuesta = lista.FirstOrDefault().RESPUESTA;
+                        idCli = Convert.ToInt32(lista.FirstOrDefault().ID_CLIENTE);
+                    }
+                }
+                return Json(new { State = 1, ID_CLIENTE = idCli }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+
+                return Json(new { State = -1, Message = ex.Message }, JsonRequestBehavior.AllowGet);
+            }
+        }
+        public JsonResult GetDatosTable(int tipo = 0, int id = 0, string modelo = "", string marcaVehiculo = "", string nombreLinea = "")
+        {
+            try
+            {
+                var item = new Inventario_BE();
+                item.MTIPO = tipo;
+                item.ID_UPDATE = id;
+                if (modelo != "" && modelo != "0")
+                    item.NOMBRE_MODELO = modelo;
+                if (marcaVehiculo != "" && marcaVehiculo != "0")
+                    item.NOMBRE_MARCA_VEHICULO = marcaVehiculo;
+                if (nombreLinea != "" && nombreLinea != "0")
+                    item.NOMBRE_LINEA_VEHICULO = nombreLinea;
+                var lista = GetInventario_select_(item);
+                return Json(new { State = 1, data = lista }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                return Json(new { State = -1, Message = ex.Message }, JsonRequestBehavior.AllowGet);
+            }
+        }
+        public JsonResult GetProductoPorCodigo(int tipo = 0, string codigo = "")
+        {
+            try
+            {
+                var item = new Ventas__BE();
+                item.MTIPO = tipo;
+                item.CODIGO = codigo.Trim();
+                item.CODIGO2 = codigo.Trim();
+                item = GetDatosSP_(item).FirstOrDefault();
+                return Json(new { State = 1, data = item }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                return Json(new { State = -1, Message = ex.Message }, JsonRequestBehavior.AllowGet);
+            }
+        }
+        public JsonResult ValidarLogin(string usuario = "", string password = "")
+        {
+            try
+            {
+                int estado = 0;
+                var item = new Usuarios_BE();
+                item.USUARIO = usuario.ToUpper();
+                item.PASSWORD = new Encryption().Encrypt(password.ToUpper().Trim());
+                item.MTIPO = 2;
+                item = GetSPLogin_(item).FirstOrDefault();
+                if (item != null)
+                {
+                    estado = 1;
+                }
+                else
+                    estado = 2;
+
+                return Json(new { State = estado }, JsonRequestBehavior.AllowGet);
             }
             catch (Exception ex)
             {
@@ -264,10 +402,13 @@ namespace Ventas.Controllers.Ventas
                             <h6 style='font-size:25px'>DISTRIBUIDORA DE REPUESTOS EL EDEN</h6>
                         </div>
                         <div class='form-group col-md-12'>
-                            <h6 style='font-size:22px; margin-top:-20px'>6AVE. ''A'' 12-58 ZONA 9</h6>
+                            <h6 style='font-size:22px; margin-top:-20px'>CALZADA EL MOSQUITO 2-05 ZONA 3 SAN PEDRO SACATEPEQUEZ, SAN MARCOS</h6>
                         </div>
                         <div class='form-group col-md-12'>
-                            <h6 style='font-size: 22px; margin-top:-20px'>77604455</h6>
+                            <h6 style='font-size:22px; margin-top:-20px'>NIT: 74974324</h6>
+                        </div>
+                        <div class='form-group col-md-12'>
+                            <h6 style='font-size: 22px; margin-top:-20px'>7760-8499</h6>
                         </div>
                     </div>
                 </div>
@@ -285,13 +426,13 @@ namespace Ventas.Controllers.Ventas
                 <table class='table table-sm' id='tdDatos'>
                     <thead>
                         <tr style=''>
-                            <th class='pl-2 pr-2 border text-center' style='vertical-align:middle;'>CANTIDAD</th>
-                            <th class='pl-2 pr-2 border text-center' style='vertical-align:middle;'>CÓDIGO</th>
-                            <th class='pl-2 pr-2 border text-center' style='vertical-align:middle;'>DESCRIPCIÓN</th>
-                            <th class='pl-2 pr-2 border text-center' style='vertical-align:middle;'>MARCA</th>
-                            <th class='pl-2 pr-2 border text-center' style='vertical-align:middle;'>PRECIO</th>
-                            <th class='pl-2 pr-2 border text-center' style='vertical-align:middle;'>DESCUENTO</th>
-                            <th class='pl-2 pr-2 border text-center' style='vertical-align:middle;'>SUBTOTAL</th>
+                            <th class='pl-2 pr-2 border text-center' style='vertical-align:middle; border: 1px solid'>CANTIDAD</th>
+                            <th class='pl-2 pr-2 border text-center' style='vertical-align:middle; border: 1px solid'>CÓDIGO</th>
+                            <th class='pl-2 pr-2 border text-center' style='vertical-align:middle; border: 1px solid'>DESCRIPCIÓN</th>
+                            <th class='pl-2 pr-2 border text-center' style='vertical-align:middle; border: 1px solid'>MARCA</th>
+                            <th class='pl-2 pr-2 border text-center' style='vertical-align:middle; border: 1px solid'>PRECIO</th>
+                            <th class='pl-2 pr-2 border text-center' style='vertical-align:middle; border: 1px solid'>DESCUENTO</th>
+                            <th class='pl-2 pr-2 border text-center' style='vertical-align:middle; border: 1px solid'>SUBTOTAL</th>
                         </tr>
                     </thead>
                     <tbody id='tbodyListado'>");
@@ -303,26 +444,26 @@ namespace Ventas.Controllers.Ventas
                 desc = (dato.DESCUENTO);
 
                 html.AppendLine("<tr>");
-                html.AppendLine($"<td class='text-center'>{dato.CANTIDAD}</td>");
-                html.AppendLine($"<td class='text-left'>{dato.CODIGO} - {dato.CODIGO2}</td>");
-                html.AppendLine($"<td class='text-left'>{dato.NOMBRE_PRODUCTO}</td>");
-                html.AppendLine($"<td class='text-left'>{dato.NOMBRE_MARCA_REPUESTO}</td>");
-                html.AppendLine($"<td class='text-right'>{dato.PRECIO_VENTA.ToString("N2")}</td>");
-                html.AppendLine($"<td class='text-right'>{dato.TOTAL_DESCUENTO.ToString("N2")}</td>");
-                html.AppendLine($"<td class='text-right'>{((dato.CANTIDAD * dato.PRECIO_VENTA) - dato.DESCUENTO).ToString("N2")}</td>");
+                html.AppendLine($"<td class='text-center' style='border-bottom: 1px solid;border-top: 1px solid'>{dato.CANTIDAD}</td>");
+                html.AppendLine($"<td class='text-left' style='border-bottom: 1px solid'>{dato.CODIGO} - {dato.CODIGO2}</td>");
+                html.AppendLine($"<td class='text-left' style='border-bottom: 1px solid'>{dato.NOMBRE_PRODUCTO}</td>");
+                html.AppendLine($"<td class='text-left' style='border-bottom: 1px solid'>{dato.NOMBRE_MARCA_REPUESTO}</td>");
+                html.AppendLine($"<td class='text-right' style='border-bottom: 1px solid'>{dato.PRECIO_VENTA.ToString("N2")}</td>");
+                html.AppendLine($"<td class='text-right' style='border-bottom: 1px solid'>{dato.TOTAL_DESCUENTO.ToString("N2")}</td>");
+                html.AppendLine($"<td class='text-right' style='border-bottom: 1px solid'>{((dato.CANTIDAD * dato.PRECIO_VENTA) - dato.DESCUENTO).ToString("N2")}</td>");
                 html.AppendLine("</tr>");
                 total += (dato.CANTIDAD * dato.PRECIO_VENTA);
-                descuento += dato.DESCUENTO;
+                descuento += dato.TOTAL_DESCUENTO;
             }
             html.AppendLine($@"</tbody>
                 </table>
             </div>
             <div class='row'>
-                <div class='col-md-12 pl-5'>
-                    <b>TOTAL :</b> {total}<br>
-                    <b>DESCUENTO:</b> {descuento}<br>
-                    <b>TOTAL A PAGAR:</b> {total}<br>
-                    <b>TOTAL EN LETRAS: </b> {new NumeroLetra().Convertir(total.ToString(), true)}<br>
+                <div class='col-md-12 pl-5'style='font-size:20px'>
+                    <b style='font-size:20px'>TOTAL SIN DESCUENTO:</b> {total.ToString("N2")}<br>
+                    <b style='font-size:20px'>DESCUENTO:</b> {descuento.ToString("N2")}<br>
+                    <b style='font-size:20px'>TOTAL CON DESCUENTO:</b> {(total - descuento).ToString("N2")}<br>
+                    <b style='font-size:23px'>TOTAL CON DESCUENTO EN LETRAS: </b> {new NumeroLetra().Convertir((total - descuento).ToString(), true)}<br>
                 </div>
             </div>
             <div class='row pt-5'>

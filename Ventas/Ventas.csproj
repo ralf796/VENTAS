@@ -2647,6 +2647,7 @@
     <Content Include="Dll\ZXing.Net.0.16.8\lib\wp8\zxing.wp8.0.XML" />
     <Content Include="Dll\ZXing.Net.0.16.8\logo.jpg" />
     <Content Include="Global.asax" />
+    <Content Include="Scripts\Anulaciones\ANUCrearAnulacionVenta.js" />
     <Content Include="Scripts\Caja\CAJCobro.js" />
     <Content Include="Scripts\Caja\CAJCorte.js" />
     <Content Include="Scripts\Clientes\CLIListarClientes.js" />
@@ -2665,7 +2666,15 @@
     <Content Include="Scripts\Inventario\SerieVehiculo.js" />
     <Content Include="Scripts\Inventario\Subcategoria.js" />
     <Content Include="Scripts\Login\HomeLogin.js" />
+    <Content Include="Scripts\Reportes\REPCobros.js" />
+    <Content Include="Scripts\Reportes\REPCortes.js" />
+    <Content Include="Scripts\Reportes\REPGeneral.js" />
+    <Content Include="Scripts\Reportes\REPProductos.js" />
+    <Content Include="Scripts\Reportes\REPProductosGeneral.js" />
+    <Content Include="Scripts\Reportes\REPProductoUnico.js" />
+    <Content Include="Scripts\Reportes\REPVentas.js" />
     <Content Include="Scripts\Ventas\VENCrearVenta.js" />
+    <Content Include="Scripts\Ventas\VENPendientes.js" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
@@ -2673,14 +2682,23 @@
     <Compile Include="Class\Encryption.cs" />
     <Compile Include="Class\NumeroLetra.cs" />
     <Compile Include="Class\SessionExpireFilterAttribute.cs" />
+    <Compile Include="Controllers\Anulaciones\ANUCrearAnulacionVentaController.cs" />
     <Compile Include="Controllers\Caja\CAJCobroController.cs" />
     <Compile Include="Controllers\Caja\CAJCorteController.cs" />
     <Compile Include="Controllers\Clientes\CLIListarClientesController.cs" />
     <Compile Include="Controllers\DefaultController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\Inventario\INVMantenimientoController.cs" />
+    <Compile Include="Controllers\Reportes\REPCobrosController.cs" />
+    <Compile Include="Controllers\Reportes\REPCortesController.cs" />
+    <Compile Include="Controllers\Reportes\REPGeneralController.cs" />
+    <Compile Include="Controllers\Reportes\REPProductosController.cs" />
+    <Compile Include="Controllers\Reportes\REPProductosGeneralController.cs" />
+    <Compile Include="Controllers\Reportes\REPProductoUnicoController.cs" />
+    <Compile Include="Controllers\Reportes\REPVentasController.cs" />
     <Compile Include="Controllers\Usuarios\USUListarUsuarioController.cs" />
     <Compile Include="Controllers\Ventas\VENCrearVentaController.cs" />
+    <Compile Include="Controllers\Ventas\VENPendientesController.cs" />
     <Compile Include="Controllers\WS\AppController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -3336,6 +3354,15 @@
     <Content Include="Views\Shared\_LoadingFire.cshtml" />
     <Content Include="Views\CAJCorte\Index.cshtml" />
     <Content Include="Views\CAJCobro\Index.cshtml" />
+    <Content Include="Views\REPCobros\Index.cshtml" />
+    <Content Include="Views\REPCortes\Index.cshtml" />
+    <Content Include="Views\REPGeneral\Index.cshtml" />
+    <Content Include="Views\REPProductos\Index.cshtml" />
+    <Content Include="Views\REPVentas\Index.cshtml" />
+    <Content Include="Views\VENPendientes\Index.cshtml" />
+    <Content Include="Views\REPProductosGeneral\Index.cshtml" />
+    <Content Include="Views\ANUCrearAnulacionVenta\Index.cshtml" />
+    <Content Include="Views\REPProductoUnico\Index.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -3346,9 +3373,7 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Content\Fotografias\" />
-    <Folder Include="Controllers\Reportes\" />
     <Folder Include="Models\" />
-    <Folder Include="Scripts\Reportes\" />
     <Folder Include="Views\App\" />
     <Folder Include="Views\Login\" />
   </ItemGroup>

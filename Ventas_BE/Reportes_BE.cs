@@ -8,5 +8,43 @@ namespace Ventas_BE
 {
     public class Reportes_BE
     {
+        public DateTime FECHA_INICIAL { get; set; }
+        public DateTime FECHA_FINAL { get; set; }
+        public DateTime FECHA_CREACION { get; set; }
+        public DateTime FECHA_CORTE { get; set; }
+        public int ID_VENTA { get; set; }
+        public int ID_COBRO { get; set; }
+        public int ID_CORTE { get; set; }
+        public decimal TOTAL { get; set; }
+        public string CREADO_POR { get; set; }
+        public int ESTADO { get; set; }
+        public int MTIPO { get; set; }
+        public string FECHA_CREACION_STRING { get; set; }
+        public decimal TOTAL_VENTA { get; set; }
+        public string NOMBRE { get; set; }
+        public int CANTIDAD { get; set; }
+        public decimal MONTO { get; set; }
+        public string SERIE { get; set; }
+        public decimal SUBTOTAL { get; set; }
+        public decimal TOTAL_DESCUENTO { get; set; }
+        public string DESCRIPCION { get; set; }
+        public decimal PRECIO_COSTO { get; set; }
+        public decimal PRECIO_VENTA { get; set; }
+        public int STOCK { get; set; }
+        public string CODIGO { get; set; }
+        public string CODIGO2 { get; set; }
+        public string TIPO_COBRO { get; set; }
+        public decimal TOTAL_EFECTIVO { get; set; }
+        public decimal TOTAL_TARJETA { get; set; }
+        public string CAJERO_CORTE { get; set; }
+        public string CAJERO_COBRO { get; set; }
+        public decimal CORRELATIVO { get; set; }
+        public string NIT { get; set; }
+        public string TELEFONO { get; set; }
+        public string DIRECCION { get; set; }
+        public string NOMBRE_PRODUCTO { get; set; }
+        public decimal PRECIO_UNITARIO { get; set; }
+        public decimal DESCUENTO { get; set; }
+        public string RESPUESTA { get; set; }
     }
 }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using GenesysOracleSV.Clases;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -10,6 +11,7 @@ namespace Ventas.Controllers.Caja
     public class CAJCorteController : Controller
     {
         // GET: CAJCorte
+        [SessionExpireFilterAttribute]
         public ActionResult Index()
         {
             return View();
@@ -20,6 +22,9 @@ namespace Ventas.Controllers.Caja
             lista = Caja_BLL.GetSPCaja(item);
             return lista;
         }
+
+        //-------------------funcion getcorte--------------------
+        [SessionExpireFilter]
         public JsonResult GetCorte()
         {
             try
@@ -40,12 +45,61 @@ namespace Ventas.Controllers.Caja
             }
         }
         /*funcion que aplica corte*/
+        [SessionExpireFilter]
         public JsonResult GetAplicarCorte()
         {
             try
             {
                 var item = new Caja_BE();
+                item.CREADO_POR= Session["usuario"].ToString();
                 item.MTIPO = 6;
+                var lista = GetDatosCaja_(item);
+                return Json(new { State = 1, data = lista }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                return Json(new { State = -1, Message = ex.Message }, JsonRequestBehavior.AllowGet);
+
+            }
+        }
+        /*---------------funcion Total Venta----------------------*/
+        [SessionExpireFilter]
+        public JsonResult TotalVentaCorte()
+        {
+            try
+            {
+                var item = new Caja_BE();
+                item.MTIPO = 7;
+                var lista = GetDatosCaja_(item);
+                return Json(new { State = 1, data = lista }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                return Json(new { State = -1, Message = ex.Message }, JsonRequestBehavior.AllowGet);
+
+            }
+        }
+        public JsonResult GetTotalTarjeta()
+        {
+            try
+            {
+                var item = new Caja_BE();
+                item.MTIPO = 8;
+                var lista = GetDatosCaja_(item);
+                return Json(new { State = 1, data = lista }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                return Json(new { State = -1, Message = ex.Message }, JsonRequestBehavior.AllowGet);
+
+            }
+        }
+        public JsonResult GetTotalEfectivo()
+        {
+            try
+            {
+                var item = new Caja_BE();
+                item.MTIPO = 9;
                 var lista = GetDatosCaja_(item);
                 return Json(new { State = 1, data = lista }, JsonRequestBehavior.AllowGet);
             }

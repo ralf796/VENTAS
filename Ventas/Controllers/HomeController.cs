@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.Security;
 using Ventas_BE;
 using Ventas_BLL;
 
@@ -31,12 +32,9 @@ namespace Ventas.Controllers
                 item.USUARIO = usuario.ToUpper();
                 item.PASSWORD = new Encryption().Encrypt(password.ToUpper().Trim());
                 item.MTIPO = 1;
-                var lista = new List<Usuarios_BE>();
-                lista = GetSPLogin_(item);
-                if (lista != null)
+                item = GetSPLogin_(item).FirstOrDefault();
+                if (item != null)
                 {
-                    item = lista.FirstOrDefault();
-
                     Session["id_usuario"] = item.ID_USUARIO.ToString().ToUpper();
                     Session["usuario"] = item.USUARIO.ToString().ToUpper();
                     Session["primer_nombre"] = item.PRIMER_NOMBRE.ToUpper();
@@ -61,6 +59,13 @@ namespace Ventas.Controllers
             {
                 return Json(new { State = -1, Message = ex.Message }, JsonRequestBehavior.AllowGet);
             }
+        }
+
+        public ActionResult CerrarSesion()
+        {
+            FormsAuthentication.SignOut();
+            Session.Abandon();
+            return RedirectToAction("Index");
         }
 
         /*

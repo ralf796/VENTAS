@@ -1,0 +1,47 @@
+﻿
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section scripts{
+    <script src="~/Scripts/Reportes/REPProductoUnico.js"></script>
+}
+<div class="card">
+    <span class="badge badge-pill badge-secondary">REPORTE PRODUCTOS MAS VENDIDO</span>
+    <div class="card-body">
+        <form id="formVentas">
+            <div class="row justify-content-center">
+                <div class="col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6 pt-1">
+                    <div class="input-group text-center">
+                        <span class="col-form-label">CODIGO DE PRODUCTO A BUSCAR:</span>
+                        <input type="text" class="form-control text-center" id="txtProducto2" name="txtProducto2" required>
+                    </div>
+                </div>
+                <div class="col-12 col-sm-6 col-md-6 col-lg-6 col-xl-3 pt-1 text-center">
+                    <button class="btn btn-secondary" id="botonInforme"><i class="far fa-filter"></i> GENERAR INFORME</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+@*-------------------------------CARD QUE MUESTRA LOS PRODUCTOS-----------------------------*@
+<div class="card">
+    <span class="badge badge-pill badge-secondary"></span>
+    <div class="card-body">
+        <div class="row">
+            <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                <div class="demo-container">
+                    <div id="exportButton"></div>
+                    <div id="gridContainer"></div>
+                </div>
+                @*<div class="col-md-12">
+                    <div id="chart"></div>
+                </div>*@
+            </div>
+
+        </div>
+
+    </div>
+</div>
