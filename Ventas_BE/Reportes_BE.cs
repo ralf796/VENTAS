@@ -46,5 +46,7 @@ namespace Ventas_BE
         public decimal PRECIO_UNITARIO { get; set; }
         public decimal DESCUENTO { get; set; }
         public string RESPUESTA { get; set; }
+        public string NOMBRE_COMPLETO { get; set; }
+        public string DESCRIPCION_BITACORA { get; set; }
     }
 }

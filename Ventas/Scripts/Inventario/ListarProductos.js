@@ -205,7 +205,7 @@
                 {
                     dataField: "NOMBRE",
                     caption: "NOMBRE",
-                    visible:false
+                    visible: false
                 },
                 {
                     dataField: "DESCRIPCION",
@@ -343,11 +343,78 @@
         var ID_PRODUCTO = $('#hfIdProducto').val();
         var NOMBRE = '';
         var STOCK = $('#txtNuevoStock').val();
+        var STOCK_actual = $('#txtStockActual').text();
         var PRECIO_COSTO = 0;
         var PRECIO_VENTA = 0;
         var PATH = '';
         var tipo = 6;
+        var nuevo = parseFloat(STOCK_actual) + parseFloat(STOCK);
 
-        Update_Delete_Producto(ID_PRODUCTO, NOMBRE, STOCK, PRECIO_COSTO, PRECIO_VENTA, PATH, tipo, '');
+        if (parseFloat(nuevo) < parseFloat(STOCK_actual)) {
+            $('#txtUser').val('');
+            $('#txtPassword').val('');
+            $('#modalValidarAutorizacion').modal('show');
+        }
+        else {
+            SwalUpdate(nuevo, STOCK_actual, ID_PRODUCTO, NOMBRE, STOCK, PRECIO_COSTO, PRECIO_VENTA, PATH, tipo)
+        }
+    });
+
+    function SwalUpdate(nuevo, STOCK_actual, ID_PRODUCTO, NOMBRE, STOCK, PRECIO_COSTO, PRECIO_VENTA, PATH, tipo) {
+        Swal.fire({
+            title: 'ACTUALIZACIÓN',
+            //text: 'Stock actual: ' + STOCK_actual,
+            html: 'Stock actual: <h3>' + STOCK_actual + '</h3><br/>Nuevo stock: <h3>' + nuevo + '</h3><br/>¿Confirmas la actualización?',
+            icon: 'info',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Si, actualizar',
+            cancelButtonText: 'No'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                Update_Delete_Producto(ID_PRODUCTO, NOMBRE, STOCK, PRECIO_COSTO, PRECIO_VENTA, PATH, tipo, '');
+            }
+        })
+    }
+
+    function ValidarLogin(nuevo, STOCK_actual, ID_PRODUCTO, NOMBRE, STOCK, PRECIO_COSTO, PRECIO_VENTA, PATH, tipo) {
+        var usuario = $('#txtUser').val();
+        var password = $('#txtPassword').val();
+        $.ajax({
+            type: 'GET',
+            url: '/VENCrearVenta/ValidarLogin',
+            contentType: "application/json; charset=utf-8",
+            dataType: 'json',
+            data: { usuario, password },
+            cache: false,
+            success: function (data) {
+                var state = data["State"];
+                if (state == 1) {
+                    Update_Delete_Producto(ID_PRODUCTO, NOMBRE, STOCK, PRECIO_COSTO, PRECIO_VENTA, PATH, tipo, '');
+                    $('#modalValidarAutorizacion').modal('hide');
+                }
+                else {
+                    $('#txtUser').val('');
+                    $('#txtPassword').val('');
+                }
+            }
+        });
+    }
+    $('#btnValidarUsuario').on('click', function (e) {
+        e.preventDefault();
+
+        var ID_PRODUCTO = $('#hfIdProducto').val();
+        var NOMBRE = '';
+        var STOCK = $('#txtNuevoStock').val();
+        var STOCK_actual = $('#txtStockActual').text();
+        var PRECIO_COSTO = 0;
+        var PRECIO_VENTA = 0;
+        var PATH = '';
+        var tipo = 6;
+        var nuevo = parseFloat(STOCK_actual) + parseFloat(STOCK);
+
+        ValidarLogin(nuevo, STOCK_actual, ID_PRODUCTO, NOMBRE, STOCK, PRECIO_COSTO, PRECIO_VENTA, PATH, tipo)
+
     });
 });

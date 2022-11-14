@@ -171,7 +171,8 @@ $(document).ready(function () {
                 {
                     dataField: "TELEFONO",
                     caption: "TELEFONO",
-                    alignment: "center"
+                    alignment: "center",
+                    visible:false
                 },
                 {
                     dataField: "DIRECCION",
@@ -246,9 +247,9 @@ $(document).ready(function () {
     }
 
     /*----------------------------boton informe-----------------------------*/
-    $('#botonGeneral').on('click', function (e) {
+    $('#botonInforme').on('click', function (e) {
         e.preventDefault();
-
+        
         if (fechaI.lastSelectedDate != undefined && fechaF.lastSelectedDate != undefined) {
             let fechaInicial = DateFormat(fechaI.lastSelectedDate);
             let fechaFinal = DateFormat(fechaF.lastSelectedDate);

@@ -2666,6 +2666,7 @@
     <Content Include="Scripts\Inventario\SerieVehiculo.js" />
     <Content Include="Scripts\Inventario\Subcategoria.js" />
     <Content Include="Scripts\Login\HomeLogin.js" />
+    <Content Include="Scripts\Reportes\REPBitacora.js" />
     <Content Include="Scripts\Reportes\REPCobros.js" />
     <Content Include="Scripts\Reportes\REPCortes.js" />
     <Content Include="Scripts\Reportes\REPGeneral.js" />
@@ -2689,6 +2690,7 @@
     <Compile Include="Controllers\DefaultController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\Inventario\INVMantenimientoController.cs" />
+    <Compile Include="Controllers\Reportes\REPBitacoraController.cs" />
     <Compile Include="Controllers\Reportes\REPCobrosController.cs" />
     <Compile Include="Controllers\Reportes\REPCortesController.cs" />
     <Compile Include="Controllers\Reportes\REPGeneralController.cs" />
@@ -2696,6 +2698,7 @@
     <Compile Include="Controllers\Reportes\REPProductosGeneralController.cs" />
     <Compile Include="Controllers\Reportes\REPProductoUnicoController.cs" />
     <Compile Include="Controllers\Reportes\REPVentasController.cs" />
+    <Compile Include="Controllers\Soporte\SOPGeneralController.cs" />
     <Compile Include="Controllers\Usuarios\USUListarUsuarioController.cs" />
     <Compile Include="Controllers\Ventas\VENCrearVentaController.cs" />
     <Compile Include="Controllers\Ventas\VENPendientesController.cs" />
@@ -3363,6 +3366,7 @@
     <Content Include="Views\REPProductosGeneral\Index.cshtml" />
     <Content Include="Views\ANUCrearAnulacionVenta\Index.cshtml" />
     <Content Include="Views\REPProductoUnico\Index.cshtml" />
+    <Content Include="Views\REPBitacora\Index.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -3376,6 +3380,7 @@
     <Folder Include="Models\" />
     <Folder Include="Views\App\" />
     <Folder Include="Views\Login\" />
+    <Folder Include="Views\SOPGeneral\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Ventas_BE\Ventas_BE.csproj">

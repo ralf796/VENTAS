@@ -29,6 +29,7 @@ namespace Ventas.Controllers
             {
                 string url = "";
                 var item = new Usuarios_BE();
+                item.EMAIL= usuario.ToUpper();
                 item.USUARIO = usuario.ToUpper();
                 item.PASSWORD = new Encryption().Encrypt(password.ToUpper().Trim());
                 item.MTIPO = 1;
@@ -49,6 +50,11 @@ namespace Ventas.Controllers
 
                     item.URL_PANTALLA = url;
                     Session["url_pantalla"] = url;
+
+                    List<Usuarios_BE> Accesos = new List<Usuarios_BE>();
+                    item.MTIPO = 3;
+                    Accesos = GetSPLogin_(item);
+                    Session["lista_accesos"] = Accesos;
                 }
                 else
                     item = null;
@@ -60,7 +66,34 @@ namespace Ventas.Controllers
                 return Json(new { State = -1, Message = ex.Message }, JsonRequestBehavior.AllowGet);
             }
         }
+        public JsonResult ChangePassword(string correo = "",string usuario="", string password = "")
+        {
+            try
+            {
+                string url = "";
+                var item = new Usuarios_BE();
+                item.USUARIO = usuario.ToUpper().Trim();
+                item.PASSWORD = "";
+                item.EMAIL = correo.ToUpper().Trim();
+                item.MTIPO = 5;
+                item = GetSPLogin_(item).FirstOrDefault();
+                if (item != null)
+                {
+                    item.MTIPO = 6;
+                    item.USUARIO = usuario.ToUpper().Trim();
+                    item.PASSWORD = new Encryption().Encrypt(password.ToUpper().Trim());
+                    item = GetSPLogin_(item).FirstOrDefault();
+                }
+                else
+                    item = null;
 
+                return Json(new { State = 1, data = item }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                return Json(new { State = -1, Message = ex.Message }, JsonRequestBehavior.AllowGet);
+            }
+        }
         public ActionResult CerrarSesion()
         {
             FormsAuthentication.SignOut();

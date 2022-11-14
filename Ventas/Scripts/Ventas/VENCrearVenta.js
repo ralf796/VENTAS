@@ -922,6 +922,44 @@ $(document).ready(function () {
         $('#txtConDescuento').val(formatNumber(parseFloat(total).toFixed(2)));
         $('#txtSinDescuento').val(formatNumber(parseFloat(totalAux).toFixed(2)));
     });
+    $('#txtCantidad').on('keyup', function (e) {
+        e.preventDefault();
+        var cantidad = $('#txtCantidad').val();
+        var precio = $('#txtPrecio').val();
+        var descuento = $('#txtDescuento').val();
+        var total = 0, subtotal = 0;
+
+
+
+        if (descuento == '') {
+            descuento = 0;
+        }
+        if (!$('#checkAutorizaDescuento').is(':checked')) {
+            if (parseFloat(descuento) > 25) {
+                $('#txtDescuento').val();
+                descuento = 0;
+                ShowAlertMessage('warning', 'El máximo descuento a aplicar es de 25%.');
+                $('#txtDescuentoTotal').val('');
+                $('#txtConDescuento').val('');
+                $('#txtSinDescuento').val('');
+                $('#txtDescuento').val('');
+                return;
+            }
+        }
+
+        if ($('#txtCantidad').val() == '')
+            $('#txtCantidad').val() = 0;
+        if ($('#txtPrecio').val() == '')
+            $('#txtPrecio').val() = 0;
+
+        total = parseFloat(precio) * parseFloat(cantidad);
+        var totalAux = total;
+        descuento = (descuento / 100) * total;
+        total = total - descuento;
+        $('#txtDescuentoTotal').val(formatNumber(parseFloat(descuento).toFixed(2)));
+        $('#txtConDescuento').val(formatNumber(parseFloat(total).toFixed(2)));
+        $('#txtSinDescuento').val(formatNumber(parseFloat(totalAux).toFixed(2)));
+    });
 
 
 

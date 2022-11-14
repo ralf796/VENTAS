@@ -33,7 +33,7 @@ namespace Ventas.Controllers.Reportes
                 item.FECHA_FINAL = Convert.ToDateTime(fechaFinal);
                 var lista = GetSPReportes_(item);
                 foreach (var row in lista)
-                    row.FECHA_CREACION_STRING = row.FECHA_CREACION.ToString("dd/MM/yyyy hh:mm TT");
+                    row.FECHA_CREACION_STRING = row.FECHA_CREACION.ToString("dd/MM/yyyy hh:mm tt");
                 return Json(new { State = 1, data = lista }, JsonRequestBehavior.AllowGet);
             }
             catch (Exception ex)

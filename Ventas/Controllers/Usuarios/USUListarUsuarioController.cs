@@ -26,7 +26,12 @@ namespace Ventas.Controllers.Usuarios
             lista = Usuarios_BLL.GetSPUsuario(item);
             return lista;
         }
-
+        private List<Usuarios_BE> GetSPLogin_(Usuarios_BE item)
+        {
+            List<Usuarios_BE> lista = new List<Usuarios_BE>();
+            lista = Usuarios_BLL.GetSPLogin(item);
+            return lista;
+        }
         public JsonResult GetLists(int tipo)
         {
             try
@@ -79,6 +84,9 @@ namespace Ventas.Controllers.Usuarios
                 int estado = 1;
                 var randomNumber = new Random().Next(0, 100);
                 string path = "", url = "";
+
+                if(ExisteUsuario(usuario))
+                    return Json(new { State = 5}, JsonRequestBehavior.AllowGet);
 
                 //int tipo = Convert.ToInt32(Request.Form["tipo"]);
                 HttpPostedFileBase file = Request.Files["foto"];
@@ -248,6 +256,21 @@ namespace Ventas.Controllers.Usuarios
             {
                 return Json(new { State = -1, Message = ex.Message }, JsonRequestBehavior.AllowGet);
             }
+        }
+
+        private bool ExisteUsuario(string usuario="")
+        {
+            bool resultado = false;
+            var item = new Usuarios_BE();
+            item.USUARIO = usuario.ToUpper();
+            item.PASSWORD = "";
+            item.MTIPO = 4;
+            item = GetSPLogin_(item).FirstOrDefault();
+            if (item != null)
+            {
+                resultado = true;
+            }
+            return resultado;
         }
     }
 }

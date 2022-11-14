@@ -1,7 +1,5 @@
 ﻿$(document).ready(function () {
-    $("#acordion").accordion({
-        collapsible: true
-    });
+    $('#modalCrearUsuario').modal('show');
 
     //GetLists('#selGuardarTipoEmpleado', 2);
     GetLists('#selGuardarRol', 3);
@@ -332,6 +330,9 @@
                     ClearFormCreate();
                     GetDatos();
                     $('#modalCrearUsuario').modal('hide');
+                }
+                else if (data["State"] == 5) {
+                    ShowAlertMessage('warning', 'El usuario: ' + usuario +' ya existe.');
                 }
             }
         });
