@@ -42,7 +42,7 @@ namespace Ventas_DAL
             {
                 model.Command.Parameters.AddWithValue("@USUARIO", item.USUARIO);
                 model.Command.Parameters.AddWithValue("@PASSWORD", item.PASSWORD);
-                //model.Command.Parameters.AddWithValue("@CORREO", item.EMAIL);
+                model.Command.Parameters.AddWithValue("@CORREO", item.EMAIL);
                 model.Command.Parameters.AddWithValue("@MTIPO", item.MTIPO);
                 result = model.GetData<Usuarios_BE>();
             }

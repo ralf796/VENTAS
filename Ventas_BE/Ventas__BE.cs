@@ -22,6 +22,7 @@ namespace Ventas_BE
         public string CODIGO { get; set; }
         public string DESCRIPCION { get; set; }
         public decimal PRECIO_VENTA { get; set; }
+        public decimal PRECIO_COSTO { get; set; }
         public int ID_PRODUCTO { get; set; }
         public int STOCK { get; set; }
         public string NOMBRE_MARCA_REPUESTO { get; set; }

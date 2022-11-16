@@ -387,10 +387,15 @@ namespace Ventas.Controllers.Ventas
             try
             {
                 int estado = 0;
+                string codigo = "";
                 var item = new Inventario_BE();
                 item.ID_PRODUCTO = ID_PRODUCTO;
-                item.NOMBRE = NOMBRE;
-                item.DESCRIPCION = DESCRIPCION;
+
+                if (NOMBRE != "")
+                    item.NOMBRE = NOMBRE;
+
+                if (DESCRIPCION != "")
+                    item.DESCRIPCION = DESCRIPCION;
                 item.STOCK = 0;
                 item.PRECIO_COSTO = PRECIO_COSTO;
                 item.PRECIO_VENTA = PRECIO_VENTA;
@@ -399,12 +404,15 @@ namespace Ventas.Controllers.Ventas
                 item.CODIGO = usuarioModifica;
                 item = GetDatosInventario_(item).FirstOrDefault();
                 if (item != null)
+                {
                     estado = 1;
+                    codigo = item.CODIGO;
+                }
                 else
                     estado = 2;
 
 
-                return Json(new { State = estado, data = item }, JsonRequestBehavior.AllowGet);
+                return Json(new { State = estado, data = item, CODIGO=codigo }, JsonRequestBehavior.AllowGet);
             }
             catch (Exception ex)
             {

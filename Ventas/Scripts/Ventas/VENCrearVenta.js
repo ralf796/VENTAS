@@ -376,7 +376,7 @@ $(document).ready(function () {
                 $('#txtNombreProducto').val(e.data["NOMBRE_COMPLETO"]);
                 $('#txtStock').val(e.data["STOCK"]);
                 $('#txtPrecio').val(e.data["PRECIO_VENTA"]);
-                $('#txtPrecio').attr('title', e.data["PRECIO_COSTO"]);
+                $('#txtPrecio').attr('title', 'PRECIO COSTO:  ' + e.data["PRECIO_COSTO"]);
                 $('#hfCodigo1').val(e.data["CODIGO"]);
                 $('#hfCodigo2').val(e.data["CODIGO2"]);
                 $('#hfMarcaR').val(e.data["NOMBRE_MARCA_REPUESTO"]);
@@ -402,7 +402,7 @@ $(document).ready(function () {
                     if (state == 1) {
                         console.log(list)
                         $(selObject).empty();
-                        $(selObject).append('<option selected value="-1" disabled>Seleccione una opción</option>');                        
+                        $(selObject).append('<option selected value="-1" disabled>Seleccione una opción</option>');
                         list.forEach(function (dato) {
                             if (tipo == 22) {
                                 $(selObject).append('<option value="' + dato.NOMBRE_MARCA_VEHICULO + '">' + dato.NOMBRE_MARCA_VEHICULO + '</option>');
@@ -923,12 +923,17 @@ $(document).ready(function () {
         $('#txtDescripcionAutProd').val('');
         $('#txtAutPrecioCosto').val('');
         $('#txtAutPrecioVenta').val('');
-        $('#modalAutProd').modal('show');
+
+        var ID_PRODUCTO = $('#hfIdProducto').val();
+        if (ID_PRODUCTO == '')
+            ShowAlertMessage('warning', 'Debes seleccionar un producto.')
+        else
+            $('#modalAutProd').modal('show');
     });
 
-    function ValidarAutorizacionEditarProducto(usuario, nombre, descripcion, precioCosto, precioVenta) {
-        var usuario = $('#txtUser').val();
-        var password = $('#txtPassword').val();
+    function ValidarAutorizacionEditarProducto(ID_PRODUCTO, nombre, descripcion, precioCosto, precioVenta, usuario) {
+        var usuario = $('#txtUserAutProd').val();
+        var password = $('#txtPasswordAutProd').val();
         $.ajax({
             type: 'GET',
             url: '/VENCrearVenta/ValidarLogin',
@@ -939,7 +944,7 @@ $(document).ready(function () {
             success: function (data) {
                 var state = data["State"];
                 if (state == 1) {
-                    UpdateProduct(usuario, nombre, descripcion, precioCosto, precioVenta)
+                    UpdateProduct(ID_PRODUCTO, nombre, descripcion, precioCosto, precioVenta, usuario)
                 }
                 else {
                     $('#txtUserAutProd').val('');

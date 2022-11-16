@@ -208,7 +208,7 @@ namespace Ventas.Controllers.Caja
             <div class='row'>
                 <div class='col-md-12 pl-5 text-center'>
                     <b>TOTAL SIN DESCUENTO :</b> <span class='font-weight-bold pl-2' style='font-size:22px'> Q{item.TOTAL.ToString("N2")}</span><br>
-                    <b>DESCUENTO:</b> <span class='font-weight-bold pl-2' style='font-size:22px'> Q{item.DESCUENTO.ToString("N2")}</span><br>
+                    <b>DESCUENTO:</b> <span class='font-weight-bold pl-2' style='font-size:22px'> Q{listaDetalles.Sum(x => x.DESCUENTO).ToString("N2")}</span><br>
                     <b>TOTAL A PAGAR:</b><span class='font-weight-bold pl-2'  style='font-size:22px'> Q{item.SUBTOTAL.ToString("N2")}</span><br>
                     <b>TOTAL EN LETRAS: </b> {new NumeroLetra().Convertir(item.SUBTOTAL.ToString(), true)}<br>
                 </div>
