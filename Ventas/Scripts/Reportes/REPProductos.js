@@ -120,12 +120,17 @@ $(document).ready(function () {
             columns: [
                
                 {
+                    dataField: "CODIGO",
+                    caption: "CODIGO"
+                },
+                {
                     dataField: "NOMBRE",
                     caption: "NOMBRE"
                 },
                 {
                     dataField: "DESCRIPCION",
-                    caption: "DESCRIPCION"
+                    caption: "DESCRIPCION",
+                    visible:false
                 },
                 {
                     dataField: "PRECIO_COSTO",

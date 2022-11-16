@@ -1,5 +1,31 @@
 ﻿$(document).ready(function () {
+    //ValidarSesion();
 
+    function getURLParams(url) {
+        let params = {};
+        new URLSearchParams(url.replace(/^.*?\?/, '?')).forEach(function (value, key) {
+            params[key] = value
+        });
+        return params;
+    }
+    function ValidarSesion() {
+        var url = window.location.href;
+        var params = getURLParams(url);
+        if (params["expirado"] != null) {
+            if (params["expirado"].toLowerCase() == "true") {
+                showNotification('top', 'right', "error", 'Primero debe iniciar sesion o bien la sesion ha expirado', 'danger');
+            }
+        }
+    }
+    function ShowAlertMessage(icon, descripcion) {
+        Swal.fire({
+            icon: icon,
+            html: descripcion,
+            showCancelButton: true,
+            cancelButtonText: 'Cerrar',
+            showConfirmButton: false,
+        })
+    }
     function ValidarLogin(usuario, password) {
         $.ajax({
             type: 'GET',
@@ -67,6 +93,14 @@
 
         ValidarLogin(usuario, pass);
     });
+    $('#btnAbrirModalPass').on('click', function (e) {
+        e.preventDefault();
+        $('#txtUsuarioChange').val('');
+        $('#txtCorreo').val('');
+        $('#txtpass1').val('');
+        $('#txtpass2').val('');
+        $('#modalRecuperarPass').modal('show');
+    });
     $('#btnCambiarPass').on('click', function (e) {
         e.preventDefault();
         var usuario = $('#txtUsuarioChange').val();
@@ -81,24 +115,5 @@
 
         ChangePassword(correo,usuario, pass1);
     });
-
-    $('#btnAbrirModalPass').on('click', function (e) {
-        e.preventDefault();
-        $('#txtUsuarioChange').val('');
-        $('#txtCorreo').val('');
-        $('#txtpass1').val('');
-        $('#txtpass2').val('');
-        $('#modalRecuperarPass').modal('show');
-    });
-
-    function ShowAlertMessage(icon, descripcion) {
-        Swal.fire({
-            icon: icon,
-            html: descripcion,
-            showCancelButton: true,
-            cancelButtonText: 'Cerrar',
-            showConfirmButton: false,
-        })
-    }
 
 });

@@ -39,6 +39,5 @@ namespace Ventas.Controllers.Reportes
 
             }
         }
-
     }
 }

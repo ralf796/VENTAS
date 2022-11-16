@@ -18,7 +18,7 @@ namespace Ventas.Controllers.Ventas
     public class VENCrearVentaController : Controller
     {
         // GET: VENCrearVenta
-        [SessionExpireFilter]
+        //[SessionExpireFilter]
         public ActionResult Index()
         {
             return View();
@@ -135,6 +135,12 @@ namespace Ventas.Controllers.Ventas
         {
             List<Usuarios_BE> lista = new List<Usuarios_BE>();
             lista = Usuarios_BLL.GetSPLogin(item);
+            return lista;
+        }
+        private List<Inventario_BE> GetDatosInventario_(Inventario_BE item)
+        {
+            List<Inventario_BE> lista = new List<Inventario_BE>();
+            lista = Inventario_BLL.GetSPInventario(item);
             return lista;
         }
         #endregion
@@ -277,7 +283,7 @@ namespace Ventas.Controllers.Ventas
         {
             try
             {
-                nit = nit.Trim().Replace("-", "").Replace("-", "");
+                nit = nit.Trim().Replace("-", "").Replace("/", "");
                 if (nit == "")
                     nit = "CF";
 
@@ -373,6 +379,38 @@ namespace Ventas.Controllers.Ventas
                 return Json(new { State = -1, Message = ex.Message }, JsonRequestBehavior.AllowGet);
             }
         }
+
+        //        ID_PRODUCTO=22200&NOMBRE=SN,DESCRIPCION=CABLE CANDELA MAZDA PROTEGE 1.8L 95-98,PRECIO_COSTO=203.1,PRECIO_VENTA=365.41,usuarioModificaADMIN
+        //https://localhost:44302/VENCrearVenta/UpdateProducto?ID_PRODUCTO=22200&NOMBRE=SN&DESCRIPCION=CABLE CANDELA MAZDA PROTEGE 1.8L 95-98&PRECIO_COSTO=203.1&PRECIO_VENTA=365.41&usuarioModificaADMIN
+        public JsonResult UpdateProducto(int ID_PRODUCTO = 0, string NOMBRE = "", string DESCRIPCION = "", decimal PRECIO_COSTO = 0, decimal PRECIO_VENTA = 0, string usuarioModifica = "")
+        {
+            try
+            {
+                int estado = 0;
+                var item = new Inventario_BE();
+                item.ID_PRODUCTO = ID_PRODUCTO;
+                item.NOMBRE = NOMBRE;
+                item.DESCRIPCION = DESCRIPCION;
+                item.STOCK = 0;
+                item.PRECIO_COSTO = PRECIO_COSTO;
+                item.PRECIO_VENTA = PRECIO_VENTA;
+                item.CREADO_POR = "RALOPEZ";//Session["usuario"].ToString();
+                item.MTIPO = 8;
+                item.CODIGO = usuarioModifica;
+                item = GetDatosInventario_(item).FirstOrDefault();
+                if (item != null)
+                    estado = 1;
+                else
+                    estado = 2;
+
+
+                return Json(new { State = estado, data = item }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                return Json(new { State = -1, Message = ex.Message }, JsonRequestBehavior.AllowGet);
+            }
+        }
         #endregion
 
         #region COTIZACION
@@ -427,7 +465,7 @@ namespace Ventas.Controllers.Ventas
                     <thead>
                         <tr style=''>
                             <th class='pl-2 pr-2 border text-center' style='vertical-align:middle; border: 1px solid'>CANTIDAD</th>
-                            <th class='pl-2 pr-2 border text-center' style='vertical-align:middle; border: 1px solid'>CÓDIGO</th>
+                            <th class='pl-2 pr-2 border text-center d-none' style='vertical-align:middle; border: 1px solid'>CÓDIGO</th>
                             <th class='pl-2 pr-2 border text-center' style='vertical-align:middle; border: 1px solid'>DESCRIPCIÓN</th>
                             <th class='pl-2 pr-2 border text-center' style='vertical-align:middle; border: 1px solid'>MARCA</th>
                             <th class='pl-2 pr-2 border text-center' style='vertical-align:middle; border: 1px solid'>PRECIO</th>
@@ -445,7 +483,7 @@ namespace Ventas.Controllers.Ventas
 
                 html.AppendLine("<tr>");
                 html.AppendLine($"<td class='text-center' style='border-bottom: 1px solid;border-top: 1px solid'>{dato.CANTIDAD}</td>");
-                html.AppendLine($"<td class='text-left' style='border-bottom: 1px solid'>{dato.CODIGO} - {dato.CODIGO2}</td>");
+                html.AppendLine($"<td class='text-left d-none' style='border-bottom: 1px solid'>{dato.CODIGO} - {dato.CODIGO2}</td>");
                 html.AppendLine($"<td class='text-left' style='border-bottom: 1px solid'>{dato.NOMBRE_PRODUCTO}</td>");
                 html.AppendLine($"<td class='text-left' style='border-bottom: 1px solid'>{dato.NOMBRE_MARCA_REPUESTO}</td>");
                 html.AppendLine($"<td class='text-right' style='border-bottom: 1px solid'>{dato.PRECIO_VENTA.ToString("N2")}</td>");
@@ -498,7 +536,5 @@ namespace Ventas.Controllers.Ventas
             return Json(file);
         }
         #endregion
-
-
     }
 }

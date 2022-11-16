@@ -6,6 +6,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data.Common;
+using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -214,6 +215,7 @@ namespace Ventas.Controllers.Inventario
         {
             try
             {
+                PATH = PATH.Trim();
                 string respuesta = "";
                 var row = new Inventario_BE();
                 row.ID_PRODUCTO = ID_PRODUCTO;
@@ -222,7 +224,7 @@ namespace Ventas.Controllers.Inventario
                 row.STOCK = STOCK;
                 row.PRECIO_COSTO = PRECIO_COSTO;
                 row.PRECIO_VENTA = PRECIO_VENTA;
-                
+
                 if (PATH != "" && PATH != null)
                     row.PATH_IMAGEN = PATH;
 
@@ -244,8 +246,6 @@ namespace Ventas.Controllers.Inventario
                 return Json(new { State = -1, Message = ex.Message }, JsonRequestBehavior.AllowGet);
             }
         }
-
-
         public JsonResult CargarExcel(FormCollection formCollection)
         {
             try
@@ -331,6 +331,7 @@ namespace Ventas.Controllers.Inventario
                 return Json(new { State = -1, Message = ex.Message.ToString() }, JsonRequestBehavior.AllowGet);
             }
         }
+
         #endregion
 
         #region FUNCTIONS

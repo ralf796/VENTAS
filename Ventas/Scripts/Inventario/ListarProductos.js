@@ -19,8 +19,7 @@
                     var state = data["State"];
                     if (state == 1) {
                         $(selObject).empty();
-                        $(selObject).append('<option selected value="-1" disabled>Seleccione una opción</option>');
-                        $(selObject).append('<option value="0">Todos</option>');
+                        $(selObject).append('<option selected value="-1" disabled>Seleccione una opción</option>');                        
                         list.forEach(function (dato) {
                             if (tipo == 21) {
                                 $(selObject).append('<option value="' + dato.NOMBRE_MODELO + '">' + dato.NOMBRE_MODELO + '</option>');
@@ -265,10 +264,7 @@
     }
     function Update_Delete_Producto(ID_PRODUCTO, NOMBRE, STOCK, PRECIO_COSTO, PRECIO_VENTA, PATH, tipo, DESCRIPCION) {
         var mensaje = '';
-        if (tipo != 2)
-            mensaje = 'Datos actualizados correctamente';
-        else
-            mensaje = 'Se inactivó el producto seleccionado';
+        mensaje = 'Proceso realizado correctamente';
 
         $.ajax({
             type: 'GET',
@@ -283,6 +279,7 @@
                     GetDatosGridProductos()
                     ShowAlertMessage('success', mensaje)
                     $('#modalAddStock').modal('hide');
+                    $('#modalEditarProducto').modal('hide');
                 }
                 else if (state == -1) {
                     ShowAlertMessage('warning', data['Message'])
