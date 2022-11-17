@@ -59,6 +59,8 @@ namespace Ventas.Controllers
                 else
                     item = null;
 
+                
+
                 return Json(new { State = 1, data = item }, JsonRequestBehavior.AllowGet);
             }
             catch (Exception ex)

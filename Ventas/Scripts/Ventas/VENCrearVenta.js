@@ -819,10 +819,10 @@ $(document).ready(function () {
         if (descuento == '')
             descuento = 0;
         if (!$('#checkAutorizaDescuento').is(':checked')) {
-            if (parseFloat(descuento) > 25) {
+            if (parseFloat(descuento) > 35) {
                 $('#txtDescuento').val();
                 descuento = 0;
-                ShowAlertMessage('warning', 'El máximo descuento a aplicar es de 25%.');
+                ShowAlertMessage('warning', 'El máximo descuento a aplicar es de 35%.');
                 $('#txtDescuentoTotal').val('');
                 $('#txtConDescuento').val('');
                 $('#txtSinDescuento').val('');
@@ -857,10 +857,10 @@ $(document).ready(function () {
             descuento = 0;
         }
         if (!$('#checkAutorizaDescuento').is(':checked')) {
-            if (parseFloat(descuento) > 25) {
+            if (parseFloat(descuento) > 35) {
                 $('#txtDescuento').val();
                 descuento = 0;
-                ShowAlertMessage('warning', 'El máximo descuento a aplicar es de 25%.');
+                ShowAlertMessage('warning', 'El máximo descuento a aplicar es de 35%.');
                 $('#txtDescuentoTotal').val('');
                 $('#txtConDescuento').val('');
                 $('#txtSinDescuento').val('');
