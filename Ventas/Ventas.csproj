@@ -2682,6 +2682,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Class\Encryption.cs" />
     <Compile Include="Class\EnviarNIT.cs" />
+    <Compile Include="Class\Certificador_FEL.cs" />
     <Compile Include="Class\NumeroLetra.cs" />
     <Compile Include="Class\SessionExpireFilterAttribute.cs" />
     <Compile Include="Class\ValidarCui.cs" />
