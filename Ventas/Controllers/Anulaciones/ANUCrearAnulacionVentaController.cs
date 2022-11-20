@@ -1,4 +1,5 @@
-﻿using System;
+﻿using GenesysOracleSV.Clases;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -11,8 +12,11 @@ namespace Ventas.Controllers.Anulaciones
     public class ANUCrearAnulacionVentaController : Controller
     {
         // GET: ANUCrearAnulacionVenta
+        [SessionExpireFilter]
         public ActionResult Index()
         {
+            if (Session["usuario"] == null)
+                return RedirectToAction("Index", "Home");
             return View();
         }
 

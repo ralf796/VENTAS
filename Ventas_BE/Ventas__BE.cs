@@ -52,5 +52,7 @@ namespace Ventas_BE
         public string PATH_IMAGEN { get; set; }
         public string CODIGO2 { get; set; }
         public string NOMBRE_COMPLETO { get; set; }
+        public string SOLO_NOMBRE { get; set; }
+        public string CODIGO_INTERNO { get; set; }
     }
 }

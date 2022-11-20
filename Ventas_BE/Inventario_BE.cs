@@ -51,5 +51,6 @@ namespace Ventas_BE
         public string NOMBRE_DISTRIBUIDOR { get; set; }
         public string NOMBRE_LINEA_VEHICULO { get; set; }
         public string NOMBRE_COMPLETO{ get; set; }
+        public string CODIGO_INTERNO { get; set; }
     }
 }

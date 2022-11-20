@@ -18,7 +18,7 @@ namespace Ventas.Controllers.Ventas
     public class VENCrearVentaController : Controller
     {
         // GET: VENCrearVenta
-        //[SessionExpireFilter]
+        [SessionExpireFilter]
         public ActionResult Index()
         {
             return View();
@@ -399,7 +399,7 @@ namespace Ventas.Controllers.Ventas
                 item.STOCK = 0;
                 item.PRECIO_COSTO = PRECIO_COSTO;
                 item.PRECIO_VENTA = PRECIO_VENTA;
-                item.CREADO_POR = "RALOPEZ";//Session["usuario"].ToString();
+                item.CREADO_POR = Session["usuario"].ToString();
                 item.MTIPO = 8;
                 item.CODIGO = usuarioModifica;
                 item = GetDatosInventario_(item).FirstOrDefault();
@@ -412,13 +412,32 @@ namespace Ventas.Controllers.Ventas
                     estado = 2;
 
 
-                return Json(new { State = estado, data = item, CODIGO=codigo }, JsonRequestBehavior.AllowGet);
+                return Json(new { State = estado, data = item, CODIGO = codigo }, JsonRequestBehavior.AllowGet);
             }
             catch (Exception ex)
             {
                 return Json(new { State = -1, Message = ex.Message }, JsonRequestBehavior.AllowGet);
             }
         }
+        public JsonResult GetProductosTable(string filtro = "")
+        {
+            try
+            {
+                var item = new Ventas__BE();
+                List<Ventas__BE> lista = new List<Ventas__BE>();
+                item.MTIPO = 11;
+                item.CODIGO = "";
+                item.CODIGO2 = "";
+                item.NOMBRE_MODELO = filtro;
+                lista = GetDatosSP_(item);
+                return Json(new { State = 1, data = lista }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                return Json(new { State = -1, Message = ex.Message }, JsonRequestBehavior.AllowGet);
+            }
+        }
+
         #endregion
 
         #region COTIZACION

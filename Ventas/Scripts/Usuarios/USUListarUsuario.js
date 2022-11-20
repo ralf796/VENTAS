@@ -1,6 +1,4 @@
 ﻿$(document).ready(function () {
-    $('#modalCrearUsuario').modal('show');
-
     //GetLists('#selGuardarTipoEmpleado', 2);
     GetLists('#selGuardarRol', 3);
     GetDatos();

@@ -48,5 +48,16 @@ namespace Ventas_BE
         public string RESPUESTA { get; set; }
         public string NOMBRE_COMPLETO { get; set; }
         public string DESCRIPCION_BITACORA { get; set; }
+        public string ESTADO_STRING { get; set; }
+        public string NOMBRE_MARCA_VEHICULO { get; set; }
+        public string NOMBRE_SERIE_VEHICULO { get; set; }
+        public decimal GANANCIA { get; set; }
+        public int ANIO_INICIAL { get; set; }
+        public int ANIO_FINAL { get; set; }
+        public string NOMBRE_CLIENTE { get; set; }
+        public string TIPO_REPORTE { get; set; }
+        public string FECHA_VENTA_STRING { get; set; }
+        public DateTime FECHA_VENTA { get; set; }
+        public string CODIGO_INTERNO { get; set; }
     }
 }

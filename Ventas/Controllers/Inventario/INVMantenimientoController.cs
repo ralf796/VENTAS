@@ -107,12 +107,6 @@ namespace Ventas.Controllers.Inventario
             lista = Inventario_BLL.GetInventario_select(item);
             return lista;
         }
-        private List<Inventario_BE> GetInventario_create_(Inventario_BE item)
-        {
-            List<Inventario_BE> lista = new List<Inventario_BE>();
-            lista = Inventario_BLL.GetInventario_create(item);
-            return lista;
-        }
         private List<Inventario_BE> GetInventario_delete_(Inventario_BE item)
         {
             List<Inventario_BE> lista = new List<Inventario_BE>();
@@ -144,48 +138,22 @@ namespace Ventas.Controllers.Inventario
                 return Json(new { State = -1, Message = ex.Message }, JsonRequestBehavior.AllowGet);
             }
         }
-
-        public JsonResult Guardar(string nombre = "", string descripcion = "", int tipo = 0, int estanteria = 0, int nivel = 0, int anioI = 0, int anioF = 0, int categoria = 0, string telefono = "", string direccion = "", string contacto = "", int marca = 0, int id = 0)
+        public JsonResult GetProductosTable(string filtro = "")
         {
             try
             {
-                if (descripcion == "")
-                    descripcion = nombre;
-
-                string respuesta = "";
                 var item = new Inventario_BE();
-                item.ESTANTERIA = estanteria;
-                item.NIVEL = nivel;
-                item.NOMBRE = nombre;
-                item.DESCRIPCION = descripcion;
-                item.CREADO_POR = Session["usuario"].ToString();    // Session["usuario"].ToString();
-                item.ANIO_INICIAL = anioI;
-                item.ANIO_FINAL = anioF;
-                item.MTIPO = tipo;
-                item.ID_CATEGORIA = categoria;
-                item.TELEFONO = telefono;
-                item.DIRECCION = direccion;
-                item.CONTACTO = contacto;
-                item.ID_MARCA_VEHICULO = marca;
-                item.ID_UPDATE = id;
-
-                var lista = GetInventario_create_(item);
-
-                if (lista != null)
-                {
-                    if (lista.FirstOrDefault().RESPUESTA != "")
-                    {
-                        respuesta = lista.FirstOrDefault().RESPUESTA;
-                    }
-                }
-                return Json(new { State = 1 }, JsonRequestBehavior.AllowGet);
+                item.MTIPO = 24;
+                item.ID_UPDATE = 0;
+                item.NOMBRE_MODELO = filtro;
+                var lista = GetInventario_select_(item);
+                return Json(new { State = 1, data = lista }, JsonRequestBehavior.AllowGet);
             }
             catch (Exception ex)
             {
                 return Json(new { State = -1, Message = ex.Message }, JsonRequestBehavior.AllowGet);
             }
         }
-
         public JsonResult Delete(int id = 0, int tipo = 0)
         {
             try
@@ -306,17 +274,36 @@ namespace Ventas.Controllers.Inventario
                     }
                 }
 
-                var groupCodigos1 = list.DistinctBy(i => i.CODIGO).ToList();
+                //var groupCodigos1 = list.DistinctBy(i => i.CODIGO).ToList();
+                /*
+                var groupList = from r in list
+                              group r by new { r.CODIGO, r.CODIGO2, r.NOMBRE_DISTRIBUIDOR, r.NOMBRE_MARCA_REPUESTO} into gp
+                              select new
+                              {
+                                  CODIGO = gp.Key.CODIGO,
+                                  CODIGO2 = gp.Key.CODIGO2,
+                                  NOMBRE_DISTRIBUIDOR = gp.Key.NOMBRE_DISTRIBUIDOR,
+                                  NOMBRE_MARCA_REPUESTO = gp.Key.NOMBRE_MARCA_REPUESTO
+                              };
+                */
+                var groupCodigos1 = list.DistinctBy(p => new { p.CODIGO, p.CODIGO2, p.NOMBRE_DISTRIBUIDOR, p.NOMBRE_MARCA_REPUESTO });
+
 
                 foreach (var row1 in groupCodigos1)
                 {
+                    string ss = "";
+                    if (row1.CODIGO == "3P-3620")
+                        ss = "";
+
                     row1.MTIPO = 1;
                     var resultHeader = GetDatosInventario_(row1);
+                    /*
                     if (resultHeader != null)
                     {
                         if (resultHeader.FirstOrDefault().RESPUESTA == "02")
-                            list.RemoveAll(x => x.CODIGO == row1.CODIGO && x.CODIGO2 == row1.CODIGO2);
+                            list.RemoveAll(x => x.CODIGO == row1.CODIGO && x.CODIGO2 == row1.CODIGO2 && x.NOMBRE_DISTRIBUIDOR == row1.NOMBRE_DISTRIBUIDOR && x.NOMBRE_MARCA_REPUESTO == row1.NOMBRE_MARCA_REPUESTO);
                     }
+                    */
                 }
 
                 foreach (var dato in list)
@@ -324,7 +311,7 @@ namespace Ventas.Controllers.Inventario
                     dato.MTIPO = 4;
                     var resultDetalleProducto = Inventario_BLL.GetSPInventario(dato);
                 }
-                return Json(new { State = 1, data = list, dataGroup = groupCodigos1.Count() }, JsonRequestBehavior.AllowGet);
+                return Json(new { State = 1, data = list, dataGroup = groupCodigos1.Count(), dataGroupDetail = list.Count() }, JsonRequestBehavior.AllowGet);
             }
             catch (Exception ex)
             {

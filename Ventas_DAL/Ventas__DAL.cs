@@ -17,12 +17,6 @@ namespace Ventas_DAL
             {
                 model.Command.Parameters.AddWithValue("@MTIPO", item.MTIPO);
                 model.Command.Parameters.AddWithValue("@NIT", item.NIT);
-                model.Command.Parameters.AddWithValue("@ID_MARCA_REPUESTO", item.ID_MARCA_REPUESTO);
-                model.Command.Parameters.AddWithValue("@ID_SUBCATEGORIA", item.ID_SUBCATEGORIA);
-                model.Command.Parameters.AddWithValue("@ID_CATEGORIA", item.ID_CATEGORIA);
-                model.Command.Parameters.AddWithValue("@ID_SERIE_VEHICULO", item.ID_SERIE_VEHICULO);
-                model.Command.Parameters.AddWithValue("@ID_MARCA_VEHICULO", item.ID_MARCA_VEHICULO);
-                model.Command.Parameters.AddWithValue("@ID_MODELO", item.ID_MODELO);
                 model.Command.Parameters.AddWithValue("@ID_VENTA", item.ID_VENTA);
                 model.Command.Parameters.AddWithValue("@SERIE", item.SERIE);
                 model.Command.Parameters.AddWithValue("@CORRELATIVO", item.CORRELATIVO);

@@ -1,0 +1,32 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@section scripts{
+    <script src="~/Scripts/Reportes/REPProductosVendidos.js"></script>
+
+}
+
+<div class="card">
+    <span class="badge badge-pill badge-secondary">PRODUCTOS VENDIDOS POR FECHA</span>
+    <div class="card-body">
+        <form id="formVentas">
+            <div class="row justify-content-center">
+                <div class="col-12 col-sm-6 col-md-6 col-lg-6 col-xl-3 pt-1">
+                    <div class="input-group text-center">
+                        <span class="col-form-label">FECHA:</span>
+                        <input type="text" class="form-control text-center" id="txtFecha" name="txtFecha" required readonly>
+                    </div>
+                </div>
+                <div class="col-12 col-sm-6 col-md-6 col-lg-6 col-xl-3 pt-1 text-center">
+                    <button class="btn btn-secondary" id="btnBuscar"><i class="far fa-filter"></i> BUSCAR </button>
+                </div>
+                <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                    <div class="demo-container">
+                        <div id="exportButton"></div>
+                        <div id="gridContainer"></div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

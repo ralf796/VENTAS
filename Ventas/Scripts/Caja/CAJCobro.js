@@ -1,6 +1,4 @@
-﻿
-
-$(document).ready(function () {
+﻿$(document).ready(function () {
     function ENCABEZADO(SERIE, CORRELATIVO, NOMBRE, NIT, DIRECCION, SUBTOTAL, TOTAL) {
         this.SERIE = SERIE;
         this.CORRELATIVO = CORRELATIVO;

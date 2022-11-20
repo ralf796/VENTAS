@@ -15,7 +15,7 @@ namespace Ventas.Controllers.Caja
     public class CAJCobroController : Controller
     {
         // GET: CAJCobro
-        [SessionExpireFilterAttribute]
+        [SessionExpireFilter]
         public ActionResult Index()
         {
             return View();
@@ -117,6 +117,7 @@ namespace Ventas.Controllers.Caja
                 var item = new Caja_BE();
                 item.ID_VENTA = id_venta;
                 item.MTIPO = 5;
+                item.CREADO_POR = Session["usuario"].ToString();
                 var lista = GetDatosCaja_(item);
                 return Json(new { State = 1, data = lista }, JsonRequestBehavior.AllowGet);
             }

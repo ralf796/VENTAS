@@ -11,7 +11,7 @@ namespace Ventas.Controllers.Caja
     public class CAJCorteController : Controller
     {
         // GET: CAJCorte
-        [SessionExpireFilterAttribute]
+        [SessionExpireFilter]
         public ActionResult Index()
         {
             return View();

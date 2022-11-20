@@ -150,6 +150,11 @@
     </style>
 }
 
+<input id="hfPrecioCosto" type="hidden" />
+<input id="hfPrecioVenta" type="hidden" />
+<input id="hfNombre" type="hidden" />
+<input id="hfDescripcion" type="hidden" />
+
 <div class="row">
     <div class="col-md-12">
         <div class="card card-outline-secondary">
@@ -158,7 +163,7 @@
             </div>
             <div class="card-body">
                 <div class="row">
-                    <div class="col-12 col-sm-12 col-md-3 col-lg-3 col-xl-3">
+                    <div class="col-12 col-sm-12 col-md-3 col-lg-3 col-xl-2">
                         <label for="divNit">NIT</label>
                         <div class="input-group mb-3" id="divNit">
                             <div class="input-group-prepend">
@@ -168,13 +173,17 @@
                             <input type="text" class="form-control" id="txtNit">
                         </div>
                     </div>
-                    <div class="col-12 col-sm-12 col-md-9 col-lg-9 col-xl-9">
+                    <div class="col-12 col-sm-12 col-md-9 col-lg-9 col-xl-5">
                         <label for="txtNombreCliente">CLIENTE</label>
                         <input class="form-control" id="txtNombreCliente" name="txtNombreCliente" type="text" disabled>
                         <input id="hfIdCliente" type="hidden">
                     </div>
+                    <div class="col-12 col-sm-12 col-md-9 col-lg-9 col-xl-5">
+                        <label for="txtNombreCliente">DIRECCION</label>
+                        <input class="form-control" id="txtDireccion" name="txtDireccion" type="text" disabled>
+                    </div>
                 </div>
-                <div class="row">
+                <div class="row" style="margin-top:-17px">
                     <div class="col-12 col-sm-12 col-md-3 col-lg-3 col-xl-3">
                         <label for="divCodigo">CODIGO</label>
                         <div class="input-group mb-3" id="divCodigo">
@@ -195,6 +204,23 @@
                         <input class="form-control" id="txtNombreProducto" name="txtNombreProducto" type="text" disabled>
                         <input id="hfIdProducto" type="hidden">
                     </div>
+                </div>
+                <div class="row" style="margin-top:-15px">
+                    <div class="col-12 col-sm-12 col-md-4 col-lg-4 col-xl-4">
+                        <label for="txtDescuento">MARCA REPUESTO</label>
+                        <input class="form-control text-center text-primary" id="txtMarcaRepuesto" name="txtMarcaRepuesto" type="text" readonly>
+                    </div>
+                    <div class="col-12 col-sm-12 col-md-4 col-lg-4 col-xl-4">
+                        <label for="txtDescuento">MARCA VEHICULO</label>
+                        <input class="form-control text-center text-primary" id="txtMarcaVehiculo" name="txtMarcaRepuesto" type="text" readonly>
+                    </div>
+                    <div class="col-12 col-sm-12 col-md-4 col-lg-4 col-xl-4">
+                        <label for="txtDescuento">SERIE VEHICULO</label>
+                        <input class="form-control text-center text-primary" id="txtLineaVehiculo" name="txtMarcaRepuesto" type="text" readonly>
+                    </div>
+
+                </div>
+                <div class="row" style="margin-top:-3px">
                     <div class="col-12 col-sm-6 col-md-3 col-lg-3 col-xl-3">
                         <label for="txtCantidad">CANTIDAD</label>
                         <input class="form-control text-center" id="txtCantidad" name="txtCantidad" onkeypress="return valideKey(event);" type="text">
@@ -217,7 +243,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="row">
+                <div class="row" style="margin-top:-17px">
                     <div class="col-12 col-sm-6 col-md-3 col-lg-3 col-xl-1 justify-content-end text-right" style="margin-top:25px">
                         <div class="form-group clearfix justify-content-end text-right">
                             <div class="icheck-primary d-inline">
@@ -243,11 +269,11 @@
                         <label for="txtDescuento">CON DESCUENTO (Q)</label>
                         <input class="form-control text-center text-success font-weight-bold" id="txtConDescuento" name="txtConDescuento" type="text" readonly>
                     </div>
-                    <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 text-right">
-                        <button style="margin-top:5px" class="btn btn-success" id="btnAgregarDetalle">AGREGAR</button>
+                    <div class="col-12 col-sm-6 col-md-3 col-lg-3 col-xl-12 text-right">
+                        <button style="margin-top:5px" class="btn btn-success" id="btnAgregarDetalle"><i class="far fa-plus"></i> AGREGAR</button>
                     </div>
                 </div>
-                <div class="row">
+                <div class="row mt-2">
                     <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
                         <div class="table-responsive">
                             <table class="table table-striped" id="tblVenta" width="100%" style="font-size:14.5px">
@@ -298,71 +324,33 @@
                 </button>
             </div>
             <div class="modal-body">
-                <div class="row justify-content-center" style="margin-top:-15px">
-                    <div class="col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6 pt-1">
-                        <div class="input-group mb-12">
-                            <div class="input-group-prepend">
-                                <label style="width:180px" class="input-group-text" for="selCategoria">MARCA VEHICULO</label>
+                <div class="card" style="margin-top:-10px">
+                    <span class="badge badge-pill badge-secondary">LISTADO DE PRODUCTOS</span>
+                    <div class="card-body">
+                        <div class="input-group col-12">
+                            <div class="input-group-prepend" style="margin-top:-10px">
+                                <div class="input-group-text">INGRESE SU BÚSQUEDA</div>
                             </div>
-                            <select class="custom-select" id="selMarcaVehiculo">
-                                <option selected disabled>SELECCIONE</option>
-                            </select>
+                            <input type="text" class="form-control" id="txtFiltro">
                         </div>
-                    </div>
-                    <div class="col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6 pt-1 d-none">
-                        <div class="input-group mb-12">
-                            <div class="input-group-prepend">
-                                <label style="width:180px" class="input-group-text" for="selCategoria">LINEA VEHICULO</label>
+                        <div class="row">
+                            <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                                <div class="demo-container">
+                                    <div id="exportButton"></div>
+                                    <div id="gridContainer"></div>
+                                </div>
                             </div>
-                            <select class="custom-select" id="selLinea" data-live="search">
-                                <option selected disabled>SELECCIONE</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6 pt-1 d-none">
-                        <div class="input-group mb-12">
-                            <div class="input-group-prepend">
-                                <label style="width:180px" class="input-group-text" for="selCategoria">MODELO VEHICULO</label>
-                            </div>
-                            <select class="custom-select" id="selModelo">
-                                <option selected disabled>SELECCIONE</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="col-12 col-sm-12 col-md-3 col-lg-3 col-xl-5 mt-3">
-                        <div class="input-group">
-                            <div class="input-group-prepend">
-                                <button style="margin-top:-10px" type="button" class="btn btn-secondary" disabled>LINEA DE VEHICULO</button>
-                            </div>
-                            <input type="text" class="form-control text-center" id="txtBuscarLinea" placeholder="LINEA" style="width:100px">
                         </div>
                     </div>
                 </div>
-                <div class="row justify-content-center mt-3">
-                    <div class="col-12 col-sm-12 col-md-5 col-lg-6 col-xl-6">
-                        <div class="input-group">
-                            <div class="input-group-prepend">
-                                <button style="margin-top:-10px" type="button" class="btn btn-secondary" disabled>NOMBRE/DESCRIPCION</button>
+
+                @*<div class="row">
+                        <div class="col-12 col-md-12 col-xl-12" style="margin-top:1px">
+                            <div class="demo-container">
+                                <div id="gridProductos"></div>
                             </div>
-                            <input type="text" class="form-control text-center" id="txtBuscarNombreDescripcion" placeholder="NOMBRE/DESCRIPCION" style="width:100px">
                         </div>
-                    </div>
-                    <div class="col-12 col-sm-12 col-md-3 col-lg-3 col-xl-3">
-                        <div class="input-group">
-                            <div class="input-group-prepend">
-                                <button style="margin-top:-10px" type="button" class="btn btn-secondary" disabled>MODELO</button>
-                            </div>
-                            <input type="text" class="form-control text-center" id="txtBuscarAnio" placeholder="MODELO" style="width:100px">
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-12 col-md-12 col-xl-12" style="margin-top:1px">
-                        <div class="demo-container">
-                            <div id="gridProductos"></div>
-                        </div>
-                    </div>
-                </div>
+                    </div>*@
             </div>
             <div class="modal-footer justify-content-center">
                 <button type="button" class="btn btn-danger" data-dismiss="modal">CERRAR</button>
@@ -385,7 +373,7 @@
                     <div class="col-12 col-md-12 col-xl-12">
                         <div class="demo-container">
                             <div id="exportButton"></div>
-                            <div id="gridContainer"></div>
+                            <div id="gridClientes"></div>
                         </div>
                     </div>
                 </div>
@@ -469,7 +457,7 @@
 </div>
 
 <div class="modal fade" id="modalAutProd">
-    <div class="modal-dialog modal-sm">
+    <div class="modal-dialog modal-lg">
         <div class="modal-content  bg-secondary">
             <div class="modal-header">
                 <h5 class="modal-title">AUTORIZACION MODIFICAR PRODUCTO</h5>
@@ -480,11 +468,11 @@
             <div class="modal-body">
                 <div class="row">
                     <div class="form-row">
-                        <div class="form-group col-md-12">
+                        <div class="form-group col-md-6">
                             <label for="txtUserAutProd">USUARIO</label>
                             <input type="text" class="form-control" id="txtUserAutProd" required>
                         </div>
-                        <div class="form-group col-md-12">
+                        <div class="form-group col-md-6">
                             <label for="txtPasswordAutProd">CLAVE</label>
                             <input type="password" class="form-control" id="txtPasswordAutProd" required>
                         </div>
@@ -496,13 +484,13 @@
                             <label for="txtDescripcionAutProd">DESCRIPCION</label>
                             <input type="text" class="form-control" id="txtDescripcionAutProd" required>
                         </div>
-                        <div class="form-group col-md-12">
+                        <div class="form-group col-md-6">
                             <label for="txtAutPrecioCosto">PRECIO COSTO</label>
-                            <input type="text" class="form-control" id="txtAutPrecioCosto" required>
+                            <input type="text" class="form-control text-center" id="txtAutPrecioCosto" required>
                         </div>
-                        <div class="form-group col-md-12">
+                        <div class="form-group col-md-6">
                             <label for="txtAutPrecioVenta">PRECIO VENTA</label>
-                            <input type="text" class="form-control" id="txtAutPrecioVenta" required>
+                            <input type="text" class="form-control text-center" id="txtAutPrecioVenta" required>
                         </div>
                     </div>
                 </div>

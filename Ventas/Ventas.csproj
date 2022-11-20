@@ -2672,6 +2672,7 @@
     <Content Include="Scripts\Reportes\REPGeneral.js" />
     <Content Include="Scripts\Reportes\REPProductos.js" />
     <Content Include="Scripts\Reportes\REPProductosGeneral.js" />
+    <Content Include="Scripts\Reportes\REPProductosVendidos.js" />
     <Content Include="Scripts\Reportes\REPProductoUnico.js" />
     <Content Include="Scripts\Reportes\REPVentas.js" />
     <Content Include="Scripts\Ventas\VENCrearVenta.js" />
@@ -2685,6 +2686,7 @@
     <Compile Include="Class\Certificador_FEL.cs" />
     <Compile Include="Class\NumeroLetra.cs" />
     <Compile Include="Class\SessionExpireFilterAttribute.cs" />
+    <Compile Include="Class\Utils.cs" />
     <Compile Include="Class\ValidarCui.cs" />
     <Compile Include="Class\WService.cs" />
     <Compile Include="Controllers\Anulaciones\ANUCrearAnulacionVentaController.cs" />
@@ -2700,6 +2702,7 @@
     <Compile Include="Controllers\Reportes\REPGeneralController.cs" />
     <Compile Include="Controllers\Reportes\REPProductosController.cs" />
     <Compile Include="Controllers\Reportes\REPProductosGeneralController.cs" />
+    <Compile Include="Controllers\Reportes\REPProductosVendidosController.cs" />
     <Compile Include="Controllers\Reportes\REPProductoUnicoController.cs" />
     <Compile Include="Controllers\Reportes\REPVentasController.cs" />
     <Compile Include="Controllers\Soporte\SOPGeneralController.cs" />
@@ -3371,6 +3374,7 @@
     <Content Include="Views\ANUCrearAnulacionVenta\Index.cshtml" />
     <Content Include="Views\REPProductoUnico\Index.cshtml" />
     <Content Include="Views\REPBitacora\Index.cshtml" />
+    <Content Include="Views\REPProductosVendidos\Index.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -3384,6 +3388,7 @@
     <Folder Include="Models\" />
     <Folder Include="Views\App\" />
     <Folder Include="Views\Login\" />
+    <Folder Include="Views\REPProductosPorDia\" />
     <Folder Include="Views\SOPGeneral\" />
   </ItemGroup>
   <ItemGroup>

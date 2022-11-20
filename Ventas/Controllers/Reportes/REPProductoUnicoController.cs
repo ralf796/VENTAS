@@ -1,4 +1,5 @@
-﻿using System;
+﻿using GenesysOracleSV.Clases;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -10,6 +11,7 @@ namespace Ventas.Controllers.Reportes
     public class REPProductoUnicoController : Controller
     {
         // GET: REPProductoUnico
+        [SessionExpireFilter]
         public ActionResult Index()
         {
             return View();

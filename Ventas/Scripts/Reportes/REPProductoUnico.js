@@ -78,6 +78,10 @@
             columns: [
 
                 {
+                    dataField: "CODIGO_INTERNO",
+                    caption: "CODIGO INTERNO"
+                },
+                {
                     dataField: "CODIGO",
                     caption: "CODIGO"
                 },
@@ -105,7 +109,14 @@
                     format: { type: 'fixedPoint', precision: 2 },
                     alignment: "center"
                 }
-            ]
+            ],
+            onCellPrepared: function (e) {
+                if (e.rowType === 'header') {
+                    //e.cellElement.css("background", "var(--secondary)");
+                    e.cellElement.css("background", "#5F6A6A");
+                    e.cellElement.css("color", "#FFFFFF");
+                }
+            }
         }).dxDataGrid('instance');
     }
 

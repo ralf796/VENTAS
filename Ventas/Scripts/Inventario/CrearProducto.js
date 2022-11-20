@@ -2,13 +2,6 @@
 let fechaF;
 $(document).ready(function () {
 
-    GetLists('#selBodega', 8)
-    GetLists('#selModelo', 6)
-    GetLists('#selProveedor', 10)
-    GetLists('#selMarcaRepuesto', 12)
-    //GetLists('#selCategoria', 2)
-    GetLists('#selMarcaVehiculo', 14)
-
     fechaI = new AirDatepicker('#txtAnioI', {
         autoClose: true,
         autoClose: true,
@@ -27,50 +20,6 @@ $(document).ready(function () {
         selectedDates: [new Date()],
         //onSelect: GetDataTable
     });
-
-    function GetLists(selObject, tipo) {
-        return new Promise((resolve, reject) => {
-            $.ajax({
-                type: 'GET',
-                url: '/INVMantenimiento/GetDatosTable',
-                contentType: "application/json; charset=utf-8",
-                dataType: 'json',
-                data: { tipo },
-                cache: false,
-                success: function (data) {
-                    var list = data["data"];
-                    var state = data["State"];
-                    if (state == 1) {
-                        $(selObject).empty();
-                        $(selObject).append('<option selected value="-1" disabled>Seleccione una opción</option>');
-                        list.forEach(function (dato) {
-                            if (tipo == 8) {
-                                $(selObject).append('<option value="' + dato.ID_BODEGA + '">' + dato.NOMBRE + '</option>');
-                            }
-                            else if (tipo == 6) {
-                                $(selObject).append('<option class="text-center" value="' + dato.ID_MODELO + '">' + + dato.ANIO_INICIAL + ' - ' + dato.ANIO_FINAL + '</option>');
-                            }
-                            else if (tipo == 10) {
-                                $(selObject).append('<option value="' + dato.ID_PROVEEDOR + '">' + dato.NOMBRE + '</option>');
-                            }
-                            else if (tipo == 12) {
-                                $(selObject).append('<option value="' + dato.ID_MARCA_REPUESTO + '">' + dato.NOMBRE + '</option>');
-                            }
-                            else if (tipo == 2) {
-                                $(selObject).append('<option value="' + dato.ID_CATEGORIA + '">' + dato.NOMBRE + '</option>');
-                            }
-                            else if (tipo == 14) {
-                                $(selObject).append('<option value="' + dato.ID_MARCA_VEHICULO + '">' + dato.NOMBRE + '</option>');
-                            }
-                        });
-                        resolve(1);
-                    }
-                    else if (state == -1)
-                        alert(data["Message"])
-                }
-            });
-        });
-    }
 
     function GetListsID(selObject, tipo, id) {
         return new Promise((resolve, reject) => {
@@ -186,7 +135,7 @@ $(document).ready(function () {
             cancelButtonText: 'No'
         }).then((result) => {
             if (result.value) {
-                CallLoadingFire('Cargando subida de datos, por favor espere.')
+                
                 var file = $("#txtUploadExcel").val();
                 var formData = new FormData();
                 var totalFiles = document.getElementById("txtUploadExcel").files.length;
@@ -195,6 +144,7 @@ $(document).ready(function () {
                     formData.append("FileUpload", file);
                 }
                 if (file != null && file != "") {
+                    CallLoadingFire('Cargando subida de datos, por favor espere.')
                     $.ajax({
                         type: "POST",
                         url: "/INVMantenimiento/CargarExcel",
@@ -204,22 +154,22 @@ $(document).ready(function () {
                         processData: false,
                         success: function (data) {
                             var state = data['State'];
-                            var lista = data['data'];
                             var contRows = data['dataGroup'];
+                            var contRowsDetails = data['dataGroupDetail'];
                             if (state == 1) {
                                 $("#txtUploadExcel").val('');
                                 Swal.fire({
                                     icon: 'success',
                                     type: 'success',
-                                    html: '¡Se crearon ' + contRows + ' productos correctamente.!',
+                                    html: '¡Se crearon ' + contRows + ' productos correctamente.!<br/>Se cargaron '+contRowsDetails+' filas del archivo excel seleccionado.',
                                     showCancelButton: true,
                                     cancelButtonText: 'Cerrar',
                                     showConfirmButton: false,
                                 })
-                                //ShowAlertMessage('success', '¡Se crearon ' + lista.length + ' productos correctamente.!');
                             }
-                            else if (state == -1)
+                            else if (state == -1) {
                                 ShowAlertMessage('warning', data['Message']);
+                            }
                         },
                         error: function (jqXHR, ex) {
                             console.log(jqXHR);

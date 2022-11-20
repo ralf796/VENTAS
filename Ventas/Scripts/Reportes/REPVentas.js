@@ -2,25 +2,6 @@
 let fechaF;
 $(document).ready(function () {
     DevExpress.localization.locale(navigator.language);
-    function DatePicker(obj, options = null) {
-        var air = new AirDatepicker(obj, options);
-        return air;
-    }
-
-    function DateFormat(date) {
-        try {
-            let d = date;
-            let month = (d.getMonth() + 1).toString().padStart(2, '0');
-            let day = d.getDate().toString().padStart(2, '0');
-            let year = d.getFullYear();
-            //console.log(month);
-            //console.log(day);
-            //console.log(year);
-            return [year, month, day].join('-');
-        } catch (err) {
-            return '';
-        }
-    }
     fechaI = new AirDatepicker('#txtAnioI', {
         autoClose: true,
         autoClose: true,
@@ -159,7 +140,14 @@ $(document).ready(function () {
                     dataField: "NOMBRE",
                     caption: "CLIENTE"
                 },
-            ]
+            ],
+            onCellPrepared: function (e) {
+                if (e.rowType === 'header') {
+                    //e.cellElement.css("background", "var(--secondary)");
+                    e.cellElement.css("background", "#5F6A6A");
+                    e.cellElement.css("color", "#FFFFFF");
+                }
+            }
         }).dxDataGrid('instance');
 
         $('#chart').dxPieChart({
