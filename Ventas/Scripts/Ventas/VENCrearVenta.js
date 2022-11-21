@@ -441,7 +441,9 @@ $(document).ready(function () {
     });
     $('#btnBuscarClientes').on('click', function (e) {
         e.preventDefault();
-        GetListClientes();
+        ImprimirScript()
+        //window.open('/VENCrearVenta/ImprimirFactura');
+        //GetListClientes();
     });
     $('#btnBuscarProductos').on('click', function (e) {
         e.preventDefault();
@@ -975,4 +977,40 @@ $(document).ready(function () {
             }
         }
     });
+
+    function Popup(data) {
+        //alert('<html>' + data + '</html>')
+        var mywindow = window.open('', 'new div', 'height=800,width=600');
+        mywindow.document.write(data);
+        mywindow.document.close();
+        mywindow.focus();
+        mywindow.print();
+        //setTimeout(function () { mywindow.print(); }, 2000);
+
+        mywindow.close();
+
+        return true;
+    }
+
+    function ImprimirScript() {
+        $.ajax({
+            type: 'GET',
+            url: '/VENCrearVenta/GetHTML',
+            contentType: "application/json; charset=utf-8",
+            dataType: 'json',
+            data: { },
+            cache: false,
+            success: function (data) {
+                var state = data["State"];
+                if (state == 1) {
+                    var PROD = data["data"];
+                    console.log(PROD)
+                    Popup(PROD)
+                }
+                else if (state == -1) {
+                    ShowAlertMessage('warning', data['Message'])
+                }
+            }
+        });
+    }
 });
