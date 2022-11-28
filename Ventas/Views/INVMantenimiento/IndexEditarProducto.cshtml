@@ -1,0 +1,209 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section scripts{
+    <script src="~/Scripts/Inventario/EditarProducto.js"></script>
+}
+
+@section styles{
+    <style>
+        .col-form-label {
+            padding-top: 10px;
+            padding-right: 1px;
+            text-align: right;
+            font-size: 10.6px;
+            /*color: gray;*/
+            font-weight: bold;
+            width: 115px;
+            /*border: 1px solid;
+            background-color: darkseagreen;*/
+        }
+
+        #gridContainer span.current-value {
+            display: inline-block;
+            margin-right: 5px;
+        }
+
+        #gridContainer span.diff {
+            width: 50px;
+            display: inline-block;
+        }
+    </style>
+}
+
+<div class="card">
+    <span class="badge badge-pill badge-secondary d-none">MODIFICAR DATOS DE UN PRODUCTO</span>
+    <div class="card-body">
+        <form id="formVentas">
+            <div class="row justify-content-center">
+                <div class="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-3 pt-1">
+                    <div class="input-group text-center">
+                        <span class="col-form-label">CODIGO:</span>
+                        <input type="text" class="form-control text-center" id="txtBuscarCodigo" name="txtBuscarCodigo" required>
+                    </div>
+                </div>
+                <div class="col-12 col-sm-6 col-md-2 col-lg-2 col-xl-2 pt-1 text-center d-none">
+                    <button class="btn btn-secondary" id="botonInforme"><i class="far fa-filter"></i> BUSCAR</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<input type="hidden" id="hfIdProducto" />
+<div class="card">
+    <span class="badge badge-pill badge-secondary d-none">DETALLES DE UN PRODUCTO</span>
+    <div class="card-body">
+        <div class="row">
+            <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 pt-1">
+                <div class="input-group text-right">
+                    <span class="col-form-label">CODIGO 1:</span>
+                    <input type="text" class="form-control" id="txtCodigo1" name="txtCodigo1">
+                </div>
+            </div>
+            <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 pt-1">
+                <div class="input-group text-right">
+                    <span class="col-form-label">CODIGO 2:</span>
+                    <input type="text" class="form-control" id="txtCodigo2" name="txtCodigo2">
+                </div>
+            </div>
+            <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 pt-1">
+                <div class="input-group text-right">
+                    <span class="col-form-label">NOMBRE:</span>
+                    <input type="text" class="form-control" id="txtNombre" name="txtNombre">
+                </div>
+            </div>
+            <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 pt-1">
+                <div class="input-group text-right">
+                    <span class="col-form-label">DESCRIPCION:</span>
+                    <input type="text" class="form-control" id="txtDescripcion" name="txtDescripcion">
+                </div>
+            </div>
+            <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 pt-1">
+                <div class="input-group text-right">
+                    <span class="col-form-label">MARCA REPUESTO:</span>
+                    <input type="text" class="form-control" id="txtMarcaRepuesto" name="txtMarcaRepuesto">
+                </div>
+            </div>
+            <div class="col-12 col-sm-12 col-md-6 col-lg-6 col-xl-4 pt-1">
+                <div class="input-group text-right">
+                    <span class="col-form-label">PRECIO COSTO:</span>
+                    <input type="text" class="form-control text-center" id="txtPrecioCosto" name="txtPrecioCosto">
+                </div>
+            </div>
+            <div class="col-12 col-sm-12 col-md-6 col-lg-6 col-xl-4 pt-1">
+                <div class="input-group text-right">
+                    <span class="col-form-label">PRECIO VENTA:</span>
+                    <input type="text" class="form-control text-center" id="txtPrecioVenta" name="txtPrecioVenta">
+                </div>
+            </div>
+            <div class="col-12 col-sm-12 col-md-6 col-lg-6 col-xl-4 pt-1">
+                <div class="input-group text-right">
+                    <span class="col-form-label">STOCK:</span>
+                    <input type="text" class="form-control text-center" id="txtStock" name="txtStock" onkeypress="return valideKey(event);" required>
+                </div>
+            </div>
+            <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 pt-1">
+                <div class="input-group justify-content-center">
+                    <button type="button" class="btn btn-success" id="btnGuardarEncabezado"><i class="far fa-check"></i> ACTUALIZAR DATOS</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="card">
+    <span class="badge badge-pill badge-secondary d-none">CARGAR IMAGEN DE UN PRODUCTO</span>
+    <div class="card-body">
+        <div class="row">
+            <div class=" col-12 col-sm-12 col-md-12 col-lg-12 col-lg-12 col-xl-12 mt-2">
+                <div class="input-group text-right">
+                    <span class="col-form-label">Subir imagen:</span>
+                    <input type="file" class="form-control form-control-file" id="idPathImagen">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="card">
+    <span class="badge badge-pill badge-secondary d-none">CAMBIAR URL DE IMAGEN DE UN PRODUCTO</span>
+    <div class="card-body">
+        <div class="row">
+            <div class=" col-12 col-sm-12 col-md-12 col-lg-12 col-lg-12 col-xl-12">
+                <div class="input-group text-right">
+                    <span class="col-form-label">URL Imagen:</span>
+                    <input type="text" class="form-control text-center" id="txtURLProducto" name="txtURLProducto">
+                </div>
+            </div>
+            <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 pt-1">
+                <div class="input-group justify-content-center">
+                    <button type="button" class="btn btn-success" id="btnActualizarURL"><i class="far fa-check"></i> ACTUALIZAR IMAGEN</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="card">
+    <span class="badge badge-pill badge-secondary"></span>
+    <div class="card-body">
+        <div class="row">
+            <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 pt-1">
+                <button class="btn btn-outline-primary" id="btnModalAgregarDetalle"><i class="far fa-plus"></i> Agregar detalle</button>
+            </div>
+            <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 pt-2">
+                <div class="demo-container">
+                    <div id="exportButton"></div>
+                    <div id="gridContainer"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="modalAgregarDetalle">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title d-none">AGREGAR DETALLE DE PRODUCTO</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span style="color:red" aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-12 col-sm-6 col-md-3 col-lg-3 col-xl-3 pt-1">
+                        <div class="input-group text-right">
+                            <span class="col-form-label">AÑO INICIAL:</span>
+                            <input type="text" class="form-control" id="txtAnioInicial" name="txtAnioInicial" maxlength="4" onkeypress="return valideKey(event);" required>
+                        </div>
+                    </div>
+                    <div class="col-12 col-sm-6 col-md-3 col-lg-3 col-xl-3 pt-1">
+                        <div class="input-group text-right">
+                            <span class="col-form-label">AÑO FINAL:</span>
+                            <input type="text" class="form-control" id="txtAnioFinal" name="txtAnioFinal" maxlength="4" onkeypress="return valideKey(event);" required>
+                        </div>
+                    </div>
+                    <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 pt-1">
+                        <div class="input-group text-right">
+                            <span class="col-form-label">MARCA VEHICULO:</span>
+                            <input type="text" class="form-control" id="txtMarcaVehiculo" name="txtMarcaVehiculo" required>
+                        </div>
+                    </div>
+                    <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 pt-1">
+                        <div class="input-group text-right">
+                            <span class="col-form-label">LINEA VEHICULO:</span>
+                            <input type="text" class="form-control" id="txtLineaVehiculo" name="txtLineaVehiculo" required>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer justify-content-center">
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">CERRAR</button>
+                    <button type="submit" class="btn btn-success" id="btnGuardarDetalle">GUARDAR</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -441,9 +441,9 @@ $(document).ready(function () {
     });
     $('#btnBuscarClientes').on('click', function (e) {
         e.preventDefault();
-        ImprimirScript()
+        //ImprimirScript()
         //window.open('/VENCrearVenta/ImprimirFactura');
-        //GetListClientes();
+        GetListClientes();
     });
     $('#btnBuscarProductos').on('click', function (e) {
         e.preventDefault();
@@ -550,7 +550,7 @@ $(document).ready(function () {
         var email = $('#txtEmailCrear').val();
         var nit = $('#txtNitCrear').val();
 
-        if (nombre == '' || nombre != '') {
+        if (nombre == '') {
             ShowAlertMessage('warning', 'Debes ingresar un nombre de cliente.')
             return;
         }
@@ -663,7 +663,6 @@ $(document).ready(function () {
         e.preventDefault();
         ValidarLogin()
     });
-
     $('#btnAbrirModalAutProducto').on('click', function (e) {
         e.preventDefault();
         $('#txtUserAutProd').val('');
@@ -991,14 +990,13 @@ $(document).ready(function () {
 
         return true;
     }
-
     function ImprimirScript() {
         $.ajax({
             type: 'GET',
             url: '/VENCrearVenta/GetHTML',
             contentType: "application/json; charset=utf-8",
             dataType: 'json',
-            data: { },
+            data: {},
             cache: false,
             success: function (data) {
                 var state = data["State"];
