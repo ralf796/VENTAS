@@ -54,5 +54,7 @@ namespace Ventas_BE
         public string NOMBRE_COMPLETO { get; set; }
         public string SOLO_NOMBRE { get; set; }
         public string CODIGO_INTERNO { get; set; }
+        public int ANIO_INICIAL { get; set; }
+        public int ANIO_FINAL { get; set; }
     }
 }

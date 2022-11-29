@@ -34,6 +34,8 @@ namespace Ventas_DAL
                 model.Command.Parameters.AddWithValue("@anioVehiculo", item.ANIO_VEHICULO);
                 model.Command.Parameters.AddWithValue("@CODIGO", item.CODIGO);
                 model.Command.Parameters.AddWithValue("@CODIGO2", item.CODIGO2);
+                model.Command.Parameters.AddWithValue("@ANIO_INICIAL", item.ANIO_INICIAL);
+                model.Command.Parameters.AddWithValue("@ANIO_FINAL", item.ANIO_FINAL);
                 //model.Command.Parameters.AddWithValue("@NOMBREDESC", item.NOMBRE);
                 result = model.GetData<Ventas__BE>();
             }

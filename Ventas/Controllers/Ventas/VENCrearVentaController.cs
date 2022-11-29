@@ -420,7 +420,7 @@ namespace Ventas.Controllers.Ventas
                 return Json(new { State = -1, Message = ex.Message }, JsonRequestBehavior.AllowGet);
             }
         }
-        public JsonResult GetProductosTable(string filtro = "")
+        public JsonResult GetProductosTable(string filtro = "", int anioI = 0, int anioF = 0)
         {
             try
             {
@@ -430,6 +430,8 @@ namespace Ventas.Controllers.Ventas
                 item.CODIGO = "";
                 item.CODIGO2 = "";
                 item.NOMBRE_MODELO = filtro;
+                item.ANIO_INICIAL = anioI;
+                item.ANIO_FINAL = anioF;
                 lista = GetDatosSP_(item);
                 return Json(new { State = 1, data = lista }, JsonRequestBehavior.AllowGet);
             }

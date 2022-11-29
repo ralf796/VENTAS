@@ -38,13 +38,24 @@
 <div class="card">
     <span class="badge badge-pill badge-secondary">LISTADO DE PRODUCTOS</span>
     <div class="card-body">
-        <div class="input-group col-12">
-            <div class="input-group-prepend">
-                <div class="input-group-text">INGRESE SU BÚSQUEDA</div>
+        <div class="row justify-content-center">
+            <div class="col-12 col-sm-12 col-md-8 col-lg-8 col-xl-8">
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <div class="input-group-text">INGRESE SU BUSQUEDA</div>
+                    </div>
+                    <input type="text" class="form-control" id="txtFiltro">
+                </div>
             </div>
-            <input type="text" class="form-control" id="txtFiltro">
-        </div>
-        <div class="row">
+            <div class="col-12 col-sm-12 col-md-4 col-lg-4 col-xl-4">
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <div class="input-group-text">INGRESE MODELO</div>
+                    </div>
+                    <input type="text" class="form-control text-center" id="anioI" maxlength="4" onkeypress="return valideKey(event);">
+                    <input type="text" class="form-control text-center" id="anioF" maxlength="4" onkeypress="return valideKey(event);">
+                </div>
+            </div>
             <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
                 <div class="demo-container">
                     <div id="exportButton"></div>

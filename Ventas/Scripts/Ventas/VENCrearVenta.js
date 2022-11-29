@@ -550,7 +550,7 @@ $(document).ready(function () {
         var email = $('#txtEmailCrear').val();
         var nit = $('#txtNitCrear').val();
 
-        if (nombre == '' || nombre != '') {
+        if (nombre == '') {
             ShowAlertMessage('warning', 'Debes ingresar un nombre de cliente.')
             return;
         }
@@ -756,7 +756,24 @@ $(document).ready(function () {
         ValidarAutorizacionEditarProducto(ID_PRODUCTO, NOMBRE, DESCRIPCION, PRECIO_COSTO, PRECIO_VENTA, usuarioModifica)
     });
 
-    function GetDatosGridProductos(filtro) {
+    function GetDatosGridProductos() {
+        var filtro = $('#txtFiltro').val();
+        var anioI = $('#anioI').val();
+        var anioF = $('#anioF').val();
+
+
+        if (filtro.length < 4) {
+            if (gridProductos != null) {
+                gridProductos.option('dataSource', []);
+            }
+            return;
+        }
+
+        if (anioI.length < 4)
+            anioI = 0;
+        if (anioF.length < 4)
+            anioF = 0;
+
         var customStore = new DevExpress.data.CustomStore({
             load: function (loadOptions) {
                 var d = $.Deferred();
@@ -765,7 +782,7 @@ $(document).ready(function () {
                     url: '/VENCrearVenta/GetProductosTable',
                     contentType: "application/json; charset=utf-8",
                     dataType: 'json',
-                    data: { filtro },
+                    data: { filtro, anioI, anioF },
                     cache: false,
                     success: function (data) {
                         var state = data["State"];
@@ -961,20 +978,25 @@ $(document).ready(function () {
         var code = (e.keyCode ? e.keyCode : e.which);
         if (code == 13) {
             e.preventDefault();
-            var filtro = $(this).val();
-            if (filtro.length > 3)
-                GetDatosGridProductos(filtro);
+            GetDatosGridProductos();
         }
     });
     $('#txtFiltro').on('keyup', function (e) {
         e.preventDefault();
-        var filtro = $(this).val();
-        if (filtro.length > 3)
-            GetDatosGridProductos(filtro);
-        else {
-            if (gridProductos != null) {
-                gridProductos.option('dataSource', []);
-            }
+        GetDatosGridProductos();
+    });
+    $('#anioI').on('keyup', function (e) {
+        e.preventDefault();
+        var anioI = $('#anioI').val();
+        if (anioI.length > 3) {
+            GetDatosGridProductos();
+        }
+    });
+    $('#anioF').on('keyup', function (e) {
+        e.preventDefault();
+        var anioF = $('#anioF').val();
+        if (anioF.length > 3) {
+            GetDatosGridProductos();
         }
     });
 

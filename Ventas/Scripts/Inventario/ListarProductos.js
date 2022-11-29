@@ -2,7 +2,24 @@
 $(document).ready(function () {
     DevExpress.localization.locale(navigator.language);
     var cont = 0;
-    function GetDatosGridProductos(filtro) {
+    function GetDatosGridProductos() {
+        var filtro = $('#txtFiltro').val();
+        var anioI = $('#anioI').val();
+        var anioF = $('#anioF').val();
+
+
+        if (filtro.length < 4) {
+            if (gridProductos != null) {
+                gridProductos.option('dataSource', []);
+            }
+            return;
+        }
+
+        if (anioI.length < 4)
+            anioI = 0;
+        if (anioF.length < 4)
+            anioF = 0;
+
         var customStore = new DevExpress.data.CustomStore({
             load: function (loadOptions) {
                 var d = $.Deferred();
@@ -11,7 +28,7 @@ $(document).ready(function () {
                     url: '/INVMantenimiento/GetProductosTable',
                     contentType: "application/json; charset=utf-8",
                     dataType: 'json',
-                    data: { filtro },
+                    data: { filtro, anioI, anioF },
                     cache: false,
                     success: function (data) {
                         var state = data["State"];
@@ -238,8 +255,7 @@ $(document).ready(function () {
             success: function (data) {
                 var state = data["State"];
                 if (state == 1) {
-                    var filtro = $('#txtFiltro').val();
-                    GetDatosGridProductos(filtro)
+                    GetDatosGridProductos()
                     ShowAlertMessage('success', mensaje)
                     $('#modalAddStock').modal('hide');
                     $('#modalEditarProducto').modal('hide');
@@ -295,22 +311,27 @@ $(document).ready(function () {
         var code = (e.keyCode ? e.keyCode : e.which);
         if (code == 13) {
             e.preventDefault();
-            var filtro = $(this).val();
-            if (filtro.length > 3)
-                GetDatosGridProductos(filtro);
+            GetDatosGridProductos();
         }
     });
     $('#txtFiltro').on('keyup', function (e) {
         e.preventDefault();
-        var filtro = $(this).val();
-        if (filtro.length > 3)
-            GetDatosGridProductos(filtro);
-        else {
-            if (gridProductos != null) {
-                gridProductos.option('dataSource', []);
-            }
+        GetDatosGridProductos();
+    });
+    $('#anioI').on('keyup', function (e) {
+        e.preventDefault();
+        var anioI = $('#anioI').val();
+        if (anioI.length > 3) {
+            GetDatosGridProductos();
         }
-    });    
+    });
+    $('#anioF').on('keyup', function (e) {
+        e.preventDefault();
+        var anioF = $('#anioF').val();
+        if (anioF.length > 3) {
+            GetDatosGridProductos();
+        }
+    });
     $('#formModificarProducto').submit(function (e) {
         e.preventDefault();
 

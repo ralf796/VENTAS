@@ -138,7 +138,7 @@ namespace Ventas.Controllers.Inventario
                 return Json(new { State = -1, Message = ex.Message }, JsonRequestBehavior.AllowGet);
             }
         }
-        public JsonResult GetProductosTable(string filtro = "")
+        public JsonResult GetProductosTable(string filtro = "", int anioI = 0, int anioF = 0)
         {
             try
             {
@@ -146,6 +146,8 @@ namespace Ventas.Controllers.Inventario
                 item.MTIPO = 24;
                 item.ID_UPDATE = 0;
                 item.NOMBRE_MODELO = filtro;
+                item.ANIO_INICIAL = anioI;
+                item.ANIO_FINAL = anioF;
                 var lista = GetInventario_select_(item);
                 return Json(new { State = 1, data = lista }, JsonRequestBehavior.AllowGet);
             }
@@ -179,7 +181,9 @@ namespace Ventas.Controllers.Inventario
         }
 
         //public JsonResult OperacionesProducto(string NOMBRE = "", string DESCRIPCION = "", decimal PRECIO_COSTO = 0, decimal PRECIO_VENTA = 0, int STOCK = 0, string CODIGO = "", int ID_MARCA_REPUESTO = 0, int ID_SERIE_VEHICULO = 0, int ID_PRODUCTO = 0, int tipo = 0)
-        public JsonResult OperacionesProducto(int ID_PRODUCTO = 0, string NOMBRE = "", int STOCK = 0, decimal PRECIO_COSTO = 0, decimal PRECIO_VENTA = 0, string PATH = "", int tipo = 0, string DESCRIPCION = "")
+        //public JsonResult OperacionesProducto(int ID_PRODUCTO = 0, string NOMBRE = "", int STOCK = 0, decimal PRECIO_COSTO = 0, decimal PRECIO_VENTA = 0, string PATH = "", int tipo = 0, string DESCRIPCION = "")
+        /*NOMBRE, DESCRIPCION, CODIGO, CODIGO2, STOCK, PRECIO_COSTO, PRECIO_VENTA, ANIO_INICIAL, ANIO_FINAL, PATH, NOMBRE_MARCA_REPUESTO, NOMBRE_MARCA_VEHICULO, NOMBRE_SERIE_VEHICULO, NOMBRE_DISTRIBUIDOR, tipo*/
+        public JsonResult OperacionesProducto(int ID_PRODUCTO = 0, string NOMBRE = "", int STOCK = 0, decimal PRECIO_COSTO = 0, decimal PRECIO_VENTA = 0, string PATH = "", int tipo = 0, string DESCRIPCION = "", string CODIGO = "", string CODIGO2 = "")
         {
             try
             {
@@ -192,6 +196,8 @@ namespace Ventas.Controllers.Inventario
                 row.STOCK = STOCK;
                 row.PRECIO_COSTO = PRECIO_COSTO;
                 row.PRECIO_VENTA = PRECIO_VENTA;
+                row.CODIGO = CODIGO;
+                row.CODIGO2 = CODIGO2;
 
                 if (PATH != "" && PATH != null)
                     row.PATH_IMAGEN = PATH;
