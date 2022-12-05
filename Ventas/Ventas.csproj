@@ -2665,6 +2665,7 @@
     <Content Include="Scripts\Inventario\Bodega.js" />
     <Content Include="Scripts\Inventario\Categoria.js" />
     <Content Include="Scripts\Inventario\CrearProducto.js" />
+    <Content Include="Scripts\Inventario\EditarProducto.js" />
     <Content Include="Scripts\Inventario\ListarProductos.js" />
     <Content Include="Scripts\Inventario\MarcaRepuesto.js" />
     <Content Include="Scripts\Inventario\Modelo.js" />
@@ -2676,6 +2677,7 @@
     <Content Include="Scripts\Reportes\REPCobros.js" />
     <Content Include="Scripts\Reportes\REPCortes.js" />
     <Content Include="Scripts\Reportes\REPGeneral.js" />
+    <Content Include="Scripts\Reportes\REPProdCasaComercial.js" />
     <Content Include="Scripts\Reportes\REPProductos.js" />
     <Content Include="Scripts\Reportes\REPProductosGeneral.js" />
     <Content Include="Scripts\Reportes\REPProductosVendidos.js" />
@@ -2725,6 +2727,7 @@
     <Compile Include="Controllers\Reportes\REPCobrosController.cs" />
     <Compile Include="Controllers\Reportes\REPCortesController.cs" />
     <Compile Include="Controllers\Reportes\REPGeneralController.cs" />
+    <Compile Include="Controllers\Reportes\REPProdCasaComercialController.cs" />
     <Compile Include="Controllers\Reportes\REPProductosController.cs" />
     <Compile Include="Controllers\Reportes\REPProductosGeneralController.cs" />
     <Compile Include="Controllers\Reportes\REPProductosVendidosController.cs" />
@@ -3400,6 +3403,8 @@
     <Content Include="Views\REPProductoUnico\Index.cshtml" />
     <Content Include="Views\REPBitacora\Index.cshtml" />
     <Content Include="Views\REPProductosVendidos\Index.cshtml" />
+    <Content Include="Views\INVMantenimiento\IndexEditarProducto.cshtml" />
+    <Content Include="Views\REPProdCasaComercial\Index.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

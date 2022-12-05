@@ -59,5 +59,6 @@ namespace Ventas_BE
         public string FECHA_VENTA_STRING { get; set; }
         public DateTime FECHA_VENTA { get; set; }
         public string CODIGO_INTERNO { get; set; }
+        public string NOMBRE_DISTRIBUIDOR { get; set; }
     }
 }

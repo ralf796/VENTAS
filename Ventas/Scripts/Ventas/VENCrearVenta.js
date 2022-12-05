@@ -374,6 +374,7 @@ $(document).ready(function () {
                         ShowAlertMessage('warning', 'No existen productos con el código ingresado.');
                     }
                     else {
+                         console.log(PROD)
                         $('#hfIdProducto').val(PROD.ID_PRODUCTO);
                         //$('#txtCodigo').val(PROD.CODIGO);
                         $('#txtNombreProducto').val(PROD.NOMBRE_COMPLETO);
@@ -383,6 +384,15 @@ $(document).ready(function () {
                         $('#hfCodigo2').val(PROD.CODIGO2);
                         $('#hfMarcaR').val(PROD.NOMBRE_MARCA_REPUESTO);
                         $('#hfNombre').val(PROD.NOMBRE);
+
+                        $('#txtMarcaRepuesto').val(PROD.NOMBRE_MARCA_REPUESTO);
+                        $('#txtMarcaVehiculo').val(PROD.NOMBRE_MARCA_VEHICULO);
+                        $('#txtLineaVehiculo').val(PROD.NOMBRE_LINEA_VEHICULO);
+
+                        $('#hfDescripcion').val(PROD.DESCRIPCION);
+                        $('#hfPrecioCosto').val(PROD.PRECIO_COSTO);
+                        $('#txtPrecio').attr('title', 'PRECIO COSTO:  ' + PROD.PRECIO_COSTO);
+                        $('#hfPrecioVenta').val(PROD.PRECIO_VENTA);
                     }
                 }
                 else if (state == -1) {
@@ -441,9 +451,9 @@ $(document).ready(function () {
     });
     $('#btnBuscarClientes').on('click', function (e) {
         e.preventDefault();
-        ImprimirScript()
+        //ImprimirScript()
         //window.open('/VENCrearVenta/ImprimirFactura');
-        //GetListClientes();
+        GetListClientes();
     });
     $('#btnBuscarProductos').on('click', function (e) {
         e.preventDefault();
@@ -663,7 +673,6 @@ $(document).ready(function () {
         e.preventDefault();
         ValidarLogin()
     });
-
     $('#btnAbrirModalAutProducto').on('click', function (e) {
         e.preventDefault();
         $('#txtUserAutProd').val('');
@@ -1013,14 +1022,13 @@ $(document).ready(function () {
 
         return true;
     }
-
     function ImprimirScript() {
         $.ajax({
             type: 'GET',
             url: '/VENCrearVenta/GetHTML',
             contentType: "application/json; charset=utf-8",
             dataType: 'json',
-            data: { },
+            data: {},
             cache: false,
             success: function (data) {
                 var state = data["State"];

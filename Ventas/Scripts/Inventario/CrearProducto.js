@@ -21,49 +21,6 @@ $(document).ready(function () {
         //onSelect: GetDataTable
     });
 
-    function GetListsID(selObject, tipo, id) {
-        return new Promise((resolve, reject) => {
-            $.ajax({
-                type: 'GET',
-                url: '/INVMantenimiento/GetDatosTable',
-                contentType: "application/json; charset=utf-8",
-                dataType: 'json',
-                data: { tipo, id },
-                cache: false,
-                success: function (data) {
-                    var list = data["data"];
-                    var state = data["State"];
-                    if (state == 1) {
-                        $(selObject).empty();
-                        $(selObject).append('<option selected value="-1" disabled>Seleccione una opción</option>');
-                        list.forEach(function (dato) {
-                            if (tipo == 4) {
-                                $(selObject).append('<option value="' + dato.ID_SUBCATEGORIA + '">' + dato.NOMBRE + '</option>');
-                            }
-                            else if (tipo == 16) {
-                                $(selObject).append('<option value="' + dato.ID_SERIE_VEHICULO + '">' + dato.NOMBRE + '</option>');
-                            }
-                        });
-                        resolve(1);
-                    }
-                    else if (state == -1)
-                        alert(data["Message"])
-                }
-            });
-        });
-    }
-
-    $('#selCategoria').on('change', function (e) {
-        e.preventDefault();
-        var id = $(this).val();
-        GetListsID('#selSubcategoria', 4, id)
-    });
-    $('#selMarcaVehiculo').on('change', function (e) {
-        e.preventDefault();
-        var id = $(this).val();
-        GetListsID('#selSerieVehiculo', 16, id)
-    });
-
     function GuardarProducto(NOMBRE, DESCRIPCION, CODIGO, CODIGO2, STOCK, PRECIO_COSTO, PRECIO_VENTA, ANIO_INICIAL, ANIO_FINAL, PATH, NOMBRE_MARCA_REPUESTO, NOMBRE_MARCA_VEHICULO, NOMBRE_SERIE_VEHICULO, NOMBRE_DISTRIBUIDOR, ID_PRODUCTO, tipo) {
         $.ajax({
             type: 'GET',
@@ -83,13 +40,11 @@ $(document).ready(function () {
                     $('#txtPrecioVenta').val('');
                     $('#txtStock').val('');
                     $('#txtCodigo').val('');
-
-                    $('#selBodega').val(-1);
-                    $('#selModelo').val(-1);
-                    $('#selProveedor').val(-1);
-                    $('#selMarcaRepuesto').val(-1);
-                    $('#selSubcategoria').empty();
-                    $('#selSerieVehiculo').empty();
+                    $('#txtCodigo2').val('');
+                    $('#txtNombreMarcaRepuesto').val('');
+                    $('#txtNombreDistribuidor').val('');
+                    $('#txtNombreMarcaVehiculo').val('');
+                    $('#txtNombreSerieVehiculo').val('');
                     ShowAlertMessage('success', '¡Producto creado correctamente!');
                 }
                 else if (state == -1) {
@@ -111,7 +66,7 @@ $(document).ready(function () {
         var ANIO_INICIAL = $('#txtAnioI').val();
         var ANIO_FINAL = $('#txtAnioF').val();
         var PATH = $('#txtUploadExcel').val();
-        var NOMBRE_MARCA_REPUESTO = $('#txtNombreMarcaVehiculo').val();
+        var NOMBRE_MARCA_REPUESTO = $('#txtNombreMarcaRepuesto').val();
         var NOMBRE_MARCA_VEHICULO = $('#txtNombreMarcaVehiculo').val();
         var NOMBRE_SERIE_VEHICULO = $('#txtNombreSerieVehiculo').val();
         var NOMBRE_DISTRIBUIDOR = $('#txtNombreDistribuidor').val();
@@ -135,7 +90,7 @@ $(document).ready(function () {
             cancelButtonText: 'No'
         }).then((result) => {
             if (result.value) {
-                
+
                 var file = $("#txtUploadExcel").val();
                 var formData = new FormData();
                 var totalFiles = document.getElementById("txtUploadExcel").files.length;
@@ -161,7 +116,7 @@ $(document).ready(function () {
                                 Swal.fire({
                                     icon: 'success',
                                     type: 'success',
-                                    html: '¡Se crearon ' + contRows + ' productos correctamente.!<br/>Se cargaron '+contRowsDetails+' filas del archivo excel seleccionado.',
+                                    html: '¡Se crearon ' + contRows + ' productos correctamente.!<br/>Se cargaron ' + contRowsDetails + ' filas del archivo excel seleccionado.',
                                     showCancelButton: true,
                                     cancelButtonText: 'Cerrar',
                                     showConfirmButton: false,

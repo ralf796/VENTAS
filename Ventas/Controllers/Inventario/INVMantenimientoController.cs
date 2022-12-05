@@ -10,6 +10,7 @@ using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Security.Policy;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Razor.Parser.SyntaxTree;
@@ -89,6 +90,11 @@ namespace Ventas.Controllers.Inventario
 
         [SessionExpireFilter]
         public ActionResult IndexListarProductos()
+        {
+            return View();
+        }
+
+        public ActionResult IndexEditarProducto()
         {
             return View();
         }
@@ -179,11 +185,8 @@ namespace Ventas.Controllers.Inventario
                 return Json(new { State = -1, Message = ex.Message }, JsonRequestBehavior.AllowGet);
             }
         }
-
-        //public JsonResult OperacionesProducto(string NOMBRE = "", string DESCRIPCION = "", decimal PRECIO_COSTO = 0, decimal PRECIO_VENTA = 0, int STOCK = 0, string CODIGO = "", int ID_MARCA_REPUESTO = 0, int ID_SERIE_VEHICULO = 0, int ID_PRODUCTO = 0, int tipo = 0)
-        //public JsonResult OperacionesProducto(int ID_PRODUCTO = 0, string NOMBRE = "", int STOCK = 0, decimal PRECIO_COSTO = 0, decimal PRECIO_VENTA = 0, string PATH = "", int tipo = 0, string DESCRIPCION = "")
-        /*NOMBRE, DESCRIPCION, CODIGO, CODIGO2, STOCK, PRECIO_COSTO, PRECIO_VENTA, ANIO_INICIAL, ANIO_FINAL, PATH, NOMBRE_MARCA_REPUESTO, NOMBRE_MARCA_VEHICULO, NOMBRE_SERIE_VEHICULO, NOMBRE_DISTRIBUIDOR, tipo*/
-        public JsonResult OperacionesProducto(int ID_PRODUCTO = 0, string NOMBRE = "", int STOCK = 0, decimal PRECIO_COSTO = 0, decimal PRECIO_VENTA = 0, string PATH = "", int tipo = 0, string DESCRIPCION = "", string CODIGO = "", string CODIGO2 = "")
+        public JsonResult OperacionesProducto(int ID_PRODUCTO = 0, string NOMBRE = "", int STOCK = 0, decimal PRECIO_COSTO = 0, decimal PRECIO_VENTA = 0, string PATH = "", int tipo = 0, string DESCRIPCION = "",
+            string CODIGO = "", string CODIGO2 = "", string NOMBRE_MARCA_REPUESTO = "", string NOMBRE_MARCA_VEHICULO = "", string NOMBRE_SERIE_VEHICULO = "", string NOMBRE_DISTRIBUIDOR = "", int ANIO_INICIAL = 0, int ANIO_FINAL = 0)
         {
             try
             {
@@ -198,6 +201,13 @@ namespace Ventas.Controllers.Inventario
                 row.PRECIO_VENTA = PRECIO_VENTA;
                 row.CODIGO = CODIGO;
                 row.CODIGO2 = CODIGO2;
+                row.NOMBRE_MARCA_REPUESTO = NOMBRE_MARCA_REPUESTO;
+                row.NOMBRE_MARCA_VEHICULO = NOMBRE_MARCA_VEHICULO;
+                row.NOMBRE_SERIE_VEHICULO = NOMBRE_SERIE_VEHICULO;
+                row.NOMBRE_DISTRIBUIDOR = NOMBRE_DISTRIBUIDOR;
+                row.ANIO_INICIAL = ANIO_INICIAL;
+                row.ANIO_FINAL= ANIO_FINAL;
+
 
                 if (PATH != "" && PATH != null)
                     row.PATH_IMAGEN = PATH;
@@ -211,6 +221,10 @@ namespace Ventas.Controllers.Inventario
                     if (lista.FirstOrDefault().RESPUESTA != "")
                     {
                         respuesta = lista.FirstOrDefault().RESPUESTA;
+
+
+                        row.MTIPO = 4;
+                        var resultDetalleProducto = Inventario_BLL.GetSPInventario(row);
                     }
                 }
                 return Json(new { State = 1 }, JsonRequestBehavior.AllowGet);
@@ -324,7 +338,157 @@ namespace Ventas.Controllers.Inventario
                 return Json(new { State = -1, Message = ex.Message.ToString() }, JsonRequestBehavior.AllowGet);
             }
         }
+        public JsonResult GetProductoEditar(string codigo = "")
+        {
+            try
+            {
+                var item = new Inventario_BE();
+                item.MTIPO = 25;
+                item.ID_UPDATE = 0;
+                item.NOMBRE_MODELO = codigo;
+                var lista = GetInventario_select_(item).FirstOrDefault();
+                return Json(new { State = 1, data = lista }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                return Json(new { State = -1, Message = ex.Message }, JsonRequestBehavior.AllowGet);
+            }
+        }
+        public JsonResult GetDetallesProductoEditar(string codigo = "")
+        {
+            try
+            {
+                var item = new Inventario_BE();
+                item.MTIPO = 26;
+                item.ID_UPDATE = 0;
+                item.NOMBRE_MODELO = codigo;
+                var lista = GetInventario_select_(item);
+                return Json(new { State = 1, data = lista }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                return Json(new { State = -1, Message = ex.Message }, JsonRequestBehavior.AllowGet);
+            }
+        }
+        public JsonResult EliminarDetalleProducto(int ID_DETALLE = 0)
+        {
+            try
+            {
+                var item = new Inventario_BE();
+                item.MTIPO = 27;
+                item.ID_UPDATE = ID_DETALLE;
+                item.NOMBRE_MODELO = "";
+                var lista = GetInventario_select_(item);
+                return Json(new { State = 1, data = lista }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                return Json(new { State = -1, Message = ex.Message }, JsonRequestBehavior.AllowGet);
+            }
+        }
+        public JsonResult AgregarDetalleProducto(int anioI = 0, int anioF = 0, string marcaV = "", string linea = "", string codigo1 = "", string codigo2 = "")
+        {
+            try
+            {
+                var item = new Inventario_BE();
+                item.MTIPO = 4;
+                item.ANIO_INICIAL = anioI;
+                item.ANIO_FINAL = anioF;
+                item.NOMBRE_MARCA_VEHICULO = marcaV;
+                item.NOMBRE_SERIE_VEHICULO = linea;
+                item.CODIGO = codigo1;
+                item.CODIGO2 = codigo2;
+                var resultDetalleProducto = Inventario_BLL.GetSPInventario(item);
+                return Json(new { State = 1 }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                return Json(new { State = -1, Message = ex.Message }, JsonRequestBehavior.AllowGet);
+            }
+        }
+        public JsonResult CambiarURLImagenProducto(int id_producto = 0, string url = "")
+        {
+            try
+            {
+                var item = new Inventario_BE();
+                item.MTIPO = 28;
+                item.ID_UPDATE = id_producto;
+                item.NOMBRE_MODELO = url;
+                var lista = GetInventario_select_(item);
+                return Json(new { State = 1 }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                return Json(new { State = -1, Message = ex.Message }, JsonRequestBehavior.AllowGet);
+            }
+        }
+        public JsonResult CambiarImagenProducto(FormCollection formCollection)
+        {
+            try
+            {
+                int estado = 1;
+                string path = "", url = "";
+                int id_producto = Convert.ToInt32(Request.Form["ID_PRODUCTO"]);
+                HttpPostedFileBase file = Request.Files["FileUpload"];
+                var randomNumber = new Random().Next(0, 100);
 
+                if ((file != null) && (file.ContentLength > 0) && !string.IsNullOrEmpty(file.FileName))
+                {
+                    string fileName = file.FileName;
+                    string[] separarNombre = fileName.Split('.');
+                    string extension = separarNombre[1];
+                    Bitmap filee = new Bitmap(file.InputStream);
+                    string directory = Server.MapPath(@"~\Varios\ProductosIMG");
+                    if (!Directory.Exists(fileName))
+                    {
+                        Directory.CreateDirectory(directory);
+                    }
+
+                    path = Server.MapPath(@"~\Varios\ProductosIMG\" + separarNombre[0] + randomNumber + ".png");
+                    filee.Save(path);
+
+                    var urlBuilder = new System.UriBuilder(Request.Url.AbsoluteUri) { Path = Url.Content(@"~\Varios\ProductosIMG\" + separarNombre[0] + randomNumber + ".png"), Query = null, };
+                    Uri uri = urlBuilder.Uri;
+                    url = urlBuilder.ToString();
+                }
+
+                var item = new Inventario_BE();
+                item.MTIPO = 28;
+                item.ID_UPDATE = id_producto;
+                item.NOMBRE_MODELO = url;
+                var lista = GetInventario_select_(item);
+
+                return Json(new { State = estado }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                return Json(new { State = -1, Message = ex.Message.ToString() }, JsonRequestBehavior.AllowGet);
+            }
+        }
+        public JsonResult ActualizarEncabezadoProducto(int ID_PRODUCTO = 0, string NOMBRE = "", string DESCRIPCION = "", string MARCA_REPUESTO = "", int STOCK = 0, decimal PRECIO_COSTO = 0, decimal PRECIO_VENTA = 0, string CODIGO = "", string CODIGO2 = "")
+        {
+            try
+            {
+                var row = new Inventario_BE();
+                row.ID_PRODUCTO = ID_PRODUCTO;
+                row.CODIGO = CODIGO;
+                row.CODIGO2 = CODIGO2;
+                row.NOMBRE = NOMBRE;
+                row.DESCRIPCION = DESCRIPCION;
+                row.STOCK = STOCK;
+                row.PRECIO_COSTO = PRECIO_COSTO;
+                row.PRECIO_VENTA = PRECIO_VENTA;
+                row.NOMBRE_MARCA_REPUESTO = MARCA_REPUESTO;
+                row.MTIPO = 9;
+
+                var lista = GetDatosInventario_(row);
+                return Json(new { State = 1 }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                return Json(new { State = -1, Message = ex.Message }, JsonRequestBehavior.AllowGet);
+            }
+        }
         #endregion
 
         #region FUNCTIONS
