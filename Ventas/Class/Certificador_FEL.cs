@@ -5,7 +5,8 @@ using System.Web;
 using System.Web.Services.Description;
 using Ventas_BE;
 using Ventas_BLL;
-using static Ventas.Class.WService;
+using conectorfelv2;
+
 
 namespace Ventas.Class
 {
@@ -19,7 +20,6 @@ namespace Ventas.Class
             return lista;
         }
         #endregion
-
 
         public static string Firmar_Factura(FEL_BE VENTA, string moneda = "GTQ")
         {
@@ -54,12 +54,12 @@ namespace Ventas.Class
             item.ID_VENTA = VENTA.ID_VENTA;
             var ENCABEZADO_VENTA = GetDatosSP_(item).FirstOrDefault();
             ID_DOC = ENCABEZADO_VENTA.SERIE + "-" + ENCABEZADO_VENTA.CORRELATIVO.ToString();
-            FechaEmision = ENCABEZADO_VENTA.FECHA.ToString();
+            //FechaEmision = ENCABEZADO_VENTA.FECHA.ToString();
             NIT_Receptor = ENCABEZADO_VENTA.NIT_CLIENTE.Replace("-", "").Replace("/", "").Trim();
             Nombre_Receptor = ENCABEZADO_VENTA.NOMBRE_CLIENTE.Replace("\"", ""); ;
             Direccion_Receptor = ENCABEZADO_VENTA.DIRECCION_CLIENTE;
             TotalFactura = ENCABEZADO_VENTA.TOTAL;
-            TotalIVA = ENCABEZADO_VENTA.TOTAL_IVA;
+            //TotalIVA = ENCABEZADO_VENTA.TOTAL_IVA;
 
             /*
             //// Datos_generales = request.Datos_generales("GTQ", FechaEmision, "FACT", "", "");   
@@ -106,7 +106,6 @@ namespace Ventas.Class
             */
             return "";
         }
-
         public static string Firma_NC(FEL_BE ENCABEZADO)
         {
             //apifel4.RequestCertificacionFel requestNC = new RequestCertificacionFel();
@@ -144,7 +143,7 @@ namespace Ventas.Class
 
             TOTAL_IDP_NC = "0";
             //TotalSinIVA = decimal.Parse(TotalNC) - decimal.Parse(TOTAL_IDP_NC) - decimal.Parse(TotalIVA_NC);
-            FechaFac = ENCABEZADO.FECHA_FACTURA;
+            //FechaFac = ENCABEZADO.FECHA_FACTURA;
             Motivo = ENCABEZADO.MOTIVO;
             UUID_Anula = ENCABEZADO.UUID_ANULA;
             //TOTAL_GALONES = 0;
@@ -170,5 +169,61 @@ namespace Ventas.Class
             */
             return response;
         }
+
+
+        public static string Firmar_Factura_FEL(FEL_BE VENTA)
+        {
+            //CREDENCIALES FEL
+            var item = new FEL_BE();
+            item.MTIPO = 1;
+            var CREDENCIALES_FEL = GetDatosSP_(item).FirstOrDefault();
+
+            //DATOS EMPRESA LOCAL
+            item = new FEL_BE();
+            item.MTIPO = 2;
+            var DATOS_EMPRESA = GetDatosSP_(item).FirstOrDefault();
+
+            //DATOS ENCABEZADO VENTA
+            item = new FEL_BE();
+            item.MTIPO = 3;
+            item.ID_VENTA = VENTA.ID_VENTA;
+            var ENCABEZADO_VENTA = GetDatosSP_(item).FirstOrDefault();
+
+            //DETALLES VENTA
+            List<FEL_BE> DETALLES_VENTA = new List<FEL_BE>();
+            item = new FEL_BE();
+            item.MTIPO = 4;
+            item.ID_VENTA = VENTA.ID_VENTA;
+            DETALLES_VENTA = GetDatosSP_(item);
+
+            conectorfelv2.RequestCertificacionFel request = new RequestCertificacionFel();
+            string response;
+            bool Datos_generales, Datos_emisor, Datos_receptor, Frases;
+            bool Item_un_impuesto, Total_impuestos, Totales, Adenda, Agregar_adenda;
+
+            Datos_generales = request.Datos_generales("GTQ", ENCABEZADO_VENTA.FECHA_FACTURA.ToString("yyyy-MM-dd hh:mm:ss"), "FACT", "", "", "");
+            Datos_emisor = request.Datos_emisor("GEN", DATOS_EMPRESA.NO_ESTABLECIMIENTO, DATOS_EMPRESA.CODIGO_POSTAL, DATOS_EMPRESA.CORREO_EMISOR, DATOS_EMPRESA.PAIS, DATOS_EMPRESA.DEPARTAMENTO, DATOS_EMPRESA.MUNICIPIO, DATOS_EMPRESA.DIRECCION_ESTABLECIMIENTO, DATOS_EMPRESA.NIT_EMPRESA, DATOS_EMPRESA.NOMBRE_EMPRESA, DATOS_EMPRESA.NOMBRE_EMPRESA);
+            Datos_receptor = request.Datos_receptor(ENCABEZADO_VENTA.NIT_CLIENTE.Replace("-", "").Replace("/", "").Trim(), ENCABEZADO_VENTA.NOMBRE_CLIENTE, "12002", "alejandrolopez445@gmail.com", DATOS_EMPRESA.PAIS, DATOS_EMPRESA.DEPARTAMENTO, DATOS_EMPRESA.MUNICIPIO, ENCABEZADO_VENTA.DIRECCION_CLIENTE, "");
+            //Datos_receptor = request.Datos_receptor("89693515", "Alejandro López", "12002", "ingenieriaiosgt@gmail.com", "GT", "GUATEMALA", "GUATEMALA", "CUIDAD", "");
+
+            Frases = request.Frases(1, 1, "", "");
+
+            int rowDetalles = 1;
+            foreach (var row in DETALLES_VENTA)
+            {
+                Item_un_impuesto = request.Item_un_impuesto("B", "UND", row.CANTIDAD.ToString(), row.DESCRIPCION_PRODUCTO, rowDetalles, row.PRECIO_UNITARIO.ToString("N2"), row.TOTAL_CON_IVA.ToString("N2"), "0", row.TOTAL_CON_IVA.ToString("N2"), "IVA", 1, "", row.TOTAL_SIN_IVA.ToString("N2"), row.TOTAL_IVA.ToString("N2"));
+                rowDetalles++;
+            }
+            Total_impuestos = request.total_impuestos("IVA", ENCABEZADO_VENTA.TOTAL_IVA.ToString("N2"));
+            Totales = request.Totales(ENCABEZADO_VENTA.TOTAL_CON_IVA.ToString("N2"));
+            
+            var randomNumber = new Random().Next(0, 100);
+            Adenda = request.Adendas("Codigo_cliente", ENCABEZADO_VENTA.ID_CLIENTE.ToString());//Información Adicional
+            Adenda = request.Adendas("Observaciones", $"SE APLICÓ UN DESCUENTO EN TIENDA POR Q {ENCABEZADO_VENTA.TOTAL_DESCUENTO.ToString("N2")}");
+            Agregar_adenda = request.Agregar_adendas();
+            response = request.enviar_peticion_fel(CREDENCIALES_FEL.USUARIO_FEL, CREDENCIALES_FEL.LLAVE_FEL, ENCABEZADO_VENTA.IDENTIFICADOR + randomNumber.ToString(), "ingenieriaiosgt@gmail.com", CREDENCIALES_FEL.USUARIO_PFX, CREDENCIALES_FEL.LLAVE_PFX, true);
+            return response;
+        }
+
     }
 }

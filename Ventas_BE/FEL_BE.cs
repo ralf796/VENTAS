@@ -18,13 +18,12 @@ namespace Ventas_BE
         public int CORRELATIVO { get; set; }
         public int NO_ESTABLECIMIENTO { get; set; }
         public string RESOLUCION { get; set; }
-        public string FECHA { get; set; }
+        public DateTime FECHA_FACTURA { get; set; }
         public string NIT_CLIENTE { get; set; }
         public string NOMBRE_CLIENTE { get; set; }
         public string DIRECCION_CLIENTE { get; set; }
         public string DIRECCION_ESTABLECIMIENTO { get; set; }
         public string TOTAL { get; set; }
-        public string TOTAL_IVA { get; set; }
         public string NIT_EMPRESA { get; set; }
         public string MOTIVO { get; set; }
         public string SERIE_FEL { get; set; }
@@ -33,7 +32,7 @@ namespace Ventas_BE
         public int PRODUCTO { get; set; }
         public string DESCRIPCION_PRODUCTO { get; set; }
         public decimal PRECIO { get; set; }
-        public decimal CANTIDAD { get; set; }
+        public int CANTIDAD { get; set; }
         public decimal DESCUENTO { get; set; }
         public string NOMBRE_EMPRESA { get; set; }
         public string MensajeRespuesta { get; set; }
@@ -42,11 +41,24 @@ namespace Ventas_BE
         public string TOTAL_NOTA { get; set; }
         public string NO_NC { get; set; }
         public string FECHA_NOTA { get; set; }
-        public string FECHA_FACTURA { get; set; }
         public string UUID_ANULA { get; set; }
         public int ESTADO { get; set; }
         public string NO_ELECTRONICO { get; set; }
         public string RESOLUCION_FAC { get; set; }
         public string TOTAL_IVA_NC { get; set; }
+        public string CORREO_EMISOR { get; set; }
+        public string CODIGO_POSTAL { get; set; }
+        public string PAIS { get; set; }
+        public string DEPARTAMENTO { get; set; }
+        public string MUNICIPIO { get; set; }
+        public string IDENTIFICADOR { get; set; }
+        public decimal TOTAL_IVA { get; set; }
+        public decimal TOTAL_SIN_IVA { get; set; }
+        public decimal TOTAL_DESCUENTO { get; set; }
+        public decimal TOTAL_CON_IVA { get; set; }
+        public decimal TOTAL_VENTA { get; set; }
+        public decimal PRECIO_UNITARIO { get; set; }
+        public int ID_CLIENTE { get; set; }
+        public DateTime? FECHA_CERTIFICACION { get; set; }
     }
 }

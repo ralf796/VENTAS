@@ -10,6 +10,7 @@ using System.Linq;
 using System.Reflection;
 using System.Web;
 using System.Web.Mvc;
+using Ventas.Class;
 using Ventas_BE;
 using Ventas_BLL;
 
@@ -239,6 +240,8 @@ namespace Ventas.Controllers.Ventas
                 else
                 {
                     DescontProduct(Convert.ToInt32(item.ID_VENTA));
+
+                    FirmarFEL(Convert.ToInt32(item.ID_VENTA));
                 }
                 return Json(new { State = state, ORDEN_COMPRA = item.ID_VENTA }, JsonRequestBehavior.AllowGet);
             }
@@ -609,104 +612,104 @@ namespace Ventas.Controllers.Ventas
 
                 System.Text.StringBuilder html = new System.Text.StringBuilder();
                 html.AppendLine(@"
-    <!DOCTYPE html>
-<html>
-    <head>
-        <style>
+                        <!DOCTYPE html>
+                    <html>
+                        <head>
+                            <style>
 
-* {
-    font-size: 12px;
-    font-family: 'Times New Roman';
-}
+                    * {
+                        font-size: 12px;
+                        font-family: 'Times New Roman';
+                    }
 
-td,
-th,
-tr,
-table {
-    border-top: 1px solid black;
-    border-collapse: collapse;
-}
+                    td,
+                    th,
+                    tr,
+                    table {
+                        border-top: 1px solid black;
+                        border-collapse: collapse;
+                    }
 
-td.producto,
-th.producto {
-    width: 75px;
-    max-width: 75px;
-}
+                    td.producto,
+                    th.producto {
+                        width: 75px;
+                        max-width: 75px;
+                    }
 
-td.cantidad,
-th.cantidad {
-    width: 40px;
-    max-width: 40px;
-    word-break: break-all;
-}
+                    td.cantidad,
+                    th.cantidad {
+                        width: 40px;
+                        max-width: 40px;
+                        word-break: break-all;
+                    }
 
-td.precio,
-th.precio {
-    width: 40px;
-    max-width: 40px;
-    word-break: break-all;
-}
+                    td.precio,
+                    th.precio {
+                        width: 40px;
+                        max-width: 40px;
+                        word-break: break-all;
+                    }
 
-.centrado {
-    text-align: center;
-    align-content: center;
-}
+                    .centrado {
+                        text-align: center;
+                        align-content: center;
+                    }
 
-.ticket {
-    width: 155px;
-    max-width: 155px;
-}
+                    .ticket {
+                        width: 155px;
+                        max-width: 155px;
+                    }
 
-img {
-    max-width: inherit;
-    width: inherit;
-}
-</style>
-    </head>
-    <body>
-        <div class='ticket'>
-            <img
-                src='https://yt3.ggpht.com/-3BKTe8YFlbA/AAAAAAAAAAI/AAAAAAAAAAA/ad0jqQ4IkGE/s900-c-k-no-mo-rj-c0xffffff/photo.jpg'
-                alt='Logotipo'>
-            <p class='centrado'>Parzibyte's blog
-                <br>New New York
-                <br>23/08/2017 08:22 a.m.</p>
-            <table>
-                <thead>
-                    <tr>
-                        <th class='cantidad'>CANT</th>
-                        <th class='producto'>PRODUCTO</th>
-                        <th class='precio'>$$</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td class='cantidad'>1.00</td>
-                        <td class='producto'>CHEETOS VERDES 80 G</td>
-                        <td class='precio'>$8.50</td>
-                    </tr>
-                    <tr>
-                        <td class='cantidad'>2.00</td>
-                        <td class='producto'>KINDER DELICE</td>
-                        <td class='precio'>$10.00</td>
-                    </tr>
-                    <tr>
-                        <td class='cantidad'>1.00</td>
-                        <td class='producto'>COCA COLA 600 ML</td>
-                        <td class='precio'>$10.00</td>
-                    </tr>
-                    <tr>
-                        <td class='cantidad'></td>
-                        <td class='producto'>TOTAL</td>
-                        <td class='precio'>$28.50</td>
-                    </tr>
-                </tbody>
-            </table>
-            <p class='centrado'>¡GRACIAS POR SU COMPRA!
-                <br>parzibyte.me</p>
-        </div>
-    </body>
-</html>
+                    img {
+                        max-width: inherit;
+                        width: inherit;
+                    }
+                    </style>
+                        </head>
+                        <body>
+                            <div class='ticket'>
+                                <img
+                                    src='https://yt3.ggpht.com/-3BKTe8YFlbA/AAAAAAAAAAI/AAAAAAAAAAA/ad0jqQ4IkGE/s900-c-k-no-mo-rj-c0xffffff/photo.jpg'
+                                    alt='Logotipo'>
+                                <p class='centrado'>Parzibyte's blog
+                                    <br>New New York
+                                    <br>23/08/2017 08:22 a.m.</p>
+                                <table>
+                                    <thead>
+                                        <tr>
+                                            <th class='cantidad'>CANT</th>
+                                            <th class='producto'>PRODUCTO</th>
+                                            <th class='precio'>$$</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td class='cantidad'>1.00</td>
+                                            <td class='producto'>CHEETOS VERDES 80 G</td>
+                                            <td class='precio'>$8.50</td>
+                                        </tr>
+                                        <tr>
+                                            <td class='cantidad'>2.00</td>
+                                            <td class='producto'>KINDER DELICE</td>
+                                            <td class='precio'>$10.00</td>
+                                        </tr>
+                                        <tr>
+                                            <td class='cantidad'>1.00</td>
+                                            <td class='producto'>COCA COLA 600 ML</td>
+                                            <td class='precio'>$10.00</td>
+                                        </tr>
+                                        <tr>
+                                            <td class='cantidad'></td>
+                                            <td class='producto'>TOTAL</td>
+                                            <td class='precio'>$28.50</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <p class='centrado'>¡GRACIAS POR SU COMPRA!
+                                    <br>parzibyte.me</p>
+                            </div>
+                        </body>
+                    </html>
                 ");
 
                 return Json(new { State = 1, data = html.ToString() }, JsonRequestBehavior.AllowGet);
@@ -714,6 +717,106 @@ img {
             catch (Exception ex)
             {
                 return Json(new { State = -1, Message = ex.Message }, JsonRequestBehavior.AllowGet);
+            }
+        }
+
+
+        public JsonResult SaveFact()
+        {
+            try
+            {
+                var item = new FEL_BE();
+                item.ID_VENTA = 136;
+                //var respuesta = Certificador_FEL.Firmar_Factura_FEL(item);
+
+                string certificaFEL = Certificador_FEL.Firmar_Factura_FEL(item);
+                string[] respuestaFel = certificaFEL.Split(',');//lo guardo dentro de un array
+                string json = JsonConvert.SerializeObject(respuestaFel);
+                var lista = JsonConvert.DeserializeObject(json);
+                string respuesta = respuestaFel[0];
+                string[] resp_final = respuesta.Split(':');
+                if (resp_final[1].Equals("true"))
+                {
+                    //UUID FEL
+                    string[] arrUUID = respuestaFel[4].Split(':');
+                    string uuid = arrUUID[1];//UUID respuesta de xml de FEL
+
+                    //------------SERIE FEL
+                    string[] arrSerieFinal = respuestaFel[5].Split(':');
+                    string serie_fel = arrSerieFinal[1]; //Serie respuesta de xml de FEL
+
+                    //------------NÚMERO FEL
+                    string[] arrNumeroFinal = respuestaFel[6].Split(':');
+                    decimal numeroFel = Convert.ToDecimal(arrNumeroFinal[1]);//Número respuesta de xml de FEL
+                                                                             //------------FECHA CERTIFICACIÓN FEL
+                    DateTime fechaCertificacion;
+                    DateTime.TryParse(respuestaFel[8].Replace("\"", "").Replace("fecha:", ""), out fechaCertificacion);
+
+
+                    var update = new FEL_BE();
+                    update.MTIPO = 5;
+                    update.ID_VENTA = item.ID_VENTA;
+                    update.UUID = uuid;
+                    update.SERIE_FEL = serie_fel;
+                    update.NUMERO_FEL = numeroFel;
+                    update.FECHA_CERTIFICACION= fechaCertificacion;
+                    var respuesta_update= FEL_BLL.GetDatosSP(update).FirstOrDefault();
+                    
+                }
+
+                return Json(new { State = 1, RESPUESTA = respuestaFel }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                return Json(new { State = -1, Message = ex.Message }, JsonRequestBehavior.AllowGet);
+            }
+        }
+
+        public void FirmarFEL(int idVenta = 0)
+        {
+            try
+            {
+                var item = new FEL_BE();
+                item.ID_VENTA = idVenta;
+                //var respuesta = Certificador_FEL.Firmar_Factura_FEL(item);
+
+                string certificaFEL = Certificador_FEL.Firmar_Factura_FEL(item);
+                string[] respuestaFel = certificaFEL.Split(',');//lo guardo dentro de un array
+                string json = JsonConvert.SerializeObject(respuestaFel);
+                var lista = JsonConvert.DeserializeObject(json);
+                string respuesta = respuestaFel[0];
+                string[] resp_final = respuesta.Split(':');
+                if (resp_final[1].Equals("true"))
+                {
+                    //UUID FEL
+                    string[] arrUUID = respuestaFel[4].Split(':');
+                    string uuid = arrUUID[1];//UUID respuesta de xml de FEL
+
+                    //------------SERIE FEL
+                    string[] arrSerieFinal = respuestaFel[5].Split(':');
+                    string serie_fel = arrSerieFinal[1]; //Serie respuesta de xml de FEL
+
+                    //------------NÚMERO FEL
+                    string[] arrNumeroFinal = respuestaFel[6].Split(':');
+                    decimal numeroFel = Convert.ToDecimal(arrNumeroFinal[1]);//Número respuesta de xml de FEL
+                                                                             //------------FECHA CERTIFICACIÓN FEL
+                    DateTime fechaCertificacion;
+                    DateTime.TryParse(respuestaFel[8].Replace("\"", "").Replace("fecha:", ""), out fechaCertificacion);
+
+
+                    var update = new FEL_BE();
+                    update.MTIPO = 5;
+                    update.ID_VENTA = item.ID_VENTA;
+                    update.UUID = uuid;
+                    update.SERIE_FEL = serie_fel;
+                    update.NUMERO_FEL = numeroFel;
+                    update.FECHA_CERTIFICACION = fechaCertificacion;
+                    var respuesta_update = FEL_BLL.GetDatosSP(update).FirstOrDefault();
+
+                }
+            }
+            catch
+            {
             }
         }
     }

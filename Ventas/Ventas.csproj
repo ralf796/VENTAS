@@ -43,6 +43,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="conectorNETv2, Version=2022.11.28.1, Culture=neutral, PublicKeyToken=81197962dae1458a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>Dll\mSDKs\conectorNETv2.dll</HintPath>
+    </Reference>
     <Reference Include="CrystalDecisions.CrystalReports.Engine, Version=13.0.4000.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL" />
     <Reference Include="CrystalDecisions.ReportSource, Version=13.0.4000.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL" />
     <Reference Include="CrystalDecisions.Shared, Version=13.0.4000.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL" />
@@ -2572,6 +2576,34 @@
     <Content Include="Dll\EPPlus.System.Drawing.6.0.0\lib\net6.0\EPPlus.System.Drawing.dll" />
     <Content Include="Dll\EPPlus.System.Drawing.6.0.0\lib\netstandard2.0\EPPlus.System.Drawing.dll" />
     <Content Include="Dll\EPPlus.System.Drawing.6.0.0\lib\netstandard2.1\EPPlus.System.Drawing.dll" />
+    <Content Include="Dll\mSDKs\al.exe" />
+    <Content Include="Dll\mSDKs\AxImp.exe" />
+    <Content Include="Dll\mSDKs\CertMgr.Exe" />
+    <Content Include="Dll\mSDKs\conectorNETv2.dll" />
+    <Content Include="Dll\mSDKs\face.vb" />
+    <Content Include="Dll\mSDKs\gacutil.exe" />
+    <Content Include="Dll\mSDKs\ildasm.exe" />
+    <Content Include="Dll\mSDKs\lc.exe" />
+    <Content Include="Dll\mSDKs\Mdbg.exe" />
+    <Content Include="Dll\mSDKs\MdbgCore.dll" />
+    <Content Include="Dll\mSDKs\MdbgDis.dll" />
+    <Content Include="Dll\mSDKs\midl.exe" />
+    <Content Include="Dll\mSDKs\midlc.exe" />
+    <Content Include="Dll\mSDKs\mt.exe" />
+    <Content Include="Dll\mSDKs\PEVerify.exe" />
+    <Content Include="Dll\mSDKs\RC.Exe" />
+    <Content Include="Dll\mSDKs\RcDll.Dll" />
+    <Content Include="Dll\mSDKs\ResGen.exe" />
+    <Content Include="Dll\mSDKs\sgen.exe" />
+    <Content Include="Dll\mSDKs\signtool.exe" />
+    <Content Include="Dll\mSDKs\sn.exe" />
+    <Content Include="Dll\mSDKs\SqlMetal.exe" />
+    <Content Include="Dll\mSDKs\SvcConfigEditor.exe" />
+    <Content Include="Dll\mSDKs\SvcUtil.exe" />
+    <Content Include="Dll\mSDKs\TlbExp.exe" />
+    <Content Include="Dll\mSDKs\TlbImp.exe" />
+    <Content Include="Dll\mSDKs\wsdl.exe" />
+    <Content Include="Dll\mSDKs\xsd.exe" />
     <Content Include="Dll\QRCoder.1.4.3\lib\net35\QRCoder.dll" />
     <Content Include="Dll\QRCoder.1.4.3\lib\net40\QRCoder.dll" />
     <Content Include="Dll\QRCoder.1.4.3\lib\net5.0-windows7.0\QRCoder.dll" />
@@ -3369,6 +3401,16 @@
     <Content Include="Dll\EPPlus.System.Drawing.6.0.0\EPPlus.System.Drawing.6.0.0.nupkg" />
     <Content Include="Dll\EPPlus.System.Drawing.6.0.0\license.md" />
     <Content Include="Dll\EPPlus.System.Drawing.6.0.0\readme.md" />
+    <Content Include="Dll\mSDKs\al.exe.config" />
+    <Content Include="Dll\mSDKs\dasmhlp.cnt" />
+    <Content Include="Dll\mSDKs\DASMHLP.HLP" />
+    <Content Include="Dll\mSDKs\gacutil.exe.config" />
+    <Content Include="Dll\mSDKs\ildasm.exe.config" />
+    <Content Include="Dll\mSDKs\PEVerify.exe.config" />
+    <Content Include="Dll\mSDKs\sn.exe.config" />
+    <Content Include="Dll\mSDKs\SqlMetal.exe.config" />
+    <Content Include="Dll\mSDKs\SvcConfigEditor.chm" />
+    <Content Include="Dll\mSDKs\wsdl.exe.config" />
     <None Include="packages.config" />
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
