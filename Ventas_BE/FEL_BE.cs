@@ -52,6 +52,7 @@ namespace Ventas_BE
         public string DEPARTAMENTO { get; set; }
         public string MUNICIPIO { get; set; }
         public string IDENTIFICADOR { get; set; }
+        public string IDENTIFICADOR_UNICO { get; set; }
         public decimal TOTAL_IVA { get; set; }
         public decimal TOTAL_SIN_IVA { get; set; }
         public decimal TOTAL_DESCUENTO { get; set; }
@@ -60,5 +61,7 @@ namespace Ventas_BE
         public decimal PRECIO_UNITARIO { get; set; }
         public int ID_CLIENTE { get; set; }
         public DateTime? FECHA_CERTIFICACION { get; set; }
+        public bool RESULTADO  { get; set; }
+        public string MENSAJE_FEL { get; set; }
     }
 }

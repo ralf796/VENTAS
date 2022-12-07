@@ -220,7 +220,7 @@ namespace Ventas.Controllers.Ventas
                 itemID.MTIPO = 6;
                 item.ID_VENTA = GetDatosSP_(itemID).FirstOrDefault().ID_VENTA;
 
-                if (SaveHeader(Convert.ToInt32(item.ID_VENTA), "SSS", 1, item.ID_CLIENTE, item.TOTAL, item.TOTAL_DESCUENTO, item.SUBTOTAL, usuario) == true)
+                if (SaveHeader(Convert.ToInt32(item.ID_VENTA), "", 1, item.ID_CLIENTE, item.TOTAL, item.TOTAL_DESCUENTO, item.SUBTOTAL, usuario) == true)
                 {
                     foreach (var row in listaDetalles)
                     {
@@ -239,9 +239,13 @@ namespace Ventas.Controllers.Ventas
                     state = 2;
                 else
                 {
-                    DescontProduct(Convert.ToInt32(item.ID_VENTA));
+                    if (Certificar_Factura_FEL(Convert.ToInt32(item.ID_VENTA)).RESULTADO)
+                        DescontProduct(Convert.ToInt32(item.ID_VENTA));
+                    else
+                    {
+                        DeleteOrder(Convert.ToInt32(item.ID_VENTA));
+                    }
 
-                    FirmarFEL(Convert.ToInt32(item.ID_VENTA));
                 }
                 return Json(new { State = state, ORDEN_COMPRA = item.ID_VENTA }, JsonRequestBehavior.AllowGet);
             }
@@ -609,7 +613,6 @@ namespace Ventas.Controllers.Ventas
             try
             {
                 var item = new Ventas__BE();
-
                 System.Text.StringBuilder html = new System.Text.StringBuilder();
                 html.AppendLine(@"
                         <!DOCTYPE html>
@@ -711,7 +714,6 @@ namespace Ventas.Controllers.Ventas
                         </body>
                     </html>
                 ");
-
                 return Json(new { State = 1, data = html.ToString() }, JsonRequestBehavior.AllowGet);
             }
             catch (Exception ex)
@@ -720,51 +722,33 @@ namespace Ventas.Controllers.Ventas
             }
         }
 
-
         public JsonResult SaveFact()
         {
             try
             {
+                string RESPUESTA = "";
                 var item = new FEL_BE();
-                item.ID_VENTA = 136;
-                //var respuesta = Certificador_FEL.Firmar_Factura_FEL(item);
-
-                string certificaFEL = Certificador_FEL.Firmar_Factura_FEL(item);
-                string[] respuestaFel = certificaFEL.Split(',');//lo guardo dentro de un array
-                string json = JsonConvert.SerializeObject(respuestaFel);
-                var lista = JsonConvert.DeserializeObject(json);
-                string respuesta = respuestaFel[0];
-                string[] resp_final = respuesta.Split(':');
-                if (resp_final[1].Equals("true"))
+                item.ID_VENTA = 153;
+                var respuestaFEL = Certificador_FEL.Certificador_XML_FAC_FEL(item);
+                if (respuestaFEL.RESULTADO)
                 {
-                    //UUID FEL
-                    string[] arrUUID = respuestaFel[4].Split(':');
-                    string uuid = arrUUID[1];//UUID respuesta de xml de FEL
-
-                    //------------SERIE FEL
-                    string[] arrSerieFinal = respuestaFel[5].Split(':');
-                    string serie_fel = arrSerieFinal[1]; //Serie respuesta de xml de FEL
-
-                    //------------NÚMERO FEL
-                    string[] arrNumeroFinal = respuestaFel[6].Split(':');
-                    decimal numeroFel = Convert.ToDecimal(arrNumeroFinal[1]);//Número respuesta de xml de FEL
-                                                                             //------------FECHA CERTIFICACIÓN FEL
-                    DateTime fechaCertificacion;
-                    DateTime.TryParse(respuestaFel[8].Replace("\"", "").Replace("fecha:", ""), out fechaCertificacion);
-
-
                     var update = new FEL_BE();
                     update.MTIPO = 5;
                     update.ID_VENTA = item.ID_VENTA;
-                    update.UUID = uuid;
-                    update.SERIE_FEL = serie_fel;
-                    update.NUMERO_FEL = numeroFel;
-                    update.FECHA_CERTIFICACION= fechaCertificacion;
-                    var respuesta_update= FEL_BLL.GetDatosSP(update).FirstOrDefault();
-                    
+                    update.UUID = respuestaFEL.UUID;
+                    update.SERIE_FEL = respuestaFEL.SERIE_FEL;
+                    update.NUMERO_FEL = respuestaFEL.NUMERO_FEL;
+                    update.FECHA_CERTIFICACION = respuestaFEL.FECHA_CERTIFICACION;
+                    var respuesta_update = FEL_BLL.GetDatosSP(update).FirstOrDefault();
+
+                    RESPUESTA = "FACTURA FIRMADA Y GUARDADA";
+                }
+                else
+                {
+                    RESPUESTA = respuestaFEL.MENSAJE_FEL;
                 }
 
-                return Json(new { State = 1, RESPUESTA = respuestaFel }, JsonRequestBehavior.AllowGet);
+                return Json(new { RESPUESTA = RESPUESTA }, JsonRequestBehavior.AllowGet);
             }
             catch (Exception ex)
             {
@@ -772,52 +756,53 @@ namespace Ventas.Controllers.Ventas
             }
         }
 
-        public void FirmarFEL(int idVenta = 0)
+        public FEL_BE Certificar_Factura_FEL(int idVenta = 0)
         {
+            var respuesta = new FEL_BE();
             try
             {
-                var item = new FEL_BE();
-                item.ID_VENTA = idVenta;
-                //var respuesta = Certificador_FEL.Firmar_Factura_FEL(item);
-
-                string certificaFEL = Certificador_FEL.Firmar_Factura_FEL(item);
-                string[] respuestaFel = certificaFEL.Split(',');//lo guardo dentro de un array
-                string json = JsonConvert.SerializeObject(respuestaFel);
-                var lista = JsonConvert.DeserializeObject(json);
-                string respuesta = respuestaFel[0];
-                string[] resp_final = respuesta.Split(':');
-                if (resp_final[1].Equals("true"))
+                respuesta.ID_VENTA = idVenta;
+                respuesta = Certificador_FEL.Certificador_XML_FAC_FEL(respuesta);
+                if (respuesta.RESULTADO)
                 {
-                    //UUID FEL
-                    string[] arrUUID = respuestaFel[4].Split(':');
-                    string uuid = arrUUID[1];//UUID respuesta de xml de FEL
-
-                    //------------SERIE FEL
-                    string[] arrSerieFinal = respuestaFel[5].Split(':');
-                    string serie_fel = arrSerieFinal[1]; //Serie respuesta de xml de FEL
-
-                    //------------NÚMERO FEL
-                    string[] arrNumeroFinal = respuestaFel[6].Split(':');
-                    decimal numeroFel = Convert.ToDecimal(arrNumeroFinal[1]);//Número respuesta de xml de FEL
-                                                                             //------------FECHA CERTIFICACIÓN FEL
-                    DateTime fechaCertificacion;
-                    DateTime.TryParse(respuestaFel[8].Replace("\"", "").Replace("fecha:", ""), out fechaCertificacion);
-
-
                     var update = new FEL_BE();
                     update.MTIPO = 5;
-                    update.ID_VENTA = item.ID_VENTA;
-                    update.UUID = uuid;
-                    update.SERIE_FEL = serie_fel;
-                    update.NUMERO_FEL = numeroFel;
-                    update.FECHA_CERTIFICACION = fechaCertificacion;
+                    update.ID_VENTA = respuesta.ID_VENTA;
+                    update.UUID = respuesta.UUID;
+                    update.SERIE_FEL = respuesta.SERIE_FEL;
+                    update.NUMERO_FEL = respuesta.NUMERO_FEL;
+                    update.FECHA_CERTIFICACION = respuesta.FECHA_CERTIFICACION;
                     var respuesta_update = FEL_BLL.GetDatosSP(update).FirstOrDefault();
-
                 }
             }
             catch
             {
             }
+            return respuesta;
+        }
+        public FEL_BE Anular_Factura_FEL(int idVenta = 0)
+        {
+            var respuesta = new FEL_BE();
+            try
+            {
+                respuesta.ID_VENTA = idVenta;
+                respuesta = Certificador_FEL.Anulador_XML_FEL(respuesta);
+                if (respuesta.RESULTADO)
+                {
+                    var update = new FEL_BE();
+                    update.MTIPO = 5;
+                    update.ID_VENTA = respuesta.ID_VENTA;
+                    update.UUID = respuesta.UUID;
+                    update.SERIE_FEL = respuesta.SERIE_FEL;
+                    update.NUMERO_FEL = respuesta.NUMERO_FEL;
+                    update.FECHA_CERTIFICACION = respuesta.FECHA_CERTIFICACION;
+                    var respuesta_update = FEL_BLL.GetDatosSP(update).FirstOrDefault();
+                }
+            }
+            catch
+            {
+            }
+            return respuesta;
         }
     }
 }

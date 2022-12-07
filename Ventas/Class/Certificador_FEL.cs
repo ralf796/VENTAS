@@ -6,7 +6,14 @@ using System.Web.Services.Description;
 using Ventas_BE;
 using Ventas_BLL;
 using conectorfelv2;
-
+using static Ventas.Class.WService;
+using System.Web.Razor.Tokenizer;
+using System.Text;
+using Newtonsoft.Json;
+using System.Web.Http.Results;
+using RestSharp;
+using System.Drawing;
+using System.Threading.Tasks;
 
 namespace Ventas.Class
 {
@@ -169,9 +176,7 @@ namespace Ventas.Class
             */
             return response;
         }
-
-
-        public static string Firmar_Factura_FEL(FEL_BE VENTA)
+        public static string Certificador_Local_FAC_FEL(FEL_BE VENTA)
         {
             //CREDENCIALES FEL
             var item = new FEL_BE();
@@ -216,7 +221,7 @@ namespace Ventas.Class
             }
             Total_impuestos = request.total_impuestos("IVA", ENCABEZADO_VENTA.TOTAL_IVA.ToString("N2"));
             Totales = request.Totales(ENCABEZADO_VENTA.TOTAL_CON_IVA.ToString("N2"));
-            
+
             var randomNumber = new Random().Next(0, 100);
             Adenda = request.Adendas("Codigo_cliente", ENCABEZADO_VENTA.ID_CLIENTE.ToString());//Información Adicional
             Adenda = request.Adendas("Observaciones", $"SE APLICÓ UN DESCUENTO EN TIENDA POR Q {ENCABEZADO_VENTA.TOTAL_DESCUENTO.ToString("N2")}");
@@ -225,5 +230,363 @@ namespace Ventas.Class
             return response;
         }
 
+        public static FEL_BE Certificador_XML_FAC_FEL(FEL_BE VENTA)
+        {
+            //Objeto Respuesta
+            //conectorfelv2.Respuesta result = new conectorfelv2.Respuesta();
+            FEL_BE RESPUESTA_FEL = new FEL_BE();
+
+            //CREDENCIALES FEL
+            var item = new FEL_BE();
+            item.MTIPO = 1;
+            var CREDENCIALES_FEL = GetDatosSP_(item).FirstOrDefault();
+
+            //DATOS EMPRESA LOCAL
+            item = new FEL_BE();
+            item.MTIPO = 2;
+            var DATOS_EMPRESA = GetDatosSP_(item).FirstOrDefault();
+
+            //DATOS ENCABEZADO VENTA
+            item = new FEL_BE();
+            item.MTIPO = 3;
+            item.ID_VENTA = VENTA.ID_VENTA;
+            var ENCABEZADO_VENTA = GetDatosSP_(item).FirstOrDefault();
+
+            //DETALLES VENTA
+            List<FEL_BE> DETALLES_VENTA = new List<FEL_BE>();
+            item = new FEL_BE();
+            item.MTIPO = 4;
+            item.ID_VENTA = VENTA.ID_VENTA;
+            DETALLES_VENTA = GetDatosSP_(item);
+
+            StringBuilder xml = new StringBuilder();
+            #region XML Documento
+            xml.AppendLine($"<dte:GTDocumento xmlns:ds=\"http://www.w3.org/2000/09/xmldsig#\" xmlns:dte=\"http://www.sat.gob.gt/dte/fel/0.2.0\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" Version=\"0.1\" xsi:schemaLocation=\"http://www.sat.gob.gt/dte/fel/0.2.0\">");
+            xml.AppendLine($"<dte:SAT ClaseDocumento=\"dte\">");
+            xml.AppendLine($"<dte:DTE ID=\"DatosCertificados\">");
+            xml.AppendLine($"<dte:DatosEmision ID=\"DatosEmision\">");
+            xml.AppendLine($"<dte:DatosGenerales CodigoMoneda=\"GTQ\" FechaHoraEmision=\"{ENCABEZADO_VENTA.FECHA_FACTURA.ToString("yyyy-MM-ddThh:mm:ss-06:00")}\" Tipo=\"FACT\" ></dte:DatosGenerales>");
+            xml.AppendLine($"<dte:Emisor AfiliacionIVA=\"GEN\" CodigoEstablecimiento=\"{1}\" CorreoEmisor=\"{DATOS_EMPRESA.CORREO_EMISOR}\" NITEmisor=\"{DATOS_EMPRESA.NIT_EMPRESA}\" NombreComercial=\"{DATOS_EMPRESA.NOMBRE_EMPRESA}\" NombreEmisor=\"{DATOS_EMPRESA.NOMBRE_EMPRESA}\">");
+            xml.AppendLine($"<dte:DireccionEmisor>");
+            xml.AppendLine($"<dte:Direccion>{DATOS_EMPRESA.DIRECCION_ESTABLECIMIENTO}</dte:Direccion>");
+            xml.AppendLine($"<dte:CodigoPostal>" + DATOS_EMPRESA.CODIGO_POSTAL + "</dte:CodigoPostal>");
+            xml.AppendLine($"<dte:Municipio>{DATOS_EMPRESA.MUNICIPIO}</dte:Municipio>");
+            xml.AppendLine($"<dte:Departamento>{DATOS_EMPRESA.DEPARTAMENTO}</dte:Departamento>");
+            xml.AppendLine($"<dte:Pais>GT</dte:Pais>");
+            xml.AppendLine($"</dte:DireccionEmisor>");
+            xml.AppendLine($"</dte:Emisor>");
+            //xml.AppendLine($"<dte:Receptor CorreoReceptor=\"{Cliente.Email ?? Empresa.Email}\" IDReceptor=\"{Cliente.Nit}\" NombreReceptor=\"{Cliente.Nombre}\">");
+            xml.AppendLine($"<dte:Receptor CorreoReceptor=\"alejandrolopez445@gmail.com\" IDReceptor=\"{ENCABEZADO_VENTA.NIT_CLIENTE}\" NombreReceptor=\"{ENCABEZADO_VENTA.NOMBRE_CLIENTE}\">");
+            xml.AppendLine($"<dte:DireccionReceptor>");
+            xml.AppendLine($"<dte:Direccion>{ENCABEZADO_VENTA.DIRECCION_CLIENTE}</dte:Direccion>");
+            xml.AppendLine($"<dte:CodigoPostal>" + DATOS_EMPRESA.CODIGO_POSTAL + "</dte:CodigoPostal>");
+            xml.AppendLine($"<dte:Municipio>" + DATOS_EMPRESA.MUNICIPIO + "</dte:Municipio>");
+            xml.AppendLine($"<dte:Departamento>" + DATOS_EMPRESA.DEPARTAMENTO + "</dte:Departamento>");
+            xml.AppendLine($"<dte:Pais>" + DATOS_EMPRESA.PAIS + "</dte:Pais>");
+            xml.AppendLine($"</dte:DireccionReceptor>");
+            xml.AppendLine($"</dte:Receptor>");
+            xml.AppendLine($"<dte:Frases>");
+            xml.AppendLine($"<dte:Frase CodigoEscenario=\"1\" TipoFrase=\"1\"></dte:Frase>");
+            xml.AppendLine($"</dte:Frases>");
+            xml.AppendLine($"<dte:Items>");
+            int rowDetalles = 1;
+            foreach (var row in DETALLES_VENTA)
+            {
+                //xml.AppendLine($"<dte:Item BienOServicio=\"{(row.Tipo == 1 ? "B" : "S")}\" NumeroLinea=\"{row.Linea}\">");
+                xml.AppendLine($"<dte:Item BienOServicio=\"B\" NumeroLinea=\"{rowDetalles}\">");
+                xml.AppendLine($"<dte:Cantidad>{row.CANTIDAD.ToString("N2")}</dte:Cantidad>");
+                xml.AppendLine($"<dte:UnidadMedida>UND</dte:UnidadMedida>");
+                xml.AppendLine($"<dte:Descripcion>{row.DESCRIPCION_PRODUCTO}</dte:Descripcion>");
+                xml.AppendLine($"<dte:PrecioUnitario>{row.PRECIO_UNITARIO.ToString("0.00")}</dte:PrecioUnitario>");
+                xml.AppendLine($"<dte:Precio>{row.TOTAL_CON_IVA.ToString("0.00")}</dte:Precio>");
+                xml.AppendLine($"<dte:Descuento>0.00</dte:Descuento>");
+                xml.AppendLine($"<dte:Impuestos>");
+                xml.AppendLine($"<dte:Impuesto>");
+                xml.AppendLine($"<dte:NombreCorto>IVA</dte:NombreCorto>");
+                xml.AppendLine($"<dte:CodigoUnidadGravable>1</dte:CodigoUnidadGravable>");
+                xml.AppendLine($"<dte:MontoGravable>{row.TOTAL_SIN_IVA.ToString("0.00")}</dte:MontoGravable>");
+                xml.AppendLine($"<dte:MontoImpuesto>{row.TOTAL_IVA.ToString("0.00")}</dte:MontoImpuesto>");
+                xml.AppendLine($"</dte:Impuesto>");
+                xml.AppendLine($"</dte:Impuestos>");
+                xml.AppendLine($"<dte:Total>{row.TOTAL_CON_IVA.ToString("0.00")}</dte:Total>");
+                xml.AppendLine($"</dte:Item>");
+
+                rowDetalles++;
+            }
+            xml.AppendLine($"</dte:Items>");
+            xml.AppendLine($"<dte:Totales>");
+            xml.AppendLine($"<dte:TotalImpuestos>");
+            xml.AppendLine($"<dte:TotalImpuesto NombreCorto=\"IVA\" TotalMontoImpuesto=\"{ENCABEZADO_VENTA.TOTAL_IVA.ToString("0.00")}\"></dte:TotalImpuesto>");
+            xml.AppendLine($"</dte:TotalImpuestos>");
+            xml.AppendLine($"<dte:GranTotal>{ENCABEZADO_VENTA.TOTAL_CON_IVA.ToString("0.00")}</dte:GranTotal>");
+            xml.AppendLine($"</dte:Totales>");
+            xml.AppendLine($"</dte:DatosEmision>");
+            xml.AppendLine($"</dte:DTE>");
+            xml.AppendLine($"<dte:Adenda>");
+            xml.AppendLine($"<Codigo_cliente>C01</Codigo_cliente>");
+            xml.AppendLine($"<Observaciones>ESTA ES UNA ADENDA</Observaciones>");
+            xml.AppendLine($"</dte:Adenda>");
+            xml.AppendLine($"</dte:SAT>");
+            xml.AppendLine($"</dte:GTDocumento>");
+            #endregion
+
+            #region Firma XML
+            //Firma XML
+            byte[] xmlData = Encoding.UTF8.GetBytes(xml.ToString());
+            string xmlBase64 = Convert.ToBase64String(xmlData);
+            RestClient restClient = new RestClient("https://signer-emisores.feel.com.gt/sign_solicitud_firmas/firma_xml?");
+            FELSignerRequest signedRequest = new FELSignerRequest
+            {
+                llave = CREDENCIALES_FEL.LLAVE_PFX,
+                archivo = xmlBase64,
+                codigo = ENCABEZADO_VENTA.IDENTIFICADOR_UNICO,
+                alias = CREDENCIALES_FEL.USUARIO_FEL,
+                es_anulacion = "N"
+            };
+            var restRequest = new RestRequest();
+            restRequest.Method = Method.Post;
+            restRequest.AddJsonBody(signedRequest);
+            var response = restClient.Execute(restRequest);
+            FELSignerResponse signedResponse = JsonConvert.DeserializeObject<FELSignerResponse>(response.Content);
+
+            if (signedResponse.resultado)
+            {
+                //Item solicitud
+                FELCertificacionRequest felRequest = new FELCertificacionRequest
+                {
+                    correo_copia = DATOS_EMPRESA.CORREO_EMISOR,
+                    nit_emisor = DATOS_EMPRESA.NIT_EMPRESA,
+                    xml_dte = signedResponse.archivo
+                };
+
+                //Certifica
+                restClient = new RestClient("https://certificador.feel.com.gt/fel/certificacion/v2/dte/");
+                restRequest = new RestRequest();
+                restRequest.Method = Method.Post;
+                restRequest.AddHeader("Usuario", CREDENCIALES_FEL.USUARIO_FEL);
+                restRequest.AddHeader("Llave", CREDENCIALES_FEL.LLAVE_FEL);
+                restRequest.AddHeader("Identificador", ENCABEZADO_VENTA.IDENTIFICADOR_UNICO);
+                //restRequest.AddHeader("Observaciones", $"SE APLICÓ UN DESCUENTO EN TIENDA POR Q {ENCABEZADO_VENTA.TOTAL_DESCUENTO.ToString("N2")}");
+                restRequest.AddJsonBody(felRequest);
+
+                //Adenda = request.Adendas("Observaciones", $"SE APLICÓ UN DESCUENTO EN TIENDA POR Q {ENCABEZADO_VENTA.TOTAL_DESCUENTO.ToString("N2")}");
+                response = restClient.Execute(restRequest);
+
+                FELCertificacionResponse felResponse = JsonConvert.DeserializeObject<FELCertificacionResponse>(response.Content);
+
+                RESPUESTA_FEL.RESULTADO = felResponse.resultado;
+
+                if (RESPUESTA_FEL.RESULTADO)
+                {
+                    RESPUESTA_FEL.ID_VENTA = VENTA.ID_VENTA;
+                    RESPUESTA_FEL.UUID = felResponse.uuid;
+                    RESPUESTA_FEL.SERIE_FEL = felResponse.serie;
+                    RESPUESTA_FEL.FECHA_CERTIFICACION = felResponse.fecha;
+                    RESPUESTA_FEL.NUMERO_FEL = Convert.ToDecimal(felResponse.numero);
+                }
+                else
+                {
+                    RESPUESTA_FEL.MENSAJE_FEL = "Documento FEL No generado.";
+                }
+            }
+            else
+            {
+                RESPUESTA_FEL.MENSAJE_FEL = $"Firma de XML no procesada {signedResponse.descripcion}";
+            }
+            #endregion
+            return RESPUESTA_FEL;
+        }
+        public static FEL_BE Anulador_XML_FEL(FEL_BE VENTA)
+        {
+            //CREDENCIALES FEL
+            var item = new FEL_BE();
+            item.MTIPO = 1;
+            var CREDENCIALES_FEL = GetDatosSP_(item).FirstOrDefault();
+
+            //Objeto Respuesta
+            //conectorfelv2.Respuesta result = new conectorfelv2.Respuesta();
+            FEL_BE RESPUESTA_FEL = new FEL_BE();
+
+            #region XML
+            StringBuilder xml = new StringBuilder();
+            xml.AppendLine($"<dte:GTAnulacionDocumento xmlns:ds=\"http://www.w3.org/2000/09/xmldsig#\" xmlns:dte=\"http://www.sat.gob.gt/dte/fel/0.1.0\" xmlns:n1=\"http://www.altova.com/samplexml/other-namespace\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" Version=\"0.1\" xsi:schemaLocation=\"http://www.sat.gob.gt/dte/fel/0.1.0 C:\\Users\\User\\Desktop\\FEL\\Esquemas\\GT_AnulacionDocumento-0.1.0.xsd\">");
+            xml.AppendLine($"<dte:SAT>");
+            xml.AppendLine($"<dte:AnulacionDTE ID=\"DatosCertificados\">");
+            xml.AppendLine($"<dte:DatosGenerales FechaEmisionDocumentoAnular=\"{VENTA.FECHA_FACTURA.ToString("yyyy-MM-ddThh:mm:ss-06:00")}\" FechaHoraAnulacion=\"{DateTime.Now.ToString("yyyy-MM-ddThh:mm:ss-06:00")}\" ID=\"DatosAnulacion\" IDReceptor=\"{VENTA.NIT_CLIENTE}\" MotivoAnulacion=\"Anulación de documento electrónico\" NITEmisor=\"{VENTA.NIT_EMPRESA}\" NumeroDocumentoAAnular=\"{VENTA.UUID}\"></dte:DatosGenerales>");
+            xml.AppendLine($"</dte:AnulacionDTE>");
+            xml.AppendLine($"</dte:SAT>");
+            xml.AppendLine($"</dte:GTAnulacionDocumento>");
+            #endregion
+            #region Firma XML
+            //Firma XML
+            byte[] xmlData = Encoding.UTF8.GetBytes(xml.ToString());
+            string xmlBase64 = Convert.ToBase64String(xmlData);
+            RestClient restClient = new RestClient("https://signer-emisores.feel.com.gt/sign_solicitud_firmas/firma_xml?");
+            FELSignerRequest signedRequest = new FELSignerRequest
+            {
+                llave = CREDENCIALES_FEL.LLAVE_PFX,
+                archivo = xmlBase64,
+                codigo = VENTA.IDENTIFICADOR_UNICO,
+                alias = CREDENCIALES_FEL.USUARIO_FEL,
+                es_anulacion = "S"
+            };
+            //restRequest = new RestRequest();
+            var restRequest = new RestRequest();
+            restRequest.Method = Method.Post;
+            restRequest.AddJsonBody(signedRequest);
+            var response = restClient.Execute(restRequest);
+
+            #endregion
+            FELSignerResponse signedResponse = JsonConvert.DeserializeObject<FELSignerResponse>(response.Content);
+
+            if (signedResponse.resultado)
+            {
+                //Item solicitud
+                FELCertificacionRequest felRequest = new FELCertificacionRequest
+                {
+                    correo_copia = VENTA.CORREO_EMISOR,
+                    nit_emisor = VENTA.NIT_EMPRESA,
+                    xml_dte = signedResponse.archivo
+                };
+
+                //Certifica
+                restClient = new RestClient("https://certificador.feel.com.gt/fel/anulacion/v2/dte/");
+                restRequest = new RestRequest();
+                restRequest.Method = Method.Post;
+                restRequest.AddHeader("Usuario", CREDENCIALES_FEL.USUARIO_FEL);
+                restRequest.AddHeader("Llave", CREDENCIALES_FEL.LLAVE_PFX);
+                restRequest.AddHeader("Identificador", $"{VENTA.IDENTIFICADOR_UNICO}");
+                restRequest.AddJsonBody(felRequest);
+                response = restClient.Execute(restRequest);
+
+                FELCertificacionResponse felResponse = JsonConvert.DeserializeObject<FELCertificacionResponse>(response.Content);
+
+                RESPUESTA_FEL.RESULTADO = felResponse.resultado;
+
+                if (RESPUESTA_FEL.RESULTADO)
+                {
+                    RESPUESTA_FEL.UUID = felResponse.uuid;
+                    RESPUESTA_FEL.SERIE_FEL = felResponse.serie;
+                    RESPUESTA_FEL.NUMERO_FEL = Convert.ToDecimal(felResponse.numero);
+                }
+                else
+                {
+                    RESPUESTA_FEL.MENSAJE_FEL = "Documento FEL No anulado.";
+                }
+            }
+            else
+            {
+                RESPUESTA_FEL.MENSAJE_FEL = $"Firma de XML no procesada {signedResponse.descripcion}";
+            }
+            return RESPUESTA_FEL;
+        }
+
+
+
+        public class FELSignerRequest
+        {
+            public string llave { get; set; }
+            public string archivo { get; set; }
+            public string codigo { get; set; }
+            public string alias { get; set; }
+            public string es_anulacion { get; set; }
+        }
+        public class FELSignerResponse
+        {
+            public bool resultado { get; set; }
+            public string descripcion { get; set; }
+            public string archivo { get; set; }
+        }
+        public class FELCertificacionRequest
+        {
+            public string nit_emisor { get; set; }
+            public string correo_copia { get; set; }
+            public string xml_dte { get; set; }
+        }
+        public class FELCertificacionResponse
+        {
+            public bool resultado { get; set; }
+            public DateTime fecha { get; set; }
+            public string uuid { get; set; }
+            public string serie { get; set; }
+            public string numero { get; set; }
+        }
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*
+            xml.AppendLine($"<dte:GTDocumento xmlns:ds=\"http://www.w3.org/2000/09/xmldsig#\" xmlns: dte =\"http://www.sat.gob.gt/dte/fel/0.2.0\" xmlns: xsi =\"http://www.w3.org/2001/XMLSchema-instance\" Version =\"0.1\" xsi: schemaLocation =\"http://www.sat.gob.gt/dte/fel/0.2.0\">");
+            xml.AppendLine($"<dte:SAT ClaseDocumento=\"dte\">");
+            xml.AppendLine($"<dte:DTE ID=\"DatosCertificados\">");
+            xml.AppendLine($"<dte:DatosEmision ID=\"DatosEmision\">");
+            xml.AppendLine($"<dte:DatosGenerales CodigoMoneda=\"GTQ\" FechaHoraEmision =\"2021-02-26T09:58:00-06:00\" Tipo =\"FACT\"></dte:DatosGenerales>");
+            xml.AppendLine($"<dte:Emisor AfiliacionIVA=\"GEN\" CodigoEstablecimiento =\"1\" CorreoEmisor =\"demo@demo.com.gt\" NITEmisor =\"11111111111K\" NombreComercial =\"DEMO\" NombreEmisor =\"DEMO, SOCIEDAD ANONIMA\">");
+            xml.AppendLine($"<dte:DireccionEmisor>");
+            xml.AppendLine($"<dte:Direccion>CUIDAD</dte:Direccion>");
+            xml.AppendLine($"<dte:CodigoPostal>01001</dte:CodigoPostal>");
+            xml.AppendLine($"<dte:Municipio>GUATEMALA</dte:Municipio>");
+            xml.AppendLine($"<dte:Departamento>GUATEMALA</dte:Departamento>");
+            xml.AppendLine($"<dte:Pais>GT</dte:Pais>");
+            xml.AppendLine($"</dte:DireccionEmisor>");
+            xml.AppendLine($"</dte:Emisor>");
+            xml.AppendLine($"<dte:Receptor CorreoReceptor=\"demo@demo.com\" IDReceptor =\"CF\" NombreReceptor =\"Consumidor Final\">");
+            xml.AppendLine($"<dte:DireccionReceptor>");
+            xml.AppendLine($"<dte:Direccion>CUIDAD</dte:Direccion>");
+            xml.AppendLine($"<dte:CodigoPostal>01001</dte:CodigoPostal>");
+            xml.AppendLine($"<dte:Municipio>GUATEMALA</dte:Municipio>");
+            xml.AppendLine($"<dte:Departamento>GUATEMALA</dte:Departamento>");
+            xml.AppendLine($"<dte:Pais>GT</dte:Pais>");
+            xml.AppendLine($"</dte:DireccionReceptor>");
+            xml.AppendLine($"</dte:Receptor>");
+            xml.AppendLine($"<dte:Frases>");
+            xml.AppendLine($"<dte:Frase CodigoEscenario=\"1\" TipoFrase =\"1\"></dte:Frase>");
+            xml.AppendLine($"</dte:Frases>");
+            xml.AppendLine($"<dte:Items>");
+            xml.AppendLine($"<dte:Item BienOServicio=\"B\" NumeroLinea =\"1\">");
+            xml.AppendLine($"<dte:Cantidad>1.00</dte:Cantidad>");
+            xml.AppendLine($"<dte:UnidadMedida>UND</dte:UnidadMedida>");
+            xml.AppendLine($"<dte:Descripcion>PRODUCTO1 | CODIGO | CAJA</dte:Descripcion>");
+            xml.AppendLine($"<dte:PrecioUnitario>120.00</dte:PrecioUnitario>");
+            xml.AppendLine($"<dte:Precio>120.00</dte:Precio>");
+            xml.AppendLine($"<dte:Descuento>0.00</dte:Descuento>");
+            xml.AppendLine($"<dte:Impuestos>");
+            xml.AppendLine($"<dte:Impuesto>");
+            xml.AppendLine($"<dte:NombreCorto>IVA</dte:NombreCorto>");
+            xml.AppendLine($"<dte:CodigoUnidadGravable>1</dte:CodigoUnidadGravable>");
+            xml.AppendLine($"<dte:MontoGravable>107.14</dte:MontoGravable>");
+            xml.AppendLine($"<dte:MontoImpuesto>12.86</dte:MontoImpuesto>");
+            xml.AppendLine($"</dte:Impuesto>");
+            xml.AppendLine($"</dte:Impuestos>");
+            xml.AppendLine($"<dte:Total>120.00</dte:Total>");
+            xml.AppendLine($"</dte:Item>");
+            xml.AppendLine($"</dte:Items>");
+            xml.AppendLine($"<dte:Totales>");
+            xml.AppendLine($"<dte:TotalImpuestos>");
+            xml.AppendLine($"<dte:TotalImpuesto NombreCorto=\"IVA\" TotalMontoImpuesto =\"12.86\"></dte:TotalImpuesto>");
+            xml.AppendLine($"</dte:TotalImpuestos>");
+            xml.AppendLine($"<dte:GranTotal>120.00</dte:GranTotal>");
+            xml.AppendLine($"</dte:Totales>");
+            xml.AppendLine($"</dte:DatosEmision>");
+            xml.AppendLine($"</dte:DTE>");
+            xml.AppendLine($"<dte:Adenda>");
+            xml.AppendLine($"<Codigo_cliente>C01</Codigo_cliente>");
+            xml.AppendLine($"<Observaciones>ESTA ES UNA ADENDA</Observaciones>");
+            xml.AppendLine($"</dte:Adenda>");
+            xml.AppendLine($"</dte:SAT>");
+            xml.AppendLine($"</dte:GTDocumento>");
+            */
