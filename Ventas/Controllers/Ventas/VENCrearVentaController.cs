@@ -239,12 +239,8 @@ namespace Ventas.Controllers.Ventas
                     state = 2;
                 else
                 {
-                    if (Certificar_Factura_FEL(Convert.ToInt32(item.ID_VENTA)).RESULTADO)
-                        DescontProduct(Convert.ToInt32(item.ID_VENTA));
-                    else
-                    {
-                        DeleteOrder(Convert.ToInt32(item.ID_VENTA));
-                    }
+                    DescontProduct(Convert.ToInt32(item.ID_VENTA));
+                    Certificar_Factura_FEL(Convert.ToInt32(item.ID_VENTA));
 
                 }
                 return Json(new { State = state, ORDEN_COMPRA = item.ID_VENTA }, JsonRequestBehavior.AllowGet);
@@ -728,7 +724,7 @@ namespace Ventas.Controllers.Ventas
             {
                 string RESPUESTA = "";
                 var item = new FEL_BE();
-                item.ID_VENTA = 153;
+                item.ID_VENTA = 164;
                 var respuestaFEL = Certificador_FEL.Certificador_XML_FAC_FEL(item);
                 if (respuestaFEL.RESULTADO)
                 {

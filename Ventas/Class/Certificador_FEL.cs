@@ -14,6 +14,7 @@ using System.Web.Http.Results;
 using RestSharp;
 using System.Drawing;
 using System.Threading.Tasks;
+using RestSharp;
 
 namespace Ventas.Class
 {
@@ -292,6 +293,18 @@ namespace Ventas.Class
             int rowDetalles = 1;
             foreach (var row in DETALLES_VENTA)
             {
+                /*
+                int Cantidad = row.CANTIDAD;
+                string DescripcionProducto = row.DESCRIPCION_PRODUCTO;
+                decimal PrecioUnitario = row.PRECIO;
+                decimal TotalLinea = row.PRECIO * row.CANTIDAD - (decimal)row.DESCUENTO;
+                decimal precio = row.PRECIO * row.CANTIDAD;
+                TotalSinIVA = Math.Round((TotalLinea / (decimal)1.12), 2);
+                DescuentoLinea = (decimal)Detalles.DESCUENTO;
+                UnidadMedida = Detalles.UNIDAD_MEDIDA;
+                IVA = Math.Round(((TotalLinea / (decimal)1.12) * (decimal)0.12), 5);
+                */
+
                 //xml.AppendLine($"<dte:Item BienOServicio=\"{(row.Tipo == 1 ? "B" : "S")}\" NumeroLinea=\"{row.Linea}\">");
                 xml.AppendLine($"<dte:Item BienOServicio=\"B\" NumeroLinea=\"{rowDetalles}\">");
                 xml.AppendLine($"<dte:Cantidad>{row.CANTIDAD.ToString("N2")}</dte:Cantidad>");
@@ -299,7 +312,7 @@ namespace Ventas.Class
                 xml.AppendLine($"<dte:Descripcion>{row.DESCRIPCION_PRODUCTO}</dte:Descripcion>");
                 xml.AppendLine($"<dte:PrecioUnitario>{row.PRECIO_UNITARIO.ToString("0.00")}</dte:PrecioUnitario>");
                 xml.AppendLine($"<dte:Precio>{row.TOTAL_CON_IVA.ToString("0.00")}</dte:Precio>");
-                xml.AppendLine($"<dte:Descuento>0.00</dte:Descuento>");
+                xml.AppendLine($"<dte:Descuento>{row.DESCUENTO_UNITARIO.ToString("0.00")}</dte:Descuento>");
                 xml.AppendLine($"<dte:Impuestos>");
                 xml.AppendLine($"<dte:Impuesto>");
                 xml.AppendLine($"<dte:NombreCorto>IVA</dte:NombreCorto>");
@@ -311,6 +324,11 @@ namespace Ventas.Class
                 xml.AppendLine($"<dte:Total>{row.TOTAL_CON_IVA.ToString("0.00")}</dte:Total>");
                 xml.AppendLine($"</dte:Item>");
 
+                /*
+                conectorfelv2.RequestCertificacionFel request = new RequestCertificacionFel();
+                var tem_un_impuesto = request.Item_un_impuesto("B", "UND", row.CANTIDAD.ToString(), row.DESCRIPCION_PRODUCTO, rowDetalles, row.PRECIO_UNITARIO.ToString("N2"),
+                    row.TOTAL_CON_IVA.ToString("N2"), "0", row.TOTAL_CON_IVA.ToString("N2"), "IVA", 1, "", row.TOTAL_SIN_IVA.ToString("N2"), row.TOTAL_IVA.ToString("N2"));
+                */
                 rowDetalles++;
             }
             xml.AppendLine($"</dte:Items>");
@@ -481,7 +499,152 @@ namespace Ventas.Class
             return RESPUESTA_FEL;
         }
 
+        /*
+        public static string Firma_Facturas(List<WService.DatosFacturaFEL> facturas, List<WService.DatosDetFacturaFEL> Lista_detalles_fac, string moneda = "GTQ", string tasaCambio = "")
+        {
+            RequestCertificacionFel request = new RequestCertificacionFel();
+            genesysEntities db = new genesysEntities();
 
+            string xml_generado;
+            string response = "";
+            bool Datos_generales;
+            bool Datos_emisor;
+            bool Datos_receptor;
+            bool Frases;
+            bool Item_un_impuesto;
+            bool Item_dos_impuesto;
+            bool Total_impuestos;
+            bool Totales;
+            bool Adenda;
+            bool Agregar_adenda;
+            string FechaEmision;
+            int NoEstablecimiento;
+            string NombreEmpresa;
+            string NITEmpresa;
+            string DireccionEstablecimiento;
+            string NIT_Receptor;
+            string Nombre_Receptor;
+            string Direccion_Receptor;
+            decimal Cantidad;
+            string DescripcionProducto;
+            decimal PrecioUnitario;
+            decimal TotalLinea;
+            decimal TotalSinIVA;
+            decimal IVA;
+            decimal DescuentoLinea;
+            string UnidadMedida;
+            string TotalFactura;
+            string TotalIVA;
+            string TOTAL_IDP;
+            string IDP_LINEA;
+            int Empresa;
+            string UsuarioFEL;
+            string UsuarioPFX;
+            string LlaveFEL;
+            string LlavePFX;
+            string ID_DOC;
+            decimal valor2 = 0;
+            string nombreEstablecimiento;
+            WService.DatosFacturaFEL EncabezadoFac;
+
+            Int32 CorrelativoEncabezado = facturas.Count();
+
+            EncabezadoFac = new WService.DatosFacturaFEL();
+            EncabezadoFac = facturas[i];
+
+
+            // VERIFICO SI EL CLIENTE ES DE ZONA FRANCA - aramirez
+            int no_factura_new = EncabezadoFac.NO_FACTURA_ACTUAL;
+            string consultaZF = " select count(*) as total " +
+                    "    from cat_cliente a " +
+                    "    where CLIENTE=" + EncabezadoFac.CLIENTE + "  and a.segmentacion = 3 ";
+
+            int clienteZF = db.Database.SqlQuery<int>(consultaZF).FirstOrDefault();
+            //int clienteZF = 1;
+
+            var uno = clienteZF;
+
+
+            // CONSULTA PARA DEVOLVER LOS DATOS DE CADA SERIE Y RESOLUCION
+            string consulta = "SELECT A.SERIE AS SERIE, A.NO_RESOLUCION AS RESOLUCION, " +
+                                              "        A.RANGO_INICIAL AS R_INICIAL, A.RANGO_FINAL AS R_FINAL, C.NIT AS NIT, " +
+                                              "        C.NOMBRE_EMPRESA AS EMPRESA, D.NOMBRE_ESTABLECIMIENTO, " +
+                                              "        D.NO_ESTABLECIMINETO AS NO_ESTABLECIMIENTO, D.DIR_ESTABLECIMIENTO AS DIRECCION_ESTABLECIMIENTO, C.EMPRESA AS CODEMPRESA, A.TIPO_ACTIVO " +
+                                              "  FROM fac_serie a " +
+                                              "  inner join cat_planta b on a.planta = b.planta " +
+                                              "  inner join cat_establecimiento d on d.establecimiento = a.establecimiento " +
+                                              "  inner join cat_empresa c on d.empresa = c.empresa " +
+                                              "  where serie='" + EncabezadoFac.SERIE + "'  AND NO_RESOLUCION = '" + EncabezadoFac.RESOLUCION + "' ";
+
+
+            Datos_Resolucion_factura resolucion = db.Database.SqlQuery<Datos_Resolucion_factura>(consulta).SingleOrDefault();
+
+            Empresa = Convert.ToInt32(resolucion.CODEMPRESA);
+            NITEmpresa = resolucion.NIT;
+            //    ID_DOC = EncabezadoFac.SERIE + "-2-" + EncabezadoFac.NO_FACTURA.ToString();
+
+            //ID_DOC = EncabezadoFac.SERIE + "-2-" + EncabezadoFac.NO_FACTURA.ToString();
+
+            ID_DOC = EncabezadoFac.SERIE + "-" + EncabezadoFac.RESOLUCION + "-" + EncabezadoFac.NO_FACTURA.ToString();
+
+            // if (Empresa == 6)
+            nombreEstablecimiento = resolucion.NOMBRE_ESTABLECIMIENTO;
+            //  else
+            //  nombreEstablecimiento = resolucion.EMPRESA;
+
+            //CREDENCIALES FEL
+            string consultaFEL = "SELECT USUARIO_FEL AS USUARIO_FEL, USUARIO_PFX AS USUARIO_PFX, LLAVE_FEL AS LLAVE_FEL, LLAVE_PFX AS LLAVE_PFX " +
+                                    " FROM CFG_FEL WHERE EMPRESA = " + Empresa;
+
+            CredencialesFEL credenciales = db.Database.SqlQuery<CredencialesFEL>(consultaFEL).SingleOrDefault();
+
+            UsuarioFEL = credenciales.USUARIO_FEL;
+            UsuarioPFX = credenciales.USUARIO_PFX;
+            LlaveFEL = credenciales.LLAVE_FEL;
+            LlavePFX = credenciales.LLAVE_PFX;
+            FechaEmision = EncabezadoFac.FECHA_FACTURA.ToString();
+            NoEstablecimiento = resolucion.NO_ESTABLECIMIENTO;
+            NombreEmpresa = resolucion.EMPRESA;
+            // nombreEstablecimiento = resolucion.NOMBRE_ESTABLECIMIENTO;
+            DireccionEstablecimiento = resolucion.DIRECCION_ESTABLECIMIENTO;
+            NIT_Receptor = EncabezadoFac.NIT.Replace("-", "").Replace("/", "").Trim();
+            //Nombre_Receptor = EncabezadoFac.NOMBRE_CLIENTE.Replace("\"", "");
+            Nombre_Receptor = HttpUtility.HtmlEncode(EncabezadoFac.NOMBRE_CLIENTE);
+            Direccion_Receptor = EncabezadoFac.DIRECCION;
+            TotalFactura = EncabezadoFac.TOTAL_FACTURA;
+
+            TOTAL_IDP = EncabezadoFac.TOTAL_IDP;
+
+            // Datos_generales = request.Datos_generales("GTQ", FechaEmision, "FACT", "", "");   
+            Datos_generales = request.Datos_generales(moneda, FechaEmision, "FACT", "", "", "");
+            Datos_emisor = request.Datos_emisor("GEN", NoEstablecimiento, "01001", "", "GT", "GUATEMALA", "GUATEMALA", DireccionEstablecimiento, NITEmpresa, NombreEmpresa, nombreEstablecimiento);
+            Datos_receptor = request.Datos_receptor(NIT_Receptor, Nombre_Receptor, "01001", EncabezadoFac.CORREO, "GT", "GUATEMALA", "GUATEMALA", Direccion_Receptor, "");
+
+            WService.DatosDetFacturaFEL Detalles;
+            Int32 CorrelativoDetalles = Lista_detalles_fac.Count();
+
+            for (int d = 0; d < CorrelativoDetalles; d++)
+            {
+                Detalles = new WService.DatosDetFacturaFEL();
+                Detalles = Lista_detalles_fac[d];
+                Cantidad = Detalles.CANTIDAD;
+                DescripcionProducto = Detalles.DESCRIPCION_PRODUCTO;
+                PrecioUnitario = Detalles.PRECIO;
+                TotalLinea = Detalles.PRECIO * Detalles.CANTIDAD - (decimal)Detalles.DESCUENTO;
+                decimal precio = Detalles.PRECIO * Detalles.CANTIDAD;
+                TotalSinIVA = Math.Round((TotalLinea / (decimal)1.12), 2);
+                DescuentoLinea = (decimal)Detalles.DESCUENTO;
+                UnidadMedida = Detalles.UNIDAD_MEDIDA;
+                IVA = Math.Round(((TotalLinea / (decimal)1.12) * (decimal)0.12), 5);
+                Item_un_impuesto = request.Item_un_impuesto("B", UnidadMedida, Cantidad.ToString(), DescripcionProducto, d + 1, PrecioUnitario.ToString(), precio.ToString(), DescuentoLinea.ToString(), TotalLinea.ToString(), "IVA", 1, "", TotalSinIVA.ToString(), IVA.ToString());
+            }
+            Total_impuestos = request.total_impuestos("IVA", TotalIVA);
+            Totales = request.Totales(TotalFactura);
+            Agregar_adenda = request.Agregar_adendas();
+            response = request.enviar_peticion_fel(UsuarioFEL, LlaveFEL, ID_DOC, "", UsuarioPFX, LlavePFX, true);
+            return response;
+        }
+        */
 
         public class FELSignerRequest
         {

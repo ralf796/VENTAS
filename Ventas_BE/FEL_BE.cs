@@ -34,6 +34,7 @@ namespace Ventas_BE
         public decimal PRECIO { get; set; }
         public int CANTIDAD { get; set; }
         public decimal DESCUENTO { get; set; }
+        public decimal DESCUENTO_UNITARIO { get; set; }
         public string NOMBRE_EMPRESA { get; set; }
         public string MensajeRespuesta { get; set; }
         public string OPERACION { get; set; }
@@ -59,9 +60,13 @@ namespace Ventas_BE
         public decimal TOTAL_CON_IVA { get; set; }
         public decimal TOTAL_VENTA { get; set; }
         public decimal PRECIO_UNITARIO { get; set; }
+        public decimal SUBTOTAL_CON_IVA { get; set; }
         public int ID_CLIENTE { get; set; }
         public DateTime? FECHA_CERTIFICACION { get; set; }
         public bool RESULTADO  { get; set; }
         public string MENSAJE_FEL { get; set; }
+        public int ID_PRODUCTO{ get; set; }
+        public string CODIGO_INTERNO{ get; set; }
+        public decimal IVA_UNITARIO { get; set; }
     }
 }
