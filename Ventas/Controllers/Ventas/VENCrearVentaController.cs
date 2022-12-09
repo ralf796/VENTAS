@@ -723,26 +723,36 @@ namespace Ventas.Controllers.Ventas
             try
             {
                 string RESPUESTA = "";
-                var item = new FEL_BE();
-                item.ID_VENTA = 164;
-                var respuestaFEL = Certificador_FEL.Certificador_XML_FAC_FEL(item);
-                if (respuestaFEL.RESULTADO)
-                {
-                    var update = new FEL_BE();
-                    update.MTIPO = 5;
-                    update.ID_VENTA = item.ID_VENTA;
-                    update.UUID = respuestaFEL.UUID;
-                    update.SERIE_FEL = respuestaFEL.SERIE_FEL;
-                    update.NUMERO_FEL = respuestaFEL.NUMERO_FEL;
-                    update.FECHA_CERTIFICACION = respuestaFEL.FECHA_CERTIFICACION;
-                    var respuesta_update = FEL_BLL.GetDatosSP(update).FirstOrDefault();
+                int sinFirma = 0;
+                //var item = new FEL_BE();
+                //item.ID_VENTA = 177;
 
-                    RESPUESTA = "FACTURA FIRMADA Y GUARDADA";
-                }
-                else
+                for (int i = 151; i <= 151; i++)
                 {
-                    RESPUESTA = respuestaFEL.MENSAJE_FEL;
+                    var item = new FEL_BE();
+                    item.ID_VENTA = i;
+
+                    var respuestaFEL = Certificador_FEL.Certificador_XML_FAC_FEL(item);
+                    if (respuestaFEL.RESULTADO)
+                    {
+                        var update = new FEL_BE();
+                        update.MTIPO = 5;
+                        update.ID_VENTA = i;
+                        update.UUID = respuestaFEL.UUID;
+                        update.SERIE_FEL = respuestaFEL.SERIE_FEL;
+                        update.NUMERO_FEL = respuestaFEL.NUMERO_FEL;
+                        update.FECHA_CERTIFICACION = respuestaFEL.FECHA_CERTIFICACION;
+                        var respuesta_update = FEL_BLL.GetDatosSP(update).FirstOrDefault();
+
+                        RESPUESTA = "FACTURA FIRMADA Y GUARDADA";
+                    }
+                    else
+                    {
+                        //RESPUESTA = respuestaFEL.MENSAJE_FEL;
+                        RESPUESTA = $"{RESPUESTA}, {i.ToString()}";
+                    }
                 }
+                RESPUESTA = "Sin firma: " + RESPUESTA;
 
                 return Json(new { RESPUESTA = RESPUESTA }, JsonRequestBehavior.AllowGet);
             }

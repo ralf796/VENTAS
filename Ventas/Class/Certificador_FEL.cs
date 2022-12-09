@@ -262,6 +262,20 @@ namespace Ventas.Class
 
             StringBuilder xml = new StringBuilder();
             #region XML Documento
+
+
+            /*
+            decimal precioUnitario = 120;
+            decimal cantidad = 1;
+            decimal descuento = 10;
+            decimal totalFactura = precioUnitario - descuento;
+            decimal montoGravable = totalFactura / (decimal)1.12;
+            decimal precioTotal = cantidad * precioUnitario;
+            decimal iva = montoGravable * (decimal)0.12;
+            */
+
+
+            /*
             xml.AppendLine($"<dte:GTDocumento xmlns:ds=\"http://www.w3.org/2000/09/xmldsig#\" xmlns:dte=\"http://www.sat.gob.gt/dte/fel/0.2.0\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" Version=\"0.1\" xsi:schemaLocation=\"http://www.sat.gob.gt/dte/fel/0.2.0\">");
             xml.AppendLine($"<dte:SAT ClaseDocumento=\"dte\">");
             xml.AppendLine($"<dte:DTE ID=\"DatosCertificados\">");
@@ -293,17 +307,17 @@ namespace Ventas.Class
             int rowDetalles = 1;
             foreach (var row in DETALLES_VENTA)
             {
-                /*
-                int Cantidad = row.CANTIDAD;
-                string DescripcionProducto = row.DESCRIPCION_PRODUCTO;
-                decimal PrecioUnitario = row.PRECIO;
-                decimal TotalLinea = row.PRECIO * row.CANTIDAD - (decimal)row.DESCUENTO;
-                decimal precio = row.PRECIO * row.CANTIDAD;
-                TotalSinIVA = Math.Round((TotalLinea / (decimal)1.12), 2);
-                DescuentoLinea = (decimal)Detalles.DESCUENTO;
-                UnidadMedida = Detalles.UNIDAD_MEDIDA;
-                IVA = Math.Round(((TotalLinea / (decimal)1.12) * (decimal)0.12), 5);
-                */
+             
+                //int Cantidad = row.CANTIDAD;
+                //string DescripcionProducto = row.DESCRIPCION_PRODUCTO;
+                //decimal PrecioUnitario = row.PRECIO;
+                //decimal TotalLinea = row.PRECIO * row.CANTIDAD - (decimal)row.DESCUENTO;
+                //decimal precio = row.PRECIO * row.CANTIDAD;
+                //TotalSinIVA = Math.Round((TotalLinea / (decimal)1.12), 2);
+                //DescuentoLinea = (decimal)Detalles.DESCUENTO;
+                //UnidadMedida = Detalles.UNIDAD_MEDIDA;
+                //IVA = Math.Round(((TotalLinea / (decimal)1.12) * (decimal)0.12), 5);
+                
 
                 //xml.AppendLine($"<dte:Item BienOServicio=\"{(row.Tipo == 1 ? "B" : "S")}\" NumeroLinea=\"{row.Linea}\">");
                 xml.AppendLine($"<dte:Item BienOServicio=\"B\" NumeroLinea=\"{rowDetalles}\">");
@@ -324,11 +338,11 @@ namespace Ventas.Class
                 xml.AppendLine($"<dte:Total>{row.TOTAL_CON_IVA.ToString("0.00")}</dte:Total>");
                 xml.AppendLine($"</dte:Item>");
 
-                /*
-                conectorfelv2.RequestCertificacionFel request = new RequestCertificacionFel();
-                var tem_un_impuesto = request.Item_un_impuesto("B", "UND", row.CANTIDAD.ToString(), row.DESCRIPCION_PRODUCTO, rowDetalles, row.PRECIO_UNITARIO.ToString("N2"),
-                    row.TOTAL_CON_IVA.ToString("N2"), "0", row.TOTAL_CON_IVA.ToString("N2"), "IVA", 1, "", row.TOTAL_SIN_IVA.ToString("N2"), row.TOTAL_IVA.ToString("N2"));
-                */
+                
+                //conectorfelv2.RequestCertificacionFel request = new RequestCertificacionFel();
+                //var tem_un_impuesto = request.Item_un_impuesto("B", "UND", row.CANTIDAD.ToString(), row.DESCRIPCION_PRODUCTO, rowDetalles, row.PRECIO_UNITARIO.ToString("N2"),
+                //    row.TOTAL_CON_IVA.ToString("N2"), "0", row.TOTAL_CON_IVA.ToString("N2"), "IVA", 1, "", row.TOTAL_SIN_IVA.ToString("N2"), row.TOTAL_IVA.ToString("N2"));
+                
                 rowDetalles++;
             }
             xml.AppendLine($"</dte:Items>");
@@ -346,6 +360,87 @@ namespace Ventas.Class
             xml.AppendLine($"</dte:Adenda>");
             xml.AppendLine($"</dte:SAT>");
             xml.AppendLine($"</dte:GTDocumento>");
+            */
+
+
+
+            xml.AppendLine($"<dte:GTDocumento xmlns:ds=\"http://www.w3.org/2000/09/xmldsig#\" xmlns:dte=\"http://www.sat.gob.gt/dte/fel/0.2.0\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" Version=\"0.1\" xsi:schemaLocation=\"http://www.sat.gob.gt/dte/fel/0.2.0\">");
+            xml.AppendLine($"<dte:SAT ClaseDocumento=\"dte\">");
+            xml.AppendLine($"<dte:DTE ID=\"DatosCertificados\">");
+            xml.AppendLine($"<dte:DatosEmision ID=\"DatosEmision\">");
+            xml.AppendLine($"<dte:DatosGenerales CodigoMoneda=\"GTQ\" FechaHoraEmision=\"{ENCABEZADO_VENTA.FECHA_FACTURA.ToString("yyyy-MM-ddThh:mm:ss-06:00")}\" Tipo=\"FACT\" ></dte:DatosGenerales>");
+            xml.AppendLine($"<dte:Emisor AfiliacionIVA=\"GEN\" CodigoEstablecimiento=\"{1}\" CorreoEmisor=\"{DATOS_EMPRESA.CORREO_EMISOR}\" NITEmisor=\"{DATOS_EMPRESA.NIT_EMPRESA}\" NombreComercial=\"{DATOS_EMPRESA.NOMBRE_EMPRESA}\" NombreEmisor=\"{DATOS_EMPRESA.NOMBRE_EMPRESA}\">");
+            xml.AppendLine($"<dte:DireccionEmisor>");
+            xml.AppendLine($"<dte:Direccion>{DATOS_EMPRESA.DIRECCION_ESTABLECIMIENTO}</dte:Direccion>");
+            xml.AppendLine($"<dte:CodigoPostal>" + DATOS_EMPRESA.CODIGO_POSTAL + "</dte:CodigoPostal>");
+            xml.AppendLine($"<dte:Municipio>{DATOS_EMPRESA.MUNICIPIO}</dte:Municipio>");
+            xml.AppendLine($"<dte:Departamento>{DATOS_EMPRESA.DEPARTAMENTO}</dte:Departamento>");
+            xml.AppendLine($"<dte:Pais>GT</dte:Pais>");
+            xml.AppendLine($"</dte:DireccionEmisor>");
+            xml.AppendLine($"</dte:Emisor>");
+            //xml.AppendLine($"<dte:Receptor CorreoReceptor=\"{Cliente.Email ?? Empresa.Email}\" IDReceptor=\"{Cliente.Nit}\" NombreReceptor=\"{Cliente.Nombre}\">");
+            xml.AppendLine($"<dte:Receptor CorreoReceptor=\"alejandrolopez445@gmail.com\" IDReceptor=\"{ENCABEZADO_VENTA.NIT_CLIENTE}\" NombreReceptor=\"{ENCABEZADO_VENTA.NOMBRE_CLIENTE}\">");
+            xml.AppendLine($"<dte:DireccionReceptor>");
+            xml.AppendLine($"<dte:Direccion>{ENCABEZADO_VENTA.DIRECCION_CLIENTE}</dte:Direccion>");
+            xml.AppendLine($"<dte:CodigoPostal>" + DATOS_EMPRESA.CODIGO_POSTAL + "</dte:CodigoPostal>");
+            xml.AppendLine($"<dte:Municipio>" + DATOS_EMPRESA.MUNICIPIO + "</dte:Municipio>");
+            xml.AppendLine($"<dte:Departamento>" + DATOS_EMPRESA.DEPARTAMENTO + "</dte:Departamento>");
+            xml.AppendLine($"<dte:Pais>" + DATOS_EMPRESA.PAIS + "</dte:Pais>");
+            xml.AppendLine($"</dte:DireccionReceptor>");
+            xml.AppendLine($"</dte:Receptor>");
+            xml.AppendLine($"<dte:Frases>");
+            xml.AppendLine($"<dte:Frase CodigoEscenario=\"1\" TipoFrase=\"1\"></dte:Frase>");
+            xml.AppendLine($"</dte:Frases>");
+            xml.AppendLine($"<dte:Items>");
+
+            decimal sumatoriaDetalles = 0;
+            decimal sumatoriaDetalles2 = 0;
+            foreach (var row in DETALLES_VENTA)
+            {
+                decimal precioUnitario = row.PRECIO_UNITARIO;
+                decimal cantidad = row.CANTIDAD;
+                decimal descuento = row.DESCUENTO;
+                decimal totalFactura = (precioUnitario*cantidad)-(descuento*cantidad);
+                decimal montoGravable = totalFactura / (decimal)1.12;
+                decimal precioTotal = cantidad * precioUnitario;
+                decimal iva = montoGravable * (decimal)0.12;
+
+                xml.AppendLine($"<dte:Item BienOServicio=\"B\" NumeroLinea=\"1\">");
+                xml.AppendLine($"<dte:Cantidad>1.00</dte:Cantidad>");
+                xml.AppendLine($"<dte:UnidadMedida>UND</dte:UnidadMedida>");
+                xml.AppendLine($"<dte:Descripcion>{row.CODIGO_INTERNO} | {row.DESCRIPCION_PRODUCTO}</dte:Descripcion>");
+                xml.AppendLine($"<dte:PrecioUnitario>{precioUnitario.ToString("0.00")}</dte:PrecioUnitario>");
+                xml.AppendLine($"<dte:Precio>{precioTotal.ToString("0.00")}</dte:Precio>");
+                xml.AppendLine($"<dte:Descuento>{descuento.ToString("0.00")}</dte:Descuento>");
+                xml.AppendLine($"<dte:Impuestos>");
+                xml.AppendLine($"<dte:Impuesto>");
+                xml.AppendLine($"<dte:NombreCorto>IVA</dte:NombreCorto>");
+                xml.AppendLine($"<dte:CodigoUnidadGravable>1</dte:CodigoUnidadGravable>");
+                xml.AppendLine($"<dte:MontoGravable>{montoGravable.ToString("0.00")}</dte:MontoGravable>");
+                xml.AppendLine($"<dte:MontoImpuesto>{iva.ToString("0.00")}</dte:MontoImpuesto>");
+                xml.AppendLine($"</dte:Impuesto>");
+                xml.AppendLine($"</dte:Impuestos>");
+                xml.AppendLine($"<dte:Total>{totalFactura.ToString("0.00")}</dte:Total>");
+                xml.AppendLine($"</dte:Item>");
+                sumatoriaDetalles = sumatoriaDetalles+ montoGravable;
+                sumatoriaDetalles2 = sumatoriaDetalles2+totalFactura;
+            }
+            xml.AppendLine($"</dte:Items>");
+            xml.AppendLine($"<dte:Totales>");
+            xml.AppendLine($"<dte:TotalImpuestos>");
+            xml.AppendLine($"<dte:TotalImpuesto NombreCorto=\"IVA\" TotalMontoImpuesto=\"{ENCABEZADO_VENTA.TOTAL_IVA.ToString("0.00")}\"></dte:TotalImpuesto>");
+            xml.AppendLine($"</dte:TotalImpuestos>");
+            xml.AppendLine($"<dte:GranTotal>{ENCABEZADO_VENTA.TOTAL_CON_IVA.ToString("0.00")}</dte:GranTotal>");
+            xml.AppendLine($"</dte:Totales>");
+            xml.AppendLine($"</dte:DatosEmision>");
+            xml.AppendLine($"</dte:DTE>");
+            xml.AppendLine($"<dte:Adenda>");
+            xml.AppendLine($"<Codigo_cliente>C01</Codigo_cliente>");
+            xml.AppendLine($"<Observaciones>ESTA ES UNA ADENDA</Observaciones>");
+            xml.AppendLine($"</dte:Adenda>");
+            xml.AppendLine($"</dte:SAT>");
+            xml.AppendLine($"</dte:GTDocumento>");
+
             #endregion
 
             #region Firma XML
@@ -404,7 +499,7 @@ namespace Ventas.Class
                 }
                 else
                 {
-                    RESPUESTA_FEL.MENSAJE_FEL = "Documento FEL No generado.";
+                    RESPUESTA_FEL.MENSAJE_FEL = "Documento FEL No generado. "+response.Content.ToString() ;
                 }
             }
             else
