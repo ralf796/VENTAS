@@ -28,6 +28,7 @@
                         $('#txtPrecioVenta').val(PROD.PRECIO_VENTA);
                         $('#txtStock').val(PROD.STOCK);
                         $('#txtMarcaRepuesto').val(PROD.NOMBRE_MARCA_REPUESTO);
+                        $('#txtDistribuidor').val(PROD.NOMBRE_DISTRIBUIDOR);
                     }
                 }
                 else if (state == -1) {
@@ -198,13 +199,13 @@
         });
     }
 
-    function ActualizarEncabezadoProducto(ID_PRODUCTO, NOMBRE, DESCRIPCION, MARCA_REPUESTO, STOCK, PRECIO_COSTO, PRECIO_VENTA, CODIGO, CODIGO2) {
+    function ActualizarEncabezadoProducto(ID_PRODUCTO, NOMBRE, DESCRIPCION, MARCA_REPUESTO, STOCK, PRECIO_COSTO, PRECIO_VENTA, CODIGO, CODIGO2, DISTRIBUIDOR) {
         $.ajax({
             type: 'GET',
             url: "/INVMantenimiento/ActualizarEncabezadoProducto",
             contentType: "application/json; charset=utf-8",
             dataType: 'json',
-            data: { ID_PRODUCTO, NOMBRE, DESCRIPCION, MARCA_REPUESTO, STOCK, PRECIO_COSTO, PRECIO_VENTA, CODIGO, CODIGO2 },
+            data: { ID_PRODUCTO, NOMBRE, DESCRIPCION, MARCA_REPUESTO, STOCK, PRECIO_COSTO, PRECIO_VENTA, CODIGO, CODIGO2, DISTRIBUIDOR},
             cache: false,
             success: function (data) {
                 var state = data["State"];
@@ -321,8 +322,9 @@
         var PRECIO_VENTA = $('#txtPrecioVenta').val();
         var CODIGO = $('#txtCodigo1').val();
         var CODIGO2 = $('#txtCodigo2').val();
+        var DISTRIBUIDOR = $('#txtDistribuidor').val();
 
-        ActualizarEncabezadoProducto(ID_PRODUCTO, NOMBRE, DESCRIPCION, MARCA_REPUESTO, STOCK, PRECIO_COSTO, PRECIO_VENTA, CODIGO, CODIGO2)
+        ActualizarEncabezadoProducto(ID_PRODUCTO, NOMBRE, DESCRIPCION, MARCA_REPUESTO, STOCK, PRECIO_COSTO, PRECIO_VENTA, CODIGO, CODIGO2, DISTRIBUIDOR)
 
     });
 

@@ -465,7 +465,7 @@ namespace Ventas.Controllers.Inventario
                 return Json(new { State = -1, Message = ex.Message.ToString() }, JsonRequestBehavior.AllowGet);
             }
         }
-        public JsonResult ActualizarEncabezadoProducto(int ID_PRODUCTO = 0, string NOMBRE = "", string DESCRIPCION = "", string MARCA_REPUESTO = "", int STOCK = 0, decimal PRECIO_COSTO = 0, decimal PRECIO_VENTA = 0, string CODIGO = "", string CODIGO2 = "")
+        public JsonResult ActualizarEncabezadoProducto(int ID_PRODUCTO = 0, string NOMBRE = "", string DESCRIPCION = "", string MARCA_REPUESTO = "", int STOCK = 0, decimal PRECIO_COSTO = 0, decimal PRECIO_VENTA = 0, string CODIGO = "", string CODIGO2 = "", string DISTRIBUIDOR= "")
         {
             try
             {
@@ -479,6 +479,7 @@ namespace Ventas.Controllers.Inventario
                 row.PRECIO_COSTO = PRECIO_COSTO;
                 row.PRECIO_VENTA = PRECIO_VENTA;
                 row.NOMBRE_MARCA_REPUESTO = MARCA_REPUESTO;
+                row.NOMBRE_DISTRIBUIDOR = DISTRIBUIDOR;
                 row.MTIPO = 9;
 
                 var lista = GetDatosInventario_(row);

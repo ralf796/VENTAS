@@ -383,9 +383,6 @@ namespace Ventas.Controllers.Ventas
                 return Json(new { State = -1, Message = ex.Message }, JsonRequestBehavior.AllowGet);
             }
         }
-
-        //        ID_PRODUCTO=22200&NOMBRE=SN,DESCRIPCION=CABLE CANDELA MAZDA PROTEGE 1.8L 95-98,PRECIO_COSTO=203.1,PRECIO_VENTA=365.41,usuarioModificaADMIN
-        //https://localhost:44302/VENCrearVenta/UpdateProducto?ID_PRODUCTO=22200&NOMBRE=SN&DESCRIPCION=CABLE CANDELA MAZDA PROTEGE 1.8L 95-98&PRECIO_COSTO=203.1&PRECIO_VENTA=365.41&usuarioModificaADMIN
         public JsonResult UpdateProducto(int ID_PRODUCTO = 0, string NOMBRE = "", string DESCRIPCION = "", decimal PRECIO_COSTO = 0, decimal PRECIO_VENTA = 0, string usuarioModifica = "")
         {
             try
@@ -724,12 +721,12 @@ namespace Ventas.Controllers.Ventas
             {
                 string RESPUESTA = "";
                 int sinFirma = 0;
-                //var item = new FEL_BE();
-                //item.ID_VENTA = 177;
+                var item = new FEL_BE();
+                //item.ID_VENTA = 151;
 
-                for (int i = 151; i <= 151; i++)
+                for (int i = 139; i <= 199; i++)
                 {
-                    var item = new FEL_BE();
+                    item = new FEL_BE();
                     item.ID_VENTA = i;
 
                     var respuestaFEL = Certificador_FEL.Certificador_XML_FAC_FEL(item);
@@ -737,6 +734,7 @@ namespace Ventas.Controllers.Ventas
                     {
                         var update = new FEL_BE();
                         update.MTIPO = 5;
+                        //update.ID_VENTA = 151;
                         update.ID_VENTA = i;
                         update.UUID = respuestaFEL.UUID;
                         update.SERIE_FEL = respuestaFEL.SERIE_FEL;
@@ -752,6 +750,7 @@ namespace Ventas.Controllers.Ventas
                         RESPUESTA = $"{RESPUESTA}, {i.ToString()}";
                     }
                 }
+
                 RESPUESTA = "Sin firma: " + RESPUESTA;
 
                 return Json(new { RESPUESTA = RESPUESTA }, JsonRequestBehavior.AllowGet);

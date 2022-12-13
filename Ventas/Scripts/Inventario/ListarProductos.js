@@ -87,7 +87,8 @@ $(document).ready(function () {
                     caption: 'IMAGEN',
                     cellTemplate: function (container, options) {
                         var fieldData = options.data;
-                        $("<img>").attr('src', fieldData.PATH_IMAGEN).css('width', '70px').appendTo(container);
+                        //  onerror="this.onerror=null; this.src='https://images.pexels.com/photos/159868/lost-cat-tree-sign-fun-159868.jpeg'"
+                        $("<img>").attr('src', fieldData.PATH_IMAGEN).css('width', '70px').attr().appendTo(container);
                     }
                 },
                 {
@@ -119,7 +120,21 @@ $(document).ready(function () {
                             $("<span>").addClass(classBTN2).prop('title', 'Inactivar').appendTo(container);
                             $('.remove' + cont).click(function (e) {
                                 var id = parseInt(fieldData.ID_PRODUCTO);
-                                Update_Delete_Producto(id, fieldData.NOMBRE, fieldData.STOCK, fieldData.PRECIO_COSTO, fieldData.PRECIO_VENTA, fieldData.PATH_IMAGEN, 3, '')
+
+                                Swal.fire({
+                                    title: 'INACTIVAR',
+                                    html: 'Se inactivará el producto seleccionado. </h3><br/>¿Quieres continuar?',
+                                    icon: 'info',
+                                    showCancelButton: true,
+                                    confirmButtonColor: '#3085d6',
+                                    cancelButtonColor: '#d33',
+                                    confirmButtonText: 'Si, inactivar',
+                                    cancelButtonText: 'No'
+                                }).then((result) => {
+                                    if (result.isConfirmed) {
+                                        Update_Delete_Producto(id, fieldData.NOMBRE, fieldData.STOCK, fieldData.PRECIO_COSTO, fieldData.PRECIO_VENTA, fieldData.PATH_IMAGEN, 3, '')
+                                    }
+                                })
                             })
                         }
 
