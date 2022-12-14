@@ -2773,7 +2773,6 @@
     <Compile Include="Class\SessionExpireFilterAttribute.cs" />
     <Compile Include="Class\Utils.cs" />
     <Compile Include="Class\ValidarCui.cs" />
-    <Compile Include="Class\WService.cs" />
     <Compile Include="Content\Crystal\Factura_FEL.cs">
       <SubType>Component</SubType>
     </Compile>

@@ -440,7 +440,6 @@ namespace Ventas.Controllers.Ventas
                 return Json(new { State = -1, Message = ex.Message }, JsonRequestBehavior.AllowGet);
             }
         }
-
         #endregion
 
         #region COTIZACION
@@ -714,7 +713,6 @@ namespace Ventas.Controllers.Ventas
                 return Json(new { State = -1, Message = ex.Message }, JsonRequestBehavior.AllowGet);
             }
         }
-
         public JsonResult SaveFact()
         {
             try
