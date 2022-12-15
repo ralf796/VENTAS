@@ -34,7 +34,7 @@ namespace Ventas.Controllers.Anulaciones
             lista = Anulacion_BLL.GetSPAnulacion(item);
             return lista;
         }
-        public JsonResult GetDatosSP(string fecha = "", int idVenta = 0, int tipo = 0)
+        public JsonResult GetDatosSP(string fecha = "", int idVenta = 0, int tipo = 0, int fel = 0)
         {
             try
             {
@@ -47,11 +47,26 @@ namespace Ventas.Controllers.Anulaciones
                     item.FECHA = DateTime.Now;
                 item.ID_VENTA = idVenta;
 
-                var anulaFEL = new FEL_BE();
-                anulaFEL.ID_VENTA = idVenta;
-                anulaFEL = Certificador_FEL.Anulador_XML_FEL(anulaFEL);
-                if (!anulaFEL.RESULTADO)
-                    return Json(new { State = 3, Message = anulaFEL.MENSAJE_FEL }, JsonRequestBehavior.AllowGet);
+                if (tipo == 2)
+                {
+                    if (fel == 1)
+                    {
+                        try
+                        {
+                            var itemAnula = new FEL_BE();
+                            itemAnula.ID_VENTA = idVenta;
+                            var respuestaFEL = Certificador_FEL.Anulador_XML_FEL(itemAnula);
+                            if (!respuestaFEL.RESULTADO)
+                                return Json(new { State = 3, Message = respuestaFEL.MENSAJE_FEL }, JsonRequestBehavior.AllowGet);
+                        }
+                        catch
+                        {
+
+                        }
+                    }
+                }
+
+
 
                 var lista = GetSPAnulacion_(item);
                 int estado = 1;

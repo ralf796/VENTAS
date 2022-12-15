@@ -205,7 +205,7 @@ namespace Ventas.Controllers.Ventas
                 return Json(new { State = -1, Message = ex.Message }, JsonRequestBehavior.AllowGet);
             }
         }
-        public JsonResult SaveOrder(string encabezado = "", string detalles = "")
+        public JsonResult SaveOrder(string encabezado = "", string detalles = "", int fel = 0)
         {
             try
             {
@@ -235,15 +235,23 @@ namespace Ventas.Controllers.Ventas
                     }
                 }
 
+                string uuid = "";
+
                 if (banderaDetail == true)
                     state = 2;
                 else
                 {
                     DescontProduct(Convert.ToInt32(item.ID_VENTA));
-                    Certificar_Factura_FEL(Convert.ToInt32(item.ID_VENTA));
+
+                    if (fel == 1)
+                    {
+                        var respuestaFEL = Certificar_Factura_FEL(Convert.ToInt32(item.ID_VENTA));
+                        if (respuestaFEL.RESULTADO)
+                            uuid = respuestaFEL.UUID;
+                    }
 
                 }
-                return Json(new { State = state, ORDEN_COMPRA = item.ID_VENTA }, JsonRequestBehavior.AllowGet);
+                return Json(new { State = state, ORDEN_COMPRA = item.ID_VENTA, uuid = uuid }, JsonRequestBehavior.AllowGet);
             }
             catch (Exception ex)
             {
@@ -722,12 +730,12 @@ namespace Ventas.Controllers.Ventas
                 var item = new FEL_BE();
                 //item.ID_VENTA = 151;
 
-                for (int i = 139; i <= 199; i++)
+                for (int i = 283; i <= 283; i++)
                 {
                     item = new FEL_BE();
                     item.ID_VENTA = i;
 
-                    var respuestaFEL = Certificador_FEL.Certificador_XML_FAC_FEL(item);
+                    var respuestaFEL = Certificador_FEL.Anulador_XML_FEL(item);
                     if (respuestaFEL.RESULTADO)
                     {
                         var update = new FEL_BE();

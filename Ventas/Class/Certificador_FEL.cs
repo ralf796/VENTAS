@@ -1,11 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Web;
+using System.Web.Services.Description;
 using Ventas_BE;
 using Ventas_BLL;
 using conectorfelv2;
+using System.Web.Razor.Tokenizer;
 using System.Text;
 using Newtonsoft.Json;
+using System.Web.Http.Results;
+using RestSharp;
+using System.Drawing;
+using System.Threading.Tasks;
 using RestSharp;
 
 namespace Ventas.Class
@@ -21,7 +28,154 @@ namespace Ventas.Class
         }
         #endregion
 
-        #region PROCESO DE FIRMAS
+        public static string Firmar_Factura(FEL_BE VENTA, string moneda = "GTQ")
+        {
+            //apifel4.RequestCertificacionFel request = new RequestCertificacionFel();
+            bool Item_un_impuesto, Total_impuestos, Totales, Adenda, Agregar_adenda;
+            int NoEstablecimiento;
+            string FechaEmision, NombreEmpresa, NITEmpresa, DireccionEstablecimiento, NIT_Receptor, Nombre_Receptor, Direccion_Receptor, DescripcionProducto;
+            string UnidadMedida, TotalFactura, TotalIVA, UsuarioFEL, UsuarioPFX, LlaveFEL, LlavePFX, ID_DOC;
+            decimal Cantidad, PrecioUnitario, TotalLinea, TotalSinIVA, IVA, DescuentoLinea;
+
+            //CREDENCIALES FEL
+            var item = new FEL_BE();
+            item.MTIPO = 1;
+            var CREDENCIALES_FEL = GetDatosSP_(item).FirstOrDefault();
+            UsuarioFEL = CREDENCIALES_FEL.USUARIO_FEL;
+            UsuarioPFX = CREDENCIALES_FEL.USUARIO_PFX;
+            LlaveFEL = CREDENCIALES_FEL.LLAVE_FEL;
+            LlavePFX = CREDENCIALES_FEL.LLAVE_PFX;
+
+            //DATOS EMPRESA LOCAL
+            item = new FEL_BE();
+            item.MTIPO = 2;
+            var EMPRESA_EDEN = GetDatosSP_(item).FirstOrDefault();
+            NoEstablecimiento = EMPRESA_EDEN.NO_ESTABLECIMIENTO;
+            NombreEmpresa = EMPRESA_EDEN.NOMBRE_EMPRESA;
+            DireccionEstablecimiento = EMPRESA_EDEN.DIRECCION_ESTABLECIMIENTO;
+            NITEmpresa = EMPRESA_EDEN.NIT_EMPRESA;
+
+            //DATOS ENCABEZADO VENTA
+            item = new FEL_BE();
+            item.MTIPO = 3;
+            item.ID_VENTA = VENTA.ID_VENTA;
+            var ENCABEZADO_VENTA = GetDatosSP_(item).FirstOrDefault();
+            ID_DOC = ENCABEZADO_VENTA.SERIE + "-" + ENCABEZADO_VENTA.CORRELATIVO.ToString();
+            //FechaEmision = ENCABEZADO_VENTA.FECHA.ToString();
+            NIT_Receptor = ENCABEZADO_VENTA.NIT_CLIENTE.Replace("-", "").Replace("/", "").Trim();
+            Nombre_Receptor = ENCABEZADO_VENTA.NOMBRE_CLIENTE.Replace("\"", ""); ;
+            Direccion_Receptor = ENCABEZADO_VENTA.DIRECCION_CLIENTE;
+            TotalFactura = ENCABEZADO_VENTA.TOTAL;
+            //TotalIVA = ENCABEZADO_VENTA.TOTAL_IVA;
+
+            /*
+            //// Datos_generales = request.Datos_generales("GTQ", FechaEmision, "FACT", "", "");   
+            Datos_generales = request.Datos_generales(moneda, FechaEmision, "FACT", "", "");
+            Datos_emisor = request.Datos_emisor("GEN", NoEstablecimiento, "01001", "", "GT", "GUATEMALA", "GUATEMALA", DireccionEstablecimiento, NITEmpresa, NombreEmpresa, NombreEmpresa);
+            Datos_receptor = request.Datos_receptor(NIT_Receptor, Nombre_Receptor, "01001", "alejandrolopez445@gmail.com", "GT", "GUATEMALA", "GUATEMALA", Direccion_Receptor, "");
+            */
+
+            //FRASES FEL
+            item = new FEL_BE();
+            item.MTIPO = 4;
+            var FRASES_REQUEST = GetDatosSP_(item).FirstOrDefault();
+
+            //DETALLES VENTA
+            List<FEL_BE> DETALLES_VENTA = new List<FEL_BE>();
+            item = new FEL_BE();
+            item.MTIPO = 4;
+            DETALLES_VENTA = GetDatosSP_(item);
+
+            int rowDetalles = 1;
+            foreach (var row in DETALLES_VENTA)
+            {
+                Cantidad = row.CANTIDAD;
+                DescripcionProducto = row.DESCRIPCION_PRODUCTO;
+                PrecioUnitario = row.PRECIO;
+                TotalLinea = row.PRECIO * row.CANTIDAD;
+                TotalSinIVA = Math.Round((TotalLinea / (decimal)1.12), 2);
+                DescuentoLinea = (decimal)row.DESCUENTO;
+                IVA = Math.Round(((TotalLinea / (decimal)1.12) * (decimal)0.12), 2);
+                //Item_un_impuesto = request.Item_un_impuesto("B", "UNIDAD", Cantidad.ToString(), DescripcionProducto, rowDetalles, PrecioUnitario.ToString(), TotalLinea.ToString(), DescuentoLinea.ToString(), TotalLinea.ToString(), "IVA", 1, "", TotalSinIVA.ToString(), IVA.ToString());
+                rowDetalles++;
+            }
+
+            /*  PROCESOS FEL
+            Total_impuestos = request.total_impuestos("IVA", TotalIVA);
+            Totales = request.Totales(TotalFactura);
+
+            Adenda = request.Adendas("Codigo_cliente", "C01");//Información Adicional
+            Adenda = request.Adendas("Observaciones", "");
+
+            Agregar_adenda = request.Agregar_adendas();
+            response = request.enviar_peticion_fel(UsuarioFEL, LlaveFEL, ID_DOC, "", UsuarioPFX, LlavePFX, true);
+            return response;
+            */
+            return "";
+        }
+        public static string Firma_NC(FEL_BE ENCABEZADO)
+        {
+            //apifel4.RequestCertificacionFel requestNC = new RequestCertificacionFel();
+            string UsuarioFEL, UsuarioPFX, LlaveFEL, LlavePFX, ID_DOC, response = "", FechaEmision, NombreEmpresa, NITEmpresa, DireccionEstablecimiento, NIT_Receptor, Nombre_Receptor, Direccion_Receptor, TotalNC, TotalIVA_NC, TOTAL_IDP_NC, FechaFac, Motivo, UUID_Anula;
+            int NoEstablecimiento, ESTADO;
+            decimal TotalSinIVA;
+
+            string NO_ELECTRONICO;
+            string RESOLUCION_FAC;
+
+            //CREDENCIALES FEL
+            var item = new FEL_BE();
+            item.MTIPO = 1;
+            var CREDENCIALES_FEL = GetDatosSP_(item).FirstOrDefault();
+            UsuarioFEL = CREDENCIALES_FEL.USUARIO_FEL;
+            UsuarioPFX = CREDENCIALES_FEL.USUARIO_PFX;
+            LlaveFEL = CREDENCIALES_FEL.LLAVE_FEL;
+            LlavePFX = CREDENCIALES_FEL.LLAVE_PFX;
+
+            //DATOS EMPRESA LOCAL
+            item = new FEL_BE();
+            item.MTIPO = 2;
+            var EMPRESA_EDEN = GetDatosSP_(item).FirstOrDefault();
+            NoEstablecimiento = EMPRESA_EDEN.NO_ESTABLECIMIENTO;
+            NombreEmpresa = EMPRESA_EDEN.NOMBRE_EMPRESA;
+            DireccionEstablecimiento = EMPRESA_EDEN.DIRECCION_ESTABLECIMIENTO;
+            NITEmpresa = EMPRESA_EDEN.NIT_EMPRESA;
+
+            ID_DOC = ENCABEZADO.SERIE_NC + "-" + ENCABEZADO.NO_NC.ToString();
+            FechaEmision = ENCABEZADO.FECHA_NOTA;
+            NIT_Receptor = ENCABEZADO.NIT_CLIENTE.Replace("-", "").Replace("/", "").Trim();
+            Nombre_Receptor = ENCABEZADO.NOMBRE_CLIENTE;
+            Direccion_Receptor = ENCABEZADO.DIRECCION_CLIENTE;
+            TotalNC = ENCABEZADO.TOTAL_NOTA;
+
+            TOTAL_IDP_NC = "0";
+            //TotalSinIVA = decimal.Parse(TotalNC) - decimal.Parse(TOTAL_IDP_NC) - decimal.Parse(TotalIVA_NC);
+            //FechaFac = ENCABEZADO.FECHA_FACTURA;
+            Motivo = ENCABEZADO.MOTIVO;
+            UUID_Anula = ENCABEZADO.UUID_ANULA;
+            //TOTAL_GALONES = 0;
+            ESTADO = ENCABEZADO.ESTADO;
+
+            NO_ELECTRONICO = ENCABEZADO.NO_ELECTRONICO;
+            RESOLUCION_FAC = ENCABEZADO.RESOLUCION_FAC;
+
+            TotalIVA_NC = ENCABEZADO.TOTAL_IVA_NC;
+            TotalSinIVA = decimal.Parse(TotalNC) - decimal.Parse(TOTAL_IDP_NC) - decimal.Parse(TotalIVA_NC);
+
+            /*PROCESO FEL
+            Datos_generales = requestNC.Datos_generales("GTQ", FechaEmision, "NCRE", "", "");
+            Datos_emisor = requestNC.Datos_emisor("GEN", NoEstablecimiento, "01001", "", "GT", "GUATEMALA", "GUATEMALA", DireccionEstablecimiento, NITEmpresa, NombreEmpresa, NombreEmpresa);
+            Datos_receptor = requestNC.Datos_receptor(NIT_Receptor, Nombre_Receptor, "01001", "", "GT", "GUATEMALA", "GUATEMALA", Direccion_Receptor, "");
+
+            Item_un_impuesto = requestNC.Item_un_impuesto("S", "UND", "1", "ANULACION DE FACTURA", 1, TotalNC, TotalNC, "0", TotalNC, "IVA", 1, "", TotalSinIVA.ToString(), TotalIVA_NC);
+            Total_impuestos = requestNC.total_impuestos("IVA", TotalIVA_NC);
+
+            Totales = requestNC.Totales(TotalNC);
+            Complemento_notas = requestNC.Complemento_notas("Notas", "Notas", "http://www.sat.gob.gt/fel/notas.xsd", FechaFac, Motivo, UUID_Anula, "", "", "");
+            response = requestNC.enviar_peticion_fel(UsuarioFEL, LlaveFEL, ID_DOC, "", UsuarioPFX, LlavePFX, true);
+            */
+            return response;
+        }
         public static string Certificador_Local_FAC_FEL(FEL_BE VENTA)
         {
             //CREDENCIALES FEL
@@ -75,8 +229,11 @@ namespace Ventas.Class
             response = request.enviar_peticion_fel(CREDENCIALES_FEL.USUARIO_FEL, CREDENCIALES_FEL.LLAVE_FEL, ENCABEZADO_VENTA.IDENTIFICADOR + randomNumber.ToString(), "ingenieriaiosgt@gmail.com", CREDENCIALES_FEL.USUARIO_PFX, CREDENCIALES_FEL.LLAVE_PFX, true);
             return response;
         }
+
         public static FEL_BE Certificador_XML_FAC_FEL(FEL_BE VENTA)
         {
+            //Objeto Respuesta
+            //conectorfelv2.Respuesta result = new conectorfelv2.Respuesta();
             FEL_BE RESPUESTA_FEL = new FEL_BE();
 
             //CREDENCIALES FEL
@@ -161,6 +318,7 @@ namespace Ventas.Class
                 xml.AppendLine($"</dte:Impuestos>");
                 xml.AppendLine($"<dte:Total>{total.ToString("0.00")}</dte:Total>");
                 xml.AppendLine($"</dte:Item>");
+
                 rowDetalles++;
             }
             xml.AppendLine($"</dte:Items>");
@@ -182,51 +340,58 @@ namespace Ventas.Class
             #endregion
 
             #region Firma XML
+            //Firma XML
             byte[] xmlData = Encoding.UTF8.GetBytes(xml.ToString());
             string xmlBase64 = Convert.ToBase64String(xmlData);
             RestClient restClient = new RestClient("https://signer-emisores.feel.com.gt/sign_solicitud_firmas/firma_xml?");
-            FEL_SIGNER_REQUEST signedRequest = new FEL_SIGNER_REQUEST
+            FELSignerRequest signedRequest = new FELSignerRequest
             {
-                LLAVE = CREDENCIALES_FEL.LLAVE_PFX,
-                ARCHIVO = xmlBase64,
-                CODIGO = ENCABEZADO_VENTA.IDENTIFICADOR_UNICO + "-2",
-                ALIAS = CREDENCIALES_FEL.USUARIO_FEL,
-                ES_ANULACION = "N"
+                llave = CREDENCIALES_FEL.LLAVE_PFX,
+                archivo = xmlBase64,
+                codigo = ENCABEZADO_VENTA.IDENTIFICADOR_UNICO + "-2",
+                alias = CREDENCIALES_FEL.USUARIO_FEL,
+                es_anulacion = "N"
             };
             var restRequest = new RestRequest();
             restRequest.Method = Method.Post;
             restRequest.AddJsonBody(signedRequest);
             var response = restClient.Execute(restRequest);
-            FEL_SIGNER_RESPONSE CONEXION_INFILE = JsonConvert.DeserializeObject<FEL_SIGNER_RESPONSE>(response.Content);
+            FELSignerResponse signedResponse = JsonConvert.DeserializeObject<FELSignerResponse>(response.Content);
 
-            if (CONEXION_INFILE.RESULTADO)
+            if (signedResponse.resultado)
             {
-                FEL_CERTIFICACION_REQUEST felRequest = new FEL_CERTIFICACION_REQUEST
+                //Item solicitud
+                FELCertificacionRequest felRequest = new FELCertificacionRequest
                 {
-                    CORREO_COPIA = DATOS_EMPRESA.CORREO_EMISOR,
-                    NIT_EMISOR = DATOS_EMPRESA.NIT_EMPRESA,
-                    XML_DTE = CONEXION_INFILE.ARCHIVO
+                    correo_copia = DATOS_EMPRESA.CORREO_EMISOR,
+                    nit_emisor = DATOS_EMPRESA.NIT_EMPRESA,
+                    xml_dte = signedResponse.archivo
                 };
 
+                //Certifica
                 restClient = new RestClient("https://certificador.feel.com.gt/fel/certificacion/v2/dte/");
                 restRequest = new RestRequest();
                 restRequest.Method = Method.Post;
                 restRequest.AddHeader("Usuario", CREDENCIALES_FEL.USUARIO_FEL);
                 restRequest.AddHeader("Llave", CREDENCIALES_FEL.LLAVE_FEL);
                 restRequest.AddHeader("Identificador", ENCABEZADO_VENTA.IDENTIFICADOR_UNICO + "-2");
+                //restRequest.AddHeader("Observaciones", $"SE APLICÓ UN DESCUENTO EN TIENDA POR Q {ENCABEZADO_VENTA.TOTAL_DESCUENTO.ToString("N2")}");
                 restRequest.AddJsonBody(felRequest);
 
+                //Adenda = request.Adendas("Observaciones", $"SE APLICÓ UN DESCUENTO EN TIENDA POR Q {ENCABEZADO_VENTA.TOTAL_DESCUENTO.ToString("N2")}");
                 response = restClient.Execute(restRequest);
-                FEL_CERTIFICACION_RESPONSE RESPUESTA_INFILE = JsonConvert.DeserializeObject<FEL_CERTIFICACION_RESPONSE>(response.Content);
-                RESPUESTA_FEL.RESULTADO = RESPUESTA_INFILE.RESULTADO;
+
+                FELCertificacionResponse felResponse = JsonConvert.DeserializeObject<FELCertificacionResponse>(response.Content);
+
+                RESPUESTA_FEL.RESULTADO = felResponse.resultado;
 
                 if (RESPUESTA_FEL.RESULTADO)
                 {
                     RESPUESTA_FEL.ID_VENTA = VENTA.ID_VENTA;
-                    RESPUESTA_FEL.UUID = RESPUESTA_INFILE.UUID;
-                    RESPUESTA_FEL.SERIE_FEL = RESPUESTA_INFILE.SERIE;
-                    RESPUESTA_FEL.FECHA_CERTIFICACION = RESPUESTA_INFILE.FECHA;
-                    RESPUESTA_FEL.NUMERO_FEL = Convert.ToDecimal(RESPUESTA_INFILE.NUMERO);
+                    RESPUESTA_FEL.UUID = felResponse.uuid;
+                    RESPUESTA_FEL.SERIE_FEL = felResponse.serie;
+                    RESPUESTA_FEL.FECHA_CERTIFICACION = felResponse.fecha;
+                    RESPUESTA_FEL.NUMERO_FEL = Convert.ToDecimal(felResponse.numero);
                 }
                 else
                 {
@@ -235,7 +400,7 @@ namespace Ventas.Class
             }
             else
             {
-                RESPUESTA_FEL.MENSAJE_FEL = $"Firma de XML no procesada {CONEXION_INFILE.DESCRIPCION}";
+                RESPUESTA_FEL.MENSAJE_FEL = $"Firma de XML no procesada {signedResponse.descripcion}";
             }
             #endregion
             return RESPUESTA_FEL;
@@ -276,13 +441,13 @@ namespace Ventas.Class
             byte[] xmlData = Encoding.UTF8.GetBytes(xml.ToString());
             string xmlBase64 = Convert.ToBase64String(xmlData);
             RestClient restClient = new RestClient("https://signer-emisores.feel.com.gt/sign_solicitud_firmas/firma_xml?");
-            FEL_SIGNER_REQUEST signedRequest = new FEL_SIGNER_REQUEST
+            FELSignerRequest signedRequest = new FELSignerRequest
             {
-                LLAVE = CREDENCIALES_FEL.LLAVE_PFX,
-                ARCHIVO = xmlBase64,
-                CODIGO = VENTA.IDENTIFICADOR_UNICO,
-                ALIAS = CREDENCIALES_FEL.USUARIO_FEL,
-                ES_ANULACION = "S"
+                llave = CREDENCIALES_FEL.LLAVE_PFX,
+                archivo = xmlBase64,
+                codigo = VENTA.IDENTIFICADOR_UNICO + "-2",
+                alias = CREDENCIALES_FEL.USUARIO_FEL,
+                es_anulacion = "S"
             };
             var restRequest = new RestRequest();
             restRequest.Method = Method.Post;
@@ -290,15 +455,15 @@ namespace Ventas.Class
             var response = restClient.Execute(restRequest);
             #endregion
 
-            FEL_SIGNER_RESPONSE CONEXION_INFILE = JsonConvert.DeserializeObject<FEL_SIGNER_RESPONSE>(response.Content);
+            FELSignerResponse CONEXION_INFILE = JsonConvert.DeserializeObject<FELSignerResponse>(response.Content);
 
-            if (CONEXION_INFILE.RESULTADO)
+            if (CONEXION_INFILE.resultado)
             {
-                FEL_CERTIFICACION_REQUEST felRequest = new FEL_CERTIFICACION_REQUEST
+                FELCertificacionRequest felRequest = new FELCertificacionRequest
                 {
-                    CORREO_COPIA = VENTA.CORREO_EMISOR,
-                    NIT_EMISOR = VENTA.NIT_EMPRESA,
-                    XML_DTE = CONEXION_INFILE.ARCHIVO
+                    correo_copia = DATOS_EMPRESA.CORREO_EMISOR,
+                    nit_emisor = DATOS_EMPRESA.NIT_EMPRESA,
+                    xml_dte = CONEXION_INFILE.archivo
                 };
 
                 restClient = new RestClient("https://certificador.feel.com.gt/fel/anulacion/v2/dte/");
@@ -310,12 +475,14 @@ namespace Ventas.Class
                 restRequest.AddJsonBody(felRequest);
                 response = restClient.Execute(restRequest);
 
-                FEL_CERTIFICACION_RESPONSE RESPUESTA_INFILE = JsonConvert.DeserializeObject<FEL_CERTIFICACION_RESPONSE>(response.Content);
-                if (RESPUESTA_INFILE.RESULTADO)
+                FELCertificacionResponse RESPUESTA_INFILE = JsonConvert.DeserializeObject<FELCertificacionResponse>(response.Content);
+
+                RESPUESTA_FEL.RESULTADO = RESPUESTA_INFILE.resultado;
+                if (RESPUESTA_INFILE.resultado)
                 {
-                    RESPUESTA_FEL.UUID = RESPUESTA_INFILE.UUID;
-                    RESPUESTA_FEL.SERIE_FEL = RESPUESTA_INFILE.SERIE;
-                    RESPUESTA_FEL.NUMERO_FEL = Convert.ToDecimal(RESPUESTA_INFILE.NUMERO);
+                    RESPUESTA_FEL.UUID = RESPUESTA_INFILE.uuid;
+                    RESPUESTA_FEL.SERIE_FEL = RESPUESTA_INFILE.serie;
+                    RESPUESTA_FEL.NUMERO_FEL = Convert.ToDecimal(RESPUESTA_INFILE.numero);
                 }
                 else
                 {
@@ -324,42 +491,185 @@ namespace Ventas.Class
             }
             else
             {
-                RESPUESTA_FEL.MENSAJE_FEL = $"Firma de XML no procesada {CONEXION_INFILE.DESCRIPCION}";
+                RESPUESTA_FEL.MENSAJE_FEL = $"Firma de XML no procesada {CONEXION_INFILE.descripcion}";
             }
             return RESPUESTA_FEL;
         }
-        #endregion
+
+        /*
+        public static string Firma_Facturas(List<WService.DatosFacturaFEL> facturas, List<WService.DatosDetFacturaFEL> Lista_detalles_fac, string moneda = "GTQ", string tasaCambio = "")
+        {
+            RequestCertificacionFel request = new RequestCertificacionFel();
+            genesysEntities db = new genesysEntities();
+
+            string xml_generado;
+            string response = "";
+            bool Datos_generales;
+            bool Datos_emisor;
+            bool Datos_receptor;
+            bool Frases;
+            bool Item_un_impuesto;
+            bool Item_dos_impuesto;
+            bool Total_impuestos;
+            bool Totales;
+            bool Adenda;
+            bool Agregar_adenda;
+            string FechaEmision;
+            int NoEstablecimiento;
+            string NombreEmpresa;
+            string NITEmpresa;
+            string DireccionEstablecimiento;
+            string NIT_Receptor;
+            string Nombre_Receptor;
+            string Direccion_Receptor;
+            decimal Cantidad;
+            string DescripcionProducto;
+            decimal PrecioUnitario;
+            decimal TotalLinea;
+            decimal TotalSinIVA;
+            decimal IVA;
+            decimal DescuentoLinea;
+            string UnidadMedida;
+            string TotalFactura;
+            string TotalIVA;
+            string TOTAL_IDP;
+            string IDP_LINEA;
+            int Empresa;
+            string UsuarioFEL;
+            string UsuarioPFX;
+            string LlaveFEL;
+            string LlavePFX;
+            string ID_DOC;
+            decimal valor2 = 0;
+            string nombreEstablecimiento;
+            WService.DatosFacturaFEL EncabezadoFac;
+
+            Int32 CorrelativoEncabezado = facturas.Count();
+
+            EncabezadoFac = new WService.DatosFacturaFEL();
+            EncabezadoFac = facturas[i];
 
 
-        #region CONSTRUCTORES FEL
-        public class FEL_SIGNER_REQUEST
-        {
-            public string LLAVE { get; set; }
-            public string ARCHIVO { get; set; }
-            public string CODIGO { get; set; }
-            public string ALIAS { get; set; }
-            public string ES_ANULACION { get; set; }
+            // VERIFICO SI EL CLIENTE ES DE ZONA FRANCA - aramirez
+            int no_factura_new = EncabezadoFac.NO_FACTURA_ACTUAL;
+            string consultaZF = " select count(*) as total " +
+                    "    from cat_cliente a " +
+                    "    where CLIENTE=" + EncabezadoFac.CLIENTE + "  and a.segmentacion = 3 ";
+
+            int clienteZF = db.Database.SqlQuery<int>(consultaZF).FirstOrDefault();
+            //int clienteZF = 1;
+
+            var uno = clienteZF;
+
+
+            // CONSULTA PARA DEVOLVER LOS DATOS DE CADA SERIE Y RESOLUCION
+            string consulta = "SELECT A.SERIE AS SERIE, A.NO_RESOLUCION AS RESOLUCION, " +
+                                              "        A.RANGO_INICIAL AS R_INICIAL, A.RANGO_FINAL AS R_FINAL, C.NIT AS NIT, " +
+                                              "        C.NOMBRE_EMPRESA AS EMPRESA, D.NOMBRE_ESTABLECIMIENTO, " +
+                                              "        D.NO_ESTABLECIMINETO AS NO_ESTABLECIMIENTO, D.DIR_ESTABLECIMIENTO AS DIRECCION_ESTABLECIMIENTO, C.EMPRESA AS CODEMPRESA, A.TIPO_ACTIVO " +
+                                              "  FROM fac_serie a " +
+                                              "  inner join cat_planta b on a.planta = b.planta " +
+                                              "  inner join cat_establecimiento d on d.establecimiento = a.establecimiento " +
+                                              "  inner join cat_empresa c on d.empresa = c.empresa " +
+                                              "  where serie='" + EncabezadoFac.SERIE + "'  AND NO_RESOLUCION = '" + EncabezadoFac.RESOLUCION + "' ";
+
+
+            Datos_Resolucion_factura resolucion = db.Database.SqlQuery<Datos_Resolucion_factura>(consulta).SingleOrDefault();
+
+            Empresa = Convert.ToInt32(resolucion.CODEMPRESA);
+            NITEmpresa = resolucion.NIT;
+            //    ID_DOC = EncabezadoFac.SERIE + "-2-" + EncabezadoFac.NO_FACTURA.ToString();
+
+            //ID_DOC = EncabezadoFac.SERIE + "-2-" + EncabezadoFac.NO_FACTURA.ToString();
+
+            ID_DOC = EncabezadoFac.SERIE + "-" + EncabezadoFac.RESOLUCION + "-" + EncabezadoFac.NO_FACTURA.ToString();
+
+            // if (Empresa == 6)
+            nombreEstablecimiento = resolucion.NOMBRE_ESTABLECIMIENTO;
+            //  else
+            //  nombreEstablecimiento = resolucion.EMPRESA;
+
+            //CREDENCIALES FEL
+            string consultaFEL = "SELECT USUARIO_FEL AS USUARIO_FEL, USUARIO_PFX AS USUARIO_PFX, LLAVE_FEL AS LLAVE_FEL, LLAVE_PFX AS LLAVE_PFX " +
+                                    " FROM CFG_FEL WHERE EMPRESA = " + Empresa;
+
+            CredencialesFEL credenciales = db.Database.SqlQuery<CredencialesFEL>(consultaFEL).SingleOrDefault();
+
+            UsuarioFEL = credenciales.USUARIO_FEL;
+            UsuarioPFX = credenciales.USUARIO_PFX;
+            LlaveFEL = credenciales.LLAVE_FEL;
+            LlavePFX = credenciales.LLAVE_PFX;
+            FechaEmision = EncabezadoFac.FECHA_FACTURA.ToString();
+            NoEstablecimiento = resolucion.NO_ESTABLECIMIENTO;
+            NombreEmpresa = resolucion.EMPRESA;
+            // nombreEstablecimiento = resolucion.NOMBRE_ESTABLECIMIENTO;
+            DireccionEstablecimiento = resolucion.DIRECCION_ESTABLECIMIENTO;
+            NIT_Receptor = EncabezadoFac.NIT.Replace("-", "").Replace("/", "").Trim();
+            //Nombre_Receptor = EncabezadoFac.NOMBRE_CLIENTE.Replace("\"", "");
+            Nombre_Receptor = HttpUtility.HtmlEncode(EncabezadoFac.NOMBRE_CLIENTE);
+            Direccion_Receptor = EncabezadoFac.DIRECCION;
+            TotalFactura = EncabezadoFac.TOTAL_FACTURA;
+
+            TOTAL_IDP = EncabezadoFac.TOTAL_IDP;
+
+            // Datos_generales = request.Datos_generales("GTQ", FechaEmision, "FACT", "", "");   
+            Datos_generales = request.Datos_generales(moneda, FechaEmision, "FACT", "", "", "");
+            Datos_emisor = request.Datos_emisor("GEN", NoEstablecimiento, "01001", "", "GT", "GUATEMALA", "GUATEMALA", DireccionEstablecimiento, NITEmpresa, NombreEmpresa, nombreEstablecimiento);
+            Datos_receptor = request.Datos_receptor(NIT_Receptor, Nombre_Receptor, "01001", EncabezadoFac.CORREO, "GT", "GUATEMALA", "GUATEMALA", Direccion_Receptor, "");
+
+            WService.DatosDetFacturaFEL Detalles;
+            Int32 CorrelativoDetalles = Lista_detalles_fac.Count();
+
+            for (int d = 0; d < CorrelativoDetalles; d++)
+            {
+                Detalles = new WService.DatosDetFacturaFEL();
+                Detalles = Lista_detalles_fac[d];
+                Cantidad = Detalles.CANTIDAD;
+                DescripcionProducto = Detalles.DESCRIPCION_PRODUCTO;
+                PrecioUnitario = Detalles.PRECIO;
+                TotalLinea = Detalles.PRECIO * Detalles.CANTIDAD - (decimal)Detalles.DESCUENTO;
+                decimal precio = Detalles.PRECIO * Detalles.CANTIDAD;
+                TotalSinIVA = Math.Round((TotalLinea / (decimal)1.12), 2);
+                DescuentoLinea = (decimal)Detalles.DESCUENTO;
+                UnidadMedida = Detalles.UNIDAD_MEDIDA;
+                IVA = Math.Round(((TotalLinea / (decimal)1.12) * (decimal)0.12), 5);
+                Item_un_impuesto = request.Item_un_impuesto("B", UnidadMedida, Cantidad.ToString(), DescripcionProducto, d + 1, PrecioUnitario.ToString(), precio.ToString(), DescuentoLinea.ToString(), TotalLinea.ToString(), "IVA", 1, "", TotalSinIVA.ToString(), IVA.ToString());
+            }
+            Total_impuestos = request.total_impuestos("IVA", TotalIVA);
+            Totales = request.Totales(TotalFactura);
+            Agregar_adenda = request.Agregar_adendas();
+            response = request.enviar_peticion_fel(UsuarioFEL, LlaveFEL, ID_DOC, "", UsuarioPFX, LlavePFX, true);
+            return response;
         }
-        public class FEL_SIGNER_RESPONSE
+        */
+
+        public class FELSignerRequest
         {
-            public bool RESULTADO { get; set; }
-            public string DESCRIPCION { get; set; }
-            public string ARCHIVO { get; set; }
+            public string llave { get; set; }
+            public string archivo { get; set; }
+            public string codigo { get; set; }
+            public string alias { get; set; }
+            public string es_anulacion { get; set; }
         }
-        public class FEL_CERTIFICACION_REQUEST
+        public class FELSignerResponse
         {
-            public string NIT_EMISOR { get; set; }
-            public string CORREO_COPIA { get; set; }
-            public string XML_DTE { get; set; }
+            public bool resultado { get; set; }
+            public string descripcion { get; set; }
+            public string archivo { get; set; }
         }
-        public class FEL_CERTIFICACION_RESPONSE
+        public class FELCertificacionRequest
         {
-            public bool RESULTADO { get; set; }
-            public DateTime FECHA { get; set; }
-            public string UUID { get; set; }
-            public string SERIE { get; set; }
-            public string NUMERO { get; set; }
+            public string nit_emisor { get; set; }
+            public string correo_copia { get; set; }
+            public string xml_dte { get; set; }
         }
-        #endregion
+        public class FELCertificacionResponse
+        {
+            public bool resultado { get; set; }
+            public DateTime fecha { get; set; }
+            public string uuid { get; set; }
+            public string serie { get; set; }
+            public string numero { get; set; }
+        }
     }
 }

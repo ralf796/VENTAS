@@ -32,5 +32,6 @@ namespace Ventas_BE
         public decimal MONTO_EFECTIVO { get; set; }
         public string RESPUESTA { get; set; }
         public DateTime FECHA { get; set; }
+        public int FEL{ get; set; }
     }
 }

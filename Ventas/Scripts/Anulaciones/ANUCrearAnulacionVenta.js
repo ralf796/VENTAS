@@ -87,6 +87,11 @@ $(document).ready(function () {
                     alignment: "center"
                 },
                 {
+                    dataField: "FEL",
+                    caption: "FEL",
+                    alignment: "center"
+                },
+                {
                     dataField: "FECHA_CREACION_STRING",
                     caption: "FECHA"
                 },
@@ -141,6 +146,7 @@ $(document).ready(function () {
                         $("<span>").addClass(classBTN).prop('title', 'cobrar').appendTo(container);
                         $('.anular' + cont).click(function (e) {
                             var id = parseInt(fieldData.ID_VENTA);
+                            var fel = parseInt(fieldData.FEL);
                             Swal.fire({
                                 title: 'ANULACION DE VENTA',
                                 text: '¿Quieres anular la venta ' + id + '?',
@@ -152,7 +158,7 @@ $(document).ready(function () {
                                 cancelButtonText: 'No'
                             }).then((result) => {
                                 if (result.isConfirmed) {
-                                    Anular(id,2);
+                                    Anular(id, 2, fel);
                                 }
                             })
                         })
@@ -264,13 +270,13 @@ $(document).ready(function () {
         GetDatos(DateFormat(fecha.lastSelectedDate));
     })
 
-    function Anular(idVenta, tipo) {
+    function Anular(idVenta, tipo, fel) {
         $.ajax({
             type: 'GET',
             url: "/ANUCrearAnulacionVenta/GetDatosSP",
             contentType: "application/json; charset=utf-8",
             dataType: 'json',
-            data: { idVenta, tipo},
+            data: { idVenta, tipo, fel},
             cache: false,
             success: function (data) {
                 var state = data["State"];

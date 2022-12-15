@@ -87,8 +87,7 @@ $(document).ready(function () {
                     caption: 'IMAGEN',
                     cellTemplate: function (container, options) {
                         var fieldData = options.data;
-                        //  onerror="this.onerror=null; this.src='https://images.pexels.com/photos/159868/lost-cat-tree-sign-fun-159868.jpeg'"
-                        $("<img>").attr('src', fieldData.PATH_IMAGEN).css('width', '70px').attr().appendTo(container);
+                        $("<img>").attr('src', fieldData.PATH_IMAGEN).css('width', '70px').appendTo(container);
                     }
                 },
                 {
@@ -101,7 +100,7 @@ $(document).ready(function () {
                             $("<span>").addClass("badge badge-success").text('ACTIVO').appendTo(container);
                         else
                             $("<span>").addClass("badge badge-danger").text('INACTIVO').appendTo(container);
-                        
+
                         var classTmp1 = 'edit' + cont;
                         var classBTN1 = 'ml-2 hvr-grow far fa-edit btn btn-success ' + classTmp1;
                         if (fieldData.ESTADO == 1) {
@@ -120,6 +119,7 @@ $(document).ready(function () {
                             $("<span>").addClass(classBTN2).prop('title', 'Inactivar').appendTo(container);
                             $('.remove' + cont).click(function (e) {
                                 var id = parseInt(fieldData.ID_PRODUCTO);
+                                //Update_Delete_Producto(id, fieldData.NOMBRE, fieldData.STOCK, fieldData.PRECIO_COSTO, fieldData.PRECIO_VENTA, fieldData.PATH_IMAGEN, 3, '')
 
                                 Swal.fire({
                                     title: 'INACTIVAR',

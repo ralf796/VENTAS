@@ -250,7 +250,8 @@ $(document).ready(function () {
         this.SUBTOTAL = SUBTOTAL;
     }
 
-    function SaveOrder(jsonEncabezado, jsonDetalles) {
+    function SaveOrder(jsonEncabezado, jsonDetalles, fel) {
+        CallLoadingFire('Procesando venta')
         $.ajax({
             type: 'GET',
             url: '/VENCrearVenta/SaveOrder',
@@ -259,7 +260,8 @@ $(document).ready(function () {
             //data: { tipo, ID_CLIENTE, TOTAL, SUBTOTAL, TOTAL_DESCUENTO },
             data: {
                 encabezado: JSON.stringify(jsonEncabezado),
-                detalles: JSON.stringify(jsonDetalles)
+                detalles: JSON.stringify(jsonDetalles),
+                fel: fel
             },
             cache: false,
             success: function (data) {
@@ -267,6 +269,11 @@ $(document).ready(function () {
                 var compra = data["ORDEN_COMPRA"];
                 if (state == 1) {
                     //ShowAlertMessage('success', 'Se creó la orden de compra: ' + compra.ID_VENTA)
+
+                    if (fel == 1) {
+                        var url = "https://report.feel.com.gt/ingfacereport/ingfacereport_documento?uuid=" + data['uuid'];
+                        window.open(url, '_blank');
+                    }
 
                     Swal.fire({
                         icon: 'success',
@@ -374,7 +381,7 @@ $(document).ready(function () {
                         ShowAlertMessage('warning', 'No existen productos con el código ingresado.');
                     }
                     else {
-                         console.log(PROD)
+                        console.log(PROD)
                         $('#hfIdProducto').val(PROD.ID_PRODUCTO);
                         //$('#txtCodigo').val(PROD.CODIGO);
                         $('#txtNombreProducto').val(PROD.NOMBRE_COMPLETO);
@@ -517,6 +524,7 @@ $(document).ready(function () {
     });
     $('#btnGuardarVenta').on('click', function (e) {
         e.preventDefault();
+
         var serie = '1';
         var correlativo = '1';
         var idCliente = $('#hfIdCliente').val();
@@ -549,7 +557,25 @@ $(document).ready(function () {
         if (listDetalles.length == 0)
             ShowAlertMessage('info', 'Debes agregar al menos un producto.');
         else {
-            SaveOrder(encabezado, listDetalles)
+
+            Swal.fire({
+                title: 'CREAR VENTA',
+                html: 'Selecciona una opción',
+                icon: 'info',
+                showCloseButton: true,
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Venta',
+                cancelButtonText: 'Venta con Factura'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    SaveOrder(encabezado, listDetalles, 0)
+                }
+                else if (result.dismiss === Swal.DismissReason.cancel) {
+                    SaveOrder(encabezado, listDetalles, 1)
+                }
+            })
         }
     });
     $('#btnGuardarCliente').on('click', function (e) {

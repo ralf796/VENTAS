@@ -79,6 +79,11 @@
                     alignment: "center"
                 },
                 {
+                    dataField: "FEL",
+                    caption: "FEL",
+                    visible:false
+                },
+                {
                     dataField: "FECHA_CREACION_STRING",
                     caption: "FECHA"
                 },
@@ -159,10 +164,10 @@
                         $("<span>").addClass(classBTN).prop('title', 'cobrar').appendTo(container);
                         $('.cobrar' + cont).click(function (e) {
                             var total = parseFloat(fieldData.TOTAL);
-                            var id = parseInt(fieldData.ID_VENTA);
+                            var id = parseInt(fieldData.ID_VENTA);                            
                             var creadoPor = fieldData.CREADO_POR;
                             document.querySelector('#totalCobro').textContent = formatNumber(parseFloat(total).toFixed(2));
-                            $('#hfID').val(id);
+                            $('#hfID').val(id);                            
                             $('#hfOpcion').val(creadoPor);
                             $('#hfMonto').val(total);
                             $('#modalCobro').modal('show');
@@ -180,7 +185,9 @@
                         $("<span>").addClass(classBTN).prop('title', 'cobrar').appendTo(container);
                         $('.anular' + cont).click(function (e) {
                             var id = parseInt(fieldData.ID_VENTA);
+                            var fel = parseInt(fieldData.FEL);
                             $('#hfID').val(id);
+                            $('#hfFel').val(fel);
                             $('#modalAnulado').modal('show');
                         })
                         cont++;
@@ -362,14 +369,14 @@
         });
     }
 
-    function anularVenta(id) {
+    function anularVenta(id, fel) {
         let id_venta = parseInt(id);
         $.ajax({
             type: 'GET',
             url: "/CAJCobro/getAularVenta",
             contentType: "application/json; charset=utf-8",
             dataType: 'json',
-            data: { id_venta },
+            data: { id_venta, fel },
             cache: false,
             success: function (data) {
                 var state = data["State"];
@@ -401,7 +408,8 @@
     $('#btnAnular').on('click', function (e) {
         e.preventDefault();
         let id = $('#hfID').val();
-        anularVenta(id)
+        var fel = $('#hfFel').val();
+        anularVenta(id, fel)
     })
 
 });

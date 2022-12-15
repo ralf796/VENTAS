@@ -111,15 +111,26 @@ namespace Ventas.Controllers.Caja
         }
         /*---------------------------------funcion Anular Venta*/
         [SessionExpireFilter]
-        public JsonResult getAularVenta(int id_venta = 0)
+        public JsonResult getAularVenta(int id_venta = 0, int fel = 0)
         {
             try
             {
-                var anulaFEL = new FEL_BE();
-                anulaFEL.ID_VENTA = id_venta;
-                anulaFEL = Certificador_FEL.Anulador_XML_FEL(anulaFEL);
-                if (!anulaFEL.RESULTADO)
-                    return Json(new { State = 3, Message = anulaFEL.MENSAJE_FEL }, JsonRequestBehavior.AllowGet);
+                if (fel == 1)
+                {
+                    try
+                    {
+
+                    var itemAnula = new FEL_BE();
+                    itemAnula.ID_VENTA = id_venta;
+                    var respuestaFEL = Certificador_FEL.Anulador_XML_FEL(itemAnula);
+                    if (!respuestaFEL.RESULTADO)
+                        return Json(new { State = 3, Message = respuestaFEL.MENSAJE_FEL }, JsonRequestBehavior.AllowGet);
+                    }
+                    catch
+                    {
+
+                    }
+                }
 
                 var item = new Caja_BE();
                 item.ID_VENTA = id_venta;
