@@ -1,9 +1,11 @@
-﻿using GenesysOracleSV.Clases;
+﻿using conectorfelv2;
+using GenesysOracleSV.Clases;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using Ventas.Class;
 using Ventas_BE;
 using Ventas_BLL;
 
@@ -44,6 +46,13 @@ namespace Ventas.Controllers.Anulaciones
                 else
                     item.FECHA = DateTime.Now;
                 item.ID_VENTA = idVenta;
+
+                var anulaFEL = new FEL_BE();
+                anulaFEL.ID_VENTA = idVenta;
+                anulaFEL = Certificador_FEL.Anulador_XML_FEL(anulaFEL);
+                if (!anulaFEL.RESULTADO)
+                    return Json(new { State = 3, Message = anulaFEL.MENSAJE_FEL }, JsonRequestBehavior.AllowGet);
+
                 var lista = GetSPAnulacion_(item);
                 int estado = 1;
                 if (tipo == 2)
@@ -59,7 +68,7 @@ namespace Ventas.Controllers.Anulaciones
                 }
                 else
                 {
-                    foreach(var row in lista)
+                    foreach (var row in lista)
                     {
                         row.FECHA_CREACION_STRING = row.FECHA.ToString("dd/MM/yyyy hh:mm tt");
                     }

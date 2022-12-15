@@ -2761,6 +2761,7 @@
     <Content Include="Scripts\Reportes\REPVentas.js" />
     <Content Include="Scripts\Ventas\VENCrearVenta.js" />
     <Content Include="Scripts\Ventas\VENPendientes.js" />
+    <Content Include="Scripts\Reimpresiones\VENReimpresiones.js" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
@@ -2815,6 +2816,7 @@
     <Compile Include="Controllers\Usuarios\USUListarUsuarioController.cs" />
     <Compile Include="Controllers\Ventas\VENCrearVentaController.cs" />
     <Compile Include="Controllers\Ventas\VENPendientesController.cs" />
+    <Compile Include="Controllers\Reimpresiones\VENReimpresionesController.cs" />
     <Compile Include="Controllers\WS\AppController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -3496,6 +3498,7 @@
     <Content Include="Views\CARCrearCredito\Index.cshtml" />
     <Content Include="Views\CARSaldos\Index.cshtml" />
     <Content Include="Views\CARAbonos\Index.cshtml" />
+    <Content Include="Views\VENReimpresiones\Index.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

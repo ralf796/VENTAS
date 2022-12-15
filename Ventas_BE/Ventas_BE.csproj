@@ -43,6 +43,7 @@
   <ItemGroup>
     <Compile Include="Anulacion_BE.cs" />
     <Compile Include="Caja_BE.cs" />
+    <Compile Include="Cartera_BE.cs" />
     <Compile Include="Clientes_BE.cs" />
     <Compile Include="FEL_BE.cs" />
     <Compile Include="Inventario_BE.cs" />

@@ -33,11 +33,9 @@
                     data: {},
                     cache: false,
                     success: function (data) {
-                        
                         var state = data["State"];
                         if (state == 1) {
                             data = JSON && JSON.parse(JSON.stringify(data)) || $.parseJSON(data);
-
                             d.resolve(data);
                         }
                         else if (state == -1)
@@ -135,7 +133,7 @@
                         $("<span>").addClass(classBTN).prop('title', 'IMPRESION CONSTANCIA').appendTo(container);
                         $('.imprimir' + cont).click(function (e) {
                             var id_venta = parseInt(fieldData.ID_VENTA);
-                           
+
                             console.log(id_venta);
                             var serie = fieldData.SERIE;
                             var correlativo = parseFloat(fieldData.CORRELATIVO);
@@ -146,15 +144,6 @@
                             var total = parseFloat(fieldData.TOTAL);
                             jsonEncabezado = new ENCABEZADO(serie, correlativo, nombreCliente, nit2, direccion, subtotal, total);
                             mostrarDetalleVenta(id_venta);
-                            //$('#hfSerie').val(serie);
-                            //$('#hfCorrelativo').val(correlativo);
-                            //$('#hfIDCliente').val(idCliente);
-                            //$('#hfNombreCliente').val(nombreCliente);
-                            //$('#hfNit').val(nit2);
-                            //$('#hfDireccion').val(direccion);
-                            //$('#hfSubtotal').val(subtotal);
-                            //$('#hfTotal').val(total);
-                            
                         })
                         cont++;
                     }
@@ -172,13 +161,11 @@
                             var total = parseFloat(fieldData.TOTAL);
                             var id = parseInt(fieldData.ID_VENTA);
                             var creadoPor = fieldData.CREADO_POR;
-                            //mostrarCobro(fieldData.TOTAL, fieldData.ID_VENTA);
                             document.querySelector('#totalCobro').textContent = formatNumber(parseFloat(total).toFixed(2));
                             $('#hfID').val(id);
                             $('#hfOpcion').val(creadoPor);
                             $('#hfMonto').val(total);
                             $('#modalCobro').modal('show');
-
                         })
                         cont++;
                     }
@@ -190,7 +177,6 @@
                         var fieldData = options.data;
                         var classTmp = 'anular' + cont;
                         var classBTN = 'hvr-grow text-dark far fa-trash-alt btn btn-danger ' + classTmp;
-
                         $("<span>").addClass(classBTN).prop('title', 'cobrar').appendTo(container);
                         $('.anular' + cont).click(function (e) {
                             var id = parseInt(fieldData.ID_VENTA);
@@ -201,77 +187,45 @@
                     }
                 }
             ],
-            //masterDetail: {
-            //    enabled: true,
-            //    template(container, options) {
-            //        $('<div>').appendTo(container).dxDataGrid({
-            //            dataSource: {
-            //                store: ordersStore,
-            //                filter: ['ID_VENTA', '=', options.key],
-
-            //                reshapeOnPush: true,
-            //            },
-            //            repaintChangesOnly: true,
-            //            columnAutoWidth: true,
-            //            showBorders: true,
-            //            paging: {
-            //                pageSize: 3,
-            //            },
-            //            columns: [{
-            //                caption: "venta detalle"
-            //            }, {
-            //                caption: "Peta"
-            //            }, {
-            //                caption: "ASADO"
-            //            }]
-            //        })
-            //    }
-            //}
-
         }).dxDataGrid('instance');
     }
 
-        /*---------------------------------------------MOSTRA DETALLE DE VENTA 2----------------------------------*/
-        function mostrarDetalleVenta(id_venta) {
-            $.ajax({
-                type: 'GET',
-                url: "/CAJCobro/GetDetalle2",
-                contentType: "application/json; charset=utf-8",
-                dataType: 'json',
-                data: {
-                    id_venta
-                },
-                cache: false,
-                success: function (data) {
-                    var state = data["State"];
-                    if (state == 1) {
-                        data = JSON && JSON.parse(JSON.stringify(data)) || $.parseJSON(data);
-                        for (var i = 0; i < data.data.length; i++) {
-                            var nombre = data.data[i].NOMBRE;
-                            var cantidad = data.data[i].CANTIDAD;
-                            var precio_unitario = data.data[i].PRECIO_UNITARIO;
-                            var descuento = data.data[i].DESCUENTO;
-                            var subtotal = data.data[i].SUBTOTAL;
-                            var total = data.data[i].TOTAL;
-                            var listado = new DETALLE(nombre, cantidad, precio_unitario, descuento, subtotal, total);
-                            jsonDetalles.push(listado);
-                        }
-                         envioController();
-                        jsonDetalles = [];
+    function mostrarDetalleVenta(id_venta) {
+        $.ajax({
+            type: 'GET',
+            url: "/CAJCobro/GetDetalle2",
+            contentType: "application/json; charset=utf-8",
+            dataType: 'json',
+            data: {
+                id_venta
+            },
+            cache: false,
+            success: function (data) {
+                var state = data["State"];
+                if (state == 1) {
+                    data = JSON && JSON.parse(JSON.stringify(data)) || $.parseJSON(data);
+                    for (var i = 0; i < data.data.length; i++) {
+                        var nombre = data.data[i].NOMBRE;
+                        var cantidad = data.data[i].CANTIDAD;
+                        var precio_unitario = data.data[i].PRECIO_UNITARIO;
+                        var descuento = data.data[i].DESCUENTO;
+                        var subtotal = data.data[i].SUBTOTAL;
+                        var total = data.data[i].TOTAL;
+                        var listado = new DETALLE(nombre, cantidad, precio_unitario, descuento, subtotal, total);
+                        jsonDetalles.push(listado);
                     }
-                    else if (state == -1) {
-                        ShowAlertMessage('warning', data['Message'])
-                    }
+                    envioController();
+                    jsonDetalles = [];
                 }
-            });
-
+                else if (state == -1) {
+                    ShowAlertMessage('warning', data['Message'])
+                }
+            }
+        });
     }
-    /*-----------------------------FUNCION MOSTRAR DETALLE----------------------------------------*/
+
     function envioController() {
         CallLoadingFire('Generando comprobante, por favor espere.');
-        //console.log(jsonEncabezado.SERIE);
-        //console.log(jsonEncabezado.NOMBRECLIENTE);
-        //jsonDetalles.forEach(elemento => console.log(elemento));
         $.post("/CAJCobro/GetComprobante", {
             encabezado: JSON.stringify(jsonEncabezado),
             detalles: JSON.stringify(jsonDetalles)
@@ -290,7 +244,7 @@
             CallToast('Descarga realizada con éxito.', true, 2300, '#9EC600')
         });
     }
-    /*-----------------------------FUNCION MOSTRAR DETALLE----------------------------------------*/
+
     function mostrarDetalle(id) {
         var id_venta = parseInt(id);
         var customStore = new DevExpress.data.CustomStore({
@@ -307,9 +261,7 @@
                         var state = data["State"];
                         if (state == 1) {
                             data = JSON && JSON.parse(JSON.stringify(data)) || $.parseJSON(data);
-
                             d.resolve(data);
-
                         }
                         else if (state == -1)
                             alert(data["Message"])
@@ -367,7 +319,7 @@
                     dataType: "number",
                     format: { type: 'fixedPoint', precision: 2 }
                 },
-               
+
                 {
                     dataField: "TOTAL",
                     caption: "TOTAL SIN DESCUENTO",
@@ -387,28 +339,19 @@
         }).dxDataGrid('instance');
         $('#modalDetalle').modal('show');
     }
-    /*--------------------------------FUNCIÓN COBRO---------------------------------------------*/
-    //function mostrarCobro(venta, id) {
 
-    //}
-
-    /*-------------------------------funcion cobrar-----------------------------*/
     function getCobro(id, cobro, formaPago) {
-
         $.ajax({
             type: 'GET',
             url: "/CAJCobro/getCobroEfectuado",
             contentType: "application/json; charset=utf-8",
             dataType: 'json',
-            data: {
-                id, cobro, formaPago
-            },
+            data: { id, cobro, formaPago },
             cache: false,
             success: function (data) {
                 var state = data["State"];
                 if (state == 1) {
                     ShowAlertMessage('success', 'El Cobro se ha realizado exitosamente');
-      
                     $('#modalCobro').modal('hide');
                     GetDatos()
                 }
@@ -418,21 +361,7 @@
             }
         });
     }
-    /*-----------------------------BOTON  COBRAR------------------------------------*/
-    $('#btnCobrar').on('click', function (e) {
-        e.preventDefault();
-        var cobro = parseFloat($('#hfMonto').val());
-        var formaPago = $('#selTipoPago').val();
-        var id = parseInt($('#hfID').val());
-       /* var creado_por = $('#hfOpcion').val();*/
-        if (formaPago != null)
-            getCobro(id, cobro, formaPago);
-        else {
-            ShowAlertMessage('warning', 'Debe de Elegir una forma de Pago correcto')
-        }
 
-    });
-    /*-----------------------------------Funcion Anular Venta---------------------------*/
     function anularVenta(id) {
         let id_venta = parseInt(id);
         $.ajax({
@@ -440,9 +369,7 @@
             url: "/CAJCobro/getAularVenta",
             contentType: "application/json; charset=utf-8",
             dataType: 'json',
-            data: {
-                id_venta
-            },
+            data: { id_venta },
             cache: false,
             success: function (data) {
                 var state = data["State"];
@@ -451,19 +378,30 @@
                     $('#modalAnulado').modal('hide');
                     GetDatos()
                 }
-                else if (state == -1) {
+                else if (state == -1)
                     ShowAlertMessage('warning', data['Message'])
-                }
+                else if (state == 3)
+                    ShowAlertMessage('warning', 'No se pudo anular la venta en FEL, consulta con el Administrador, Mensaje: ' + data['Message'])
             }
         });
     }
-    /*----------------------------------BOTON ANULAR------------------------------------*/
+
+    $('#btnCobrar').on('click', function (e) {
+        e.preventDefault();
+        var cobro = parseFloat($('#hfMonto').val());
+        var formaPago = $('#selTipoPago').val();
+        var id = parseInt($('#hfID').val());
+        if (formaPago != null)
+            getCobro(id, cobro, formaPago);
+        else {
+            ShowAlertMessage('warning', 'Debe de Elegir una forma de Pago correcto')
+        }
+    });
+
     $('#btnAnular').on('click', function (e) {
         e.preventDefault();
         let id = $('#hfID').val();
         anularVenta(id)
     })
 
-       
 });
-

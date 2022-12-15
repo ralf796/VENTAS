@@ -240,7 +240,6 @@ $(document).ready(function () {
                     dataType: "number",
                     format: { type: 'fixedPoint', precision: 2 }
                 },
-
                 {
                     dataField: "TOTAL",
                     caption: "TOTAL SIN DESCUENTO",
@@ -254,8 +253,7 @@ $(document).ready(function () {
                     alignment: "center",
                     dataType: "number",
                     format: { type: 'fixedPoint', precision: 2 }
-                },
-
+                }
             ],
         }).dxDataGrid('instance');
         $('#modalDetalle').modal('show');
@@ -280,9 +278,13 @@ $(document).ready(function () {
                     GetDatos(DateFormat(fecha.lastSelectedDate));
                     ShowAlertMessage('success', 'Se anuló la venta seleccionada')
                 }
-                else if (state == -1) {
+                else if (state == -1) 
                     ShowAlertMessage('warning', data['Message'])
-                }
+                else if (state == 2) 
+                    ShowAlertMessage('warning', 'No se pudo anular la venta en BD, consulta con el Administrador')
+                else if (state == 3) 
+                    ShowAlertMessage('warning', 'No se pudo anular la venta en FEL, consulta con el Administrador, Mensaje: ' + data['Message'])
+                
             }
         });
     }

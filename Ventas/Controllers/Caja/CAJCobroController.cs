@@ -8,6 +8,7 @@ using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using Ventas.Class;
 using Ventas_BE;
 using Ventas_BLL;
 namespace Ventas.Controllers.Caja
@@ -114,6 +115,12 @@ namespace Ventas.Controllers.Caja
         {
             try
             {
+                var anulaFEL = new FEL_BE();
+                anulaFEL.ID_VENTA = id_venta;
+                anulaFEL = Certificador_FEL.Anulador_XML_FEL(anulaFEL);
+                if (!anulaFEL.RESULTADO)
+                    return Json(new { State = 3, Message = anulaFEL.MENSAJE_FEL }, JsonRequestBehavior.AllowGet);
+
                 var item = new Caja_BE();
                 item.ID_VENTA = id_venta;
                 item.MTIPO = 5;
@@ -199,9 +206,7 @@ namespace Ventas.Controllers.Caja
                 html.AppendLine($"<td class='text-right' style='border-bottom: 1px solid'>{dato.DESCUENTO.ToString("N2")}</td>");
                 html.AppendLine($"<td class='text-right' style='border-bottom: 1px solid'>{dato.TOTAL.ToString("N2")}</td>");
                 html.AppendLine($"<td class='text-right' style='border-bottom: 1px solid'>{dato.SUBTOTAL.ToString("N2")}</td>");
-
                 html.AppendLine("</tr>");
-
             }
             html.AppendLine($@"</tbody>
                 </table>

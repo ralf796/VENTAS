@@ -45,6 +45,7 @@
     <Compile Include="Anulacion_DAL.cs" />
     <Compile Include="Base_SQL.cs" />
     <Compile Include="Caja_DAL.cs" />
+    <Compile Include="Cartera_DAL.cs" />
     <Compile Include="Clientes_DAL.cs" />
     <Compile Include="FEL_DAL.cs" />
     <Compile Include="Inventario_DAL.cs" />

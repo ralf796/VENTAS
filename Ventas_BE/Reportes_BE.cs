@@ -60,5 +60,8 @@ namespace Ventas_BE
         public DateTime FECHA_VENTA { get; set; }
         public string CODIGO_INTERNO { get; set; }
         public string NOMBRE_DISTRIBUIDOR { get; set; }
+        public string UUID { get; set; }
+        public string SERIE_FEL { get; set; }
+        public decimal NUMERO_FEL { get; set; }
     }
 }

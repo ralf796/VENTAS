@@ -101,7 +101,7 @@ $(document).ready(function () {
                             $("<span>").addClass("badge badge-success").text('ACTIVO').appendTo(container);
                         else
                             $("<span>").addClass("badge badge-danger").text('INACTIVO').appendTo(container);
-                        /*
+                        
                         var classTmp1 = 'edit' + cont;
                         var classBTN1 = 'ml-2 hvr-grow far fa-edit btn btn-success ' + classTmp1;
                         if (fieldData.ESTADO == 1) {
@@ -112,7 +112,7 @@ $(document).ready(function () {
                                 GetDatosProductoUpdate(id, fieldData.NOMBRE, fieldData.STOCK, fieldData.PRECIO_COSTO, fieldData.PRECIO_VENTA, fieldData.PATH_IMAGEN, fieldData.DESCRIPCION)
                             })
                         }
-                        */
+
                         var classTmp2 = 'remove' + cont;
                         var classBTN2 = 'ml-2 hvr-grow far fa-trash-alt btn btn-danger ' + classTmp2;
                         if (fieldData.ESTADO == 1) {
