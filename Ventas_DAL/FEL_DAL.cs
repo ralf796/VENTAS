@@ -24,6 +24,7 @@ namespace Ventas_DAL
                 model.Command.Parameters.AddWithValue("@SERIE_FEL", item.SERIE_FEL);
                 model.Command.Parameters.AddWithValue("@NUMERO_FEL", item.NUMERO_FEL);
                 model.Command.Parameters.AddWithValue("@FECHA_CERTIFICACION", item.FECHA_CERTIFICACION);
+                model.Command.Parameters.AddWithValue("@FEL", item.FEL);
                 result = model.GetData<FEL_BE>();
             }
             return result;

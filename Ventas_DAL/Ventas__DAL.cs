@@ -36,6 +36,7 @@ namespace Ventas_DAL
                 model.Command.Parameters.AddWithValue("@CODIGO2", item.CODIGO2);
                 model.Command.Parameters.AddWithValue("@ANIO_INICIAL", item.ANIO_INICIAL);
                 model.Command.Parameters.AddWithValue("@ANIO_FINAL", item.ANIO_FINAL);
+                //model.Command.Parameters.AddWithValue("@FEL", item.FEL);
                 //model.Command.Parameters.AddWithValue("@NOMBREDESC", item.NOMBRE);
                 result = model.GetData<Ventas__BE>();
             }

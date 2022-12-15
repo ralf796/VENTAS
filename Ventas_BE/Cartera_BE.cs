@@ -14,6 +14,7 @@ namespace Ventas_BE
         public decimal CORRELATIVO { get; set; }
         public string IDENTIFICADOR_UNICO { get; set; }
         public DateTime FECHA { get; set; }
+        public DateTime? FECHA_PAGO { get; set; }
         public DateTime FECHA_CERTIFICACION { get; set; }
         public string FECHA_STRING { get; set; }
         public string FECHA_CERTIFICACION_STRING { get; set; }
@@ -27,5 +28,8 @@ namespace Ventas_BE
         public decimal TOTAL_VENTA { get; set; }
         public decimal SALDO { get; set; }
         public string FORMA_PAGO { get; set; }
+        public string CREADO_POR { get; set; }
+        public decimal ABONO { get; set; }
+        public string OBSERVACIONES{ get; set; }
     }
 }

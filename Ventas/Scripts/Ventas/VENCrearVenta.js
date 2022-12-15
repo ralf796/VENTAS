@@ -3,7 +3,6 @@ $(document).ready(function () {
     //CallLoadingFire('Cargandoo-.')
     //GetListProductos();
 
-
     function ClearCustomer() {
         $('#hfIdCliente').val('');
         $('#txtNombreCliente').val('');
@@ -251,7 +250,7 @@ $(document).ready(function () {
     }
 
     function SaveOrder(jsonEncabezado, jsonDetalles, fel) {
-        CallLoadingFire('Procesando venta')
+        CallLoadingFire('Procesando venta...');
         $.ajax({
             type: 'GET',
             url: '/VENCrearVenta/SaveOrder',
@@ -269,12 +268,12 @@ $(document).ready(function () {
                 var compra = data["ORDEN_COMPRA"];
                 if (state == 1) {
                     //ShowAlertMessage('success', 'Se creó la orden de compra: ' + compra.ID_VENTA)
-
+                    /*
                     if (fel == 1) {
                         var url = "https://report.feel.com.gt/ingfacereport/ingfacereport_documento?uuid=" + data['uuid'];
                         window.open(url, '_blank');
                     }
-
+                    */
                     Swal.fire({
                         icon: 'success',
                         type: 'success',
@@ -557,7 +556,8 @@ $(document).ready(function () {
         if (listDetalles.length == 0)
             ShowAlertMessage('info', 'Debes agregar al menos un producto.');
         else {
-
+            SaveOrder(encabezado, listDetalles, 0)
+            /*
             Swal.fire({
                 title: 'CREAR VENTA',
                 html: 'Selecciona una opción',
@@ -576,6 +576,7 @@ $(document).ready(function () {
                     SaveOrder(encabezado, listDetalles, 1)
                 }
             })
+            */
         }
     });
     $('#btnGuardarCliente').on('click', function (e) {

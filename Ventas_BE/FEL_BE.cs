@@ -63,11 +63,14 @@ namespace Ventas_BE
         public decimal SUBTOTAL_CON_IVA { get; set; }
         public int ID_CLIENTE { get; set; }
         public DateTime? FECHA_CERTIFICACION { get; set; }
-        public bool RESULTADO  { get; set; }
+        public bool RESULTADO { get; set; }
         public string MENSAJE_FEL { get; set; }
-        public int ID_PRODUCTO{ get; set; }
-        public string CODIGO_INTERNO{ get; set; }
+        public int ID_PRODUCTO { get; set; }
+        public string CODIGO_INTERNO { get; set; }
         public string CORREO_CLIENTE { get; set; }
         public decimal IVA_UNITARIO { get; set; }
+        public string NOMBRE_COMERCIAL { get; set; }
+        public string OBSERVACIONES { get; set; }
+        public int FEL { get; set; }
     }
 }

@@ -1,4 +1,5 @@
-﻿using GenesysOracle.Clases;
+﻿using conectorfelv2;
+using GenesysOracle.Clases;
 using GenesysOracleSV.Clases;
 using Newtonsoft.Json;
 using SelectPdf;
@@ -8,6 +9,7 @@ using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.Services.Description;
 using Ventas.Class;
 using Ventas_BE;
 using Ventas_BLL;
@@ -21,13 +23,14 @@ namespace Ventas.Controllers.Caja
         {
             return View();
         }
+
         private List<Caja_BE> GetDatosCaja_(Caja_BE item)
         {
             List<Caja_BE> lista = new List<Caja_BE>();
             lista = Caja_BLL.GetSPCaja(item);
             return lista;
         }
-        //FUNCION LISTAR COBRO
+
         [SessionExpireFilter]
         public JsonResult GetCobro()
         {
@@ -46,7 +49,7 @@ namespace Ventas.Controllers.Caja
 
             }
         }
-        //funcion LISTAR DETALLE VENTA
+
         [SessionExpireFilter]
         public JsonResult GetDetalle(int id_venta = 0)
         {
@@ -80,12 +83,44 @@ namespace Ventas.Controllers.Caja
 
             }
         }
-        // funcion cobro efectuado
+
         [SessionExpireFilter]
-        public JsonResult getCobroEfectuado(int id = 0, decimal cobro = 0, int formaPago = 0)
+        public JsonResult getCobroEfectuado(int id = 0, decimal cobro = 0, int formaPago = 0, int fel = 0, string fechaPago = "")
         {
             try
             {
+                string uuid = "";
+                if (fel == 1)
+                {
+                    var firma = new FEL_BE();
+                    firma.ID_VENTA = id;
+
+                    if (formaPago == 3)
+                        firma.OBSERVACIONES = "Factura emitida al CRÉDITO";
+                    else
+                        firma.OBSERVACIONES = "Factura emitida al CONTADO";
+
+                    var respuestaFEL = Certificador_FEL.Certificador_XML_FAC_FEL(firma);
+
+                    if (!respuestaFEL.RESULTADO)
+                        return Json(new { State = -2, Message = "Error de firma FEL: " + respuestaFEL.MENSAJE_FEL }, JsonRequestBehavior.AllowGet);
+
+                    if (respuestaFEL.RESULTADO)
+                    {
+                        var update = new FEL_BE();
+                        update.MTIPO = 5;
+                        update.ID_VENTA = id;
+                        update.UUID = respuestaFEL.UUID;
+                        update.SERIE_FEL = respuestaFEL.SERIE_FEL;
+                        update.NUMERO_FEL = respuestaFEL.NUMERO_FEL;
+                        update.FECHA_CERTIFICACION = respuestaFEL.FECHA_CERTIFICACION;
+                        update.FEL = 1;
+                        var respuesta_update = FEL_BLL.GetDatosSP(update).FirstOrDefault();
+
+                        uuid = respuestaFEL.UUID;
+                    }
+                }
+
                 var item = new Caja_BE();
                 item.ID_VENTA = id;
                 item.TOTAL = cobro;
@@ -97,19 +132,33 @@ namespace Ventas.Controllers.Caja
                 {
                     item.TIPO_COBRO = "T";
                 }
+                else if (formaPago == 3)
+                {
+                    item.TIPO_COBRO = "CR";
+                }
+
                 item.CREADO_POR = Session["usuario"].ToString();
                 item.MTIPO = 3;
                 var lista = GetDatosCaja_(item);
-                return Json(new { State = 1, data = lista }, JsonRequestBehavior.AllowGet);
+
+                if (formaPago == 3)
+                {
+                    var insertCredito = new Cartera_BE();
+                    insertCredito.MTIPO = 3;
+                    insertCredito.ID_VENTA = id;
+                    insertCredito.CREADO_POR = Session["usuario"].ToString();
+                    insertCredito.FECHA_PAGO = Convert.ToDateTime(fechaPago);
+                    var respuestaCredito = Cartera_BLL.GetDatosSP(insertCredito).FirstOrDefault();
+                }
+
+                return Json(new { State = 1, data = lista, UUID = uuid }, JsonRequestBehavior.AllowGet);
             }
             catch (Exception ex)
             {
                 return Json(new { State = -1, Message = ex.Message }, JsonRequestBehavior.AllowGet);
-
             }
-
         }
-        /*---------------------------------funcion Anular Venta*/
+
         [SessionExpireFilter]
         public JsonResult getAularVenta(int id_venta = 0, int fel = 0)
         {
@@ -120,11 +169,11 @@ namespace Ventas.Controllers.Caja
                     try
                     {
 
-                    var itemAnula = new FEL_BE();
-                    itemAnula.ID_VENTA = id_venta;
-                    var respuestaFEL = Certificador_FEL.Anulador_XML_FEL(itemAnula);
-                    if (!respuestaFEL.RESULTADO)
-                        return Json(new { State = 3, Message = respuestaFEL.MENSAJE_FEL }, JsonRequestBehavior.AllowGet);
+                        var itemAnula = new FEL_BE();
+                        itemAnula.ID_VENTA = id_venta;
+                        var respuestaFEL = Certificador_FEL.Anulador_XML_FEL(itemAnula);
+                        if (!respuestaFEL.RESULTADO)
+                            return Json(new { State = 3, Message = respuestaFEL.MENSAJE_FEL }, JsonRequestBehavior.AllowGet);
                     }
                     catch
                     {
@@ -145,7 +194,7 @@ namespace Ventas.Controllers.Caja
 
             }
         }
-        //impresion
+
         public ActionResult GetComprobante(string encabezado = "", string detalles = "")
         {
             var item = JsonConvert.DeserializeObject<Caja_BE>(encabezado);

@@ -36,7 +36,7 @@ namespace Ventas.Controllers.Ventas
         #endregion
 
         #region FUNCTIONS
-        private bool SaveHeader(int idVenta = 0, string serie = "", decimal correlativo = 0, int idCliente = 0, decimal total = 0, decimal descuento = 0, decimal subtotal = 0, string usuario = "")
+        private bool SaveHeader(int idVenta = 0, string serie = "", decimal correlativo = 0, int idCliente = 0, decimal total = 0, decimal descuento = 0, decimal subtotal = 0, string usuario = "", int fel = 0)
         {
             bool respuesta = false;
             var item = new Ventas__BE();
@@ -49,6 +49,7 @@ namespace Ventas.Controllers.Ventas
             item.SUBTOTAL = subtotal;
             item.TOTAL_DESCUENTO = descuento;
             item.CREADO_POR = usuario;
+            item.FEL = fel;
             var resultHeader = GetDatosSP_(item);
 
             if (resultHeader != null)
@@ -220,7 +221,7 @@ namespace Ventas.Controllers.Ventas
                 itemID.MTIPO = 6;
                 item.ID_VENTA = GetDatosSP_(itemID).FirstOrDefault().ID_VENTA;
 
-                if (SaveHeader(Convert.ToInt32(item.ID_VENTA), "", 1, item.ID_CLIENTE, item.TOTAL, item.TOTAL_DESCUENTO, item.SUBTOTAL, usuario) == true)
+                if (SaveHeader(Convert.ToInt32(item.ID_VENTA), "", 1, item.ID_CLIENTE, item.TOTAL, item.TOTAL_DESCUENTO, item.SUBTOTAL, usuario, fel) == true)
                 {
                     foreach (var row in listaDetalles)
                     {
@@ -242,13 +243,14 @@ namespace Ventas.Controllers.Ventas
                 else
                 {
                     DescontProduct(Convert.ToInt32(item.ID_VENTA));
-
+                    /*
                     if (fel == 1)
                     {
                         var respuestaFEL = Certificar_Factura_FEL(Convert.ToInt32(item.ID_VENTA));
                         if (respuestaFEL.RESULTADO)
                             uuid = respuestaFEL.UUID;
                     }
+                    */
 
                 }
                 return Json(new { State = state, ORDEN_COMPRA = item.ID_VENTA, uuid = uuid }, JsonRequestBehavior.AllowGet);
@@ -735,7 +737,7 @@ namespace Ventas.Controllers.Ventas
                     item = new FEL_BE();
                     item.ID_VENTA = i;
 
-                    var respuestaFEL = Certificador_FEL.Anulador_XML_FEL(item);
+                    var respuestaFEL = Certificador_FEL.Certificador_XML_FAC_FEL(item);
                     if (respuestaFEL.RESULTADO)
                     {
                         var update = new FEL_BE();

@@ -1,4 +1,16 @@
-﻿$(document).ready(function () {
+﻿let fechaPago;
+$(document).ready(function () {
+    fechaPago = new AirDatepicker('#txtFechaPago', {
+        autoClose: true,
+        autoClose: true,
+        view: 'days',
+        minView: 'days',
+        dateFormat: 'dd/MM/yyyy',
+        selectedDates: [new Date(new Date().getFullYear(), new Date().getMonth(), 1)]
+
+        /* //onSelect: GetDataTable*/
+    });
+
     function ENCABEZADO(SERIE, CORRELATIVO, NOMBRE, NIT, DIRECCION, SUBTOTAL, TOTAL) {
         this.SERIE = SERIE;
         this.CORRELATIVO = CORRELATIVO;
@@ -165,11 +177,13 @@
                         $('.cobrar' + cont).click(function (e) {
                             var total = parseFloat(fieldData.TOTAL);
                             var id = parseInt(fieldData.ID_VENTA);                            
+                            var fel = parseInt(fieldData.FEL);
                             var creadoPor = fieldData.CREADO_POR;
                             document.querySelector('#totalCobro').textContent = formatNumber(parseFloat(total).toFixed(2));
                             $('#hfID').val(id);                            
                             $('#hfOpcion').val(creadoPor);
                             $('#hfMonto').val(total);
+                            $('#hfFel').val(fel);
                             $('#modalCobro').modal('show');
                         })
                         cont++;
@@ -326,7 +340,6 @@
                     dataType: "number",
                     format: { type: 'fixedPoint', precision: 2 }
                 },
-
                 {
                     dataField: "TOTAL",
                     caption: "TOTAL SIN DESCUENTO",
@@ -340,29 +353,41 @@
                     alignment: "center",
                     dataType: "number",
                     format: { type: 'fixedPoint', precision: 2 }
-                },
-
+                }
             ],
         }).dxDataGrid('instance');
         $('#modalDetalle').modal('show');
     }
 
-    function getCobro(id, cobro, formaPago) {
+    function getCobro(id, cobro, formaPago, fel, fechaPago) {
+        if (fel == 1) 
+            CallLoadingFire('Emitiendo Factura FEL...');
+        else
+            CallLoadingFire('Realizando Cobro...');
+
         $.ajax({
             type: 'GET',
             url: "/CAJCobro/getCobroEfectuado",
             contentType: "application/json; charset=utf-8",
             dataType: 'json',
-            data: { id, cobro, formaPago },
+            data: { id, cobro, formaPago, fel, fechaPago },
             cache: false,
             success: function (data) {
                 var state = data["State"];
                 if (state == 1) {
+                    if (fel == 1) {
+                        var url = "https://report.feel.com.gt/ingfacereport/ingfacereport_documento?uuid=" + data['UUID'];
+                        window.open(url, '_blank');
+                    }
+
                     ShowAlertMessage('success', 'El Cobro se ha realizado exitosamente');
                     $('#modalCobro').modal('hide');
                     GetDatos()
                 }
                 else if (state == -1) {
+                    ShowAlertMessage('warning', data['Message'])
+                }
+                else if (state == -2) {
                     ShowAlertMessage('warning', data['Message'])
                 }
             }
@@ -398,8 +423,29 @@
         var cobro = parseFloat($('#hfMonto').val());
         var formaPago = $('#selTipoPago').val();
         var id = parseInt($('#hfID').val());
-        if (formaPago != null)
-            getCobro(id, cobro, formaPago);
+        var fel = parseInt($('#hfFel').val());
+        
+
+        if (formaPago != null) {
+            Swal.fire({
+                title: 'CREAR COBRO',
+                html: 'Selecciona una opción',
+                icon: 'info',
+                showCloseButton: true,
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'COBRO',
+                cancelButtonText: 'COBRO CON FACTURA'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    getCobro(id, cobro, formaPago, 0, DateFormat(fechaPago.lastSelectedDate));
+                }
+                else if (result.dismiss === Swal.DismissReason.cancel) {
+                    getCobro(id, cobro, formaPago, 1, DateFormat(fechaPago.lastSelectedDate));
+                }
+            })            
+        }
         else {
             ShowAlertMessage('warning', 'Debe de Elegir una forma de Pago correcto')
         }
@@ -412,4 +458,15 @@
         anularVenta(id, fel)
     })
 
+    $('#selTipoPago').on('change', function (e) {
+        e.preventDefault();
+        var valor = $(this).val();
+
+        if (valor == 3) {
+            $('#divFechaPago').removeClass('d-none');
+        }
+        else {
+            $('#divFechaPago').addClass('d-none');
+        }
+    })
 });

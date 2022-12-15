@@ -73,19 +73,37 @@ $(document).ready(function () {
                     alignment: "center",
                     cellTemplate: function (container, options) {
                         var fieldData = options.data;
-                        var classTmp3 = 'reimpreFEL' + cont;
-                        var classBTN3 = 'ml-2 hvr-grow far fa-print btn btn-primary ' + classTmp3;
-                        $("<span>").addClass(classBTN3).prop('title', 'Reimpresión FEL').appendTo(container);
-                        $('.reimpreFEL' + cont).click(function (e) {
-                            var url = "https://report.feel.com.gt/ingfacereport/ingfacereport_documento?uuid=" + fieldData.UUID;
-                            window.open(url, '_blank');
+
+                        if (fieldData.FEL == 1) {
+                            //IMPRESION FEL
+                            var classTmp1 = 'reimpreFEL' + cont;
+                            var classBTN1 = 'ml-2 hvr-grow far fa-print btn btn-primary ' + classTmp1;
+                            $("<span>").addClass(classBTN1).prop('title', 'Reimpresión FEL').appendTo(container);
+                            $('.reimpreFEL' + cont).click(function (e) {
+                                var url = "https://report.feel.com.gt/ingfacereport/ingfacereport_documento?uuid=" + fieldData.UUID;
+                                window.open(url, '_blank');
+                            })
+                        }
+
+                        //IMPRESION COMPROBANTE
+                        var classTmp2 = 'imprimir' + cont;
+                        var classBTN2 = 'ml-2 hvr-grow text-dark fal fa-print btn btn-warning ' + classTmp2;
+                        $("<span>").addClass(classBTN2).prop('title', 'Reimpresión comprobante').appendTo(container);
+                        $('.imprimir' + cont).click(function (e) {
+                            var id_venta = parseInt(fieldData.ID_VENTA);
+                            GenerarComprobante(id_venta);
                         })
+
                         cont++;
                     }
                 },
                 {
                     dataField: "ID_VENTA",
                     caption: "VENTA"
+                },
+                {
+                    dataField: "FEL",
+                    caption: "FEL"
                 },
                 {
                     dataField: "SERIE",
@@ -141,4 +159,22 @@ $(document).ready(function () {
         e.preventDefault();
         GetDatos(DateFormat(fecha.lastSelectedDate));
     })
+
+    function GenerarComprobante(id_venta) {
+        CallLoadingFire('Generando comprobante, por favor espera...');
+        $.post("/VENReimpresiones/GetComprobante", { id_venta }, function (result) {
+            var pom = document.createElement('a');
+            pom.setAttribute('href', 'data:' + result.MimeType + ';base64,' + result.File);
+            pom.setAttribute('download', result.FileName);
+            if (document.createEvent) {
+                var event = document.createEvent('MouseEvents');
+                event.initEvent('click', true, true);
+                pom.dispatchEvent(event);
+            }
+            else {
+                pom.click();
+            }
+            CallToast('Descarga realizada con éxito.', true, 2300, '#9EC600')
+        });
+    }
 });

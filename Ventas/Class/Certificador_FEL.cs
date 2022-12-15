@@ -266,7 +266,7 @@ namespace Ventas.Class
             xml.AppendLine($"<dte:DTE ID=\"DatosCertificados\">");
             xml.AppendLine($"<dte:DatosEmision ID=\"DatosEmision\">");
             xml.AppendLine($"<dte:DatosGenerales CodigoMoneda=\"GTQ\" FechaHoraEmision=\"{ENCABEZADO_VENTA.FECHA_FACTURA.ToString("yyyy-MM-ddThh:mm:ss-06:00")}\" Tipo=\"FACT\" ></dte:DatosGenerales>");
-            xml.AppendLine($"<dte:Emisor AfiliacionIVA=\"GEN\" CodigoEstablecimiento=\"{1}\" CorreoEmisor=\"{DATOS_EMPRESA.CORREO_EMISOR}\" NITEmisor=\"{DATOS_EMPRESA.NIT_EMPRESA}\" NombreComercial=\"{DATOS_EMPRESA.NOMBRE_EMPRESA}\" NombreEmisor=\"{DATOS_EMPRESA.NOMBRE_EMPRESA}\">");
+            xml.AppendLine($"<dte:Emisor AfiliacionIVA=\"GEN\" CodigoEstablecimiento=\"{1}\" CorreoEmisor=\"{DATOS_EMPRESA.CORREO_EMISOR}\" NITEmisor=\"{DATOS_EMPRESA.NIT_EMPRESA}\" NombreComercial=\"{DATOS_EMPRESA.NOMBRE_COMERCIAL}\" NombreEmisor=\"{DATOS_EMPRESA.NOMBRE_EMPRESA}\">");
             xml.AppendLine($"<dte:DireccionEmisor>");
             xml.AppendLine($"<dte:Direccion>{DATOS_EMPRESA.DIRECCION_ESTABLECIMIENTO}</dte:Direccion>");
             xml.AppendLine($"<dte:CodigoPostal>" + DATOS_EMPRESA.CODIGO_POSTAL + "</dte:CodigoPostal>");
@@ -333,14 +333,13 @@ namespace Ventas.Class
             xml.AppendLine($"</dte:DTE>");
             xml.AppendLine($"<dte:Adenda>");
             xml.AppendLine($"<Codigo_cliente>C01</Codigo_cliente>");
-            xml.AppendLine($"<Observaciones></Observaciones>");
+            xml.AppendLine($"<Observaciones>{VENTA.OBSERVACIONES}</Observaciones>");
             xml.AppendLine($"</dte:Adenda>");
             xml.AppendLine($"</dte:SAT>");
             xml.AppendLine($"</dte:GTDocumento>");
             #endregion
 
             #region Firma XML
-            //Firma XML
             byte[] xmlData = Encoding.UTF8.GetBytes(xml.ToString());
             string xmlBase64 = Convert.ToBase64String(xmlData);
             RestClient restClient = new RestClient("https://signer-emisores.feel.com.gt/sign_solicitud_firmas/firma_xml?");
@@ -348,7 +347,7 @@ namespace Ventas.Class
             {
                 llave = CREDENCIALES_FEL.LLAVE_PFX,
                 archivo = xmlBase64,
-                codigo = ENCABEZADO_VENTA.IDENTIFICADOR_UNICO + "-2",
+                codigo = ENCABEZADO_VENTA.IDENTIFICADOR_UNICO,
                 alias = CREDENCIALES_FEL.USUARIO_FEL,
                 es_anulacion = "N"
             };
@@ -360,7 +359,6 @@ namespace Ventas.Class
 
             if (signedResponse.resultado)
             {
-                //Item solicitud
                 FELCertificacionRequest felRequest = new FELCertificacionRequest
                 {
                     correo_copia = DATOS_EMPRESA.CORREO_EMISOR,
@@ -374,15 +372,11 @@ namespace Ventas.Class
                 restRequest.Method = Method.Post;
                 restRequest.AddHeader("Usuario", CREDENCIALES_FEL.USUARIO_FEL);
                 restRequest.AddHeader("Llave", CREDENCIALES_FEL.LLAVE_FEL);
-                restRequest.AddHeader("Identificador", ENCABEZADO_VENTA.IDENTIFICADOR_UNICO + "-2");
-                //restRequest.AddHeader("Observaciones", $"SE APLICÓ UN DESCUENTO EN TIENDA POR Q {ENCABEZADO_VENTA.TOTAL_DESCUENTO.ToString("N2")}");
+                restRequest.AddHeader("Identificador", ENCABEZADO_VENTA.IDENTIFICADOR_UNICO);
                 restRequest.AddJsonBody(felRequest);
 
-                //Adenda = request.Adendas("Observaciones", $"SE APLICÓ UN DESCUENTO EN TIENDA POR Q {ENCABEZADO_VENTA.TOTAL_DESCUENTO.ToString("N2")}");
                 response = restClient.Execute(restRequest);
-
                 FELCertificacionResponse felResponse = JsonConvert.DeserializeObject<FELCertificacionResponse>(response.Content);
-
                 RESPUESTA_FEL.RESULTADO = felResponse.resultado;
 
                 if (RESPUESTA_FEL.RESULTADO)
@@ -395,12 +389,12 @@ namespace Ventas.Class
                 }
                 else
                 {
-                    RESPUESTA_FEL.MENSAJE_FEL = "Documento FEL No generado. " + response.Content.ToString();
+                    RESPUESTA_FEL.MENSAJE_FEL = "Documento FEL no se pudo firmar. " + response.Content.ToString();
                 }
             }
             else
             {
-                RESPUESTA_FEL.MENSAJE_FEL = $"Firma de XML no procesada {signedResponse.descripcion}";
+                RESPUESTA_FEL.MENSAJE_FEL = $"**** ¡SIN COMUNICACIÓN FEL! **** Firma de XML no procesada {signedResponse.descripcion}";
             }
             #endregion
             return RESPUESTA_FEL;
@@ -437,7 +431,6 @@ namespace Ventas.Class
             #endregion
 
             #region Firma XML
-            //Firma XML
             byte[] xmlData = Encoding.UTF8.GetBytes(xml.ToString());
             string xmlBase64 = Convert.ToBase64String(xmlData);
             RestClient restClient = new RestClient("https://signer-emisores.feel.com.gt/sign_solicitud_firmas/firma_xml?");
@@ -445,7 +438,7 @@ namespace Ventas.Class
             {
                 llave = CREDENCIALES_FEL.LLAVE_PFX,
                 archivo = xmlBase64,
-                codigo = VENTA.IDENTIFICADOR_UNICO + "-2",
+                codigo = VENTA.IDENTIFICADOR_UNICO,
                 alias = CREDENCIALES_FEL.USUARIO_FEL,
                 es_anulacion = "S"
             };
@@ -471,7 +464,7 @@ namespace Ventas.Class
                 restRequest.Method = Method.Post;
                 restRequest.AddHeader("Usuario", CREDENCIALES_FEL.USUARIO_FEL);
                 restRequest.AddHeader("Llave", CREDENCIALES_FEL.LLAVE_FEL);
-                restRequest.AddHeader("Identificador", DATOS_VENTA.IDENTIFICADOR_UNICO + "-2");
+                restRequest.AddHeader("Identificador", DATOS_VENTA.IDENTIFICADOR_UNICO);
                 restRequest.AddJsonBody(felRequest);
                 response = restClient.Execute(restRequest);
 
@@ -491,157 +484,10 @@ namespace Ventas.Class
             }
             else
             {
-                RESPUESTA_FEL.MENSAJE_FEL = $"Firma de XML no procesada {CONEXION_INFILE.descripcion}";
+                RESPUESTA_FEL.MENSAJE_FEL = $"**** ¡SIN COMUNICACIÓN FEL! **** Firma de XML no procesada {CONEXION_INFILE.descripcion}";
             }
             return RESPUESTA_FEL;
         }
-
-        /*
-        public static string Firma_Facturas(List<WService.DatosFacturaFEL> facturas, List<WService.DatosDetFacturaFEL> Lista_detalles_fac, string moneda = "GTQ", string tasaCambio = "")
-        {
-            RequestCertificacionFel request = new RequestCertificacionFel();
-            genesysEntities db = new genesysEntities();
-
-            string xml_generado;
-            string response = "";
-            bool Datos_generales;
-            bool Datos_emisor;
-            bool Datos_receptor;
-            bool Frases;
-            bool Item_un_impuesto;
-            bool Item_dos_impuesto;
-            bool Total_impuestos;
-            bool Totales;
-            bool Adenda;
-            bool Agregar_adenda;
-            string FechaEmision;
-            int NoEstablecimiento;
-            string NombreEmpresa;
-            string NITEmpresa;
-            string DireccionEstablecimiento;
-            string NIT_Receptor;
-            string Nombre_Receptor;
-            string Direccion_Receptor;
-            decimal Cantidad;
-            string DescripcionProducto;
-            decimal PrecioUnitario;
-            decimal TotalLinea;
-            decimal TotalSinIVA;
-            decimal IVA;
-            decimal DescuentoLinea;
-            string UnidadMedida;
-            string TotalFactura;
-            string TotalIVA;
-            string TOTAL_IDP;
-            string IDP_LINEA;
-            int Empresa;
-            string UsuarioFEL;
-            string UsuarioPFX;
-            string LlaveFEL;
-            string LlavePFX;
-            string ID_DOC;
-            decimal valor2 = 0;
-            string nombreEstablecimiento;
-            WService.DatosFacturaFEL EncabezadoFac;
-
-            Int32 CorrelativoEncabezado = facturas.Count();
-
-            EncabezadoFac = new WService.DatosFacturaFEL();
-            EncabezadoFac = facturas[i];
-
-
-            // VERIFICO SI EL CLIENTE ES DE ZONA FRANCA - aramirez
-            int no_factura_new = EncabezadoFac.NO_FACTURA_ACTUAL;
-            string consultaZF = " select count(*) as total " +
-                    "    from cat_cliente a " +
-                    "    where CLIENTE=" + EncabezadoFac.CLIENTE + "  and a.segmentacion = 3 ";
-
-            int clienteZF = db.Database.SqlQuery<int>(consultaZF).FirstOrDefault();
-            //int clienteZF = 1;
-
-            var uno = clienteZF;
-
-
-            // CONSULTA PARA DEVOLVER LOS DATOS DE CADA SERIE Y RESOLUCION
-            string consulta = "SELECT A.SERIE AS SERIE, A.NO_RESOLUCION AS RESOLUCION, " +
-                                              "        A.RANGO_INICIAL AS R_INICIAL, A.RANGO_FINAL AS R_FINAL, C.NIT AS NIT, " +
-                                              "        C.NOMBRE_EMPRESA AS EMPRESA, D.NOMBRE_ESTABLECIMIENTO, " +
-                                              "        D.NO_ESTABLECIMINETO AS NO_ESTABLECIMIENTO, D.DIR_ESTABLECIMIENTO AS DIRECCION_ESTABLECIMIENTO, C.EMPRESA AS CODEMPRESA, A.TIPO_ACTIVO " +
-                                              "  FROM fac_serie a " +
-                                              "  inner join cat_planta b on a.planta = b.planta " +
-                                              "  inner join cat_establecimiento d on d.establecimiento = a.establecimiento " +
-                                              "  inner join cat_empresa c on d.empresa = c.empresa " +
-                                              "  where serie='" + EncabezadoFac.SERIE + "'  AND NO_RESOLUCION = '" + EncabezadoFac.RESOLUCION + "' ";
-
-
-            Datos_Resolucion_factura resolucion = db.Database.SqlQuery<Datos_Resolucion_factura>(consulta).SingleOrDefault();
-
-            Empresa = Convert.ToInt32(resolucion.CODEMPRESA);
-            NITEmpresa = resolucion.NIT;
-            //    ID_DOC = EncabezadoFac.SERIE + "-2-" + EncabezadoFac.NO_FACTURA.ToString();
-
-            //ID_DOC = EncabezadoFac.SERIE + "-2-" + EncabezadoFac.NO_FACTURA.ToString();
-
-            ID_DOC = EncabezadoFac.SERIE + "-" + EncabezadoFac.RESOLUCION + "-" + EncabezadoFac.NO_FACTURA.ToString();
-
-            // if (Empresa == 6)
-            nombreEstablecimiento = resolucion.NOMBRE_ESTABLECIMIENTO;
-            //  else
-            //  nombreEstablecimiento = resolucion.EMPRESA;
-
-            //CREDENCIALES FEL
-            string consultaFEL = "SELECT USUARIO_FEL AS USUARIO_FEL, USUARIO_PFX AS USUARIO_PFX, LLAVE_FEL AS LLAVE_FEL, LLAVE_PFX AS LLAVE_PFX " +
-                                    " FROM CFG_FEL WHERE EMPRESA = " + Empresa;
-
-            CredencialesFEL credenciales = db.Database.SqlQuery<CredencialesFEL>(consultaFEL).SingleOrDefault();
-
-            UsuarioFEL = credenciales.USUARIO_FEL;
-            UsuarioPFX = credenciales.USUARIO_PFX;
-            LlaveFEL = credenciales.LLAVE_FEL;
-            LlavePFX = credenciales.LLAVE_PFX;
-            FechaEmision = EncabezadoFac.FECHA_FACTURA.ToString();
-            NoEstablecimiento = resolucion.NO_ESTABLECIMIENTO;
-            NombreEmpresa = resolucion.EMPRESA;
-            // nombreEstablecimiento = resolucion.NOMBRE_ESTABLECIMIENTO;
-            DireccionEstablecimiento = resolucion.DIRECCION_ESTABLECIMIENTO;
-            NIT_Receptor = EncabezadoFac.NIT.Replace("-", "").Replace("/", "").Trim();
-            //Nombre_Receptor = EncabezadoFac.NOMBRE_CLIENTE.Replace("\"", "");
-            Nombre_Receptor = HttpUtility.HtmlEncode(EncabezadoFac.NOMBRE_CLIENTE);
-            Direccion_Receptor = EncabezadoFac.DIRECCION;
-            TotalFactura = EncabezadoFac.TOTAL_FACTURA;
-
-            TOTAL_IDP = EncabezadoFac.TOTAL_IDP;
-
-            // Datos_generales = request.Datos_generales("GTQ", FechaEmision, "FACT", "", "");   
-            Datos_generales = request.Datos_generales(moneda, FechaEmision, "FACT", "", "", "");
-            Datos_emisor = request.Datos_emisor("GEN", NoEstablecimiento, "01001", "", "GT", "GUATEMALA", "GUATEMALA", DireccionEstablecimiento, NITEmpresa, NombreEmpresa, nombreEstablecimiento);
-            Datos_receptor = request.Datos_receptor(NIT_Receptor, Nombre_Receptor, "01001", EncabezadoFac.CORREO, "GT", "GUATEMALA", "GUATEMALA", Direccion_Receptor, "");
-
-            WService.DatosDetFacturaFEL Detalles;
-            Int32 CorrelativoDetalles = Lista_detalles_fac.Count();
-
-            for (int d = 0; d < CorrelativoDetalles; d++)
-            {
-                Detalles = new WService.DatosDetFacturaFEL();
-                Detalles = Lista_detalles_fac[d];
-                Cantidad = Detalles.CANTIDAD;
-                DescripcionProducto = Detalles.DESCRIPCION_PRODUCTO;
-                PrecioUnitario = Detalles.PRECIO;
-                TotalLinea = Detalles.PRECIO * Detalles.CANTIDAD - (decimal)Detalles.DESCUENTO;
-                decimal precio = Detalles.PRECIO * Detalles.CANTIDAD;
-                TotalSinIVA = Math.Round((TotalLinea / (decimal)1.12), 2);
-                DescuentoLinea = (decimal)Detalles.DESCUENTO;
-                UnidadMedida = Detalles.UNIDAD_MEDIDA;
-                IVA = Math.Round(((TotalLinea / (decimal)1.12) * (decimal)0.12), 5);
-                Item_un_impuesto = request.Item_un_impuesto("B", UnidadMedida, Cantidad.ToString(), DescripcionProducto, d + 1, PrecioUnitario.ToString(), precio.ToString(), DescuentoLinea.ToString(), TotalLinea.ToString(), "IVA", 1, "", TotalSinIVA.ToString(), IVA.ToString());
-            }
-            Total_impuestos = request.total_impuestos("IVA", TotalIVA);
-            Totales = request.Totales(TotalFactura);
-            Agregar_adenda = request.Agregar_adendas();
-            response = request.enviar_peticion_fel(UsuarioFEL, LlaveFEL, ID_DOC, "", UsuarioPFX, LlavePFX, true);
-            return response;
-        }
-        */
 
         public class FELSignerRequest
         {

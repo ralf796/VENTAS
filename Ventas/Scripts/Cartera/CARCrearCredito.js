@@ -61,6 +61,26 @@
         });
     }
 
+    function CrearRecibo(ID_VENTA, ABONO, OBSERVACIONES) {
+        $.ajax({
+            type: 'GET',
+            url: "/CARCrearCredito/CrearRecibo",
+            contentType: "application/json; charset=utf-8",
+            dataType: 'json',
+            data: { ID_VENTA, ABONO, OBSERVACIONES },
+            cache: false,
+            success: function (data) {
+                var state = data["State"];
+                if (state == 1) {
+                    GetVenta(ID_VENTA);
+                }
+                else if (state == -1) {
+                    ShowAlertMessage('warning', data['Message'])
+                }
+            }
+        });
+    }
+
     $('#btnBuscarVenta').on('click', function (e) {
         e.preventDefault();
         var idVenta = $('#txtVenta').val();
@@ -74,17 +94,21 @@
 
         Swal.fire({
             title: 'Crear Abono de Crédito',
-            html: 'Se creará un recibo por Q' + formatNumber(parseFloat(ABONO).toFixed(2)) + ' a la órden de compra ' + ID_VENTA + '. </h3><br/>¿Quieres continuar?',
+            html: 'Se creará un recibo por Q' + formatNumber(parseFloat(ABONO).toFixed(2)) + ' a la órden de compra ' + ID_VENTA + '. </h3><br/>¿Quieres continuar?<br> Ingresa una observación para la creación del recibo',
             icon: 'info',
             showCancelButton: true,
             confirmButtonColor: '#3085d6',
             cancelButtonColor: '#d33',
             confirmButtonText: 'Si',
-            cancelButtonText: 'No'
+            cancelButtonText: 'No',
+            input: 'text'
         }).then((result) => {
             if (result.isConfirmed) {
-                
+                CrearRecibo(ID_VENTA, ABONO, result.value)
             }
+            //else if (result.dismiss === Swal.DismissReason.cancel) {
+            //    SaveOrder(encabezado, listDetalles, 1)
+            //}
         })
     });
 
