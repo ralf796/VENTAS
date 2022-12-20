@@ -80,7 +80,7 @@ $(document).ready(function () {
             },
             onExporting: function (e) {
                 var workbook = new ExcelJS.Workbook();
-                var worksheet = workbook.addWorksheet('REPORTE DE PRODUCTOS VENDIDOS EL EDEN');
+                var worksheet = workbook.addWorksheet('Hoja 1');
                 DevExpress.excelExporter.exportDataGrid({
                     worksheet: worksheet,
                     component: e.component,
@@ -92,7 +92,7 @@ $(document).ready(function () {
                     }
                 }).then(function () {
                     workbook.xlsx.writeBuffer().then(function (buffer) {
-                        saveAs(new Blob([buffer], { type: 'application/octet-stream' }), 'REPORTE_PRODUCTOS.xlsx');
+                        saveAs(new Blob([buffer], { type: 'application/octet-stream' }), 'PRODUCTOS TOP(10).xlsx');
                     });
                 });
                 e.cancel = true;

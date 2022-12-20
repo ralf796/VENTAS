@@ -70,7 +70,7 @@ $(document).ready(function () {
             },
             onExporting: function (e) {
                 var workbook = new ExcelJS.Workbook();
-                var worksheet = workbook.addWorksheet('REPORTE BITACORAS EL EDEN');
+                var worksheet = workbook.addWorksheet('Hoja 1');
                 DevExpress.excelExporter.exportDataGrid({
                     worksheet: worksheet,
                     component: e.component,
@@ -82,7 +82,7 @@ $(document).ready(function () {
                     }
                 }).then(function () {
                     workbook.xlsx.writeBuffer().then(function (buffer) {
-                        saveAs(new Blob([buffer], { type: 'application/octet-stream' }), 'REPORTE_BITACORA.xlsx');
+                        saveAs(new Blob([buffer], { type: 'application/octet-stream' }), 'BITACORA DE TRANSACCIONES.xlsx');
                     });
                 });
                 e.cancel = true;
@@ -173,4 +173,3 @@ $(document).ready(function () {
     })
 
 });
-

@@ -8,8 +8,8 @@ $(document).ready(function () {
         autoClose: true,
         view: 'days',
         minView: 'days',
-        minDate: f.setDate(f.getDate() - 7),
-        maxDate: new Date(),
+        //minDate: f.setDate(f.getDate() - 7),
+        //maxDate: new Date(),
         dateFormat: 'dd/MM/yyyy',
         selectedDates: [new Date()]
     });
@@ -69,7 +69,7 @@ $(document).ready(function () {
             },
             onExporting: function (e) {
                 var workbook = new ExcelJS.Workbook();
-                var worksheet = workbook.addWorksheet('REPORTE BITACORAS EL EDEN');
+                var worksheet = workbook.addWorksheet('Hoja 1');
                 DevExpress.excelExporter.exportDataGrid({
                     worksheet: worksheet,
                     component: e.component,
@@ -81,7 +81,7 @@ $(document).ready(function () {
                     }
                 }).then(function () {
                     workbook.xlsx.writeBuffer().then(function (buffer) {
-                        saveAs(new Blob([buffer], { type: 'application/octet-stream' }), 'REPORTE_BITACORA.xlsx');
+                        saveAs(new Blob([buffer], { type: 'application/octet-stream' }), 'PRODUCTOS VENDIDOS.xlsx');
                     });
                 });
                 e.cancel = true;
@@ -96,8 +96,54 @@ $(document).ready(function () {
                     caption: "FECHA Y HORA"
                 },
                 {
+                    dataField: "STOCK",
+                    caption: "STOCK ACTUAL"
+                },
+                {
                     dataField: "CANTIDAD",
                     caption: "CANTIDAD"
+                },
+                {
+                    dataField: "PRECIO_COSTO",
+                    caption: "PRECIO COSTO",
+                    
+                    dataType: "number",
+                    format: { type: 'fixedPoint', precision: 2 }
+                },
+                {
+                    dataField: "PRECIO_UNITARIO",
+                    caption: "PRECIO UNITARIO",
+                    
+                    dataType: "number",
+                    format: { type: 'fixedPoint', precision: 2 }
+                },
+                {
+                    dataField: "TOTAL",
+                    caption: "TOTAL SIN DESCUENTO",
+                    
+                    dataType: "number",
+                    format: { type: 'fixedPoint', precision: 2 }
+                },
+                {
+                    dataField: "DESCUENTO",
+                    caption: "DESCUENTO TOTAL",
+                    
+                    dataType: "number",
+                    format: { type: 'fixedPoint', precision: 2 }
+                },
+                {
+                    dataField: "SUBTOTAL",
+                    caption: "TOTAL CON DESCUENTO",
+                    
+                    dataType: "number",
+                    format: { type: 'fixedPoint', precision: 2 }
+                },
+                {
+                    dataField: "GANANCIA",
+                    caption: "GANANCIA",
+                    
+                    dataType: "number",
+                    format: { type: 'fixedPoint', precision: 2 }
                 },
                 {
                     dataField: "CODIGO",
@@ -114,32 +160,8 @@ $(document).ready(function () {
                     caption: "NOMBRE"
                 },
                 {
-                    dataField: "PRECIO_UNITARIO",
-                    caption: "PRECIO UNITARIO",
-                    alignment: "center",
-                    dataType: "number",
-                    format: { type: 'fixedPoint', precision: 2 }
-                },
-                {
-                    dataField: "TOTAL",
-                    caption: "TOTAL SIN DESCUENTO",
-                    alignment: "center",
-                    dataType: "number",
-                    format: { type: 'fixedPoint', precision: 2 }
-                },
-                {
-                    dataField: "TOTAL_DESCUENTO",
-                    caption: "DESCUENTO TOTAL",
-                    alignment: "center",
-                    dataType: "number",
-                    format: { type: 'fixedPoint', precision: 2 }
-                },
-                {
-                    dataField: "SUBTOTAL",
-                    caption: "TOTAL CON DESCUENTO",
-                    alignment: "center",
-                    dataType: "number",
-                    format: { type: 'fixedPoint', precision: 2 }
+                    dataField: "NOMBRE_DISTRIBUIDOR",
+                    caption: "DISTRIBUIDOR"
                 }
             ],
             onCellPrepared: function (e) {

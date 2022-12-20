@@ -6,7 +6,7 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Web;
 
-namespace GenesysOracleSV.Clases
+namespace Ventas.Class
 {
     public class Encryption
     {

@@ -1,19 +1,13 @@
-﻿using GenesysOracleSV.Clases;
-using MoreLinq;
+﻿using MoreLinq;
 using OfficeOpenXml;
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data.Common;
 using System.Drawing;
 using System.IO;
 using System.Linq;
-using System.Reflection;
-using System.Security.Policy;
 using System.Web;
 using System.Web.Mvc;
-using System.Web.Razor.Parser.SyntaxTree;
+using Ventas.Class;
 using Ventas_BE;
 using Ventas_BLL;
 

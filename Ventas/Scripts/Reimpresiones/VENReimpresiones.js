@@ -8,7 +8,7 @@ $(document).ready(function () {
         autoClose: true,
         view: 'days',
         minView: 'days',
-        minDate: f.setDate(f.getDate() - 7),
+        //minDate: f.setDate(f.getDate() - 7),
         maxDate: new Date(),
         dateFormat: 'dd/MM/yyyy',
         selectedDates: [new Date()]
@@ -69,33 +69,50 @@ $(document).ready(function () {
             },
             columns: [
                 {
-                    caption: '',
-                    alignment: "center",
-                    cellTemplate: function (container, options) {
-                        var fieldData = options.data;
+                    caption: 'IMPRESIÓN',
+                    alignment:'center',
+                    columns: [
+                        {
+                            caption:'FEL',
+                            alignment: "center",
+                            cellTemplate: function (container, options) {
+                                var fieldData = options.data;
 
-                        if (fieldData.FEL == 1) {
-                            //IMPRESION FEL
-                            var classTmp1 = 'reimpreFEL' + cont;
-                            var classBTN1 = 'ml-2 hvr-grow far fa-print btn btn-primary ' + classTmp1;
-                            $("<span>").addClass(classBTN1).prop('title', 'Reimpresión FEL').appendTo(container);
-                            $('.reimpreFEL' + cont).click(function (e) {
-                                var url = "https://report.feel.com.gt/ingfacereport/ingfacereport_documento?uuid=" + fieldData.UUID;
-                                window.open(url, '_blank');
-                            })
-                        }
+                                if (fieldData.FEL == 1) {
+                                    //IMPRESION FEL
+                                    var classTmp1 = 'reimpreFEL' + cont;
+                                    var classBTN1 = 'ml-2 hvr-grow far fa-print btn btn-primary ' + classTmp1;
+                                    $("<span>").addClass(classBTN1).prop('title', 'Reimpresión FEL').appendTo(container);
+                                    $('.reimpreFEL' + cont).click(function (e) {
+                                        var url = "https://report.feel.com.gt/ingfacereport/ingfacereport_documento?uuid=" + fieldData.UUID;
+                                        window.open(url, '_blank');
+                                    })
+                                }
+                                cont++;
+                            }
+                        },
+                        {
+                            caption:'COMPROBANTE',
+                            alignment: "center",
+                            cellTemplate: function (container, options) {
+                                var fieldData = options.data;
 
-                        //IMPRESION COMPROBANTE
-                        var classTmp2 = 'imprimir' + cont;
-                        var classBTN2 = 'ml-2 hvr-grow text-dark fal fa-print btn btn-warning ' + classTmp2;
-                        $("<span>").addClass(classBTN2).prop('title', 'Reimpresión comprobante').appendTo(container);
-                        $('.imprimir' + cont).click(function (e) {
-                            var id_venta = parseInt(fieldData.ID_VENTA);
-                            GenerarComprobante(id_venta);
-                        })
+                                if (fieldData.ESTADO_STRING != 'ANULADO') {
 
-                        cont++;
-                    }
+                                    //IMPRESION COMPROBANTE
+                                    var classTmp2 = 'imprimir' + cont;
+                                    var classBTN2 = 'ml-2 hvr-grow text-dark fal fa-print btn btn-warning ' + classTmp2;
+                                    $("<span>").addClass(classBTN2).prop('title', 'Reimpresión comprobante').appendTo(container);
+                                    $('.imprimir' + cont).click(function (e) {
+                                        var id_venta = parseInt(fieldData.ID_VENTA);
+                                        GenerarComprobante(id_venta);
+                                    })
+                                }
+
+                                cont++;
+                            }
+                        },
+                    ]
                 },
                 {
                     dataField: "ID_VENTA",
@@ -103,7 +120,8 @@ $(document).ready(function () {
                 },
                 {
                     dataField: "FEL",
-                    caption: "FEL"
+                    caption: "FEL",
+                    visible:false
                 },
                 {
                     dataField: "SERIE",

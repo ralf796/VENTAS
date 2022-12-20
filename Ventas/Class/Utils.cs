@@ -12,7 +12,7 @@ using System.Text;
 using System.Web;
 using System.Web.Script.Serialization;
 
-namespace GenesysOracleSV.Clases
+namespace Ventas.Class
 {
     public class Utils
     {

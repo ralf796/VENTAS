@@ -19,6 +19,7 @@ namespace Ventas_BE
         public int NO_ESTABLECIMIENTO { get; set; }
         public string RESOLUCION { get; set; }
         public DateTime FECHA_FACTURA { get; set; }
+        public DateTime FECHA_SQL { get; set; }
         public string NIT_CLIENTE { get; set; }
         public string NOMBRE_CLIENTE { get; set; }
         public string DIRECCION_CLIENTE { get; set; }
@@ -72,5 +73,13 @@ namespace Ventas_BE
         public string NOMBRE_COMERCIAL { get; set; }
         public string OBSERVACIONES { get; set; }
         public int FEL { get; set; }
+        public int ID_LOG { get; set; }
+        public string DESCRIPCION { get; set; }
+        public string ES_ANULACION { get; set; }
+        public string PETICION { get; set; }
+        public string RESPUESTA { get; set; }
+        public string CREADO_POR { get; set; }
+        public string MOTIVO_ANULACION { get; set; }
+        public DateTime FECHA { get; set; }
     }
 }

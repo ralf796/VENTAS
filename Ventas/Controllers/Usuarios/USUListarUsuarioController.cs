@@ -1,11 +1,11 @@
-﻿using GenesysOracleSV.Clases;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using Ventas.Class;
 using Ventas_BE;
 using Ventas_BLL;
 

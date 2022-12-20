@@ -30,7 +30,9 @@
         <!-- Preloader -->
         <div class="preloader flex-column justify-content-center align-items-center">
             @*<img class="animation__shake" src="~/Content/Admin LTE 3.2/dist/img/AdminLTELogo.png" alt="AdminLTELogo" height="60" width="60">*@
-            <img class="animation__shake" src="https://images.squarespace-cdn.com/content/v1/574faff6f8baf35e5da43485/1508776508281-KARGJAKP4GW3CJPISNG6/SGX-Car-Bits.gif" height="450" width="450">
+            @*<img class="animation__shake" src="https://images.squarespace-cdn.com/content/v1/574faff6f8baf35e5da43485/1508776508281-KARGJAKP4GW3CJPISNG6/SGX-Car-Bits.gif" height="450" width="450">*@
+            @*<img class="animation__shake" src="https://acegif.com/wp-content/uploads/loading-96.gif" height="450" width="450">*@
+            <img class="animation__shake" src="https://discuss.wxpython.org/uploads/default/original/2X/6/6d0ec30d8b8f77ab999f765edd8866e8a97d59a3.gif" >
         </div>
 
         <!-- Navbar -->
@@ -168,8 +170,10 @@
                     </a>
                 </li>
             </ul>
-            <div class="row text-center justify-content-center" style="margin-left:50px">
-                <b>S A L E S M E N T</b>
+            <div class="row text-center justify-content-center" style="margin-left:10px">
+                <a href="~/Default/Index"><i class="fas fa-home-lg btn hvr-grow"></i>
+                </a>
+                <b class="ml-4" style="margin-top:5px">S A L E S M E N T</b>
             </div>
         </nav>
         <!-- /.navbar -->
@@ -243,7 +247,7 @@
                             </li>
                         }
 
-                        @if (ROL == 1 || ROL == 2 || ROL == 4 )
+                        @if (ROL == 1 || ROL == 2 || ROL == 4)
                         {
                             <li class="nav-item">
                                 <a href="#" class="nav-link">
@@ -322,6 +326,29 @@
                                 </ul>
                             </li>
                             <li class="nav-item">
+                                <a href="#" class="nav-link">
+                                    <i class="fad fa-wallet"></i>
+                                    <p>
+                                        CARTERA
+                                        <i class="right fas fa-angle-left"></i>
+                                    </p>
+                                </a>
+                                <ul class="nav nav-treeview">
+                                    <li class="nav-item">
+                                        <a href="~/CARCrearCredito/Index" class="nav-link">
+                                            <i class="far fa-stop-circle"></i>
+                                            <p>CRÉDITO/ABONO</p>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="~/CARSaldos/Index" class="nav-link">
+                                            <i class="far fa-stop-circle"></i>
+                                            <p>CONSULTA SALDO</p>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li class="nav-item">
                                 <a href="~/ANUCrearAnulacionVenta/Index" class="nav-link">
                                     <i class="far fa-window-close"></i>
                                     <p>
@@ -357,27 +384,33 @@
                                         </a>
                                     </li>
                                     <li class="nav-item">
-                                        <a href="~/REPProductos/Index" class="nav-link">
+                                        <a href="~/REPProductosGeneral/Index2" class="nav-link">
                                             <i class="far fa-stop-circle"></i>
-                                            <p>PRODUCTOS TOP(10)</p>
-                                        </a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a href="~/REPProductosGeneral/Index" class="nav-link">
-                                            <i class="far fa-stop-circle"></i>
-                                            <p>PRODUCTOS GENERALES</p>
-                                        </a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a href="~/REPProductoUnico/Index" class="nav-link">
-                                            <i class="far fa-stop-circle"></i>
-                                            <p>PRODUCTO UNICO</p>
+                                            <p>PRODUCTOS CARGADOS</p>
                                         </a>
                                     </li>
                                     <li class="nav-item">
                                         <a href="~/REPProductosVendidos/Index" class="nav-link">
                                             <i class="far fa-stop-circle"></i>
                                             <p>PRODUCTOS VENDIDOS</p>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="~/REPProductos/Index" class="nav-link">
+                                            <i class="far fa-stop-circle"></i>
+                                            <p>PRODUCTOS TOP(10)</p>
+                                        </a>
+                                    </li>
+                                    @*<li class="nav-item">
+            <a href="~/REPProductosGeneral/Index" class="nav-link">
+                <i class="far fa-stop-circle"></i>
+                <p>PRODUCTOS GENERALES</p>
+            </a>
+        </li>*@
+                                    <li class="nav-item">
+                                        <a href="~/REPProductoUnico/Index" class="nav-link">
+                                            <i class="far fa-stop-circle"></i>
+                                            <p>PRODUCTO UNICO</p>
                                         </a>
                                     </li>
                                     <li class="nav-item">

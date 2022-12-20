@@ -4,7 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 
-namespace GenesysOracleSV.Clases
+namespace Ventas.Class
 {
     public class SessionExpireFilterAttribute : AuthorizeAttribute
     {

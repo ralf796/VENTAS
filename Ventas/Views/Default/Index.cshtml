@@ -2,6 +2,111 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>BIENVENIDO A SALESMENT</h2>
+@section scripts{
+    <script src="~/Scripts/Default.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-polyfill/7.4.0/polyfill.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/exceljs/4.1.1/exceljs.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.2/FileSaver.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.0.0/jspdf.umd.min.js"></script>
+}
+
+
+
 
 @*https://distribuidorarepuestoseleden.com/Varios/LogoElEden.jpeg*@
+
+
+<div class="container-fluid justify-content-center text-center">
+    <h2>BIENVENIDO A SALESMENT</h2>
+    <div class="row justify-content-center">
+        <div class="col-lg-4 col-6 hvr-grow">
+            <div class="small-box bg-info">
+                <div class="inner">
+                    <h3 id="textVentasDia"></h3>
+                    <p>VENTAS DEL DÍA <br /> @Ventas.Class.Utils.Fecha_Larga_Letras(DateTime.Now).ToString().ToUpper()</p>
+                </div>
+                <div class="icon">
+                    <i class="ion ion-bag"></i>
+                </div>
+                @*<a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>*@
+            </div>
+        </div>
+        <div class="col-lg-4 col-6 hvr-grow">
+            <div class="small-box bg-warning">
+                <div class="inner">
+                    <h3 id="textUsuarios"></h3>
+
+                    <p>USUARIOS ACTIVOS<br />SALESMENT</p>
+                </div>
+                <div class="icon">
+                    <i class="ion ion-person-add"></i>
+                </div>
+                @*<a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>*@
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header justify-content-center">
+                    <h5 class="card-title">
+                        <strong>VENTAS DEL MES EN CURSO (@Ventas.Class.Utils.mes_letras(DateTime.Now.Month).ToString().ToUpper() @DateTime.Now.Year)</strong>
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div id="chart"></div>
+                        </div>
+                    </div>
+                </div>
+                <!-- ./card-body -->
+                <!--<div class="card-footer">
+                    <div class="row">
+                        <div class="col-sm-3 col-6">
+                            <div class="description-block border-right">
+                                <span class="description-percentage text-success"><i class="fas fa-caret-up"></i> 17%</span>
+                                <h5 class="description-header">$35,210.43</h5>
+                                <span class="description-text">TOTAL REVENUE</span>
+                            </div>-->
+                <!-- /.description-block -->
+                <!--</div>-->
+                <!-- /.col -->
+                <!--<div class="col-sm-3 col-6">
+                    <div class="description-block border-right">
+                        <span class="description-percentage text-warning"><i class="fas fa-caret-left"></i> 0%</span>
+                        <h5 class="description-header">$10,390.90</h5>
+                        <span class="description-text">TOTAL COST</span>
+                    </div>-->
+                <!-- /.description-block -->
+                <!--</div>-->
+                <!-- /.col -->
+                <!--<div class="col-sm-3 col-6">
+                    <div class="description-block border-right">
+                        <span class="description-percentage text-success"><i class="fas fa-caret-up"></i> 20%</span>
+                        <h5 class="description-header">$24,813.53</h5>
+                        <span class="description-text">TOTAL PROFIT</span>
+                    </div>-->
+                <!-- /.description-block -->
+                <!--</div>-->
+                <!-- /.col -->
+                <!--<div class="col-sm-3 col-6">
+                    <div class="description-block">
+                        <span class="description-percentage text-danger"><i class="fas fa-caret-down"></i> 18%</span>
+                        <h5 class="description-header">1200</h5>
+                        <span class="description-text">GOAL COMPLETIONS</span>
+                    </div>-->
+                <!-- /.description-block -->
+                <!--</div>
+                </div>-->
+                <!-- /.row -->
+                <!--</div>-->
+                <!-- /.card-footer -->
+            </div>
+            <!-- /.card -->
+        </div>
+        <!-- /.col -->
+    </div>
+
+</div>

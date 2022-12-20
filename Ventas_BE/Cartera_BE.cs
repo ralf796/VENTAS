@@ -31,5 +31,20 @@ namespace Ventas_BE
         public string CREADO_POR { get; set; }
         public decimal ABONO { get; set; }
         public string OBSERVACIONES{ get; set; }
+        public int NO_RECIBO { get; set; }
+        public DateTime FECHA_CREACION_RECIBO { get; set; }
+        public DateTime FECHA_CREACION_CREDITO { get; set; }
+        public string FECHA_CREACION_CREDITO_STRING { get; set; }
+        public decimal MONTO_RECIBO { get; set; }
+        public string RECIBO_CREADO_POR { get; set; }
+        public DateTime FECHA_VENTA { get; set; }
+        public string FECHA_VENTA_STRING { get; set; }
+        public int ID_ESTADO_CUENTA { get; set; }
+        public int ID_CLIENTE { get; set; }
+        public string TELEFONO{ get; set; }
+        public string CREDITO_CREADO_POR{ get; set; }
+        public string VENTA_CREADO_POR{ get; set; }
+        public string FECHA_PAGO_STRING { get; set; }
+        public int DIAS_ATRASO{ get; set; }
     }
 }

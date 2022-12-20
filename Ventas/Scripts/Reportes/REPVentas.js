@@ -80,7 +80,7 @@ $(document).ready(function () {
             },
             onExporting: function (e) {
                 var workbook = new ExcelJS.Workbook();
-                var worksheet = workbook.addWorksheet('REPORTE VENTAS EL EDEN');
+                var worksheet = workbook.addWorksheet('Hoja 1');
                 DevExpress.excelExporter.exportDataGrid({
                     worksheet: worksheet,
                     component: e.component,
@@ -92,7 +92,7 @@ $(document).ready(function () {
                     }
                 }).then(function () {
                     workbook.xlsx.writeBuffer().then(function (buffer) {
-                        saveAs(new Blob([buffer], { type: 'application/octet-stream' }), 'REPORTE_VENTAS.xlsx');
+                        saveAs(new Blob([buffer], { type: 'application/octet-stream' }), 'REPORTE DE VENTAS.xlsx');
                     });
                 });
                 e.cancel = true;
@@ -106,6 +106,10 @@ $(document).ready(function () {
                 {
                     dataField: "SERIE",
                     caption: "SERIE"
+                },
+                {
+                    dataField: "CORRELATIVO",
+                    caption: "CORRELATIVO"
                 },
                 {
                     dataField: "FECHA_CREACION_STRING",
@@ -130,7 +134,14 @@ $(document).ready(function () {
                     dataType: "number",
                     format: { type: 'fixedPoint', precision: 2 }
                 },
-                
+                {
+                    dataField: "TIPO_COBRO",
+                    caption: "MODO DE PAGO"
+                },
+                {
+                    dataField: "UUID",
+                    caption: "FACTURA FEL"
+                },                
                 {
                     dataField: "CREADO_POR",
                     caption: "VENDEDOR",
@@ -138,7 +149,15 @@ $(document).ready(function () {
                 },
                 {
                     dataField: "NOMBRE",
-                    caption: "CLIENTE"
+                    caption: "NOMBRE CLIENTE"
+                },
+                {
+                    dataField: "NIT",
+                    caption: "NIT CLIENTE"
+                },
+                {
+                    dataField: "DIRECCION",
+                    caption: "DIRECCION CLIENTE"
                 },
             ],
             onCellPrepared: function (e) {
@@ -200,7 +219,7 @@ $(document).ready(function () {
                 if (state == 1) {
                     data = JSON && JSON.parse(JSON.stringify(data)) || $.parseJSON(data);
                     var venta_T = data.data[0].TOTAL_VENTA;
-                    document.querySelector('#totalVenta').textContent = formatNumber(parseFloat(venta_T).toFixed(2));
+                    document.querySelector('#totalVenta').textContent ='Q '+ formatNumber(parseFloat(venta_T).toFixed(2));
 
                 }
                 else if (state == -1) {

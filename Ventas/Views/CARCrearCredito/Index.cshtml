@@ -45,101 +45,91 @@
     </style>
 }
 
-<div class="row">
-    <div class="col-md-12">
-        <div class="card card-outline-secondary">
-            <div class="card-header">
-                <h3 class="mb-0"></h3>
-            </div>
-            <div class="card-body">
-                <div class="row justify-content-center">
-                    <div class="col-12 col-sm-12 col-md-3 col-lg-3 col-xl-2">
-                        <label for="divNit" style="color:lightgrey">VENTA</label>
-                        <div class="input-group mb-3" id="divNit">
-                            <input type="text" class="form-control" id="txtVenta">
-                            <div class="input-group-prepend">
-                                <button id="btnBuscarVenta" style="margin-top:-10px" type="button" class="btn btn-info"><i class="far fa-search"></i></button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-12 col-sm-12 col-md-4 col-lg-4 col-xl-4">
-                        <label for="txtSerie" style="color:lightgrey">SERIE</label>
-                        <input class="form-control" id="txtSerie" name="" type="text" disabled>
-                    </div>
-                    <div class="col-12 col-sm-12 col-md-4 col-lg-4 col-xl-4">
-                        <label for="txtCorrelativo" style="color:lightgrey">CORRELATIVO</label>
-                        <input class="form-control" id="txtCorrelativo" name="txtCorrelativo" type="text" disabled>
-                    </div>
-                    <div class="col-12 col-sm-12 col-md-4 col-lg-4 col-xl-4">
-                        <label for="txtIdentificador" style="color:lightgrey">IDENTIFICADOR</label>
-                        <input class="form-control" id="txtIdentificador" name="txtIdentificador" type="text" disabled>
-                    </div>
-                    <div class="col-12 col-sm-12 col-md-4 col-lg-4 col-xl-4">
-                        <label for="txtFechaVenta" style="color:lightgrey">FECHA VENTA</label>
-                        <input class="form-control" id="txtFechaVenta" name="txtFechaVenta" type="text" disabled>
-                    </div>
-                    <div class="col-12 col-sm-12 col-md-4 col-lg-4 col-xl-4">
-                        <label for="txtEstado" style="color:lightgrey">ESTADO VENTA</label>
-                        <input class="form-control" id="txtEstado" name="txtEstado" type="text" disabled>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-12 col-sm-12 col-md-4 col-lg-4 col-xl-4">
-                        <label for="txtUUID" style="color:lightgrey">CERTIFICACIÓN FEL</label>
-                        <input class="form-control text-center text-success" id="txtUUID" name="txtUUID" type="text" disabled>
-                    </div>
-                    <div class="col-12 col-sm-12 col-md-4 col-lg-4 col-xl-4">
-                        <label for="txtSerieFel" style="color:lightgrey">SERIE FEL</label>
-                        <input class="form-control text-center text-success" id="txtSerieFel" name="txtSerieFel" type="text" disabled>
-                    </div>
-                    <div class="col-12 col-sm-12 col-md-4 col-lg-4 col-xl-4">
-                        <label for="txtNumeroFel" style="color:lightgrey">NÚMERO FEL</label>
-                        <input class="form-control text-center text-success" id="txtNumeroFel" name="txtNumeroFel" type="text" disabled>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-12 col-sm-12 col-md-4 col-lg-4 col-xl-4">
-                        <label for="txtNitCliente" style="color:lightgrey">NIT</label>
-                        <input class="form-control" id="txtNitCliente" name="txtNitCliente" type="text" disabled>
-                    </div>
-                    <div class="col-12 col-sm-12 col-md-4 col-lg-4 col-xl-8">
-                        <label for="txtNombreCliente" style="color:lightgrey">NOMBRE CLIENTE</label>
-                        <input class="form-control" id="txtNombreCliente" name="txtNombreCliente" type="text" disabled>
-                    </div>
-                    <div class="col-12 col-sm-12 col-md-4 col-lg-4 col-xl-12">
-                        <label for="txtDireccionCliente" style="color:lightgrey">DIRECCIÓN CLIENTE</label>
-                        <input class="form-control" id="txtDireccionCliente" name="txtDireccionCliente" type="text" disabled>
-                    </div>
-                </div>
-                <div class="row justify-content-center">
-                    <div class="col-12 col-sm-12 col-md-4 col-lg-4 col-xl-2">
-                        <label for="txtTotalVenta" style="color:lightgrey">TOTAL VENTA</label>
-                        <input class="form-control text-center" id="txtTotalVenta" name="txtTotalVenta" type="text" disabled>
-                    </div>
-                    <div class="col-12 col-sm-12 col-md-4 col-lg-4 col-xl-2">
-                        <label for="txtSaldoPendiente" style="color:lightgrey">SALDO PENDIENTE</label>
-                        <input class="form-control text-center" id="txtSaldoPendiente" name="txtSaldoPendiente" type="text" disabled>
-                    </div>
-                    <div class="col-12 col-sm-12 col-md-4 col-lg-4 col-xl-2">
-                        <label for="divAbono" style="color:lightgrey">ABONO</label>
-                        <div class="input-group mb-3" id="divAbono">
-                            <input type="text" class="form-control text-center" id="txtAbono">
-                            <div class="input-group-prepend">
-                                <button id="btnCrearAbono" style="margin-top:-10px" type="button" class="btn btn-success"><i class="far fa-check-circle"></i></button>
-                            </div>
-                        </div>
+<div class="card card-outline-secondary">
+    <span class="badge badge-pill badge-secondary">BÚSQUEDA DE CRÉDITO Y ABONO</span>
+    <div class="card-body">
+        <div class="row justify-content-center">
+            <div class="col-12 col-sm-12 col-md-3 col-lg-3 col-xl-2">
+                <label for="divNit">VENTA</label>
+                <div class="input-group mb-3" id="divNit">
+                    <input type="text" class="form-control text-center font-weight-bold" id="txtVenta" onkeypress="return valideKey(event);">
+                    <div class="input-group-prepend">
+                        <button id="btnBuscarVenta" style="margin-top:-10px" type="button" class="btn btn-info"><i class="far fa-search"></i></button>
                     </div>
                 </div>
             </div>
-            @*<div class="card-footer">
-                <div class="row justify-content-center">
-                    <div class="col-12 col-md-3 col-xl-3">
-                        <button class="btn btn-success" id="btnCrearRecibo"><i class="far fa-check-circle"></i> CREAR VENTA</button>
+        </div>
+        <div class="row">
+            <div class="col-12 col-sm-12 col-md-4 col-lg-4 col-xl-4">
+                <label for="txtSerie">SERIE</label>
+                <input class="form-control" id="txtSerie" name="" type="text" disabled>
+            </div>
+            <div class="col-12 col-sm-12 col-md-4 col-lg-4 col-xl-4">
+                <label for="txtCorrelativo">CORRELATIVO</label>
+                <input class="form-control" id="txtCorrelativo" name="txtCorrelativo" type="text" disabled>
+            </div>
+            <div class="col-12 col-sm-12 col-md-4 col-lg-4 col-xl-4">
+                <label for="txtIdentificador">IDENTIFICADOR</label>
+                <input class="form-control" id="txtIdentificador" name="txtIdentificador" type="text" disabled>
+            </div>
+            <div class="col-12 col-sm-12 col-md-4 col-lg-4 col-xl-4">
+                <label for="txtFechaVenta">FECHA VENTA</label>
+                <input class="form-control" id="txtFechaVenta" name="txtFechaVenta" type="text" disabled>
+            </div>
+            <div class="col-12 col-sm-12 col-md-4 col-lg-4 col-xl-4">
+                <label for="txtEstado">ESTADO VENTA</label>
+                <input class="form-control" id="txtEstado" name="txtEstado" type="text" disabled>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12 col-sm-12 col-md-4 col-lg-4 col-xl-4">
+                <label for="txtUUID">CERTIFICACIÓN FEL</label>
+                <input class="form-control text-center text-success" id="txtUUID" name="txtUUID" type="text" disabled>
+            </div>
+            <div class="col-12 col-sm-12 col-md-4 col-lg-4 col-xl-4">
+                <label for="txtSerieFel">SERIE FEL</label>
+                <input class="form-control text-center text-success" id="txtSerieFel" name="txtSerieFel" type="text" disabled>
+            </div>
+            <div class="col-12 col-sm-12 col-md-4 col-lg-4 col-xl-4">
+                <label for="txtNumeroFel">NÚMERO FEL</label>
+                <input class="form-control text-center text-success" id="txtNumeroFel" name="txtNumeroFel" type="text" disabled>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12 col-sm-12 col-md-4 col-lg-4 col-xl-4">
+                <label for="txtNitCliente">NIT</label>
+                <input class="form-control" id="txtNitCliente" name="txtNitCliente" type="text" disabled>
+            </div>
+            <div class="col-12 col-sm-12 col-md-4 col-lg-4 col-xl-8">
+                <label for="txtNombreCliente">NOMBRE CLIENTE</label>
+                <input class="form-control" id="txtNombreCliente" name="txtNombreCliente" type="text" disabled>
+            </div>
+            <div class="col-12 col-sm-12 col-md-4 col-lg-4 col-xl-12">
+                <label for="txtDireccionCliente">DIRECCIÓN CLIENTE</label>
+                <input class="form-control" id="txtDireccionCliente" name="txtDireccionCliente" type="text" disabled>
+            </div>
+        </div>
+        <div class="row justify-content-center">
+            <div class="col-12 col-sm-12 col-md-4 col-lg-4 col-xl-2">
+                <label for="txtTotalVenta">TOTAL VENTA</label>
+                <input class="form-control text-center" id="txtTotalVenta" name="txtTotalVenta" type="text" disabled>
+            </div>
+            <div class="col-12 col-sm-12 col-md-4 col-lg-4 col-xl-2">
+                <label for="txtSaldoPendiente">SALDO PENDIENTE</label>
+                <input class="form-control text-center font-weight-bold text-danger" id="txtSaldoPendiente" name="txtSaldoPendiente" type="text" disabled>
+            </div>
+            <div class="col-12 col-sm-12 col-md-4 col-lg-4 col-xl-2 d-none" id="divAbono2">
+                <label for="divAbono">ABONO</label>
+                <div class="input-group mb-3" id="divAbono">
+                    <input type="text" class="form-control text-center" id="txtAbono">
+                    <div class="input-group-prepend">
+                        <button id="btnCrearAbono" style="margin-top:-10px" type="button" class="btn btn-success"><i class="far fa-check-circle"></i></button>
                     </div>
                 </div>
-            </div>*@
+            </div>
+            <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 text-center justify-content-center mt-3">
+                <h3 class="font-weight-bold text-success d-none" id="textoSaldo">CRÉDITO SE ENCUENTRA CANCELADO</h3>
+            </div>
         </div>
     </div>
 </div>

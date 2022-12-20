@@ -5,8 +5,10 @@ $(document).ready(function () {
         autoClose: true,
         view: 'days',
         minView: 'days',
+        //minDate: f.setDate(f.getDate() - 7),
+        minDate: new Date(),
         dateFormat: 'dd/MM/yyyy',
-        selectedDates: [new Date(new Date().getFullYear(), new Date().getMonth(), 1)]
+        selectedDates: [new Date()]
 
         /* //onSelect: GetDataTable*/
     });
@@ -150,17 +152,17 @@ $(document).ready(function () {
                         $("<span>").addClass(classBTN).prop('title', 'IMPRESION CONSTANCIA').appendTo(container);
                         $('.imprimir' + cont).click(function (e) {
                             var id_venta = parseInt(fieldData.ID_VENTA);
-
-                            console.log(id_venta);
-                            var serie = fieldData.SERIE;
-                            var correlativo = parseFloat(fieldData.CORRELATIVO);
-                            var nombreCliente = fieldData.NOMBRE;
-                            var nit2 = fieldData.NIT
-                            var direccion = fieldData.DIRECCION;
-                            var subtotal = parseFloat(fieldData.SUBTOTAL);
-                            var total = parseFloat(fieldData.TOTAL);
-                            jsonEncabezado = new ENCABEZADO(serie, correlativo, nombreCliente, nit2, direccion, subtotal, total);
-                            mostrarDetalleVenta(id_venta);
+                            GenerarComprobante(id_venta)
+                            //console.log(id_venta);
+                            //var serie = fieldData.SERIE;
+                            //var correlativo = parseFloat(fieldData.CORRELATIVO);
+                            //var nombreCliente = fieldData.NOMBRE;
+                            //var nit2 = fieldData.NIT
+                            //var direccion = fieldData.DIRECCION;
+                            //var subtotal = parseFloat(fieldData.SUBTOTAL);
+                            //var total = parseFloat(fieldData.TOTAL);
+                            //jsonEncabezado = new ENCABEZADO(serie, correlativo, nombreCliente, nit2, direccion, subtotal, total);
+                            //mostrarDetalleVenta(id_venta);
                         })
                         cont++;
                     }
@@ -469,4 +471,22 @@ $(document).ready(function () {
             $('#divFechaPago').addClass('d-none');
         }
     })
+
+    function GenerarComprobante(id_venta) {
+        CallLoadingFire('Generando comprobante, por favor espera...');
+        $.post("/VENReimpresiones/GetComprobante", { id_venta }, function (result) {
+            var pom = document.createElement('a');
+            pom.setAttribute('href', 'data:' + result.MimeType + ';base64,' + result.File);
+            pom.setAttribute('download', result.FileName);
+            if (document.createEvent) {
+                var event = document.createEvent('MouseEvents');
+                event.initEvent('click', true, true);
+                pom.dispatchEvent(event);
+            }
+            else {
+                pom.click();
+            }
+            CallToast('Descarga realizada con éxito.', true, 2300, '#9EC600')
+        });
+    }
 });

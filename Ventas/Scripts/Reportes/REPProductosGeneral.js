@@ -56,4 +56,36 @@ $(document).ready(function () {
             ShowAlertMessage('warning', 'EL INGRESO DE AMBAS FECHAS ES OBLIGATORIO')
         }
     })
+
+    function Excel2() {
+        let fechaInicial = DateFormat(fechaI.lastSelectedDate);
+        CallLoadingFire('Descargando productos...');
+        $.post('/REPProductosGeneral/GenerarExcel2', { fechaInicial }, function (result) {
+            var pom = document.createElement('a');
+            pom.setAttribute('href', 'data:' + result.MimeType + ';base64,' + result.File);
+            pom.setAttribute('download', result.FileName);
+            if (document.createEvent) {
+                var event = document.createEvent('MouseEvents');
+                event.initEvent('click', true, true);
+                pom.dispatchEvent(event);
+            }
+            else {
+                pom.click();
+            }
+            //CallToast('Descarga realizada con éxito.', true, 2300, '#9EC600')
+            //HideLoader();
+        });
+    }
+
+    $('#botonInforme2').on('click', function (e) {
+        e.preventDefault();
+
+        if (fechaI.lastSelectedDate != undefined ) {
+            let fechaInicial = DateFormat(fechaI.lastSelectedDate);
+            Excel2()
+        }
+        else {
+            ShowAlertMessage('warning', 'DEBES SELECCIONAR UNA FECHA')
+        }
+    })
 });

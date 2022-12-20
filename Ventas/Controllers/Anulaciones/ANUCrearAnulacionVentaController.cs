@@ -1,5 +1,4 @@
 ﻿using conectorfelv2;
-using GenesysOracleSV.Clases;
 using System;
 using System.Collections.Generic;
 using System.Linq;

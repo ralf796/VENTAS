@@ -1,6 +1,4 @@
 ﻿using conectorfelv2;
-using GenesysOracle.Clases;
-using GenesysOracleSV.Clases;
 using Newtonsoft.Json;
 using SelectPdf;
 using System;

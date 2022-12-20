@@ -1,12 +1,11 @@
-﻿using GenesysOracle.Clases;
-using Newtonsoft.Json;
-using SelectPdf;
+﻿using SelectPdf;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using Ventas.Class;
 using Ventas_BE;
 using Ventas_BLL;
 
@@ -15,6 +14,7 @@ namespace Ventas.Controllers.Ventas
     public class VENReimpresionesController : Controller
     {
         // GET: VENReimpresiones
+        [SessionExpireFilter]
         public ActionResult Index()
         {
             return View();
@@ -52,8 +52,20 @@ namespace Ventas.Controllers.Ventas
 
         public ActionResult GetComprobante(int id_venta = 0)
         {
-            Ventas__BE item = new Ventas__BE();
-            List<Ventas__BE> listaDetalles = new List<Ventas__BE>();
+            var item = new Reportes_BE();
+            var itemHeader = new Reportes_BE();
+            item.ID_VENTA = id_venta;
+            item.MTIPO = 18;
+            item.FECHA_INICIAL = DateTime.Now;
+            item.FECHA_FINAL = DateTime.Now;
+            itemHeader = GetSPReportes_(item).FirstOrDefault();
+
+            List<Reportes_BE> listaDetalles = new List<Reportes_BE>();
+            item.MTIPO = 19;
+            item.ID_VENTA = id_venta;
+            item.FECHA_INICIAL = DateTime.Now;
+            item.FECHA_FINAL = DateTime.Now;
+            listaDetalles = GetSPReportes_(item);
 
             //Get html
             System.Text.StringBuilder html = new System.Text.StringBuilder();
@@ -64,9 +76,9 @@ namespace Ventas.Controllers.Ventas
             html.AppendLine(@"<link rel='stylesheet' href='https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css' integrity='sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm' crossorigin='anonymous'>");
             html.AppendLine("<script src='http://code.jquery.com/jquery-latest.min.js'></script>");
             html.AppendLine("</head>");
-            html.AppendLine("<body class='pt-4'>");
+            html.AppendLine("<body class='pt-4' >");
             html.AppendLine($@"
-            <div class='row'>
+            <div class='row' style='font-size:45px'>
                 <div class='form-group col-md-3 text-center' style='margin-top:-35px'>
                     <img style='margin-top:10px' src='https://distribuidorarepuestoseleden.com/Varios/LogoElEden.jpeg' height='180' width='250' />
                 </div>
@@ -87,18 +99,19 @@ namespace Ventas.Controllers.Ventas
                     </div>
                 </div>
             </div>
-            <div class='row'>
+            <div class='row' style='font-size:20px'>
                 <div class='col-md-12 pl-5' style='margin-top:5px'>
-                    <b>SERIE:</b> {item.SERIE}<br>
-                    <b>CORRELATIVO:</b> {item.CORRELATIVO}<br>
-                    <b>NIT:</b> {item.NIT}<br>
-                    <b>CLIENTE:</b> {item.NOMBRE}<br>
-                    <b>DIRECCIÓN:</b> {item.DIRECCION}<br>
-                    <b>FECHA:</b> {DateTime.Now.ToString("dd/MM/yyyy")}<br>
-                    <b>ATENDIDO POR:</b> {Session["usuario"].ToString()}<br>
+                    <b>ÓRDEN DE COMPRA:</b> {id_venta}<br>
+                    <b>SERIE:</b> {itemHeader.SERIE}<br>
+                    <b>CORRELATIVO:</b> {itemHeader.CORRELATIVO.ToString("N0")}<br>
+                    <b>NIT:</b> {itemHeader.NIT}<br>
+                    <b>CLIENTE:</b> {itemHeader.NOMBRE}<br>
+                    <b>DIRECCIÓN:</b> {itemHeader.DIRECCION}<br>
+                    <b>FECHA Y HORA:</b> {itemHeader.FECHA_VENTA.ToString("dd/MM/yyyy hh:mm tt")}<br>
+                    <b>ATENDIDO POR:</b> {itemHeader.CREADO_POR}<br>
                 </div>
             </div>
-            <div class='col-12 pt-4'>
+            <div class='col-12 pt-4' style='font-size:18px'>
                 <table class='table table-sm' id='tdDatos'>
                     <thead>
                         <tr style=''>
@@ -126,12 +139,12 @@ namespace Ventas.Controllers.Ventas
             html.AppendLine($@"</tbody>
                 </table>
             </div>
-            <div class='row'>
+            <div class='row' style='font-size:20px'>
                 <div class='col-md-12 pl-5 text-center'>
-                    <b>TOTAL SIN DESCUENTO :</b> <span class='font-weight-bold pl-2' style='font-size:22px'> Q{item.TOTAL.ToString("N2")}</span><br>
-                    <b>DESCUENTO:</b> <span class='font-weight-bold pl-2' style='font-size:22px'> Q{listaDetalles.Sum(x => x.DESCUENTO).ToString("N2")}</span><br>
-                    <b>TOTAL A PAGAR:</b><span class='font-weight-bold pl-2'  style='font-size:22px'> Q{item.SUBTOTAL.ToString("N2")}</span><br>
-                    <b>TOTAL EN LETRAS: </b> {new NumeroLetra().Convertir(item.SUBTOTAL.ToString(), true)}<br>
+                    <b>TOTAL SIN DESCUENTO :</b> <span class='font-weight-bold pl-2' style='font-size:22px'> Q{itemHeader.TOTAL.ToString("N2")}</span><br>
+                    <b>DESCUENTO:</b> <span class='font-weight-bold pl-2' style='font-size:22px'> Q{itemHeader.DESCUENTO.ToString("N2")}</span><br>
+                    <b>TOTAL A PAGAR:</b><span class='font-weight-bold pl-2'  style='font-size:22px'> Q{itemHeader.SUBTOTAL.ToString("N2")}</span><br>
+                    <b>TOTAL EN LETRAS: </b> {new NumeroLetra().Convertir(itemHeader.SUBTOTAL.ToString(), true)}<br>
                 </div>
             </div>
             <div class='row pt-5'>

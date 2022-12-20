@@ -1,6 +1,4 @@
 ﻿using CrystalDecisions.CrystalReports.Engine;
-using GenesysOracle.Clases;
-using GenesysOracleSV.Clases;
 using Newtonsoft.Json;
 using SelectPdf;
 using System;
@@ -732,7 +730,7 @@ namespace Ventas.Controllers.Ventas
                 var item = new FEL_BE();
                 //item.ID_VENTA = 151;
 
-                for (int i = 283; i <= 283; i++)
+                for (int i = 322; i <= 322; i++)
                 {
                     item = new FEL_BE();
                     item.ID_VENTA = i;

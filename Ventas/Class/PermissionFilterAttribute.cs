@@ -5,7 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using static GenesysOracleSV.Clases.Utils;
 
-namespace GenesysOracleSV.Clases
+namespace Ventas.Class
 {
     public class PermissionFilterAttribute : AuthorizeAttribute
     {

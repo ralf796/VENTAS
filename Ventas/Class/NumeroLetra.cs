@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using System.Web;
 
-namespace GenesysOracle.Clases
+namespace Ventas.Class
 {
     /// <summary>
     /// Clase utilizada para convertir una cantidad en letras.

@@ -20,6 +20,8 @@ namespace Ventas_DAL
                 model.Command.Parameters.AddWithValue("@ABONO", item.ABONO);
                 model.Command.Parameters.AddWithValue("@OBSERVACIONES", item.OBSERVACIONES);
                 model.Command.Parameters.AddWithValue("@FECHA_PAGO", item.FECHA_PAGO ?? DateTime.Now);
+                model.Command.Parameters.AddWithValue("@NIT", item.NIT);
+                model.Command.Parameters.AddWithValue("@ID_CLIENTE", item.ID_CLIENTE);
                 model.Command.Parameters.AddWithValue("@MTIPO", item.MTIPO);
                 result = model.GetData<Cartera_BE>();
             }

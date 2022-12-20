@@ -1,7 +1,113 @@
-﻿
-@{
-    ViewBag.Title = "Index";
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Index</h2>
+@section styles{
+    <style>
+        .headColor {
+            background-color: dimgray;
+            color: white;
+            font-size: 13px;
+        }
 
+        input {
+            margin-top: -10px;
+        }
+
+        #gridContainer span.current-value {
+            display: inline-block;
+            margin-right: 5px;
+        }
+
+        #gridContainer span.diff {
+            width: 50px;
+            display: inline-block;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        .zoom {
+            transition: transform .2s;
+            margin: 0 auto;
+        }
+
+            .zoom:hover {
+                -ms-transform: scale(5); /* IE 9 */
+                -webkit-transform: scale(5); /* Safari 3-8 */
+                transform: scale(2);
+            }
+    </style>
+}
+
+
+@section scripts{
+    <script src="~/Scripts/Cartera/CARSaldos.js"></script>
+
+}
+
+<input id="hfIdCliente" type="hidden"/>
+<div class="card">
+    <span class="badge badge-pill badge-secondary">CONSULTA DE ESTADO DE CUENTA POR CLIENTE</span>
+    <div class="card-body">
+        <div class="row justify-content-center">
+            <div class="col-12 col-sm-12 col-md-3 col-lg-3 col-xl-2">
+                <label for="divNit">NIT CLIENTE</label>
+                <div class="input-group mb-3" id="divNit">
+                    <input type="text" class="form-control text-center font-weight-bold" id="txtNit" disabled>
+                    <div class="input-group-prepend">
+                        <button id="btnBuscarCliente" style="margin-top:-10px" type="button" class="btn btn-info"><i class="far fa-search"></i></button>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 col-sm-12 col-md-3 col-lg-3 col-xl-4">
+                <label for="">NOMBRE CLIENTE</label>
+                <div class="input-group mb-3">
+                    <input type="text" class="form-control text-center font-weight-bold" id="txtNombreCliente" disabled>
+                </div>
+            </div>
+            <div class="col-12 col-sm-12 col-md-3 col-lg-3 col-xl-4">
+                <label for="">DIRECCIÓN CLIENTE</label>
+                <div class="input-group mb-3">
+                    <input type="text" class="form-control text-center font-weight-bold" id="txtDireccionCliente" disabled>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="card card-outline-secondary">
+    <div class="card-body">
+        <div class="row">
+            <div class="col-12 col-md-12 col-xl-12">
+                <div class="demo-container">
+                    <div id="gridestadoCuenta"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="modalClientes">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">BUSQUEDA DE CLIENTES</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span style="color:red" aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-12 col-md-12 col-xl-12">
+                        <div class="demo-container">
+                            <div id="exportButton"></div>
+                            <div id="gridClientes"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

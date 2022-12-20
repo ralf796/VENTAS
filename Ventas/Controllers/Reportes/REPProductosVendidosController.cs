@@ -26,7 +26,8 @@ namespace Ventas.Controllers.Reportes
             try
             {
                 var item = new Reportes_BE();
-                item.MTIPO = 14;
+                //item.MTIPO = 14;
+                item.MTIPO = 21;
                 item.FECHA_INICIAL = Convert.ToDateTime(fechaInicial);
                 item.FECHA_FINAL = DateTime.Now;
                 var lista = GetSPReportes_(item);

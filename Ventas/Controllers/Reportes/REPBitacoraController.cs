@@ -1,9 +1,9 @@
-﻿using GenesysOracleSV.Clases;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using Ventas.Class;
 using Ventas_BE;
 using Ventas_BLL;
 
@@ -41,6 +41,26 @@ namespace Ventas.Controllers.Reportes
                         row.FECHA_VENTA_STRING = row.FECHA_VENTA.ToString("dd/MM/yyyy hh:mm tt");
                 }
                 return Json(new { State = 1, data = lista }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                return Json(new { State = -1, Message = ex.Message }, JsonRequestBehavior.AllowGet);
+            }
+        }
+        public JsonResult GetDefault()
+        {
+            try
+            {
+                var item = new Reportes_BE();
+                item.MTIPO = 22;
+                item.FECHA_INICIAL = DateTime.Now;
+                item.FECHA_FINAL = DateTime.Now;
+                var lista= GetSPReportes_(item);
+                item.MTIPO = 23;
+                var listaVentas = GetSPReportes_(item);
+                item.MTIPO = 24;
+                var listaUsers = GetSPReportes_(item);
+                return Json(new { State = 1, data = lista, ventasDia= listaVentas.Count(), usuarios= listaUsers.Count() }, JsonRequestBehavior.AllowGet);
             }
             catch (Exception ex)
             {

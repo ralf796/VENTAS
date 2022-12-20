@@ -2733,6 +2733,7 @@
     <Content Include="Scripts\Cartera\CARCrearCredito.js" />
     <Content Include="Scripts\Cartera\CARSaldos.js" />
     <Content Include="Scripts\Clientes\CLIListarClientes.js" />
+    <Content Include="Scripts\Default.js" />
     <Content Include="Scripts\DevExtreme\21.1.5\dx-quill.min.js" />
     <Content Include="Scripts\DevExtreme\21.1.5\dx.all.js" />
     <Content Include="Scripts\DevExtreme\21.1.5\localization\dx.messages.en.js" />
@@ -3499,6 +3500,7 @@
     <Content Include="Views\CARSaldos\Index.cshtml" />
     <Content Include="Views\CARAbonos\Index.cshtml" />
     <Content Include="Views\VENReimpresiones\Index.cshtml" />
+    <Content Include="Views\REPProductosGeneral\Index2.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

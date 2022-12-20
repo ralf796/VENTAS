@@ -21,6 +21,7 @@
     }
 
     function GetVenta(ID_VENTA) {
+        CallLoadingFire();
         var MTIPO = 2;
         $.ajax({
             type: 'GET',
@@ -35,10 +36,21 @@
                     var VENTA = data["data"];
                     console.log(VENTA)
                     if (VENTA == null) {
-                        ShowAlertMessage('warning', 'La órden de compra ' + ID_VENTA + ' no existe.');
+                        ShowAlertMessage('warning', 'La órden de compra ' + ID_VENTA + ' no existe o no es venta al crédito.');
                         ClearDatos();
                     }
                     else {
+                        debugger
+                        if ((VENTA.SALDO == 0)) {
+                            $('#textoSaldo').removeClass('d-none');
+                            $('#divAbono2').addClass('d-none');
+                        }
+                        else {
+                            $('#textoSaldo').addClass('d-none');
+                            $('#divAbono2').removeClass('d-none');
+                        }
+
+                        $('#txtAbono').val('');
                         $('#txtSerie').val(VENTA.SERIE);
                         $('#txtCorrelativo').val(VENTA.CORRELATIVO);
                         $('#txtIdentificador').val(VENTA.IDENTIFICADOR_UNICO);
@@ -50,8 +62,8 @@
                         $('#txtNitCliente').val(VENTA.NIT);
                         $('#txtNombreCliente').val(VENTA.NOMBRE);
                         $('#txtDireccionCliente').val(VENTA.DIRECCION);
-                        $('#txtTotalVenta').val(VENTA.TOTAL_VENTA);
-                        $('#txtSaldoPendiente').val(VENTA.SALDO);
+                        $('#txtTotalVenta').val(formatNumber(parseFloat(VENTA.TOTAL_VENTA).toFixed(2)));
+                        $('#txtSaldoPendiente').val(formatNumber(parseFloat(VENTA.SALDO).toFixed(2)));
                     }
                 }
                 else if (state == -1) {
@@ -72,7 +84,9 @@
             success: function (data) {
                 var state = data["State"];
                 if (state == 1) {
+                    ShowAlertMessage('success', '¡Se agregó un abono correctamente!')
                     GetVenta(ID_VENTA);
+                    GenerarRecibo(ID_VENTA);
                 }
                 else if (state == -1) {
                     ShowAlertMessage('warning', data['Message'])
@@ -81,16 +95,46 @@
         });
     }
 
+    function GenerarRecibo(id_venta) {
+        CallLoadingFire('Generando recibo, por favor espera...');
+        $.post("/CARCrearCredito/GenerarReciboPDF", { id_venta }, function (result) {
+            var pom = document.createElement('a');
+            pom.setAttribute('href', 'data:' + result.MimeType + ';base64,' + result.File);
+            pom.setAttribute('download', result.FileName);
+            if (document.createEvent) {
+                var event = document.createEvent('MouseEvents');
+                event.initEvent('click', true, true);
+                pom.dispatchEvent(event);
+            }
+            else {
+                pom.click();
+            }
+            CallToast('Descarga realizada con éxito.', true, 2300, '#9EC600')
+        });
+    }
+
     $('#btnBuscarVenta').on('click', function (e) {
         e.preventDefault();
         var idVenta = $('#txtVenta').val();
-        GetVenta(idVenta);
+
+        if (idVenta != '')
+            GetVenta(idVenta);
     });
 
     $('#btnCrearAbono').on('click', function (e) {
         e.preventDefault();
         var ID_VENTA = $('#txtVenta').val();
-        var ABONO = $('#txtAbono').val();
+        var ABONO = $('#txtAbono').val().replace(',', '');
+        var SALDO = $('#txtSaldoPendiente').val().replace(',', '');
+
+        if (parseFloat(ABONO) > parseFloat(SALDO)) {
+            ShowAlertMessage('warning', '¡El abono no puede ser mayor al saldo disponible!')
+            return;
+        }
+        if (ABONO == 0 || ABONO == '' || ABONO == null) {
+            ShowAlertMessage('warning', '¡El abono no puede ser 0!')
+            return;
+        }
 
         Swal.fire({
             title: 'Crear Abono de Crédito',

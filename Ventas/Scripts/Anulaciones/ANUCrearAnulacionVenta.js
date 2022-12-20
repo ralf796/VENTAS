@@ -271,6 +271,7 @@ $(document).ready(function () {
     })
 
     function Anular(idVenta, tipo, fel) {
+        CallLoadingFire('Anulando venta, por favor espere...');
         $.ajax({
             type: 'GET',
             url: "/ANUCrearAnulacionVenta/GetDatosSP",

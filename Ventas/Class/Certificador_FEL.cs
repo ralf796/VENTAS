@@ -332,8 +332,8 @@ namespace Ventas.Class
             xml.AppendLine($"</dte:DatosEmision>");
             xml.AppendLine($"</dte:DTE>");
             xml.AppendLine($"<dte:Adenda>");
-            xml.AppendLine($"<Codigo_cliente>C01</Codigo_cliente>");
             xml.AppendLine($"<Observaciones>{VENTA.OBSERVACIONES}</Observaciones>");
+            xml.AppendLine($"<Venta>{VENTA.ID_VENTA}</Venta>");
             xml.AppendLine($"</dte:Adenda>");
             xml.AppendLine($"</dte:SAT>");
             xml.AppendLine($"</dte:GTDocumento>");
@@ -345,7 +345,7 @@ namespace Ventas.Class
             RestClient restClient = new RestClient("https://signer-emisores.feel.com.gt/sign_solicitud_firmas/firma_xml?");
             FELSignerRequest signedRequest = new FELSignerRequest
             {
-                llave = CREDENCIALES_FEL.LLAVE_PFX,
+                llave =CREDENCIALES_FEL.LLAVE_PFX,
                 archivo = xmlBase64,
                 codigo = ENCABEZADO_VENTA.IDENTIFICADOR_UNICO,
                 alias = CREDENCIALES_FEL.USUARIO_FEL,
@@ -386,15 +386,19 @@ namespace Ventas.Class
                     RESPUESTA_FEL.SERIE_FEL = felResponse.serie;
                     RESPUESTA_FEL.FECHA_CERTIFICACION = felResponse.fecha;
                     RESPUESTA_FEL.NUMERO_FEL = Convert.ToDecimal(felResponse.numero);
+
+                    SaveLog("Factura firmada", "N", VENTA.ID_VENTA, xml.ToString(), response.Content.ToString(), 1);
                 }
                 else
                 {
                     RESPUESTA_FEL.MENSAJE_FEL = "Documento FEL no se pudo firmar. " + response.Content.ToString();
+                    SaveLog("Factura NO firmada - Log XML request", "N", VENTA.ID_VENTA, xml.ToString(), response.Content.ToString(), 0);
                 }
             }
             else
             {
                 RESPUESTA_FEL.MENSAJE_FEL = $"**** ¡SIN COMUNICACIÓN FEL! **** Firma de XML no procesada {signedResponse.descripcion}";
+                SaveLog("Factura NO firmada - Log Comunicación Infile", "N", VENTA.ID_VENTA, xml.ToString(), response.Content.ToString(), 0);
             }
             #endregion
             return RESPUESTA_FEL;
@@ -424,7 +428,7 @@ namespace Ventas.Class
             xml.AppendLine($"<dte:GTAnulacionDocumento xmlns:ds=\"http://www.w3.org/2000/09/xmldsig#\" xmlns:dte=\"http://www.sat.gob.gt/dte/fel/0.1.0\" xmlns:n1=\"http://www.altova.com/samplexml/other-namespace\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" Version=\"0.1\" xsi:schemaLocation=\"http://www.sat.gob.gt/dte/fel/0.1.0 C:\\Users\\User\\Desktop\\FEL\\Esquemas\\GT_AnulacionDocumento-0.1.0.xsd\">");
             xml.AppendLine($"<dte:SAT>");
             xml.AppendLine($"<dte:AnulacionDTE ID=\"DatosCertificados\">");
-            xml.AppendLine($"<dte:DatosGenerales FechaEmisionDocumentoAnular=\"{Convert.ToDateTime(DATOS_VENTA.FECHA_CERTIFICACION).ToString("yyyy-MM-ddThh:mm:ss-06:00")}\" FechaHoraAnulacion=\"{DateTime.Now.ToString("yyyy-MM-ddThh:mm:ss-06:00")}\" ID=\"DatosAnulacion\" IDReceptor=\"{DATOS_VENTA.NIT_CLIENTE}\" MotivoAnulacion=\"PRUEBA DE ANULACIÓN\" NITEmisor=\"{DATOS_EMPRESA.NIT_EMPRESA}\" NumeroDocumentoAAnular=\"{DATOS_VENTA.UUID}\"></dte:DatosGenerales>");
+            xml.AppendLine($"<dte:DatosGenerales FechaEmisionDocumentoAnular=\"{Convert.ToDateTime(DATOS_VENTA.FECHA_CERTIFICACION).ToString("yyyy-MM-ddThh:mm:ss-06:00")}\" FechaHoraAnulacion=\"{Convert.ToDateTime(DATOS_VENTA.FECHA_SQL).ToString("yyyy-MM-ddThh:mm:ss-06:00")}\" ID=\"DatosAnulacion\" IDReceptor=\"{DATOS_VENTA.NIT_CLIENTE}\" MotivoAnulacion=\"{DATOS_VENTA.MOTIVO_ANULACION}\" NITEmisor=\"{DATOS_EMPRESA.NIT_EMPRESA}\" NumeroDocumentoAAnular=\"{DATOS_VENTA.UUID}\"></dte:DatosGenerales>");
             xml.AppendLine($"</dte:AnulacionDTE>");
             xml.AppendLine($"</dte:SAT>");
             xml.AppendLine($"</dte:GTAnulacionDocumento>");
@@ -476,17 +480,34 @@ namespace Ventas.Class
                     RESPUESTA_FEL.UUID = RESPUESTA_INFILE.uuid;
                     RESPUESTA_FEL.SERIE_FEL = RESPUESTA_INFILE.serie;
                     RESPUESTA_FEL.NUMERO_FEL = Convert.ToDecimal(RESPUESTA_INFILE.numero);
+                    SaveLog("Factura anulada", "N", VENTA.ID_VENTA, xml.ToString(), response.Content.ToString(), 1);
                 }
                 else
                 {
                     RESPUESTA_FEL.MENSAJE_FEL = $"Documento FEL No anulado. {response.Content}";
+                    SaveLog("Factura NO anulada - Log XML request", "S", VENTA.ID_VENTA, xml.ToString(), response.Content.ToString(), 0);
                 }
             }
             else
             {
                 RESPUESTA_FEL.MENSAJE_FEL = $"**** ¡SIN COMUNICACIÓN FEL! **** Firma de XML no procesada {CONEXION_INFILE.descripcion}";
+                SaveLog("Factura NO anulada - Log Comunicación Infile", "S", VENTA.ID_VENTA, xml.ToString(), response.Content.ToString(), 0);
             }
             return RESPUESTA_FEL;
+        }
+
+        public static void SaveLog(string descripcion="",string anulacion="",int idVenta = 0, string request = "", string response = "", int estado=0)
+        {
+            var item = new FEL_BE();
+            item.MTIPO = 1;
+            item.DESCRIPCION = descripcion;
+            item.ES_ANULACION = anulacion;
+            item.ID_VENTA=idVenta;
+            item.PETICION = request;
+            item.RESPUESTA = response;
+            item.ESTADO = estado;
+            item.CREADO_POR = "LOG";
+            item= FEL_BLL.LOG(item).FirstOrDefault();
         }
 
         public class FELSignerRequest
