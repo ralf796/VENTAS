@@ -2731,6 +2731,7 @@
     <Content Include="Scripts\Caja\CAJCorte.js" />
     <Content Include="Scripts\Cartera\CARAbonos.js" />
     <Content Include="Scripts\Cartera\CARCrearCredito.js" />
+    <Content Include="Scripts\Cartera\CAREstadoCuenta.js" />
     <Content Include="Scripts\Cartera\CARSaldos.js" />
     <Content Include="Scripts\Clientes\CLIListarClientes.js" />
     <Content Include="Scripts\Default.js" />
@@ -2757,6 +2758,7 @@
     <Content Include="Scripts\Reportes\REPProdCasaComercial.js" />
     <Content Include="Scripts\Reportes\REPProductos.js" />
     <Content Include="Scripts\Reportes\REPProductosGeneral.js" />
+    <Content Include="Scripts\Reportes\REPProductosSinStock.js" />
     <Content Include="Scripts\Reportes\REPProductosVendidos.js" />
     <Content Include="Scripts\Reportes\REPProductoUnico.js" />
     <Content Include="Scripts\Reportes\REPVentas.js" />
@@ -2798,6 +2800,7 @@
     <Compile Include="Controllers\Caja\CAJCorteController.cs" />
     <Compile Include="Controllers\Cartera\CARAbonosController.cs" />
     <Compile Include="Controllers\Cartera\CARCrearCreditoController.cs" />
+    <Compile Include="Controllers\Cartera\CAREstadoCuentaController.cs" />
     <Compile Include="Controllers\Cartera\CARSaldosController.cs" />
     <Compile Include="Controllers\Clientes\CLIListarClientesController.cs" />
     <Compile Include="Controllers\DefaultController.cs" />
@@ -2810,6 +2813,7 @@
     <Compile Include="Controllers\Reportes\REPProdCasaComercialController.cs" />
     <Compile Include="Controllers\Reportes\REPProductosController.cs" />
     <Compile Include="Controllers\Reportes\REPProductosGeneralController.cs" />
+    <Compile Include="Controllers\Reportes\REPProductosSinStockController.cs" />
     <Compile Include="Controllers\Reportes\REPProductosVendidosController.cs" />
     <Compile Include="Controllers\Reportes\REPProductoUnicoController.cs" />
     <Compile Include="Controllers\Reportes\REPVentasController.cs" />
@@ -3501,6 +3505,8 @@
     <Content Include="Views\CARAbonos\Index.cshtml" />
     <Content Include="Views\VENReimpresiones\Index.cshtml" />
     <Content Include="Views\REPProductosGeneral\Index2.cshtml" />
+    <Content Include="Views\REPProductosSinStock\Index.cshtml" />
+    <Content Include="Views\CAREstadoCuenta\Index.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

@@ -302,31 +302,30 @@ namespace Ventas.Class
                 decimal totalSinIva = montoGravable / (decimal)1.12;
 
                 xml.AppendLine($"<dte:Item NumeroLinea=\"{rowDetalles}\" BienOServicio =\"B\">");
-                xml.AppendLine($"<dte:Cantidad>{cantidad.ToString("0.00")}</dte:Cantidad>");
+                xml.AppendLine($"<dte:Cantidad>{Math.Round(cantidad, 2)}</dte:Cantidad>");
                 xml.AppendLine($"<dte:UnidadMedida>UND</dte:UnidadMedida>");
                 xml.AppendLine($"<dte:Descripcion>{row.DESCRIPCION_PRODUCTO}</dte:Descripcion>");
-                xml.AppendLine($"<dte:PrecioUnitario>{precioUnitario.ToString("0.00")}</dte:PrecioUnitario>");
-                xml.AppendLine($"<dte:Precio>{subtotal.ToString("0.00")}</dte:Precio>");
-                xml.AppendLine($"<dte:Descuento>{descuento.ToString("0.00")}</dte:Descuento>");
+                xml.AppendLine($"<dte:PrecioUnitario>{Math.Round(precioUnitario, 2)}</dte:PrecioUnitario>");
+                xml.AppendLine($"<dte:Precio>{Math.Round(subtotal, 2)}</dte:Precio>");
+                xml.AppendLine($"<dte:Descuento>{Math.Round(descuento, 2)}</dte:Descuento>");
                 xml.AppendLine($"<dte:Impuestos>");
                 xml.AppendLine($"<dte:Impuesto>");
                 xml.AppendLine($"<dte:NombreCorto>IVA</dte:NombreCorto>");
                 xml.AppendLine($"<dte:CodigoUnidadGravable>1</dte:CodigoUnidadGravable>");
-                xml.AppendLine($"<dte:MontoGravable>{montoGravable.ToString("0.00")}</dte:MontoGravable>");
-                xml.AppendLine($"<dte:MontoImpuesto>{iva.ToString("0.00")}</dte:MontoImpuesto>");
+                xml.AppendLine($"<dte:MontoGravable>{Math.Round(montoGravable, 2)}</dte:MontoGravable>");
+                xml.AppendLine($"<dte:MontoImpuesto>{Math.Round(iva, 2)}</dte:MontoImpuesto>");
                 xml.AppendLine($"</dte:Impuesto>");
                 xml.AppendLine($"</dte:Impuestos>");
-                xml.AppendLine($"<dte:Total>{total.ToString("0.00")}</dte:Total>");
+                xml.AppendLine($"<dte:Total>{Math.Round(total, 2)}</dte:Total>");
                 xml.AppendLine($"</dte:Item>");
-
                 rowDetalles++;
             }
             xml.AppendLine($"</dte:Items>");
             xml.AppendLine($"<dte:Totales>");
             xml.AppendLine($"<dte:TotalImpuestos>");
-            xml.AppendLine($"<dte:TotalImpuesto TotalMontoImpuesto=\"{ENCABEZADO_VENTA.TOTAL_IVA.ToString("0.00")}\" NombreCorto =\"IVA\" /> ");
+            xml.AppendLine($"<dte:TotalImpuesto TotalMontoImpuesto=\"{Math.Round(ENCABEZADO_VENTA.TOTAL_IVA,2)}\" NombreCorto =\"IVA\" /> ");
             xml.AppendLine($"</dte:TotalImpuestos>");
-            xml.AppendLine($"<dte:GranTotal>{ENCABEZADO_VENTA.TOTAL_CON_IVA.ToString("0.00")}</dte:GranTotal>");
+            xml.AppendLine($"<dte:GranTotal>{Math.Round(ENCABEZADO_VENTA.TOTAL_CON_IVA,2)}</dte:GranTotal>");
             xml.AppendLine($"</dte:Totales>");
 
             xml.AppendLine($"</dte:DatosEmision>");
@@ -345,7 +344,7 @@ namespace Ventas.Class
             RestClient restClient = new RestClient("https://signer-emisores.feel.com.gt/sign_solicitud_firmas/firma_xml?");
             FELSignerRequest signedRequest = new FELSignerRequest
             {
-                llave =CREDENCIALES_FEL.LLAVE_PFX,
+                llave = CREDENCIALES_FEL.LLAVE_PFX,
                 archivo = xmlBase64,
                 codigo = ENCABEZADO_VENTA.IDENTIFICADOR_UNICO,
                 alias = CREDENCIALES_FEL.USUARIO_FEL,
@@ -496,18 +495,18 @@ namespace Ventas.Class
             return RESPUESTA_FEL;
         }
 
-        public static void SaveLog(string descripcion="",string anulacion="",int idVenta = 0, string request = "", string response = "", int estado=0)
+        public static void SaveLog(string descripcion = "", string anulacion = "", int idVenta = 0, string request = "", string response = "", int estado = 0)
         {
             var item = new FEL_BE();
             item.MTIPO = 1;
             item.DESCRIPCION = descripcion;
             item.ES_ANULACION = anulacion;
-            item.ID_VENTA=idVenta;
+            item.ID_VENTA = idVenta;
             item.PETICION = request;
             item.RESPUESTA = response;
             item.ESTADO = estado;
             item.CREADO_POR = "LOG";
-            item= FEL_BLL.LOG(item).FirstOrDefault();
+            item = FEL_BLL.LOG(item).FirstOrDefault();
         }
 
         public class FELSignerRequest

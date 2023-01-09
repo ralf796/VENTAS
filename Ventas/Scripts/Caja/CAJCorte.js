@@ -60,8 +60,13 @@
             },
             columns: [
                 {
-                    dataField: "ID_COBRO",
-                    caption: "COBRO"
+                    dataField: "ID_VENTA",
+                    caption: "VENTA"
+                },
+                {
+                    dataField: "RESPUESTA",
+                    caption: "CONCEPTO",
+                    alignment:'center'
                 },
                 {
                     dataField: "ID_VENTA",
