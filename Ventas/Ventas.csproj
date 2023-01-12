@@ -2751,6 +2751,7 @@
     <Content Include="Scripts\Inventario\SerieVehiculo.js" />
     <Content Include="Scripts\Inventario\Subcategoria.js" />
     <Content Include="Scripts\Login\HomeLogin.js" />
+    <Content Include="Scripts\Reportes\REPAntiguedadSaldos.js" />
     <Content Include="Scripts\Reportes\REPAnulaciones.js" />
     <Content Include="Scripts\Reportes\REPBitacora.js" />
     <Content Include="Scripts\Reportes\REPCobros.js" />
@@ -2807,6 +2808,7 @@
     <Compile Include="Controllers\DefaultController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\Inventario\INVMantenimientoController.cs" />
+    <Compile Include="Controllers\Reportes\REPAntiguedadSaldosController.cs" />
     <Compile Include="Controllers\Reportes\REPAnulacionesController.cs" />
     <Compile Include="Controllers\Reportes\REPBitacoraController.cs" />
     <Compile Include="Controllers\Reportes\REPCobrosController.cs" />
@@ -3510,6 +3512,7 @@
     <Content Include="Views\REPProductosSinStock\Index.cshtml" />
     <Content Include="Views\CAREstadoCuenta\Index.cshtml" />
     <Content Include="Views\REPAnulaciones\Index.cshtml" />
+    <Content Include="Views\REPAntiguedadSaldos\Index.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

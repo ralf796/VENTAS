@@ -65,6 +65,16 @@ namespace Ventas_BE
         public string UUID { get; set; }
         public string SERIE_FEL { get; set; }
         public decimal NUMERO_FEL { get; set; }
-        public int FEL { get; set; }
+        public DateTime FECHA_VENCIMIENTO { get; set; }
+        public string DOCUMENTO { get; set; }
+        public decimal SALDO { get; set; }
+        public int ID_ESTADO_CUENTA { get; set; }
+        public decimal D_1_30 { get; set; }
+        public decimal D_31_60 { get; set; }
+        public decimal D_61_90 { get; set; }
+        public decimal D_91_120 { get; set; }
+        public decimal D_121_ { get; set; }
+        public int ID_CLIENTE { get; set; }
+        public int DIAS_ATRASO { get; set; }
     }
 }
