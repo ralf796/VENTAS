@@ -45,6 +45,7 @@
     <Compile Include="Caja_BLL.cs" />
     <Compile Include="Cartera_BLL.cs" />
     <Compile Include="Clientes_BLL.cs" />
+    <Compile Include="Devoluciones_BLL.cs" />
     <Compile Include="FEL_BLL.cs" />
     <Compile Include="Inventario_BLL.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
