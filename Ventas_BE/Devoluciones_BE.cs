@@ -40,5 +40,8 @@ namespace Ventas_BE
         public string NOMBRE_PRODUCTO{ get; set; }
         public string NOMBRE_MARCA_VEHICULO{ get; set; }
         public int CANTIDAD{ get; set; }
+        public int ID_VENTA_NUEVA{ get; set; }
+        public int ID_VENTA_ANTERIOR{ get; set; }
+        public int FEL{ get; set; }
     }
 }

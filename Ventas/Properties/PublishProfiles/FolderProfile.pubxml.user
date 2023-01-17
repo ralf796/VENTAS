@@ -10,10 +10,10 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
   </PropertyGroup>
   <ItemGroup>
     <File Include="bin/App_global.asax.compiled">
-      <publishTime>12/06/2022 22:59:34</publishTime>
+      <publishTime>01/16/2023 21:23:00</publishTime>
     </File>
     <File Include="bin/App_global.asax.dll">
-      <publishTime>12/06/2022 22:59:34</publishTime>
+      <publishTime>01/16/2023 21:23:00</publishTime>
     </File>
     <File Include="bin/conectorNETv2.dll">
       <publishTime>11/28/2022 12:28:16</publishTime>
@@ -331,28 +331,28 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>05/16/2021 02:35:58</publishTime>
     </File>
     <File Include="bin/Ventas.dll">
-      <publishTime>12/06/2022 22:59:14</publishTime>
+      <publishTime>01/16/2023 21:22:42</publishTime>
     </File>
     <File Include="bin/Ventas.pdb">
-      <publishTime>12/06/2022 22:59:14</publishTime>
+      <publishTime>01/16/2023 21:22:42</publishTime>
     </File>
     <File Include="bin/Ventas_BE.dll">
-      <publishTime>12/06/2022 22:58:36</publishTime>
+      <publishTime>01/16/2023 21:22:41</publishTime>
     </File>
     <File Include="bin/Ventas_BE.pdb">
-      <publishTime>12/06/2022 22:58:36</publishTime>
+      <publishTime>01/16/2023 21:22:41</publishTime>
     </File>
     <File Include="bin/Ventas_BLL.dll">
-      <publishTime>12/06/2022 22:58:37</publishTime>
+      <publishTime>01/16/2023 21:22:41</publishTime>
     </File>
     <File Include="bin/Ventas_BLL.pdb">
-      <publishTime>12/06/2022 22:58:37</publishTime>
+      <publishTime>01/16/2023 21:22:41</publishTime>
     </File>
     <File Include="bin/Ventas_DAL.dll">
-      <publishTime>12/06/2022 22:58:37</publishTime>
+      <publishTime>01/16/2023 21:22:41</publishTime>
     </File>
     <File Include="bin/Ventas_DAL.pdb">
-      <publishTime>12/06/2022 22:58:37</publishTime>
+      <publishTime>01/16/2023 21:22:41</publishTime>
     </File>
     <File Include="Content/Admin LTE 3.2/.babelrc.js">
       <publishTime>09/02/2022 16:46:53</publishTime>
@@ -10711,28 +10711,34 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>10/30/2022 14:22:18</publishTime>
     </File>
     <File Include="PrecompiledApp.config">
-      <publishTime>12/06/2022 22:59:20</publishTime>
+      <publishTime>01/16/2023 21:22:48</publishTime>
     </File>
     <File Include="Scripts/Anulaciones/ANUCrearAnulacionVenta.js">
-      <publishTime>11/13/2022 14:14:05</publishTime>
+      <publishTime>12/15/2022 23:12:02</publishTime>
     </File>
     <File Include="Scripts/Caja/CAJCobro.js">
-      <publishTime>11/19/2022 12:15:43</publishTime>
+      <publishTime>12/18/2022 17:07:42</publishTime>
     </File>
     <File Include="Scripts/Caja/CAJCorte.js">
-      <publishTime>11/12/2022 01:22:46</publishTime>
+      <publishTime>12/21/2022 19:57:04</publishTime>
     </File>
     <File Include="Scripts/Cartera/CARAbonos.js">
       <publishTime>12/06/2022 19:34:21</publishTime>
     </File>
     <File Include="Scripts/Cartera/CARCrearCredito.js">
-      <publishTime>12/06/2022 19:34:21</publishTime>
+      <publishTime>12/16/2022 17:52:38</publishTime>
+    </File>
+    <File Include="Scripts/Cartera/CAREstadoCuenta.js">
+      <publishTime>01/08/2023 17:57:47</publishTime>
     </File>
     <File Include="Scripts/Cartera/CARSaldos.js">
-      <publishTime>12/06/2022 19:34:21</publishTime>
+      <publishTime>12/18/2022 17:17:08</publishTime>
     </File>
     <File Include="Scripts/Clientes/CLIListarClientes.js">
       <publishTime>11/13/2022 13:34:30</publishTime>
+    </File>
+    <File Include="Scripts/Default.js">
+      <publishTime>12/18/2022 16:41:32</publishTime>
     </File>
     <File Include="Scripts/DevExtreme/21.1.5/dx-quill.min.js">
       <publishTime>10/14/2021 15:39:43</publishTime>
@@ -10749,6 +10755,9 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
     <File Include="Scripts/DevExtreme/21.1.5/localization/dx.messages.fr.js">
       <publishTime>10/14/2021 15:39:43</publishTime>
     </File>
+    <File Include="Scripts/Devoluciones/DEVCrearDevolucion.js">
+      <publishTime>01/16/2023 20:47:09</publishTime>
+    </File>
     <File Include="Scripts/Inventario/Bodega.js">
       <publishTime>10/30/2022 23:03:20</publishTime>
     </File>
@@ -10759,10 +10768,10 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>12/04/2022 16:02:37</publishTime>
     </File>
     <File Include="Scripts/Inventario/EditarProducto.js">
-      <publishTime>11/28/2022 21:12:04</publishTime>
+      <publishTime>12/09/2022 08:44:56</publishTime>
     </File>
     <File Include="Scripts/Inventario/ListarProductos.js">
-      <publishTime>11/28/2022 21:30:32</publishTime>
+      <publishTime>12/17/2022 19:32:19</publishTime>
     </File>
     <File Include="Scripts/Inventario/MarcaRepuesto.js">
       <publishTime>10/30/2022 17:40:06</publishTime>
@@ -10788,35 +10797,47 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
     <File Include="Scripts/Login/HomeLogin.js">
       <publishTime>11/15/2022 20:05:34</publishTime>
     </File>
+    <File Include="Scripts/Reimpresiones/VENReimpresiones.js">
+      <publishTime>12/16/2022 11:52:03</publishTime>
+    </File>
+    <File Include="Scripts/Reportes/REPAntiguedadSaldos.js">
+      <publishTime>01/12/2023 21:59:58</publishTime>
+    </File>
+    <File Include="Scripts/Reportes/REPAnulaciones.js">
+      <publishTime>01/12/2023 20:51:47</publishTime>
+    </File>
     <File Include="Scripts/Reportes/REPBitacora.js">
-      <publishTime>11/19/2022 18:21:31</publishTime>
+      <publishTime>12/18/2022 15:37:05</publishTime>
     </File>
     <File Include="Scripts/Reportes/REPCobros.js">
-      <publishTime>11/19/2022 12:52:00</publishTime>
+      <publishTime>12/18/2022 15:34:21</publishTime>
     </File>
     <File Include="Scripts/Reportes/REPCortes.js">
-      <publishTime>11/19/2022 12:52:57</publishTime>
+      <publishTime>12/18/2022 15:34:17</publishTime>
     </File>
     <File Include="Scripts/Reportes/REPGeneral.js">
-      <publishTime>12/04/2022 15:09:12</publishTime>
+      <publishTime>12/18/2022 15:34:40</publishTime>
     </File>
     <File Include="Scripts/Reportes/REPProdCasaComercial.js">
       <publishTime>12/04/2022 15:36:50</publishTime>
     </File>
     <File Include="Scripts/Reportes/REPProductos.js">
-      <publishTime>11/19/2022 18:17:38</publishTime>
+      <publishTime>12/18/2022 15:33:38</publishTime>
     </File>
     <File Include="Scripts/Reportes/REPProductosGeneral.js">
-      <publishTime>11/19/2022 18:26:02</publishTime>
+      <publishTime>01/07/2023 13:17:23</publishTime>
+    </File>
+    <File Include="Scripts/Reportes/REPProductosSinStock.js">
+      <publishTime>01/07/2023 13:17:37</publishTime>
     </File>
     <File Include="Scripts/Reportes/REPProductosVendidos.js">
-      <publishTime>11/19/2022 18:19:33</publishTime>
+      <publishTime>12/18/2022 15:32:32</publishTime>
     </File>
     <File Include="Scripts/Reportes/REPProductoUnico.js">
       <publishTime>11/19/2022 18:19:43</publishTime>
     </File>
     <File Include="Scripts/Reportes/REPVentas.js">
-      <publishTime>11/19/2022 12:52:56</publishTime>
+      <publishTime>01/16/2023 21:17:59</publishTime>
     </File>
     <File Include="Scripts/Usuarios/USUCrearUsuario.js">
       <publishTime>10/22/2022 15:31:45</publishTime>
@@ -10828,7 +10849,7 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>10/14/2022 19:27:22</publishTime>
     </File>
     <File Include="Scripts/Ventas/VENCrearVenta.js">
-      <publishTime>12/04/2022 16:11:08</publishTime>
+      <publishTime>01/14/2023 14:26:59</publishTime>
     </File>
     <File Include="Scripts/Ventas/VENPendientes.js">
       <publishTime>11/11/2022 17:22:49</publishTime>
@@ -10837,7 +10858,7 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>11/19/2022 10:54:55</publishTime>
     </File>
     <File Include="Views/CAJCobro/Index.cshtml">
-      <publishTime>11/15/2022 22:51:13</publishTime>
+      <publishTime>12/15/2022 20:40:12</publishTime>
     </File>
     <File Include="Views/CAJCorte/Index.cshtml">
       <publishTime>11/12/2022 01:12:21</publishTime>
@@ -10846,16 +10867,22 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>12/06/2022 19:34:21</publishTime>
     </File>
     <File Include="Views/CARCrearCredito/Index.cshtml">
-      <publishTime>12/06/2022 19:34:21</publishTime>
+      <publishTime>12/15/2022 23:55:09</publishTime>
+    </File>
+    <File Include="Views/CAREstadoCuenta/Index.cshtml">
+      <publishTime>01/07/2023 15:46:24</publishTime>
     </File>
     <File Include="Views/CARSaldos/Index.cshtml">
-      <publishTime>12/06/2022 19:34:21</publishTime>
+      <publishTime>12/17/2022 19:13:08</publishTime>
     </File>
     <File Include="Views/CLIListarClientes/Index.cshtml">
       <publishTime>11/10/2022 23:22:36</publishTime>
     </File>
     <File Include="Views/Default/Index.cshtml">
-      <publishTime>11/11/2022 10:55:57</publishTime>
+      <publishTime>12/18/2022 16:58:23</publishTime>
+    </File>
+    <File Include="Views/DEVCrearDevolucion/Index.cshtml">
+      <publishTime>01/16/2023 20:37:07</publishTime>
     </File>
     <File Include="Views/Home/Index.cshtml">
       <publishTime>11/15/2022 20:05:34</publishTime>
@@ -10870,13 +10897,13 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>10/24/2022 21:45:45</publishTime>
     </File>
     <File Include="Views/INVMantenimiento/IndexCrearProducto.cshtml">
-      <publishTime>12/04/2022 15:51:39</publishTime>
+      <publishTime>12/09/2022 08:49:42</publishTime>
     </File>
     <File Include="Views/INVMantenimiento/IndexEditarProducto.cshtml">
-      <publishTime>11/28/2022 20:37:01</publishTime>
+      <publishTime>12/09/2022 08:37:35</publishTime>
     </File>
     <File Include="Views/INVMantenimiento/IndexListarProductos.cshtml">
-      <publishTime>12/01/2022 21:11:17</publishTime>
+      <publishTime>12/14/2022 23:14:59</publishTime>
     </File>
     <File Include="Views/INVMantenimiento/IndexMantenimiento.cshtml">
       <publishTime>10/15/2022 23:03:04</publishTime>
@@ -10902,6 +10929,12 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
     <File Include="Views/INVMantenimiento/IndexTipo.cshtml">
       <publishTime>10/17/2022 13:11:45</publishTime>
     </File>
+    <File Include="Views/REPAntiguedadSaldos/Index.cshtml">
+      <publishTime>01/12/2023 20:51:47</publishTime>
+    </File>
+    <File Include="Views/REPAnulaciones/Index.cshtml">
+      <publishTime>01/12/2023 20:51:47</publishTime>
+    </File>
     <File Include="Views/REPBitacora/Index.cshtml">
       <publishTime>11/13/2022 18:12:04</publishTime>
     </File>
@@ -10912,7 +10945,7 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>11/11/2022 11:29:42</publishTime>
     </File>
     <File Include="Views/REPGeneral/Index.cshtml">
-      <publishTime>12/04/2022 15:43:47</publishTime>
+      <publishTime>12/18/2022 15:16:50</publishTime>
     </File>
     <File Include="Views/REPProdCasaComercial/Index.cshtml">
       <publishTime>12/04/2022 15:43:09</publishTime>
@@ -10921,7 +10954,13 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>11/19/2022 11:08:30</publishTime>
     </File>
     <File Include="Views/REPProductosGeneral/Index.cshtml">
-      <publishTime>11/19/2022 12:13:16</publishTime>
+      <publishTime>12/18/2022 14:27:53</publishTime>
+    </File>
+    <File Include="Views/REPProductosGeneral/Index2.cshtml">
+      <publishTime>12/18/2022 14:27:49</publishTime>
+    </File>
+    <File Include="Views/REPProductosSinStock/Index.cshtml">
+      <publishTime>01/07/2023 13:16:51</publishTime>
     </File>
     <File Include="Views/REPProductosVendidos/Index.cshtml">
       <publishTime>11/19/2022 11:11:06</publishTime>
@@ -10930,16 +10969,16 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>11/15/2022 20:05:34</publishTime>
     </File>
     <File Include="Views/REPVentas/Index.cshtml">
-      <publishTime>11/10/2022 23:00:56</publishTime>
+      <publishTime>12/18/2022 12:31:45</publishTime>
     </File>
     <File Include="Views/Shared/_Head.cshtml">
-      <publishTime>10/30/2022 22:39:27</publishTime>
+      <publishTime>12/15/2022 20:35:54</publishTime>
     </File>
     <File Include="Views/Shared/_JS.cshtml">
       <publishTime>11/19/2022 12:13:47</publishTime>
     </File>
     <File Include="Views/Shared/_Layout.cshtml">
-      <publishTime>12/04/2022 15:42:46</publishTime>
+      <publishTime>01/14/2023 12:36:06</publishTime>
     </File>
     <File Include="Views/Shared/_LoadingFire.cshtml">
       <publishTime>10/30/2022 14:22:19</publishTime>
@@ -10959,6 +10998,9 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
     <File Include="Views/VENPendientes/Index.cshtml">
       <publishTime>11/11/2022 17:23:08</publishTime>
     </File>
+    <File Include="Views/VENReimpresiones/Index.cshtml">
+      <publishTime>12/16/2022 11:52:58</publishTime>
+    </File>
     <File Include="Views/web.config">
       <publishTime>09/30/2022 12:56:22</publishTime>
     </File>
@@ -10966,7 +11008,7 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>10/14/2022 16:49:56</publishTime>
     </File>
     <File Include="Web.config">
-      <publishTime>12/06/2022 22:59:16</publishTime>
+      <publishTime>01/16/2023 21:22:43</publishTime>
     </File>
   </ItemGroup>
 </Project>

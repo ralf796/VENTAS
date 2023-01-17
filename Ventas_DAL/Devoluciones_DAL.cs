@@ -15,6 +15,8 @@ namespace Ventas_DAL
                 model.Command.Parameters.AddWithValue("@ID_VENTA", item.ID_VENTA);
                 model.Command.Parameters.AddWithValue("@CREADO_POR", item.CREADO_POR);
                 model.Command.Parameters.AddWithValue("@OBSERVACIONES", item.OBSERVACIONES);
+                model.Command.Parameters.AddWithValue("@ID_VENTA_NUEVA", item.ID_VENTA_NUEVA);
+                model.Command.Parameters.AddWithValue("@ID_VENTA_ANTERIOR", item.ID_VENTA_ANTERIOR);
                 model.Command.Parameters.AddWithValue("@MTIPO", item.MTIPO);
                 result = model.GetData<Devoluciones_BE>();
             }
