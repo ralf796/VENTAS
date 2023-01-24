@@ -324,14 +324,17 @@ namespace Ventas.Class
                 sumaTotal = sumaTotal + total;
                 sumaIva = sumaIva + iva;
             }
+            if (ENCABEZADO_VENTA.TOTAL_IVA != sumaIva)
+                ENCABEZADO_VENTA.TOTAL_IVA = sumaIva;
+            if (ENCABEZADO_VENTA.TOTAL_CON_IVA != sumaTotal)
+                ENCABEZADO_VENTA.TOTAL_CON_IVA = sumaTotal;
+
             xml.AppendLine($"</dte:Items>");
             xml.AppendLine($"<dte:Totales>");
             xml.AppendLine($"<dte:TotalImpuestos>");
-            //xml.AppendLine($"<dte:TotalImpuesto TotalMontoImpuesto=\"{Math.Round(ENCABEZADO_VENTA.TOTAL_IVA,2)}\" NombreCorto =\"IVA\" /> ");
-            //xml.AppendLine($"<dte:GranTotal>{Math.Round(ENCABEZADO_VENTA.TOTAL_CON_IVA,2)}</dte:GranTotal>");
-            xml.AppendLine($"<dte:TotalImpuesto TotalMontoImpuesto=\"{Math.Round(sumaIva, 2)}\" NombreCorto =\"IVA\" /> ");
+            xml.AppendLine($"<dte:TotalImpuesto TotalMontoImpuesto=\"{Math.Round(ENCABEZADO_VENTA.TOTAL_IVA,2)}\" NombreCorto =\"IVA\" /> ");
             xml.AppendLine($"</dte:TotalImpuestos>");
-            xml.AppendLine($"<dte:GranTotal>{Math.Round(sumaTotal, 2)}</dte:GranTotal>");
+            xml.AppendLine($"<dte:GranTotal>{Math.Round(ENCABEZADO_VENTA.TOTAL_CON_IVA,2)}</dte:GranTotal>");
             xml.AppendLine($"</dte:Totales>");
 
             xml.AppendLine($"</dte:DatosEmision>");
@@ -343,6 +346,7 @@ namespace Ventas.Class
             xml.AppendLine($"</dte:SAT>");
             xml.AppendLine($"</dte:GTDocumento>");
             #endregion
+
             #region Firma XML
             byte[] xmlData = Encoding.UTF8.GetBytes(xml.ToString());
             string xmlBase64 = Convert.ToBase64String(xmlData);
@@ -360,6 +364,7 @@ namespace Ventas.Class
             restRequest.AddJsonBody(signedRequest);
             var response = restClient.Execute(restRequest);
             FELSignerResponse signedResponse = JsonConvert.DeserializeObject<FELSignerResponse>(response.Content);
+
 
             if (signedResponse.resultado)
             {
@@ -386,8 +391,8 @@ namespace Ventas.Class
                 if (RESPUESTA_FEL.RESULTADO)
                 {
                     RESPUESTA_FEL.ID_VENTA = VENTA.ID_VENTA;
-                    RESPUESTA_FEL.TOTAL_VENTA=sumaTotal;
-                    RESPUESTA_FEL.TOTAL_IVA=sumaIva;
+                    RESPUESTA_FEL.TOTAL_VENTA = sumaTotal;
+                    RESPUESTA_FEL.TOTAL_IVA = sumaIva;
                     RESPUESTA_FEL.UUID = felResponse.uuid;
                     RESPUESTA_FEL.SERIE_FEL = felResponse.serie;
                     RESPUESTA_FEL.FECHA_CERTIFICACION = felResponse.fecha;
@@ -502,6 +507,23 @@ namespace Ventas.Class
             return RESPUESTA_FEL;
         }
 
+        public static ResponseNIT Get_Datos_Contribuyente(string nit="")
+        {
+            RestClient consumoNit = new RestClient("https://consultareceptores.feel.com.gt/rest/action");
+            RequestNIT itemNit = new RequestNIT
+            {
+                emisor_codigo = "74974327PRO",
+                emisor_clave = "2E5BC7B58667334131F39B71E9640CC6",
+                nit_consulta = nit
+            };
+            var peticionNit = new RestRequest();
+            peticionNit.Method = Method.Post;
+            peticionNit.AddJsonBody(itemNit);
+            var responseNit = consumoNit.Execute(peticionNit);
+            ResponseNIT DATOS_CONTRIBUYENTE = JsonConvert.DeserializeObject<ResponseNIT>(responseNit.Content);
+            return DATOS_CONTRIBUYENTE;
+        }
+
         public static void SaveLog(string descripcion = "", string anulacion = "", int idVenta = 0, string request = "", string response = "", int estado = 0)
         {
             var item = new FEL_BE();
@@ -543,6 +565,18 @@ namespace Ventas.Class
             public string uuid { get; set; }
             public string serie { get; set; }
             public string numero { get; set; }
+        }
+        public class ResponseNIT
+        {
+            public string nit { get; set; }
+            public string nombre { get; set; }
+            public string mensaje { get; set; }
+        }
+        public class RequestNIT
+        {
+            public string emisor_codigo { get; set; }
+            public string emisor_clave { get; set; }
+            public string nit_consulta { get; set; }
         }
     }
 }

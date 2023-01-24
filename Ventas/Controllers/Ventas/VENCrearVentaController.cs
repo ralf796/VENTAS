@@ -146,15 +146,47 @@ namespace Ventas.Controllers.Ventas
         }
         #endregion
 
+        //DATOS_CONTRIBUYENTE
+
         #region JSON_RESULTS
         public JsonResult GetCliente(int tipo = 0, string nit = "")
         {
             try
             {
+                nit = nit.Replace("-", "");
+                nit = nit.Replace("/", "");
+
                 var item = new Ventas__BE();
+                var itemCliente = new Clientes_BE();
+                List<Clientes_BE> listaCliente = new List<Clientes_BE>();
+
                 item.MTIPO = tipo;
                 item.NIT = nit.Trim();
                 item = GetDatosSP_(item).FirstOrDefault();
+
+                if (item == null && tipo == 2 && nit != "")
+                {
+                    var datos_contribuyente = Certificador_FEL.Get_Datos_Contribuyente(nit);
+                    if (datos_contribuyente.nombre != "")
+                    {
+                        itemCliente.NOMBRE = datos_contribuyente.nombre.Replace(",,", ", ");
+                        itemCliente.DIRECCION = "CIUDAD";
+                        itemCliente.TELEFONO = "";
+                        itemCliente.EMAIL = "";
+                        itemCliente.NIT = datos_contribuyente.nit;
+                        itemCliente.CREADO_POR = Session["usuario"].ToString();
+                        itemCliente.MTIPO = 1;
+                        listaCliente = GetDatosCliente_(itemCliente);
+                    }
+
+                    if (listaCliente != null)
+                    {
+                        item = new Ventas__BE();
+                        item.MTIPO = tipo;
+                        item.NIT = nit.Trim();
+                        item = GetDatosSP_(item).FirstOrDefault();
+                    }
+                }
                 return Json(new { State = 1, data = item }, JsonRequestBehavior.AllowGet);
             }
             catch (Exception ex)

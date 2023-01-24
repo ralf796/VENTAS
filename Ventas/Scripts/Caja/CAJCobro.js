@@ -49,6 +49,25 @@ $(document).ready(function () {
                     success: function (data) {
                         var state = data["State"];
                         if (state == 1) {
+                            var lista = data["CREDITOS"];
+
+                            if (lista.length == 0)
+                                $('#divCreditos').addClass('d-none')
+
+                            $('#tbodyListado').empty();
+                            var cont = 1;
+                            $.each(lista, function (i, l) {
+                                $('#tbodyListado').append('<tr>' +
+                                    '<td class="text-center">' + l.ID_ESTADO_CUENTA + '</td>' +
+                                    '<td class="text-center">' + l.ID_VENTA + '</td>' +
+                                    '<td>' + l.NOMBRE_CLIENTE + '</td>' +
+                                    '<td class="text-center">' + l.FECHA_CREACION_STRING + '</td>' +
+                                    '</tr>'
+                                );
+                                cont++;
+                            });
+
+
                             data = JSON && JSON.parse(JSON.stringify(data)) || $.parseJSON(data);
                             d.resolve(data);
                         }
@@ -95,7 +114,7 @@ $(document).ready(function () {
                 {
                     dataField: "FEL",
                     caption: "FEL",
-                    visible:false
+                    visible: false
                 },
                 {
                     dataField: "FECHA_CREACION_STRING",
@@ -178,11 +197,11 @@ $(document).ready(function () {
                         $("<span>").addClass(classBTN).prop('title', 'cobrar').appendTo(container);
                         $('.cobrar' + cont).click(function (e) {
                             var total = parseFloat(fieldData.TOTAL);
-                            var id = parseInt(fieldData.ID_VENTA);                            
+                            var id = parseInt(fieldData.ID_VENTA);
                             var fel = parseInt(fieldData.FEL);
                             var creadoPor = fieldData.CREADO_POR;
                             document.querySelector('#totalCobro').textContent = formatNumber(parseFloat(total).toFixed(2));
-                            $('#hfID').val(id);                            
+                            $('#hfID').val(id);
                             $('#hfOpcion').val(creadoPor);
                             $('#hfMonto').val(total);
                             $('#hfFel').val(fel);
@@ -362,7 +381,7 @@ $(document).ready(function () {
     }
 
     function getCobro(id, cobro, formaPago, fel, fechaPago) {
-        if (fel == 1) 
+        if (fel == 1)
             CallLoadingFire('Emitiendo Factura FEL...');
         else
             CallLoadingFire('Realizando Cobro...');
@@ -426,7 +445,7 @@ $(document).ready(function () {
         var formaPago = $('#selTipoPago').val();
         var id = parseInt($('#hfID').val());
         var fel = parseInt($('#hfFel').val());
-        
+
 
         if (formaPago != null) {
             Swal.fire({
@@ -446,7 +465,7 @@ $(document).ready(function () {
                 else if (result.dismiss === Swal.DismissReason.cancel) {
                     getCobro(id, cobro, formaPago, 1, DateFormat(fechaPago.lastSelectedDate));
                 }
-            })            
+            })
         }
         else {
             ShowAlertMessage('warning', 'Debe de Elegir una forma de Pago correcto')

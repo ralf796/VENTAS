@@ -39,7 +39,16 @@ namespace Ventas.Controllers.Caja
                 var lista = GetDatosCaja_(item);
                 foreach (var row in lista)
                     row.FECHA_CREACION_STRING = row.FECHA_CREACION.ToString("dd/MM/yyyy");
-                return Json(new { State = 1, data = lista }, JsonRequestBehavior.AllowGet);
+                                
+                var itemCredito = new Reportes_BE();
+                itemCredito.MTIPO = 29;
+                itemCredito.FECHA_INICIAL = DateTime.Now;
+                itemCredito.FECHA_FINAL = DateTime.Now;
+                var CREDITO_PENDIENTE = Reportes_BLL.GetSPReportes(itemCredito);
+                foreach (var row in CREDITO_PENDIENTE)
+                    row.FECHA_CREACION_STRING = row.FECHA_VENCIMIENTO.ToString("dd/MM/yyyy");
+
+                return Json(new { State = 1, data = lista, CREDITOS = CREDITO_PENDIENTE }, JsonRequestBehavior.AllowGet);
             }
             catch (Exception ex)
             {
