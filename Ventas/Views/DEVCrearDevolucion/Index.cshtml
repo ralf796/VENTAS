@@ -1,0 +1,389 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section scripts{
+    <script src="~/Scripts/Devoluciones/DEVCrearDevolucion.js"></script>
+}
+
+@section styles{
+    <style>
+        .headColor {
+            background-color: dimgray;
+            color: white;
+            font-size: 13px;
+        }
+
+        input {
+            margin-top: -10px;
+        }
+
+        #gridContainer span.current-value {
+            display: inline-block;
+            margin-right: 5px;
+        }
+
+        #gridContainer span.diff {
+            width: 50px;
+            display: inline-block;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        .zoom {
+            transition: transform .2s;
+            margin: 0 auto;
+        }
+
+            .zoom:hover {
+                -ms-transform: scale(5); /* IE 9 */
+                -webkit-transform: scale(5); /* Safari 3-8 */
+                transform: scale(2);
+            }
+    </style>
+}
+
+
+<input id="hfIdCliente" type="hidden" />
+<input id="hfPrecioCosto" type="hidden" />
+<input id="hfPrecioVenta" type="hidden" />
+<input id="hfNombre" type="hidden" />
+<input id="hfDescripcion" type="hidden" />
+
+<div class="card card-outline-secondary">
+    <span class="badge badge-pill badge-secondary">BÚSQUEDA DE VENTA PARA APLICAR DEVOLUCIÓN</span>
+    <div class="card-body">
+        <div class="row justify-content-center">
+            <div class="col-12 col-sm-12 col-md-3 col-lg-3 col-xl-2">
+                <label for="divNit">VENTA</label>
+                <div class="input-group mb-3" id="divNit">
+                    <input type="text" class="form-control text-center font-weight-bold" id="txtVenta" onkeypress="return valideKey(event);">
+                    <div class="input-group-prepend">
+                        <button id="btnBuscarVenta" style="margin-top:-10px" type="button" class="btn btn-info"><i class="far fa-search"></i></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12 col-sm-12 col-md-4 col-lg-4 col-xl-4">
+                <label for="txtSerie">SERIE</label>
+                <input class="form-control" id="txtSerie" name="" type="text" disabled>
+            </div>
+            <div class="col-12 col-sm-12 col-md-4 col-lg-4 col-xl-4">
+                <label for="txtCorrelativo">CORRELATIVO</label>
+                <input class="form-control" id="txtCorrelativo" name="txtCorrelativo" type="text" disabled>
+            </div>
+            <div class="col-12 col-sm-12 col-md-4 col-lg-4 col-xl-4">
+                <label for="txtIdentificador">IDENTIFICADOR</label>
+                <input class="form-control" id="txtIdentificador" name="txtIdentificador" type="text" disabled>
+            </div>
+            <div class="col-12 col-sm-12 col-md-4 col-lg-4 col-xl-4">
+                <label for="txtFechaVenta">FECHA VENTA</label>
+                <input class="form-control" id="txtFechaVenta" name="txtFechaVenta" type="text" disabled>
+            </div>
+            <div class="col-12 col-sm-12 col-md-4 col-lg-4 col-xl-4">
+                <label for="txtEstado">ESTADO VENTA</label>
+                <input class="form-control" id="txtEstado" name="txtEstado" type="text" disabled>
+            </div>
+            <div class="col-12 col-sm-12 col-md-4 col-lg-4 col-xl-4">
+                <label for="txtTotalVenta">TOTAL VENTA</label>
+                <input class="form-control text-center" id="txtTotalVenta" name="txtTotalVenta" type="text" disabled>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12 col-sm-12 col-md-4 col-lg-4 col-xl-4">
+                <label for="txtUUID">CERTIFICACIÓN FEL</label>
+                <input class="form-control text-center text-success" id="txtUUID" name="txtUUID" type="text" disabled>
+            </div>
+            <div class="col-12 col-sm-12 col-md-4 col-lg-4 col-xl-4">
+                <label for="txtSerieFel">SERIE FEL</label>
+                <input class="form-control text-center text-success" id="txtSerieFel" name="txtSerieFel" type="text" disabled>
+            </div>
+            <div class="col-12 col-sm-12 col-md-4 col-lg-4 col-xl-4">
+                <label for="txtNumeroFel">NÚMERO FEL</label>
+                <input class="form-control text-center text-success" id="txtNumeroFel" name="txtNumeroFel" type="text" disabled>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12 col-sm-12 col-md-4 col-lg-4 col-xl-4">
+                <label for="txtNitCliente">NIT</label>
+                <input class="form-control" id="txtNitCliente" name="txtNitCliente" type="text" disabled>
+            </div>
+            <div class="col-12 col-sm-12 col-md-4 col-lg-4 col-xl-8">
+                <label for="txtNombreCliente">NOMBRE CLIENTE</label>
+                <input class="form-control" id="txtNombreCliente" name="txtNombreCliente" type="text" disabled>
+            </div>
+            <div class="col-12 col-sm-12 col-md-4 col-lg-4 col-xl-12">
+                <label for="txtDireccionCliente">DIRECCIÓN CLIENTE</label>
+                <input class="form-control" id="txtDireccionCliente" name="txtDireccionCliente" type="text" disabled>
+            </div>
+        </div>
+        <hr class="mt-5" style="border:2px solid" />
+        <div class="row mt-4">
+            <div class="col-12 col-sm-12 col-md-3 col-lg-3 col-xl-3">
+                <label for="divCodigo">CODIGO</label>
+                <div class="input-group mb-3" id="divCodigo">
+                    <div class="input-group-prepend">
+                        <button id="btnBuscarProductos" style="margin-top:-10px" type="button" class="btn btn-info"><i class="far fa-search"></i></button>
+                    </div>
+                    <input type="text" class="form-control" id="txtCodigo">
+                    <input type="hidden" id="hfIdProducto">
+                    <input type="hidden" id="hfCodigo1">
+                    <input type="hidden" id="hfCodigo2">
+                    <input type="hidden" id="hfMarcaR">
+                    <input type="hidden" id="hfNombre">
+                    <input type="hidden" id="hfDireccion">
+                </div>
+            </div>
+            <div class="col-12 col-sm-12 col-md-9 col-lg-9 col-xl-9">
+                <label for="txtNombreProducto">PRODUCTO</label>
+                <input class="form-control" id="txtNombreProducto" name="txtNombreProducto" type="text" disabled>
+                <input id="hfIdProducto" type="hidden">
+            </div>
+        </div>
+        <div class="row" style="margin-top:-15px">
+            <div class="col-12 col-sm-12 col-md-4 col-lg-4 col-xl-4">
+                <label for="txtDescuento">MARCA REPUESTO</label>
+                <input class="form-control text-center text-primary" id="txtMarcaRepuesto" name="txtMarcaRepuesto" type="text" readonly>
+            </div>
+            <div class="col-12 col-sm-12 col-md-4 col-lg-4 col-xl-4">
+                <label for="txtDescuento">MARCA VEHICULO</label>
+                <input class="form-control text-center text-primary" id="txtMarcaVehiculo" name="txtMarcaRepuesto" type="text" readonly>
+            </div>
+            <div class="col-12 col-sm-12 col-md-4 col-lg-4 col-xl-4">
+                <label for="txtDescuento">SERIE VEHICULO</label>
+                <input class="form-control text-center text-primary" id="txtLineaVehiculo" name="txtMarcaRepuesto" type="text" readonly>
+            </div>
+
+        </div>
+        <div class="row" style="margin-top:-3px">
+            <div class="col-12 col-sm-6 col-md-3 col-lg-3 col-xl-3">
+                <label for="txtCantidad">CANTIDAD</label>
+                <input class="form-control text-center" id="txtCantidad" name="txtCantidad" onkeypress="return valideKey(event);" type="text">
+            </div>
+            <div class="col-12 col-sm-6 col-md-3 col-lg-3 col-xl-3">
+                <label for="txtStock">STOCK</label>
+                <input class="form-control text-center" id="txtStock" name="txtStock" type="text" disabled>
+            </div>
+            @*<div class="col-12 col-sm-6 col-md-3 col-lg-3 col-xl-3">
+                    <label for="txtPrecio">PRECIO</label>
+                    <input class="form-control text-center" id="txtPrecio" name="txtPrecio" type="number" disabled>
+                </div>*@
+            <div class="col-12 col-sm-12 col-md-3 col-lg-3 col-xl-3">
+                <label for="divCodigo">PRECIO</label>
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <button id="btnAbrirModalAutProducto" style="margin-top:-10px" type="button" class="btn btn-info"><i class="far fa-exchange-alt"></i></button>
+                    </div>
+                    <input type="text" class="form-control" id="txtPrecio" readonly>
+                </div>
+            </div>
+        </div>
+        <div class="row" style="margin-top:-17px">
+            <div class="col-12 col-sm-6 col-md-3 col-lg-3 col-xl-1 justify-content-end text-right" style="margin-top:25px">
+                <div class="form-group clearfix justify-content-end text-right">
+                    <div class="icheck-primary d-inline">
+                        <input type="checkbox" id="checkAutorizaDescuento">
+                        <label for="checkAutorizaDescuento">
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 col-sm-6 col-md-3 col-lg-3 col-xl-2">
+                <label for="txtDescuento">DESCUENTO (%)</label>
+                <input class="form-control text-center" id="txtDescuento" name="txtDescuento" onkeypress="return valideKey(event);" type="text">
+            </div>
+            <div class="col-12 col-sm-6 col-md-3 col-lg-3 col-xl-3">
+                <label for="txtDescuento">DESCUENTO (Q)</label>
+                <input class="form-control text-center font-weight-bold" id="txtDescuentoTotal" name="txtDescuentoTotal" type="text" readonly>
+            </div>
+            <div class="col-12 col-sm-6 col-md-3 col-lg-3 col-xl-3">
+                <label for="txtDescuento">SIN DESCUENTO (Q)</label>
+                <input class="form-control text-center text-danger font-weight-bold" id="txtSinDescuento" name="txtSinDescuento" type="text" readonly>
+            </div>
+            <div class="col-12 col-sm-6 col-md-3 col-lg-3 col-xl-3">
+                <label for="txtDescuento">CON DESCUENTO (Q)</label>
+                <input class="form-control text-center text-success font-weight-bold" id="txtConDescuento" name="txtConDescuento" type="text" readonly>
+            </div>
+            <div class="col-12 col-sm-6 col-md-3 col-lg-3 col-xl-12 text-right">
+                <button style="margin-top:5px" class="btn btn-success" id="btnAgregarDetalle"><i class="far fa-plus"></i> AGREGAR</button>
+            </div>
+        </div>
+        <div class="row mt-2">
+            <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                <div class="table-responsive">
+                    <table class="table table-striped" id="tblVenta" width="100%" style="font-size:14.5px">
+                        <thead class="headColor">
+                            <tr>
+                                <th class="border text-center pl-2 pr-2">#</th>
+                                <th class="border text-center pl-2 pr-2 d-none">ID</th>
+                                <th class="border text-center pl-2 pr-2">PRODUCTO</th>
+                                <th class="border text-center pl-2 pr-2">CANTIDAD</th>
+                                <th class="border text-center pl-2 pr-2">PRECIO</th>
+                                <th class="border text-center pl-2 pr-2">DESCUENTO</th>
+                                <th class="border text-center pl-2 pr-2">SUBTOTAL</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tbodyDetalleVenta">
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="card-footer">
+        <div class="row justify-content-end text-right">
+            <div class="col-12 col-md-12 col-xl-12 justify-content-end text-right">
+                <span class="badge badge-pill badge-success" id="txtTotal" style="font-size:18px"></span>
+                <input type="hidden" id="hfTotal" />
+                <input type="hidden" id="hfTotalDescuento" />
+                <input type="hidden" id="hfSubtotal" />
+            </div>
+        </div>
+        <div class="float-right" style="margin-top:3px">
+            <button class="btn btn-primary" id="btnGuardarVenta">APLICAR DEVOLUCIÓN</button>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="modalProductos">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <div class="modal-header d-none">
+                <h5 class="modal-title">BUSQUEDA DE REPUESTOS</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span style="color:red" aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="card" style="margin-top:-10px">
+                    <span class="badge badge-pill badge-secondary">LISTADO DE PRODUCTOS</span>
+                    <div class="card-body">
+                        <div class="row justify-content-center">
+                            <div class="col-12 col-sm-12 col-md-8 col-lg-8 col-xl-8">
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <div class="input-group-text">INGRESE SU BUSQUEDA</div>
+                                    </div>
+                                    <input type="text" class="form-control" id="txtFiltro" style="margin-top:1px">
+                                </div>
+                            </div>
+                            <div class="col-12 col-sm-12 col-md-4 col-lg-4 col-xl-4">
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <div class="input-group-text">INGRESE MODELO</div>
+                                    </div>
+                                    <input type="text" class="form-control text-center" id="anioI" maxlength="4" onkeypress="return valideKey(event);" style="margin-top:1px">
+                                    <input type="text" class="form-control text-center d-none" id="anioF" maxlength="4" onkeypress="return valideKey(event);" style="margin-top:1px">
+                                </div>
+                            </div>
+                            <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                                <div class="demo-container">
+                                    <div id="exportButton"></div>
+                                    <div id="gridContainer"></div>
+                                </div>
+                            </div>
+                            <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                                <div class="demo-container">
+                                    <div id="exportButton"></div>
+                                    <div id="gridContainer"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                @*<div class="row">
+                        <div class="col-12 col-md-12 col-xl-12" style="margin-top:1px">
+                            <div class="demo-container">
+                                <div id="gridProductos"></div>
+                            </div>
+                        </div>
+                    </div>*@
+            </div>
+            <div class="modal-footer justify-content-center">
+                <button type="button" class="btn btn-danger" data-dismiss="modal">CERRAR</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="modalValidarAutorizacion">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content  bg-secondary">
+            <div class="modal-header">
+                <h5 class="modal-title">VALIDAR AUTORIZACIÓN</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="form-row">
+                        <div class="form-group col-md-12">
+                            <label for="txtUser">USUARIO</label>
+                            <input type="text" class="form-control" id="txtUser" required>
+                        </div>
+                        <div class="form-group col-md-12">
+                            <label for="txtPassword">CLAVE</label>
+                            <input type="password" class="form-control" id="txtPassword" required>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer justify-content-center">
+                <button type="button" class="btn btn-danger" data-dismiss="modal">CERRAR</button>
+                <button type="button" class="btn btn-success" id="btnValidarUsuario">AUTORIZAR</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="modalAutProd">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content  bg-secondary">
+            <div class="modal-header">
+                <h5 class="modal-title">AUTORIZACION MODIFICAR PRODUCTO</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <label for="txtUserAutProd">USUARIO</label>
+                            <input type="text" class="form-control" id="txtUserAutProd" required>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="txtPasswordAutProd">CLAVE</label>
+                            <input type="password" class="form-control" id="txtPasswordAutProd" required>
+                        </div>
+                        <div class="form-group col-md-12">
+                            <label for="txtNombreAutProd">NOMBRE</label>
+                            <input type="text" class="form-control" id="txtNombreAutProd" required>
+                        </div>
+                        <div class="form-group col-md-12">
+                            <label for="txtDescripcionAutProd">DESCRIPCION</label>
+                            <input type="text" class="form-control" id="txtDescripcionAutProd" required>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="txtAutPrecioCosto">PRECIO COSTO</label>
+                            <input type="text" class="form-control text-center" id="txtAutPrecioCosto" required>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="txtAutPrecioVenta">PRECIO VENTA</label>
+                            <input type="text" class="form-control text-center" id="txtAutPrecioVenta" required>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer justify-content-center">
+                <button type="button" class="btn btn-danger" data-dismiss="modal">CERRAR</button>
+                <button type="button" class="btn btn-success" id="btnAutProd">AUTORIZAR</button>
+            </div>
+        </div>
+    </div>
+</div>

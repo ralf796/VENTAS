@@ -76,5 +76,6 @@ namespace Ventas_BE
         public decimal D_121_ { get; set; }
         public int ID_CLIENTE { get; set; }
         public int DIAS_ATRASO { get; set; }
+        public int FEL { get; set; }
     }
 }

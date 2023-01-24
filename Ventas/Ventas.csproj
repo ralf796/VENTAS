@@ -2740,6 +2740,7 @@
     <Content Include="Scripts\DevExtreme\21.1.5\localization\dx.messages.en.js" />
     <Content Include="Scripts\DevExtreme\21.1.5\localization\dx.messages.es.js" />
     <Content Include="Scripts\DevExtreme\21.1.5\localization\dx.messages.fr.js" />
+    <Content Include="Scripts\Devoluciones\DEVCrearDevolucion.js" />
     <Content Include="Scripts\Inventario\Bodega.js" />
     <Content Include="Scripts\Inventario\Categoria.js" />
     <Content Include="Scripts\Inventario\CrearProducto.js" />
@@ -2806,6 +2807,7 @@
     <Compile Include="Controllers\Cartera\CARSaldosController.cs" />
     <Compile Include="Controllers\Clientes\CLIListarClientesController.cs" />
     <Compile Include="Controllers\DefaultController.cs" />
+    <Compile Include="Controllers\Devoluciones\DEVCrearDevolucionController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\Inventario\INVMantenimientoController.cs" />
     <Compile Include="Controllers\Reportes\REPAntiguedadSaldosController.cs" />
@@ -3513,6 +3515,7 @@
     <Content Include="Views\CAREstadoCuenta\Index.cshtml" />
     <Content Include="Views\REPAnulaciones\Index.cshtml" />
     <Content Include="Views\REPAntiguedadSaldos\Index.cshtml" />
+    <Content Include="Views\DEVCrearDevolucion\Index.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

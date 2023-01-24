@@ -50,6 +50,7 @@ namespace Ventas.Controllers.Reportes
                 Utils.MergeCellsExcel(xlSheet, xlRange, nCell, nCol, nCol + 7, $"Productos sin stock cargados", 12, true, "L");
 
                 nCell = 3; nCol = 1;
+                Utils.AddTextCells(xlSheet, "C", "CASA COMERCIAL", nCell, nCol); nCol++;
                 Utils.AddTextCells(xlSheet, "C", "CÓDIGO INTERNO", nCell, nCol); nCol++;
                 Utils.AddTextCells(xlSheet, "C", "CÓDIGO 1", nCell, nCol); nCol++;
                 Utils.AddTextCells(xlSheet, "C", "CÓDIGO 2", nCell, nCol); nCol++;
@@ -63,7 +64,6 @@ namespace Ventas.Controllers.Reportes
                 //Utils.AddTextCells(xlSheet, "C", "LINEA VEHICULO", nCell, nCol); nCol++;
                 //Utils.AddTextCells(xlSheet, "C", "AÑO INICIAL", nCell, nCol); nCol++;
                 //Utils.AddTextCells(xlSheet, "C", "AÑO FINAL", nCell, nCol); nCol++;
-                Utils.AddTextCells(xlSheet, "C", "DISTRIBUIDOR", nCell, nCol);
 
                 Utils.FillBackgroundRange(xlSheet, xlRange, nCell, 1, 10, "blue1");
 
@@ -75,9 +75,10 @@ namespace Ventas.Controllers.Reportes
                     nCol = 1;
                     foreach (var dato in lista)
                     {
-                        Utils.AddTextCells(xlSheet, "C", dato.CODIGO_INTERNO, nCell, nCol); nCol++;
-                        Utils.AddTextCells(xlSheet, "C", dato.CODIGO, nCell, nCol); nCol++;
-                        Utils.AddTextCells(xlSheet, "C", dato.CODIGO2, nCell, nCol); nCol++;
+                        Utils.AddTextCells(xlSheet, "L", dato.NOMBRE_DISTRIBUIDOR, nCell, nCol); nCol++;
+                        Utils.AddTextCells(xlSheet, "L", dato.CODIGO_INTERNO, nCell, nCol); nCol++;
+                        Utils.AddTextCells(xlSheet, "L", dato.CODIGO, nCell, nCol); nCol++;
+                        Utils.AddTextCells(xlSheet, "L", dato.CODIGO2, nCell, nCol); nCol++;
                         Utils.AddTextCells(xlSheet, "L", dato.NOMBRE, nCell, nCol); nCol++;
                         Utils.AddTextCells(xlSheet, "L", dato.DESCRIPCION, nCell, nCol); nCol++;
                         Utils.AddText(xlSheet, nCell, nCol, "", dato.PRECIO_COSTO, 12, false, "R", 1); nCol++;
@@ -88,7 +89,6 @@ namespace Ventas.Controllers.Reportes
                         //Utils.AddTextCells(xlSheet, "L", dato.NOMBRE_SERIE_VEHICULO, nCell, nCol); nCol++;
                         //Utils.AddText(xlSheet, nCell, nCol, "", dato.ANIO_INICIAL, 12, false, "R", 0); nCol++;
                         //Utils.AddText(xlSheet, nCell, nCol, "", dato.ANIO_FINAL, 12, false, "R", 0); nCol++;
-                        Utils.AddTextCells(xlSheet, "L", dato.NOMBRE_DISTRIBUIDOR, nCell, nCol); nCol++;
                         nCell++;
                         rangoBorder = nCell - 1;
                         nCol = 1;

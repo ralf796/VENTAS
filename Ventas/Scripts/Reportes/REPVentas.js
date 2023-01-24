@@ -135,6 +135,12 @@ $(document).ready(function () {
                     format: { type: 'fixedPoint', precision: 2 }
                 },
                 {
+                    dataField: "GANANCIA",
+                    caption: "GANANCIA",
+                    dataType: "number",
+                    format: { type: 'fixedPoint', precision: 2 }
+                },
+                {
                     dataField: "TIPO_COBRO",
                     caption: "MODO DE PAGO"
                 },

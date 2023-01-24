@@ -167,31 +167,77 @@ $(document).ready(function () {
         }
     })
     */
+    //$('#botonInforme').on('click', function (e) {
+    //    e.preventDefault();
+    //    CallLoadingFire('Generando Reporte PDF...');
+    //    alert(fechaI.lastSelectedDate)
+    //    alert(fechaF.lastSelectedDate)
+    //    if (fechaI.lastSelectedDate != undefined && fechaF.lastSelectedDate != undefined) {
+    //        let fechaInicial = DateFormat(fechaI.lastSelectedDate);
+    //        let fechaFinal = DateFormat(fechaF.lastSelectedDate);
+
+    //        $.post('/REPAntiguedadsaldos/PDFTest', { fecha1: fechaInicial, fecha2: fechaFinal }, function (result) {
+    //            var pom = document.createElement('a');
+    //            pom.setAttribute('href', 'data:' + result.MimeType + ';base64,' + result.File);
+    //            pom.setAttribute('download', result.FileName);
+    //            if (document.createEvent) {
+    //                var event = document.createEvent('MouseEvents');
+    //                event.initEvent('click', true, true);
+    //                pom.dispatchEvent(event);
+    //            }
+    //            else {
+    //                pom.click();
+    //            }
+    //        });
+
+    //    }
+    //    else {
+    //        ShowAlertMessage('warning', 'EL INGRESO DE AMBAS FECHAS ES OBLIGATORIO')
+    //    }
+    //})
+
+    function Excel2() {
+        let fechaInicial = DateFormat(fechaI.lastSelectedDate);
+        let fechaFinal = DateFormat(fechaF.lastSelectedDate);
+        CallLoadingFire('Descargando reporte...');
+        $.post("/REPAntiguedadSaldos/GetCotizacion", {
+            fechaInicial, fechaFinal
+        }, function (result) {
+            var pom = document.createElement('a');
+            pom.setAttribute('href', 'data:' + result.MimeType + ';base64,' + result.File);
+            pom.setAttribute('download', result.FileName);
+            if (document.createEvent) {
+                var event = document.createEvent('MouseEvents');
+                event.initEvent('click', true, true);
+                pom.dispatchEvent(event);
+            }
+            else {
+                pom.click();
+            }
+            CallToast('Descarga realizada con éxito.', true, 2300, '#9EC600')
+        });
+
+        /*
+        $.post('/REPAntiguedadSaldos/GetCotizacion', { fechaInicial, fechaFinal }, function (result) {
+            var pom = document.createElement('a');
+            pom.setAttribute('href', 'data:' + result.MimeType + ';base64,' + result.File);
+            pom.setAttribute('download', result.FileName);
+            if (document.createEvent) {
+                var event = document.createEvent('MouseEvents');
+                event.initEvent('click', true, true);
+                pom.dispatchEvent(event);
+            }
+            else {
+                pom.click();
+            }
+            //CallToast('Descarga realizada con éxito.', true, 2300, '#9EC600')
+            //HideLoader();
+        });
+        */
+    }
+
     $('#botonInforme').on('click', function (e) {
         e.preventDefault();
-        CallLoadingFire('Generando Reporte PDF...');
-        if (fechaI.lastSelectedDate != undefined && fechaF.lastSelectedDate != undefined) {
-            let fechaInicial = DateFormat(fechaI.lastSelectedDate);
-            let fechaFinal = DateFormat(fechaF.lastSelectedDate);
-
-            $.post('/REPAntiguedadsaldos/PDFTest', { fecha1: fechaInicial, fecha2: fechaFinal }, function (result) {
-                var pom = document.createElement('a');
-                pom.setAttribute('href', 'data:' + result.MimeType + ';base64,' + result.File);
-                pom.setAttribute('download', result.FileName);
-                if (document.createEvent) {
-                    var event = document.createEvent('MouseEvents');
-                    event.initEvent('click', true, true);
-                    pom.dispatchEvent(event);
-                }
-                else {
-                    pom.click();
-                }
-            });
-
-        }
-        else {
-            ShowAlertMessage('warning', 'EL INGRESO DE AMBAS FECHAS ES OBLIGATORIO')
-        }
+            Excel2()
     })
-
 });
