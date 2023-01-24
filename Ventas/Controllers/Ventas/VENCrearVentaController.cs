@@ -743,6 +743,8 @@ namespace Ventas.Controllers.Ventas
                         //update.ID_VENTA = 151;
                         update.ID_VENTA = i;
                         update.UUID = respuestaFEL.UUID;
+                        update.TOTAL_VENTA = respuestaFEL.TOTAL_VENTA;
+                        update.TOTAL_IVA = respuestaFEL.TOTAL_IVA;
                         update.SERIE_FEL = respuestaFEL.SERIE_FEL;
                         update.NUMERO_FEL = respuestaFEL.NUMERO_FEL;
                         update.FECHA_CERTIFICACION = respuestaFEL.FECHA_CERTIFICACION;

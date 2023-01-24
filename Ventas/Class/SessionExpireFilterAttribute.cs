@@ -11,6 +11,9 @@ namespace Ventas.Class
         public override void OnAuthorization(AuthorizationContext filterContext)
         {
             HttpContext ctx = HttpContext.Current;
+
+            ctx.Session.Timeout = 300;
+
             // Verificar si la sesión es compatible
             if (ctx.Session != null)
             {

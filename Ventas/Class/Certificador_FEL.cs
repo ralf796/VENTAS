@@ -290,6 +290,8 @@ namespace Ventas.Class
             xml.AppendLine($"<dte:Items>");
 
             int rowDetalles = 1;
+            decimal sumaTotal = 0;
+            decimal sumaIva = 0;
             foreach (var row in DETALLES_VENTA)
             {
                 decimal cantidad = row.CANTIDAD;
@@ -319,13 +321,17 @@ namespace Ventas.Class
                 xml.AppendLine($"<dte:Total>{Math.Round(total, 2)}</dte:Total>");
                 xml.AppendLine($"</dte:Item>");
                 rowDetalles++;
+                sumaTotal = sumaTotal + total;
+                sumaIva = sumaIva + iva;
             }
             xml.AppendLine($"</dte:Items>");
             xml.AppendLine($"<dte:Totales>");
             xml.AppendLine($"<dte:TotalImpuestos>");
-            xml.AppendLine($"<dte:TotalImpuesto TotalMontoImpuesto=\"{Math.Round(ENCABEZADO_VENTA.TOTAL_IVA,2)}\" NombreCorto =\"IVA\" /> ");
+            //xml.AppendLine($"<dte:TotalImpuesto TotalMontoImpuesto=\"{Math.Round(ENCABEZADO_VENTA.TOTAL_IVA,2)}\" NombreCorto =\"IVA\" /> ");
+            //xml.AppendLine($"<dte:GranTotal>{Math.Round(ENCABEZADO_VENTA.TOTAL_CON_IVA,2)}</dte:GranTotal>");
+            xml.AppendLine($"<dte:TotalImpuesto TotalMontoImpuesto=\"{Math.Round(sumaIva, 2)}\" NombreCorto =\"IVA\" /> ");
             xml.AppendLine($"</dte:TotalImpuestos>");
-            xml.AppendLine($"<dte:GranTotal>{Math.Round(ENCABEZADO_VENTA.TOTAL_CON_IVA,2)}</dte:GranTotal>");
+            xml.AppendLine($"<dte:GranTotal>{Math.Round(sumaTotal, 2)}</dte:GranTotal>");
             xml.AppendLine($"</dte:Totales>");
 
             xml.AppendLine($"</dte:DatosEmision>");
@@ -337,7 +343,6 @@ namespace Ventas.Class
             xml.AppendLine($"</dte:SAT>");
             xml.AppendLine($"</dte:GTDocumento>");
             #endregion
-
             #region Firma XML
             byte[] xmlData = Encoding.UTF8.GetBytes(xml.ToString());
             string xmlBase64 = Convert.ToBase64String(xmlData);
@@ -381,6 +386,8 @@ namespace Ventas.Class
                 if (RESPUESTA_FEL.RESULTADO)
                 {
                     RESPUESTA_FEL.ID_VENTA = VENTA.ID_VENTA;
+                    RESPUESTA_FEL.TOTAL_VENTA=sumaTotal;
+                    RESPUESTA_FEL.TOTAL_IVA=sumaIva;
                     RESPUESTA_FEL.UUID = felResponse.uuid;
                     RESPUESTA_FEL.SERIE_FEL = felResponse.serie;
                     RESPUESTA_FEL.FECHA_CERTIFICACION = felResponse.fecha;
