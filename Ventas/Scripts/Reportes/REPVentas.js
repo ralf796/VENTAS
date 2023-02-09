@@ -118,7 +118,7 @@ $(document).ready(function () {
                 },
                 {
                     dataField: "SUBTOTAL",
-                    caption: "SUBTOTAL",
+                    caption: "TOTAL CON DESCUENTO",
                     dataType: "number",
                     format: { type: 'fixedPoint', precision: 2 }
                 },
@@ -130,7 +130,7 @@ $(document).ready(function () {
                 },
                 {
                     dataField: "TOTAL",
-                    caption: "TOTAL",
+                    caption: "TOTAL SIN DESCUENTO",
                     dataType: "number",
                     format: { type: 'fixedPoint', precision: 2 }
                 },

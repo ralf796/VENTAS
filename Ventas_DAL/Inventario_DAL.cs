@@ -69,5 +69,28 @@ namespace Ventas_DAL
             }
             return result;
         }
+        public List<Inventario_BE> GetSPCompras(Inventario_BE item)
+        {
+            List<Inventario_BE> result = new List<Inventario_BE>();
+            using (var model = new Base_SQL("sp_compras"))
+            {
+                model.Command.Parameters.AddWithValue("@MTIPO", item.MTIPO);
+                model.Command.Parameters.AddWithValue("@ID_COMPRA", item.ID_PRODUCTO);
+                model.Command.Parameters.AddWithValue("@NOMBRE_PROVEEDOR", item.NOMBRE_PROVEEDOR);
+                model.Command.Parameters.AddWithValue("@CONTACTO_PROVEEDOR", item.CONTACTO_PROVEEDOR);
+                model.Command.Parameters.AddWithValue("@FECHA_PEDIDO", item.FECHA_PEDIDO);
+                model.Command.Parameters.AddWithValue("@FECHA_PAGO", item.FECHA_PAGO);
+                model.Command.Parameters.AddWithValue("@FECHA_ENTREGA", item.FECHA_ENTREGA);
+                model.Command.Parameters.AddWithValue("@TELEFONO_PROVEEDOR", item.TELEFONO);
+                model.Command.Parameters.AddWithValue("@NO_FACTURA", item.NO_FACTURA);
+                model.Command.Parameters.AddWithValue("@MONTO_FACTURA", item.MONTO_FACTURA);
+                model.Command.Parameters.AddWithValue("@SERIE_FACTURA", item.SERIE_FACTURA);
+                model.Command.Parameters.AddWithValue("@CREADO_POR", item.CREADO_POR);
+                model.Command.Parameters.AddWithValue("@FILE1", item.FILE1);
+                model.Command.Parameters.AddWithValue("@FILE2", item.FILE2);
+                result = model.GetData<Inventario_BE>();
+            }
+            return result;
+        }
     }
 }

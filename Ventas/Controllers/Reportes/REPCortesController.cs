@@ -59,5 +59,27 @@ namespace Ventas.Controllers.Reportes
 
             }
         }
+
+        public JsonResult GetDetalle(int id_venta = 0)
+        {
+            try
+            {
+                var item = new Reportes_BE();
+                item.MTIPO = 31;
+                item.FECHA_INICIAL = DateTime.Now;
+                item.FECHA_FINAL = DateTime.Now;
+                item.ID_VENTA = id_venta;
+                var lista = GetSPReportes_(item);
+                foreach (var row in lista)
+                    row.FECHA_CREACION_STRING = row.FECHA_CREACION.ToString("dd/MM/yyyy");
+
+                return Json(new { State = 1, data = lista }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                return Json(new { State = -1, Message = ex.Message }, JsonRequestBehavior.AllowGet);
+
+            }
+        }
     }
 }

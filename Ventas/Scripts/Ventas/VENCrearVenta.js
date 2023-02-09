@@ -252,11 +252,20 @@ $(document).ready(function () {
     function SaveOrder(jsonEncabezado, jsonDetalles, fel) {
         CallLoadingFire('Procesando venta...');
         $.ajax({
+            /*
             type: 'GET',
             url: '/VENCrearVenta/SaveOrder',
             contentType: "application/json; charset=utf-8",
             dataType: 'json',
-            //data: { tipo, ID_CLIENTE, TOTAL, SUBTOTAL, TOTAL_DESCUENTO },
+            data: {
+                encabezado: JSON.stringify(jsonEncabezado),
+                detalles: JSON.stringify(jsonDetalles),
+                fel: fel
+            },
+            */
+            cache: false,
+            type: 'POST',
+            url: '/VENCrearVenta/SaveOrder',
             data: {
                 encabezado: JSON.stringify(jsonEncabezado),
                 detalles: JSON.stringify(jsonDetalles),

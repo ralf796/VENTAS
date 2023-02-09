@@ -215,14 +215,14 @@
                 <nav class="mt-2">
                     <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
                         <!--<li class="nav-item">
-                        <a href="~/USUMantenimiento/Index" class="nav-link">
-                            <i class="nav-icon fas fa-th"></i>
-                            <p>
-                                USUARIOS-->
+    <a href="~/USUMantenimiento/Index" class="nav-link">
+        <i class="nav-icon fas fa-th"></i>
+        <p>
+            USUARIOS-->
                         @*<span class="right badge badge-danger">New</span>*@
                         <!--</p>
-                            </a>
-                        </li>-->
+        </a>
+    </li>-->
 
                         @if (ROL == 1 || ROL == 2)
                         {
@@ -277,6 +277,36 @@
                                         <a href="~/INVMantenimiento/IndexEditarProducto" class="nav-link">
                                             <i class="far fa-edit" style="color:white"></i>
                                             <p>EDITAR PRODUCTO</p>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+                        }
+
+
+                        @if (ROL == 1 || ROL == 2 || ROL == 4)
+                        {
+                            <li class="nav-item">
+                                <a href="#" class="nav-link">
+                                    <i class="fas fa-money-check-alt"></i>
+                                    <p>
+                                        COMPRAS
+                                        <i class="fas fa-angle-left right"></i>
+                                    </p>
+                                </a>
+                                <ul class="nav nav-treeview">
+                                    <li class="nav-item">
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="~/COMListarCompras/Index" class="nav-link">
+                                            <i class="far fa-list" style="color:white"></i>
+                                            <p>LISTAR COMPRAS</p>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="~/COMRegistrarCompra/Index" class="nav-link">
+                                            <i class="far fa-plus" style="color:white"></i>
+                                            <p>GUARDAR COMPRA</p>
                                         </a>
                                     </li>
                                 </ul>
@@ -411,11 +441,11 @@
                                         </a>
                                     </li>
                                     @*<li class="nav-item">
-                                            <a href="~/REPProductosGeneral/Index" class="nav-link">
-                                                <i class="far fa-stop-circle"></i>
-                                                <p>PRODUCTOS GENERALES</p>
-                                            </a>
-                                        </li>*@
+                        <a href="~/REPProductosGeneral/Index" class="nav-link">
+                            <i class="far fa-stop-circle"></i>
+                            <p>PRODUCTOS GENERALES</p>
+                        </a>
+                    </li>*@
                                     <li class="nav-item">
                                         <a href="~/REPProductoUnico/Index" class="nav-link">
                                             <i class="far fa-stop-circle"></i>
@@ -470,6 +500,12 @@
                                             <p>ANTIGUEDAD SALDOS</p>
                                         </a>
                                     </li>
+                                    <li class="nav-item">
+                                        <a href="~/REPAbonos/Index" class="nav-link">
+                                            <i class="far fa-stop-circle"></i>
+                                            <p>ABONOS</p>
+                                        </a>
+                                    </li>
                                 </ul>
                             </li>
                         }
@@ -482,136 +518,136 @@
                             </a>
                         </li>
                         @*<li class="nav-item">
-                                <a href="#" class="nav-link">
-                                    <i class="nav-icon fas fa-copy"></i>
-                                    <p>
-                                        Layout Options
-                                        <i class="fas fa-angle-left right"></i>
-                                        <span class="badge badge-info right">6</span>
-                                    </p>
-                                </a>
-                                <ul class="nav nav-treeview">
-                                    <li class="nav-item">
-                                        <a href="pages/layout/top-nav.html" class="nav-link">
-                                            <i class="far fa-stop-circle"></i>
-                                            <p>Top Navigation</p>
-                                        </a>
-                                    </li>
-                                </ul>
-                            </li>
-                            <li class="nav-item">
-                                <a href="#" class="nav-link">
-                                    <i class="nav-icon fas fa-chart-pie"></i>
-                                    <p>
-                                        Charts
-                                        <i class="right fas fa-angle-left"></i>
-                                    </p>
-                                </a>
-                                <ul class="nav nav-treeview">
-                                    <li class="nav-item">
-                                        <a href="pages/charts/chartjs.html" class="nav-link">
-                                            <i class="far fa-stop-circle"></i>
-                                            <p>ChartJS</p>
-                                        </a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a href="pages/charts/flot.html" class="nav-link">
-                                            <i class="far fa-stop-circle"></i>
-                                            <p>Flot</p>
-                                        </a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a href="pages/charts/inline.html" class="nav-link">
-                                            <i class="far fa-stop-circle"></i>
-                                            <p>Inline</p>
-                                        </a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a href="pages/charts/uplot.html" class="nav-link">
-                                            <i class="far fa-stop-circle"></i>
-                                            <p>uPlot</p>
-                                        </a>
-                                    </li>
-                                </ul>
-                            </li>
-                            <li class="nav-header">MULTI LEVEL EXAMPLE</li>
-                            <li class="nav-item">
-                                <a href="#" class="nav-link">
-                                    <i class="fas fa-circle nav-icon"></i>
-                                    <p>Level 1</p>
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a href="#" class="nav-link">
-                                    <i class="nav-icon fas fa-circle"></i>
-                                    <p>
-                                        Level 1
-                                        <i class="right fas fa-angle-left"></i>
-                                    </p>
-                                </a>
-                                <ul class="nav nav-treeview">
-                                    <li class="nav-item">
-                                        <a href="#" class="nav-link">
-                                            <i class="far fa-stop-circle"></i>
-                                            <p>Level 2</p>
-                                        </a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a href="#" class="nav-link">
-                                            <i class="far fa-stop-circle"></i>
-                                            <p>
-                                                Level 2
-                                                <i class="right fas fa-angle-left"></i>
-                                            </p>
-                                        </a>
-                                        <ul class="nav nav-treeview">
-                                            <li class="nav-item">
-                                                <a href="#" class="nav-link">
-                                                    <i class="far fa-dot-circle nav-icon"></i>
-                                                    <p>Level 3</p>
-                                                </a>
-                                            </li>
-                                            <li class="nav-item">
-                                                <a href="#" class="nav-link">
-                                                    <i class="far fa-dot-circle nav-icon"></i>
-                                                    <p>Level 3</p>
-                                                </a>
-                                            </li>
-                                            <li class="nav-item">
-                                                <a href="#" class="nav-link">
-                                                    <i class="far fa-dot-circle nav-icon"></i>
-                                                    <p>Level 3</p>
-                                                </a>
-                                            </li>
-                                        </ul>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a href="#" class="nav-link">
-                                            <i class="far fa-stop-circle"></i>
-                                            <p>Level 2</p>
-                                        </a>
-                                    </li>
-                                </ul>
-                            </li>
-                            <li class="nav-header">LABELS</li>
-                            <li class="nav-item">
-                                <a href="#" class="nav-link">
-                                    <i class="nav-icon far fa-circle text-danger"></i>
-                                    <p class="text">Important</p>
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a href="#" class="nav-link">
-                                    <i class="nav-icon far fa-circle text-warning"></i>
-                                    <p>Warning</p>
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a href="#" class="nav-link">
-                                    <i class="nav-icon far fa-circle text-info"></i>
-                                    <p>Informational</p>
-                                </a>
-                            </li>*@
+            <a href="#" class="nav-link">
+                <i class="nav-icon fas fa-copy"></i>
+                <p>
+                    Layout Options
+                    <i class="fas fa-angle-left right"></i>
+                    <span class="badge badge-info right">6</span>
+                </p>
+            </a>
+            <ul class="nav nav-treeview">
+                <li class="nav-item">
+                    <a href="pages/layout/top-nav.html" class="nav-link">
+                        <i class="far fa-stop-circle"></i>
+                        <p>Top Navigation</p>
+                    </a>
+                </li>
+            </ul>
+        </li>
+        <li class="nav-item">
+            <a href="#" class="nav-link">
+                <i class="nav-icon fas fa-chart-pie"></i>
+                <p>
+                    Charts
+                    <i class="right fas fa-angle-left"></i>
+                </p>
+            </a>
+            <ul class="nav nav-treeview">
+                <li class="nav-item">
+                    <a href="pages/charts/chartjs.html" class="nav-link">
+                        <i class="far fa-stop-circle"></i>
+                        <p>ChartJS</p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="pages/charts/flot.html" class="nav-link">
+                        <i class="far fa-stop-circle"></i>
+                        <p>Flot</p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="pages/charts/inline.html" class="nav-link">
+                        <i class="far fa-stop-circle"></i>
+                        <p>Inline</p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="pages/charts/uplot.html" class="nav-link">
+                        <i class="far fa-stop-circle"></i>
+                        <p>uPlot</p>
+                    </a>
+                </li>
+            </ul>
+        </li>
+        <li class="nav-header">MULTI LEVEL EXAMPLE</li>
+        <li class="nav-item">
+            <a href="#" class="nav-link">
+                <i class="fas fa-circle nav-icon"></i>
+                <p>Level 1</p>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a href="#" class="nav-link">
+                <i class="nav-icon fas fa-circle"></i>
+                <p>
+                    Level 1
+                    <i class="right fas fa-angle-left"></i>
+                </p>
+            </a>
+            <ul class="nav nav-treeview">
+                <li class="nav-item">
+                    <a href="#" class="nav-link">
+                        <i class="far fa-stop-circle"></i>
+                        <p>Level 2</p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link">
+                        <i class="far fa-stop-circle"></i>
+                        <p>
+                            Level 2
+                            <i class="right fas fa-angle-left"></i>
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="#" class="nav-link">
+                                <i class="far fa-dot-circle nav-icon"></i>
+                                <p>Level 3</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#" class="nav-link">
+                                <i class="far fa-dot-circle nav-icon"></i>
+                                <p>Level 3</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#" class="nav-link">
+                                <i class="far fa-dot-circle nav-icon"></i>
+                                <p>Level 3</p>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link">
+                        <i class="far fa-stop-circle"></i>
+                        <p>Level 2</p>
+                    </a>
+                </li>
+            </ul>
+        </li>
+        <li class="nav-header">LABELS</li>
+        <li class="nav-item">
+            <a href="#" class="nav-link">
+                <i class="nav-icon far fa-circle text-danger"></i>
+                <p class="text">Important</p>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a href="#" class="nav-link">
+                <i class="nav-icon far fa-circle text-warning"></i>
+                <p>Warning</p>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a href="#" class="nav-link">
+                <i class="nav-icon far fa-circle text-info"></i>
+                <p>Informational</p>
+            </a>
+        </li>*@
                     </ul>
                 </nav>
                 <!-- /.sidebar-menu -->

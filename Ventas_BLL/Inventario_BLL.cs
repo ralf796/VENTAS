@@ -38,5 +38,14 @@ namespace Ventas_BLL
             }
             return data;
         }
+        public static List<Inventario_BE> GetSPCompras(Inventario_BE item)
+        {
+            List<Inventario_BE> data = null;
+            using (var model = new Inventario_DAL())
+            {
+                data = model.GetSPCompras(item);
+            }
+            return data;
+        }
     }
 }

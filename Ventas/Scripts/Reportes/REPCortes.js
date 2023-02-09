@@ -22,6 +22,7 @@ $(document).ready(function () {
 
         /*     onSelect: GetDataTable*/
     });
+    var cont = 0;
 
     /*-------------------------FUNCION DE FECHAS ----------------------------------*/
     function cobroReporte(fechaInicial, fechaFinal) {
@@ -119,8 +120,22 @@ $(document).ready(function () {
                     caption: "TOTAL",
                     dataType: "number",
                     format: { type: 'fixedPoint', precision: 2 }
-                }
-                
+                },
+                {
+                    caption: "DETALLE CORTE",
+                    alignment: "center",
+                    cellTemplate: function (container, options) {
+                        var fieldData = options.data;
+                        var classTmp = 'detalle' + cont;
+                        var classBTN = 'hvr-grow text-dark far fa-eye btn btn-info ' + classTmp;
+
+                        $("<span>").addClass(classBTN).prop('title', 'Ver detalle').appendTo(container);
+                        $('.detalle' + cont).click(function (e) {
+                            mostrarDetalle(fieldData.ID_CORTE);
+                        })
+                        cont++;
+                    }
+                },
             ],
             onCellPrepared: function (e) {
                 if (e.rowType === 'header') {
@@ -208,4 +223,93 @@ $(document).ready(function () {
         // 
     })
 
+    function mostrarDetalle(id) {
+        var id_venta = parseInt(id);
+        var customStore = new DevExpress.data.CustomStore({
+            load: function (loadOptions) {
+                var d = $.Deferred();
+                $.ajax({
+                    type: 'GET',
+                    url: '/REPCortes/GetDetalle',
+                    contentType: "application/json; charset=utf-8",
+                    dataType: 'json',
+                    data: { id_venta },
+                    cache: false,
+                    success: function (data) {
+                        var state = data["State"];
+                        if (state == 1) {
+                            data = JSON && JSON.parse(JSON.stringify(data)) || $.parseJSON(data);
+                            d.resolve(data);
+                        }
+                        else if (state == -1)
+                            alert(data["Message"])
+                    },
+                    error: function (jqXHR, exception) {
+                        getErrorMessage(jqXHR, exception);
+                    }
+                });
+                return d.promise();
+            }
+        });
+        var salesPivotGrid = $("#gridContainer2").dxDataGrid({
+            dataSource: new DevExpress.data.DataSource(customStore),
+            showBorders: true,
+            loadPanel: {
+                text: "Cargando..."
+            },
+            scrolling: {
+                useNative: false,
+                scrollByContent: true,
+                scrollByThumb: true,
+                showScrollbar: "always" // or "onScroll" | "always" | "never"
+            },
+            searchPanel: {
+                visible: true,
+                width: 200,
+                placeholder: "Buscar..."
+            },
+            headerFilter: {
+                visible: true
+            },
+            columnAutoWidth: true,
+            export: {
+                enabled: false
+            },
+            columns: [
+                {
+                    dataField: "ID_CORTE",
+                    caption: "CORTE"
+                },
+                {
+                    dataField: "ID_COBRO",
+                    caption: "COBRO / RECIBO",
+                    alignment: "center"
+                },
+                {
+                    dataField: "ID_VENTA",
+                    caption: "NO. VENTA",
+                    alignment: "center"
+                },
+                {
+                    dataField: "DESCRIPCION",
+                    caption: "DESCRIPCION"
+                },
+                {
+                    dataField: "MONTO",
+                    caption: "MONTO",
+                    dataType: "number",
+                    format: { type: 'fixedPoint', precision: 2 }
+                },
+                {
+                    dataField: "CREADO_POR",
+                    caption: "CREADO POR"
+                },
+                {
+                    dataField: "FECHA_CREACION_STRING",
+                    caption: "FECHA"
+                }
+            ],
+        }).dxDataGrid('instance');
+        $('#modalDetalle').modal('show');
+    }
 });

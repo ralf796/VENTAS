@@ -2734,6 +2734,8 @@
     <Content Include="Scripts\Cartera\CAREstadoCuenta.js" />
     <Content Include="Scripts\Cartera\CARSaldos.js" />
     <Content Include="Scripts\Clientes\CLIListarClientes.js" />
+    <Content Include="Scripts\Compras\COMListarCompras.js" />
+    <Content Include="Scripts\Compras\COMRegistrarCompra.js" />
     <Content Include="Scripts\Default.js" />
     <Content Include="Scripts\DevExtreme\21.1.5\dx-quill.min.js" />
     <Content Include="Scripts\DevExtreme\21.1.5\dx.all.js" />
@@ -2752,6 +2754,7 @@
     <Content Include="Scripts\Inventario\SerieVehiculo.js" />
     <Content Include="Scripts\Inventario\Subcategoria.js" />
     <Content Include="Scripts\Login\HomeLogin.js" />
+    <Content Include="Scripts\Reportes\REPAbonos.js" />
     <Content Include="Scripts\Reportes\REPAntiguedadSaldos.js" />
     <Content Include="Scripts\Reportes\REPAnulaciones.js" />
     <Content Include="Scripts\Reportes\REPBitacora.js" />
@@ -2806,10 +2809,13 @@
     <Compile Include="Controllers\Cartera\CAREstadoCuentaController.cs" />
     <Compile Include="Controllers\Cartera\CARSaldosController.cs" />
     <Compile Include="Controllers\Clientes\CLIListarClientesController.cs" />
+    <Compile Include="Controllers\Compras\COMListarComprasController.cs" />
+    <Compile Include="Controllers\Compras\COMRegistrarCompraController.cs" />
     <Compile Include="Controllers\DefaultController.cs" />
     <Compile Include="Controllers\Devoluciones\DEVCrearDevolucionController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\Inventario\INVMantenimientoController.cs" />
+    <Compile Include="Controllers\Reportes\REPAbonosController.cs" />
     <Compile Include="Controllers\Reportes\REPAntiguedadSaldosController.cs" />
     <Compile Include="Controllers\Reportes\REPAnulacionesController.cs" />
     <Compile Include="Controllers\Reportes\REPBitacoraController.cs" />
@@ -3516,6 +3522,9 @@
     <Content Include="Views\REPAnulaciones\Index.cshtml" />
     <Content Include="Views\REPAntiguedadSaldos\Index.cshtml" />
     <Content Include="Views\DEVCrearDevolucion\Index.cshtml" />
+    <Content Include="Views\REPAbonos\Index.cshtml" />
+    <Content Include="Views\COMRegistrarCompra\Index.cshtml" />
+    <Content Include="Views\COMListarCompras\Index.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -3528,6 +3537,7 @@
     <Folder Include="Content\Fotografias\" />
     <Folder Include="Models\" />
     <Folder Include="Views\App\" />
+    <Folder Include="Views\CONRegistrarCompra\" />
     <Folder Include="Views\Login\" />
     <Folder Include="Views\REPProductosPorDia\" />
     <Folder Include="Views\SOPGeneral\" />

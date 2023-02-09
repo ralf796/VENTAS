@@ -116,7 +116,6 @@ namespace Ventas.Controllers.Inventario
         #endregion
 
         #region JSON_RESULTS
-
         public JsonResult GetDatosTable(int tipo = 0, int id = 0, string modelo = "", string marcaVehiculo = "", string nombreLinea = "")
         {
             try

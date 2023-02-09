@@ -1,0 +1,115 @@
+﻿
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section styles{
+    <style>
+        .col-form-label {
+            padding-top: 10px;
+            padding-right: 1px;
+            text-align: right;
+            font-size: 10.6px;
+            color: gray;
+            font-weight: bold;
+            width: 115px;
+        }
+    </style>
+}
+
+@section scripts{
+    <script src="~/Scripts/Compras/COMRegistrarCompra.js"></script>
+    <script>
+        function CambiarExcel() {
+            var pathArray = $('#idExcel').prop('type', 'file')[0].value.split('\\');
+            console.log(pathArray)
+            var pdrs = pathArray[pathArray.length - 1];
+            $('#infoExcel').text(pdrs);
+        }
+        function CambiarAdjunto() {
+            var pathArray = $('#idAdjunto').prop('type', 'file')[0].value.split('\\');
+            console.log(pathArray)
+            var pdrs = pathArray[pathArray.length - 1];
+            $('#infoAdjunto').text(pdrs);
+        }
+    </script>
+}
+
+<div class="card">
+    <span class="badge badge-pill badge-secondary">REGISTRO DE COMPRA</span>
+    <div class="card-body">
+        <form id="formGuardarProducto">
+            <div class="row">
+                <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-6 pt-1">
+                    <div class="input-group text-right">
+                        <span class="col-form-label">NOMBRE PROVEEDOR:</span>
+                        <input type="text" class="form-control" id="txtNombreProveedor" name="txtNombreProveedor" required>
+                    </div>
+                </div>
+                <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-6 pt-1">
+                    <div class="input-group text-right">
+                        <span class="col-form-label">CONTACTO PROVEEDOR:</span>
+                        <input type="text" class="form-control" id="txtContactoProveedor" name="txtContactoProveedor" required>
+                    </div>
+                </div>
+                <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-4 pt-1">
+                    <div class="input-group text-right">
+                        <span class="col-form-label">FECHA PEDIDO:</span>
+                        <input type="text" class="form-control text-center" id="txtFechaCompra" name="txtFechaCompra">
+                    </div>
+                </div>
+                <div class="col-12 col-sm-12 col-md-6 col-lg-6 col-xl-4 pt-1">
+                    <div class="input-group text-right">
+                        <span class="col-form-label">FECHA PAGO:</span>
+                        <input type="text" class="form-control text-center" id="txtFechaPago" name="txtFechaPago" required>
+                    </div>
+                </div>
+                <div class="col-12 col-sm-12 col-md-6 col-lg-6 col-xl-4 pt-1">
+                    <div class="input-group text-right">
+                        <span class="col-form-label">FECHA ENTREGA:</span>
+                        <input type="text" class="form-control text-center" id="txtFechaEntrega" name="txtFechaEntrega" required>
+                    </div>
+                </div>
+                <div class="col-12 col-sm-12 col-md-6 col-lg-6 col-xl-4 pt-1">
+                    <div class="input-group text-right">
+                        <span class="col-form-label">TELÉFONO PROVEEDOR:</span>
+                        <input type="text" class="form-control text-center" id="txtTelefono" name="txtTelefono" required>
+                    </div>
+                </div>
+                <div class="col-12 col-sm-12 col-md-6 col-lg-6 col-xl-4 pt-1">
+                    <div class="input-group text-right">
+                        <span class="col-form-label">NO. FACTURA:</span>
+                        <input type="text" class="form-control text-center" id="txtNumero" name="txtNumero" required>
+                    </div>
+                </div>
+                <div class="col-12 col-sm-12 col-md-6 col-lg-6 col-xl-4 pt-1">
+                    <div class="input-group text-center">
+                        <span class="col-form-label">SERIE FACTURA:</span>
+                        <input type="text" class="form-control text-center" id="txtSerieFactura" name="txtSerieFactura" required>
+                    </div>
+                </div>
+                <div class="col-12 col-sm-12 col-md-6 col-lg-6 col-xl-4 pt-1">
+                    <div class="input-group text-center">
+                        <span class="col-form-label">VALOR FACTURA:</span>
+                        <input type="text" class="form-control text-center" id="txtValorFactura" name="txtValorFactura" required>
+                    </div>
+                </div>
+            </div>
+            <div class="row mt-2">
+                <div class="col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6 justify-content-center text-center">
+                    <label for="idExcel" class="subir btn btn-outline-success"><i class="fad fa-file-excel"></i> Subir Excel</label>
+                    <input id="idExcel" onchange="CambiarExcel()" type="file" style="display:none;" />
+                    <div id="infoExcel"></div>
+                </div>
+                <div class="col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6 justify-content-center text-center">
+                    <label for="idAdjunto" class="subir btn btn-outline-secondary"><i class="fad fa-upload"></i> Subir Escaneo</label>
+                    <input id="idAdjunto" onchange="CambiarAdjunto()" type="file" style="display:none;" />
+                    <div id="infoAdjunto"></div>
+                </div>
+            </div>
+        </form>
+        <div class="card-footer text-center text-md-center">
+            <button type="button" class="btn btn-success" id="btnGuardar"><i class="fad fa-check"></i> GUARDAR</button>
+        </div>
+    </div>
+</div>

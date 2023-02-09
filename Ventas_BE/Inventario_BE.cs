@@ -41,6 +41,7 @@ namespace Ventas_BE
         public int ID_DELETE { get; set; }
         public int ID_UPDATE { get; set; }
         public string TELEFONO { get; set; }
+        public string TELEFONO_PROVEEDOR { get; set; }
         public string DIRECCION { get; set; }
         public string CONTACTO { get; set; }
         public string NOMBRE_MARCA_VEHICULO { get; set; }
@@ -52,5 +53,19 @@ namespace Ventas_BE
         public string NOMBRE_LINEA_VEHICULO { get; set; }
         public string NOMBRE_COMPLETO{ get; set; }
         public string CODIGO_INTERNO { get; set; }
+        public string NOMBRE_PROVEEDOR { get; set; }
+        public string CONTACTO_PROVEEDOR { get; set; }
+        public DateTime FECHA_PEDIDO { get; set; }
+        public DateTime FECHA_PAGO { get; set; }
+        public DateTime FECHA_ENTREGA { get; set; }
+        public string FECHA_PEDIDO_STRING { get; set; }
+        public string FECHA_PAGO_STRING { get; set; }
+        public string FECHA_ENTREGA_STRING { get; set; }
+        public string NO_FACTURA { get; set; }
+        public decimal MONTO_FACTURA { get; set; }
+        public string SERIE_FACTURA { get; set; }
+        public string FILE1 { get; set; }
+        public string FILE2{ get; set; }
+        public int ID_COMPRA { get; set; }
     }
 }
