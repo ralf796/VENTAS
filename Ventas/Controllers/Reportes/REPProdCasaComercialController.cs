@@ -61,8 +61,9 @@ namespace Ventas.Controllers.Reportes
                 Utils.AddTextCells(xlSheet, "C", "STOCK", nCell, nCol); nCol++;
                 Utils.AddTextCells(xlSheet, "C", "ESTADO", nCell, nCol); nCol++;
                 Utils.AddTextCells(xlSheet, "C", "CASA COMERCIAL", nCell, nCol); nCol++;
+                Utils.AddTextCells(xlSheet, "C", "MARCA REPUESTO", nCell, nCol); nCol++;
 
-                Utils.FillBackgroundRange(xlSheet, xlRange, nCell, 1, 11, "blue1");
+                Utils.FillBackgroundRange(xlSheet, xlRange, nCell, 1, 12, "blue1");
 
                 xlSheet.Row(3).Style.Locked = true;
 
@@ -83,11 +84,12 @@ namespace Ventas.Controllers.Reportes
                         Utils.AddText(xlSheet, nCell, nCol, "", dato.STOCK, 12, false, "R", 1); nCol++;
                         Utils.AddTextCells(xlSheet, "L", dato.ESTADO_STRING, nCell, nCol); nCol++;
                         Utils.AddTextCells(xlSheet, "L", dato.NOMBRE_DISTRIBUIDOR, nCell, nCol); nCol++;
+                        Utils.AddTextCells(xlSheet, "L", dato.NOMBRE_COMPLETO, nCell, nCol); nCol++;
                         nCell++;
                         rangoBorder = nCell - 1;
                         nCol = 1;
                     }
-                    vRango = "A3:K" + rangoBorder;
+                    vRango = "A3:L" + rangoBorder;
                     Utils.FillBorderCellsAll(xlSheet, vRango);
 
                     nCell++;

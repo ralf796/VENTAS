@@ -249,7 +249,8 @@ $(document).ready(function () {
         this.SUBTOTAL = SUBTOTAL;
     }
 
-    function SaveOrder(jsonEncabezado, jsonDetalles, fel) {
+    function SaveOrder(jsonEncabezado, jsonDetalles, fel, esCredito) {
+        alert(esCredito)
         CallLoadingFire('Procesando venta...');
         $.ajax({
             /*
@@ -269,7 +270,8 @@ $(document).ready(function () {
             data: {
                 encabezado: JSON.stringify(jsonEncabezado),
                 detalles: JSON.stringify(jsonDetalles),
-                fel: fel
+                fel: fel,
+                esCredito: esCredito
             },
             cache: false,
             success: function (data) {
@@ -296,6 +298,7 @@ $(document).ready(function () {
                     ClearProduct();
                     $('#txtTotal').html('');
                     $('#tbodyDetalleVenta').empty();
+                    $('#checkFormaPago').prop('checked', false);
                 }
                 else if (state == -1) {
                     ShowAlertMessage('warning', data['Message'])
@@ -540,6 +543,12 @@ $(document).ready(function () {
         var subtotal = $('#hfSubtotal').val();
         var totalIva = 0;
         var totalDescuento = $('#hfTotalDescuento').val();
+        var esCredito = 0;
+        
+        if ($('#checkFormaPago').is(':checked')) {            
+            esCredito = 1;
+        }
+
 
         var encabezado = new ENCABEZADO(serie, correlativo, idCliente, total, subtotal, totalIva, totalDescuento);
 
@@ -555,8 +564,10 @@ $(document).ready(function () {
             var listado = new DETALLE(vId, vCantidad, vPrecio, vTotal, vIva, vDescuento, vSubtotal);
             listDetalles.push(listado);
         });
+
         console.log(listDetalles)
 
+        
         if (idCliente == '' || idCliente == null) {
             ShowAlertMessage('info', 'Debes seleccionar un cliente para la venta.');
             return;
@@ -565,7 +576,7 @@ $(document).ready(function () {
         if (listDetalles.length == 0)
             ShowAlertMessage('info', 'Debes agregar al menos un producto.');
         else {
-            SaveOrder(encabezado, listDetalles, 0)
+            SaveOrder(encabezado, listDetalles, 0, esCredito)
             /*
             Swal.fire({
                 title: 'CREAR VENTA',

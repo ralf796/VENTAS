@@ -34,7 +34,7 @@ namespace Ventas.Controllers.Ventas
         #endregion
 
         #region FUNCTIONS
-        private bool SaveHeader(int idVenta = 0, string serie = "", decimal correlativo = 0, int idCliente = 0, decimal total = 0, decimal descuento = 0, decimal subtotal = 0, string usuario = "", int fel = 0)
+        private bool SaveHeader(int idVenta = 0, string serie = "", decimal correlativo = 0, int idCliente = 0, decimal total = 0, decimal descuento = 0, decimal subtotal = 0, string usuario = "", int fel = 0, int esCredito=0)
         {
             bool respuesta = false;
             var item = new Ventas__BE();
@@ -48,6 +48,7 @@ namespace Ventas.Controllers.Ventas
             item.TOTAL_DESCUENTO = descuento;
             item.CREADO_POR = usuario;
             item.FEL = fel;
+            item.ID_PRODUCTO= esCredito;
             var resultHeader = GetDatosSP_(item);
 
             if (resultHeader != null)
@@ -236,7 +237,7 @@ namespace Ventas.Controllers.Ventas
                 return Json(new { State = -1, Message = ex.Message }, JsonRequestBehavior.AllowGet);
             }
         }
-        public JsonResult SaveOrder(string encabezado = "", string detalles = "", int fel = 0)
+        public JsonResult SaveOrder(string encabezado = "", string detalles = "", int fel = 0, int esCredito=0)
         {
             try
             {
@@ -247,11 +248,13 @@ namespace Ventas.Controllers.Ventas
                 int state = 1;
                 bool banderaDetail = false;
 
+                //return Json(new { State = 2 }, JsonRequestBehavior.AllowGet);
+
                 var itemID = new Ventas__BE();
                 itemID.MTIPO = 6;
                 item.ID_VENTA = GetDatosSP_(itemID).FirstOrDefault().ID_VENTA;
 
-                if (SaveHeader(Convert.ToInt32(item.ID_VENTA), "", 1, item.ID_CLIENTE, item.TOTAL, item.TOTAL_DESCUENTO, item.SUBTOTAL, usuario, fel) == true)
+                if (SaveHeader(Convert.ToInt32(item.ID_VENTA), "", 1, item.ID_CLIENTE, item.TOTAL, item.TOTAL_DESCUENTO, item.SUBTOTAL, usuario, fel, esCredito) == true)
                 {
                     foreach (var row in listaDetalles)
                     {

@@ -107,6 +107,12 @@ $(document).ready(function () {
             },
             columns: [
                 {
+                    dataField: "ESTADO",
+                    caption: "FORMA DE PAGO",
+                    alignment: "center",
+                    visible:false
+                },
+                {
                     dataField: "ID_VENTA",
                     caption: "ORDEN DE COMPRA",
                     alignment: "center"
@@ -229,6 +235,12 @@ $(document).ready(function () {
                     }
                 }
             ],
+            onRowPrepared(e) {
+                if (e.rowType == 'data' && e.data.ESTADO == 1) {
+                    e.rowElement.css("background-color", "#DC143C");
+                    e.rowElement.css("color", "#FFFFFF");
+                }
+            },
         }).dxDataGrid('instance');
     }
 
