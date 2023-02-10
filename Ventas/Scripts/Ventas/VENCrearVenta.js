@@ -250,7 +250,7 @@ $(document).ready(function () {
     }
 
     function SaveOrder(jsonEncabezado, jsonDetalles, fel, esCredito) {
-        alert(esCredito)
+        
         CallLoadingFire('Procesando venta...');
         $.ajax({
             /*
