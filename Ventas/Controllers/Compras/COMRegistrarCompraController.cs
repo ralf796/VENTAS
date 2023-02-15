@@ -91,7 +91,7 @@ namespace Ventas.Controllers.Compras
                 item.NOMBRE_PROVEEDOR = nombreProveedor;
                 item.CONTACTO_PROVEEDOR= contactoProveedor;
                 item.FECHA_PEDIDO= Convert.ToDateTime(fechaPedido);
-                item.FECHA_PAGO= Convert.ToDateTime(fechaPago);
+                item.FECHA_PAGO= Convert.ToDateTime(fechaEntrega);
                 item.FECHA_ENTREGA= Convert.ToDateTime(fechaEntrega);
                 item.TELEFONO= telefono;
                 item.NO_FACTURA = numero;

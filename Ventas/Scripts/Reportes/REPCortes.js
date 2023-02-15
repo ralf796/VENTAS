@@ -133,6 +133,14 @@ $(document).ready(function () {
                         $('.detalle' + cont).click(function (e) {
                             mostrarDetalle(fieldData.ID_CORTE);
                         })
+
+                        var classTmp2 = 'detalle_corte' + cont;
+                        var classBTN2 = 'hvr-grow text-dark fad fa-print btn btn-danger ' + classTmp2;
+
+                        $("<span>").addClass(classBTN2).prop('title', 'Imprimir corte').appendTo(container);
+                        $('.detalle_corte' + cont).click(function (e) {
+                            PDF_Corte(fieldData.ID_CORTE);
+                        })
                         cont++;
                     }
                 },
@@ -311,5 +319,26 @@ $(document).ready(function () {
             ],
         }).dxDataGrid('instance');
         $('#modalDetalle').modal('show');
+    }
+
+
+    function PDF_Corte(corte) {
+        CallLoadingFire('Generando impresión de corte, por favor espere.');
+        $.post("/REPCortes/PDF_Corte", {
+            corte
+        }, function (result) {
+            var pom = document.createElement('a');
+            pom.setAttribute('href', 'data:' + result.MimeType + ';base64,' + result.File);
+            pom.setAttribute('download', result.FileName);
+            if (document.createEvent) {
+                var event = document.createEvent('MouseEvents');
+                event.initEvent('click', true, true);
+                pom.dispatchEvent(event);
+            }
+            else {
+                pom.click();
+            }
+            CallToast('Descarga realizada con éxito.', true, 2300, '#9EC600');
+        });
     }
 });

@@ -104,37 +104,8 @@ $(document).ready(function () {
                     caption: "NOMBRE PROVEEDOR"
                 },
                 {
-                    dataField: "CONTACTO_PROVEEDOR",
-                    caption: "CONTACTO PROVEEDOR"
-                },
-                {
-                    dataField: "FECHA_PEDIDO_STRING",
-                    caption: "FECHA PEDIDO",
-                    alignment: "center"
-                },
-                {
-                    dataField: "FECHA_PAGO_STRING",
-                    caption: "FECHA PAGO",
-                    alignment: "center"
-                },
-                {
-                    dataField: "FECHA_ENTREGA_STRING",
-                    caption: "FECHA ENTREGA",
-                    alignment: "center"
-                },
-                {
-                    dataField: "TELEFONO_PROVEEDOR",
-                    caption: "TELEFONO",
-                    alignment: "center"
-                },
-                {
                     dataField: "SERIE_FACTURA",
                     caption: "SERIE",
-                    alignment: "center"
-                },
-                {
-                    dataField: "NO_FACTURA",
-                    caption: "NO. FACTURA",
                     alignment: "center"
                 },
                 {
@@ -142,6 +113,21 @@ $(document).ready(function () {
                     caption: "TOTAL",
                     dataType: "number",
                     format: { type: 'fixedPoint', precision: 2 }
+                },
+                {
+                    dataField: "FECHA_ENTREGA_STRING",
+                    caption: "FECHA INGRESO",
+                    alignment: "center"
+                },
+                {
+                    dataField: "TELEFONO_PROVEEDOR",
+                    caption: "TIPO PAGO",
+                    alignment: "center"
+                },
+                {
+                    dataField: "CONTACTO_PROVEEDOR",
+                    caption: "OBSERVACIONES",
+                    alignment: "center"
                 },
                 {
                     caption: 'DOCUMENTO 1',

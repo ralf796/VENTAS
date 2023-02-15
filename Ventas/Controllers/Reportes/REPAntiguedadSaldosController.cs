@@ -208,6 +208,7 @@ namespace Ventas.Controllers.Reportes
                                 <th class='pl-2 pr-2 border text-center' style='vertical-align:middle;'>FECHA<br>VENCIMIENTO</th>
                                 <th class='pl-2 pr-2 border text-center' style='vertical-align:middle;'>DIAS<br>ATRASO</th>
                                 <th class='pl-2 pr-2 border text-center' style='vertical-align:middle;'>DOCUMENTO</th>
+                                <th class='pl-2 pr-2 border text-center' style='vertical-align:middle;'>FECHA VENTA</th>
                                 <th class='pl-2 pr-2 border text-center' style='vertical-align:middle;'>TOTAL<br>FACTURA</th>
                                 <th class='pl-2 pr-2 border text-center' style='vertical-align:middle;'>SALDO</th>
                                 <th class='pl-2 pr-2 border text-center' style='vertical-align:middle;'>A 30 DÍAS</th>
@@ -240,6 +241,7 @@ namespace Ventas.Controllers.Reportes
                                 <td class='text-center'>{row2.FECHA_VENCIMIENTO.ToString("dd/MM/yyyy")}</td>
                                 <td class='text-center'>{row2.DIAS_ATRASO}</td>
                                 <td class='text-center'>{row2.ID_VENTA}</td>
+                                <td class='text-center'>{row2.FECHA_VENTA}</td>
                                 <td class='text-right pr-2'>{(row2.TOTAL_VENTA > 0 ? row2.TOTAL_VENTA.ToString("N2") : "-")}</td>
                                 <td class='text-right pr-2'>{(row2.SALDO > 0 ? row2.SALDO.ToString("N2") : "-")}</td>
                                 <td class='text-right pr-2'>{(row2.D_1_30 > 0 ? row2.D_1_30.ToString("N2") : "-")}</td>
@@ -256,6 +258,7 @@ namespace Ventas.Controllers.Reportes
                 {
                     html.AppendLine($@"
                             <tr>
+                                <td></td>
                                 <td></td>
                                 <td></td>
                                 <td></td>
