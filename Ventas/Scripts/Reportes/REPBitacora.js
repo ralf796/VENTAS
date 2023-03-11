@@ -7,8 +7,7 @@ $(document).ready(function () {
         autoClose: true,
         autoClose: true,
         view: 'days',
-        minView: 'days',
-        minDate: f.setDate(f.getDate() - 7),
+        minView: 'days',        
         maxDate: new Date(),
         dateFormat: 'dd/MM/yyyy',
         selectedDates: [new Date()]

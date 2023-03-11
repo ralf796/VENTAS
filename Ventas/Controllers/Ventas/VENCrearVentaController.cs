@@ -38,6 +38,7 @@ namespace Ventas.Controllers.Ventas
         {
             bool respuesta = false;
             var item = new Ventas__BE();
+            item.FECHA_FACTURA = DateTime.Now;
             item.MTIPO = 4;
             item.ID_VENTA = idVenta;
             item.SERIE = serie;
@@ -65,6 +66,7 @@ namespace Ventas.Controllers.Ventas
         {
             bool respuesta = false;
             var item = new Ventas__BE();
+            item.FECHA_FACTURA = DateTime.Now;
             item.MTIPO = 5;
             item.ID_VENTA = idVenta;
             item.ID_PRODUCTO = idProducto;
@@ -89,6 +91,7 @@ namespace Ventas.Controllers.Ventas
         {
             bool respuesta = false;
             var item = new Ventas__BE();
+            item.FECHA_FACTURA = DateTime.Now;
             item.MTIPO = 6;
             item.ID_VENTA = idVenta;
             var resultDetail = GetDatosSP_(item);
@@ -107,6 +110,7 @@ namespace Ventas.Controllers.Ventas
         {
             bool respuesta = false;
             var item = new Ventas__BE();
+            item.FECHA_FACTURA = DateTime.Now;
             item.MTIPO = 7;
             item.ID_VENTA = idVenta;
             var resultHeader = GetDatosSP_(item);
@@ -158,11 +162,13 @@ namespace Ventas.Controllers.Ventas
                 nit = nit.Replace("/", "");
 
                 var item = new Ventas__BE();
+                item.FECHA_FACTURA = DateTime.Now;
                 var itemCliente = new Clientes_BE();
                 List<Clientes_BE> listaCliente = new List<Clientes_BE>();
 
                 item.MTIPO = tipo;
                 item.NIT = nit.Trim();
+                item.FECHA_FACTURA = DateTime.Now;
                 item = GetDatosSP_(item).FirstOrDefault();
 
                 if (item == null && tipo == 2 && nit != "")
@@ -200,8 +206,10 @@ namespace Ventas.Controllers.Ventas
             try
             {
                 var item = new Ventas__BE();
+                item.FECHA_FACTURA = DateTime.Now;
                 item.MTIPO = tipo;
                 item.ID_CLIENTE = id;
+                item.FECHA_FACTURA = DateTime.Now;
                 item = GetDatosSP_(item).FirstOrDefault();
                 return Json(new { State = 1, data = item }, JsonRequestBehavior.AllowGet);
             }
@@ -215,6 +223,7 @@ namespace Ventas.Controllers.Ventas
             try
             {
                 var item = new Ventas__BE();
+                item.FECHA_FACTURA = DateTime.Now;
                 item.MTIPO = tipo;
                 if (ID_MARCA_REPUESTO != 0)
                     item.ID_MARCA_REPUESTO = ID_MARCA_REPUESTO;
@@ -228,6 +237,8 @@ namespace Ventas.Controllers.Ventas
                     item.ID_MARCA_VEHICULO = ID_MARCA_VEHICULO;
                 if (ID_MODELO != 0)
                     item.ID_MODELO = ID_MODELO;
+
+                item.FECHA_FACTURA = DateTime.Now;
                 var lista = GetDatosSP_(item);
 
                 return Json(new { State = 1, data = lista }, JsonRequestBehavior.AllowGet);
@@ -251,6 +262,7 @@ namespace Ventas.Controllers.Ventas
                 //return Json(new { State = 2 }, JsonRequestBehavior.AllowGet);
 
                 var itemID = new Ventas__BE();
+                itemID.FECHA_FACTURA = DateTime.Now;
                 itemID.MTIPO = 6;
                 item.ID_VENTA = GetDatosSP_(itemID).FirstOrDefault().ID_VENTA;
 
@@ -298,7 +310,7 @@ namespace Ventas.Controllers.Ventas
             try
             {
                 var item = new Ventas__BE();
-
+                item.FECHA_FACTURA = DateTime.Now;
 
                 if (modelo.Length == 4)
                 {
@@ -391,6 +403,7 @@ namespace Ventas.Controllers.Ventas
             try
             {
                 var item = new Ventas__BE();
+                item.FECHA_FACTURA = DateTime.Now;
                 item.MTIPO = tipo;
                 item.CODIGO = codigo.Trim();
                 item.CODIGO2 = codigo.Trim();
@@ -469,6 +482,7 @@ namespace Ventas.Controllers.Ventas
             {
                 var item = new Ventas__BE();
                 List<Ventas__BE> lista = new List<Ventas__BE>();
+                item.FECHA_FACTURA = DateTime.Now;
                 item.MTIPO = 11;
                 item.CODIGO = "";
                 item.CODIGO2 = "";
@@ -648,6 +662,7 @@ namespace Ventas.Controllers.Ventas
             try
             {
                 var item = new Ventas__BE();
+                item.FECHA_FACTURA = DateTime.Now;
                 System.Text.StringBuilder html = new System.Text.StringBuilder();
                 html.AppendLine(@"
                         <!DOCTYPE html>
