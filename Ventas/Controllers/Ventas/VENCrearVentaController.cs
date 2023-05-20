@@ -34,7 +34,7 @@ namespace Ventas.Controllers.Ventas
         #endregion
 
         #region FUNCTIONS
-        private bool SaveHeader(int idVenta = 0, string serie = "", decimal correlativo = 0, int idCliente = 0, decimal total = 0, decimal descuento = 0, decimal subtotal = 0, string usuario = "", int fel = 0, int esCredito=0)
+        private bool SaveHeader(int idVenta = 0, string serie = "", decimal correlativo = 0, int idCliente = 0, decimal total = 0, decimal descuento = 0, decimal subtotal = 0, string usuario = "", int fel = 0, int esCredito = 0)
         {
             bool respuesta = false;
             var item = new Ventas__BE();
@@ -49,7 +49,7 @@ namespace Ventas.Controllers.Ventas
             item.TOTAL_DESCUENTO = descuento;
             item.CREADO_POR = usuario;
             item.FEL = fel;
-            item.ID_PRODUCTO= esCredito;
+            item.ID_PRODUCTO = esCredito;
             var resultHeader = GetDatosSP_(item);
 
             if (resultHeader != null)
@@ -248,7 +248,7 @@ namespace Ventas.Controllers.Ventas
                 return Json(new { State = -1, Message = ex.Message }, JsonRequestBehavior.AllowGet);
             }
         }
-        public JsonResult SaveOrder(string encabezado = "", string detalles = "", int fel = 0, int esCredito=0)
+        public JsonResult SaveOrder(string encabezado = "", string detalles = "", int fel = 0, int esCredito = 0)
         {
             try
             {
@@ -504,6 +504,7 @@ namespace Ventas.Controllers.Ventas
         {
             var item = JsonConvert.DeserializeObject<Ventas__BE>(encabezado);
             List<Ventas__BE> listaDetalles = JsonConvert.DeserializeObject<List<Ventas__BE>>(detalles);
+            string nameFile = $"Cot_{item.ID_CLIENTE}_{DateTime.Now.ToString("ddMMHHmmss")}";
 
             //Get html
             System.Text.StringBuilder html = new System.Text.StringBuilder();
@@ -520,28 +521,20 @@ namespace Ventas.Controllers.Ventas
                 <div class='form-group col-md-3 text-center' style='margin-top:-35px'>
                     <img style='margin-top:10px' src='https://distribuidorarepuestoseleden.com/Varios/LogoElEden.jpeg' height='180' width='250' />
                 </div>
-                <div class='form-group col-md-7 text-center' style='margin-top:30px'>
-                    <div class='row'>
-                        <div class='form-group col-md-12'>
-                            <h6 style='font-size:25px'>DISTRIBUIDORA DE REPUESTOS EL EDEN</h6>
-                        </div>
-                        <div class='form-group col-md-12'>
-                            <h6 style='font-size:22px; margin-top:-20px'>CALZADA EL MOSQUITO 2-05 ZONA 3 SAN PEDRO SACATEPEQUEZ, SAN MARCOS</h6>
-                        </div>
-                        <div class='form-group col-md-12'>
-                            <h6 style='font-size:22px; margin-top:-20px'>NIT: 74974324</h6>
-                        </div>
-                        <div class='form-group col-md-12'>
-                            <h6 style='font-size: 22px; margin-top:-20px'>7760-8499</h6>
-                        </div>
+                <div class='form-group col-md-7 text-center'>
+                    <div class='row h5 font-weight-bold text-center'>                        
+                            DISTRIBUIDORA DE REPUESTOS EL EDEN</br>
+                            CALZADA EL MOSQUITO 2-05 ZONA 3 SAN PEDRO SACATEPEQUEZ, SAN MARCOS</br>
+                            NIT: 74974324</br>
+                            7760-8499</br>
                     </div>
                 </div>
             </div>
             <div class='row'>
-                <div class='col-md-12 pl-5' style='margin-top:5px'>
+                <div class='col-md-12 pl-5 h5' style='margin-top:5px'>
+                    <b>NO. COTIZACIÓN:</b> {nameFile}<br>
                     <b>NIT:</b> {item.NIT}<br>
                     <b>CLIENTE:</b> {item.NOMBRE}<br>
-                    <b>DIRECCIÓN:</b> {item.DIRECCION}<br>
                     <b>FECHA:</b> {DateTime.Now.ToString("dd/MM/yyyy")}<br>
                     <b>ATENDIDO POR:</b> {Session["usuario"].ToString()}<br>
                 </div>
@@ -549,17 +542,17 @@ namespace Ventas.Controllers.Ventas
             <div class='col-12 pt-4'>
                 <table class='table table-sm' id='tdDatos'>
                     <thead>
-                        <tr style=''>
-                            <th class='pl-2 pr-2 border text-center' style='vertical-align:middle; border: 1px solid'>CANTIDAD</th>
-                            <th class='pl-2 pr-2 border text-center d-none' style='vertical-align:middle; border: 1px solid'>CÓDIGO</th>
-                            <th class='pl-2 pr-2 border text-center' style='vertical-align:middle; border: 1px solid'>DESCRIPCIÓN</th>
-                            <th class='pl-2 pr-2 border text-center' style='vertical-align:middle; border: 1px solid'>MARCA</th>
-                            <th class='pl-2 pr-2 border text-center' style='vertical-align:middle; border: 1px solid'>PRECIO</th>
-                            <th class='pl-2 pr-2 border text-center' style='vertical-align:middle; border: 1px solid'>DESCUENTO</th>
-                            <th class='pl-2 pr-2 border text-center' style='vertical-align:middle; border: 1px solid'>SUBTOTAL</th>
+                        <tr>
+                            <th class='pl-2 pr-2 border border-dark text-center h5 font-weight-bold'>CANTIDAD</th>
+                            <th class='pl-2 pr-2 border border-dark text-center d-none'>CÓDIGO</th>
+                            <th class='pl-2 pr-2 border border-dark text-center h5 font-weight-bold'>DESCRIPCIÓN</th>
+                            <th class='pl-2 pr-2 border border-dark text-center h5 font-weight-bold'>MARCA</th>
+                            <th class='pl-2 pr-2 border border-dark text-center h5 font-weight-bold'>PRECIO</th>
+                            <th class='pl-2 pr-2 border border-dark text-center h5 font-weight-bold'>DESCUENTO</th>
+                            <th class='pl-2 pr-2 border border-dark text-center h5 font-weight-bold'>SUBTOTAL</th>
                         </tr>
                     </thead>
-                    <tbody id='tbodyListado'>");
+                    <tbody class='border border-dark' id='tbodyListado'>");
             decimal total = 0, descuento = 0;
             foreach (var dato in listaDetalles)
             {
@@ -568,13 +561,13 @@ namespace Ventas.Controllers.Ventas
                 desc = (dato.DESCUENTO);
 
                 html.AppendLine("<tr>");
-                html.AppendLine($"<td class='text-center' style='border-bottom: 1px solid;border-top: 1px solid'>{dato.CANTIDAD}</td>");
-                html.AppendLine($"<td class='text-left d-none' style='border-bottom: 1px solid'>{dato.CODIGO} - {dato.CODIGO2}</td>");
-                html.AppendLine($"<td class='text-left' style='border-bottom: 1px solid'>{dato.NOMBRE_PRODUCTO}</td>");
-                html.AppendLine($"<td class='text-left' style='border-bottom: 1px solid'>{dato.NOMBRE_MARCA_REPUESTO}</td>");
-                html.AppendLine($"<td class='text-right' style='border-bottom: 1px solid'>{dato.PRECIO_VENTA.ToString("N2")}</td>");
-                html.AppendLine($"<td class='text-right' style='border-bottom: 1px solid'>{dato.TOTAL_DESCUENTO.ToString("N2")}</td>");
-                html.AppendLine($"<td class='text-right' style='border-bottom: 1px solid'>{((dato.CANTIDAD * dato.PRECIO_VENTA) - dato.DESCUENTO).ToString("N2")}</td>");
+                html.AppendLine($"<td class='text-center border-left border-right border-dark h5'>{dato.CANTIDAD}</td>");
+                html.AppendLine($"<td class='text-left d-none' >{dato.CODIGO} - {dato.CODIGO2}</td>");
+                html.AppendLine($"<td class='text-left border-left border-right border-dark h5' >{dato.NOMBRE_PRODUCTO}</td>");
+                html.AppendLine($"<td class='text-left border-left border-right border-dark h5' >{dato.NOMBRE_MARCA_REPUESTO}</td>");
+                html.AppendLine($"<td class='text-right border-left border-right border-dark h5' >{dato.PRECIO_VENTA.ToString("N2")}</td>");
+                html.AppendLine($"<td class='text-right border-left border-right border-dark h5' >{dato.TOTAL_DESCUENTO.ToString("N2")}</td>");
+                html.AppendLine($"<td class='text-right border-left border-right border-dark h5' >{((dato.CANTIDAD * dato.PRECIO_VENTA) - dato.DESCUENTO).ToString("N2")}</td>");
                 html.AppendLine("</tr>");
                 total += (dato.CANTIDAD * dato.PRECIO_VENTA);
                 descuento += dato.TOTAL_DESCUENTO;
@@ -583,11 +576,26 @@ namespace Ventas.Controllers.Ventas
                 </table>
             </div>
             <div class='row'>
-                <div class='col-md-12 pl-5'style='font-size:20px'>
-                    <b style='font-size:20px'>TOTAL SIN DESCUENTO:</b> {total.ToString("N2")}<br>
-                    <b style='font-size:20px'>DESCUENTO:</b> {descuento.ToString("N2")}<br>
-                    <b style='font-size:20px'>TOTAL CON DESCUENTO:</b> {(total - descuento).ToString("N2")}<br>
-                    <b style='font-size:23px'>TOTAL CON DESCUENTO EN LETRAS: </b> {new NumeroLetra().Convertir((total - descuento).ToString(), true)}<br>
+                <div class='col-md-12'>
+                    <table class='h4' width='70%'>
+                        <tr>
+                            <td class='text-right fw-wight-bold'>TOTAL SIN DESCUENTO:</td>
+                            <td class='text-right'>{total.ToString("N2")}</td>
+                        </tr>
+                        <tr>
+                            <td class='text-right fw-wight-bold'>DESCUENTO:</td>
+                            <td class='text-right'>{descuento.ToString("N2")}</td>
+                        </tr>
+                        <tr>
+                            <td class='text-right fw-wight-bold'>TOTAL CON DESCUENTO:</td>
+                            <td class='text-right font-weight-bold'>{(total - descuento).ToString("N2")}</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+            <div class='row text-center'>
+                <div class='col-md-12 pl-5 h4 text-center'>
+                    <b>TOTAL CON DESCUENTO EN LETRAS: </b> {new NumeroLetra().Convertir((total - descuento).ToString(), true)}<br>
                 </div>
             </div>
             <div class='row pt-5'>
@@ -609,16 +617,18 @@ namespace Ventas.Controllers.Ventas
             converter.Options.MarginLeft = 7;
             converter.Options.MarginRight = 7;
 
-            // create a new pdf document converting an html
             PdfDocument doc = converter.ConvertHtmlString(html.ToString());
+            string fileDirectorio = Server.MapPath(@"~\Files\Cotizaciones");
+            
 
-            //Save memory
             MemoryStream fileStream = new MemoryStream();
             doc.Save(fileStream);
-            doc.Close();
 
             string file64 = Convert.ToBase64String(fileStream.ToArray());
-            var file = new { File = file64, MimeType = "application/pdf", FileName = $"Cotizacion_{item.ID_CLIENTE}_{DateTime.Now.ToString("ddMMyyyy")}.pdf" };
+            var file = new { File = file64, MimeType = "application/pdf", FileName = $"{nameFile}.pdf" };
+            string link=Utils.SavePDF(doc, fileDirectorio, nameFile);
+            SaveCotizacion(item.ID_CLIENTE, link, nameFile, item.CREADO_POR);
+            doc.Close();
             return Json(file);
         }
         #endregion
@@ -866,6 +876,18 @@ namespace Ventas.Controllers.Ventas
             {
             }
             return respuesta;
+        }
+
+        public void SaveCotizacion(int id_cliente, string link, string correlativo, string usuario)
+        {
+            var item = new Ventas__BE();
+            item.FECHA_FACTURA = DateTime.Now;
+            item.MTIPO = 13;
+            item.ID_CLIENTE = id_cliente;
+            item.NOMBRE_MODELO = link;
+            item.NOMBRE_MARCA_VEHICULO = correlativo;
+            item.CREADO_POR = usuario;
+            GetDatosSP_(item);
         }
     }
 }

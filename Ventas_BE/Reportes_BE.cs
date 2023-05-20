@@ -78,5 +78,8 @@ namespace Ventas_BE
         public int ID_CLIENTE { get; set; }
         public int DIAS_ATRASO { get; set; }
         public int FEL { get; set; }
+        public int ID_COTIZACION { get; set; }
+        public string LINK { get; set; }
+        public string NO_CORRELATIVO { get; set; }
     }
 }

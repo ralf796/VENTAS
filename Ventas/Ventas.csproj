@@ -2835,6 +2835,7 @@
     <Compile Include="Controllers\Reportes\REPVentasController.cs" />
     <Compile Include="Controllers\Soporte\SOPGeneralController.cs" />
     <Compile Include="Controllers\Usuarios\USUListarUsuarioController.cs" />
+    <Compile Include="Controllers\Ventas\VENCotizacionesController.cs" />
     <Compile Include="Controllers\Ventas\VENCrearVentaController.cs" />
     <Compile Include="Controllers\Ventas\VENPendientesController.cs" />
     <Compile Include="Controllers\Reimpresiones\VENReimpresionesController.cs" />
@@ -3532,6 +3533,7 @@
     <Content Include="Views\DEVCrearFactura\Index.cshtml" />
     <Content Include="Views\REPVendedores\Index.cshtml" />
     <Content Include="Views\REPProductosPorVenta\Index.cshtml" />
+    <Content Include="Views\VENCotizaciones\Index.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -3542,6 +3544,7 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Content\Fotografias\" />
+    <Folder Include="Files\" />
     <Folder Include="Models\" />
     <Folder Include="Views\App\" />
     <Folder Include="Views\CONRegistrarCompra\" />

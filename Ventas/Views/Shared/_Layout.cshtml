@@ -316,6 +316,38 @@
                         @if (ROL == 1 || ROL == 2 || ROL == 5)
                         {
                             <li class="nav-item">
+                                <a href="#" class="nav-link">                                    
+                                    <i class="fad fa-shopping-cart"></i>
+                                    <p>
+                                        VENTAS
+                                        <i class="fas fa-angle-left right"></i>
+                                    </p>
+                                </a>
+                                <ul class="nav nav-treeview">
+                                    <li class="nav-item">
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="~/VENCotizaciones/Index" class="nav-link">
+                                            <i class="fad fa-file text-white"></i>
+                                            <p>COTIZACIONES</p>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="~/VENCrearVenta/Index" class="nav-link">
+                                            <i class="far fa-plus" style="color:white"></i>
+                                            <p>CREAR VENTA</p>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="~/INVMantenimiento/IndexEditarProducto" class="nav-link">
+                                            <i class="far fa-plus" style="color:white"></i>
+                                            <p>EDITAR PRODUCTO</p>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+
+                            @*<li class="nav-item">
                                 <a href="~/VENCrearVenta/Index" class="nav-link">
                                     <i class="far fa-store"></i>
                                     <p>
@@ -328,7 +360,7 @@
                                     <i class="far fa-edit" style="color:white"></i>
                                     <p>EDITAR PRODUCTO</p>
                                 </a>
-                            </li>
+                            </li>*@
                         }
 
                         @if (ROL == 1 || ROL == 2 || ROL == 3)

@@ -2,11 +2,13 @@
 using OfficeOpenXml;
 using OfficeOpenXml.Drawing.Chart;
 using OfficeOpenXml.Style;
+using SelectPdf;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Web;
@@ -532,6 +534,17 @@ namespace Ventas.Class
 
 
             return resultado;
+        }
+
+        public static string SavePDF(PdfDocument doc, string directorio, string file)
+        {
+            if (!Directory.Exists(directorio))
+            {
+                Directory.CreateDirectory(directorio);
+            }
+            string rute = $@"{directorio}\{file}.pdf";
+            doc.Save(rute);
+            return rute;
         }
     }
 }
