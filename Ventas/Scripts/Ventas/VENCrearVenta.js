@@ -8,6 +8,8 @@ $(document).ready(function () {
         $('#txtNombreCliente').val('');
         $('#txtNit').val('');
         $('#txtDireccion').val('');
+        $('#txtCategoriaCliente').val('');
+        $('#hfIdCategoriaCliente').val('');
     }
     function ClearProduct() {
         $('#hfIdProducto').val('');
@@ -47,6 +49,8 @@ $(document).ready(function () {
                         $('#hfIdCliente').val(CLIENTE.ID_CLIENTE);
                         $('#txtNombreCliente').val(CLIENTE.NOMBRE);
                         $('#txtDireccion').val(CLIENTE.DIRECCION);
+                        $('#txtCategoriaCliente').val(CLIENTE.NOMBRE_CATEGORIA_CLIENTE);
+                        $('#hfIdCategoriaCliente').val(CLIENTE.ID_CATEGORIA_CLIENTE);
                     }
                 }
                 else if (state == -1) {
@@ -174,6 +178,10 @@ $(document).ready(function () {
                     alignment: "center"
                 },
                 {
+                    dataField: "NOMBRE_CATEGORIA_CLIENTE",
+                    caption: "CATEGORIA"
+                },
+                {
                     dataField: "DIRECCION",
                     caption: "DIRECCION",
                     alignment: "center"
@@ -182,6 +190,12 @@ $(document).ready(function () {
                     dataField: "TELEFONO",
                     caption: "TELEFONO",
                     alignment: "center"
+                },
+                {
+                    dataField: "ID_CATEGORIA_CLIENTE",
+                    caption: "ID_CATEGORIA",
+                    alignment: "center",
+                    visible:false
                 }
             ],
             onRowDblClick: function (e) {
@@ -190,6 +204,8 @@ $(document).ready(function () {
                 $('#txtNit').val(e.data["NIT"]);
                 $('#hfDireccion').val(e.data["DIRECCION"]);
                 $('#txtDireccion').val(e.data["DIRECCION"]);
+                $('#txtCategoriaCliente').val(e.data["NOMBRE_CATEGORIA_CLIENTE"]);
+                $('#hfIdCategoriaCliente').val(e.data["ID_CATEGORIA_CLIENTE"]);
                 $('#modalClientes').modal('hide');
             },
             onCellPrepared: function (e) {
@@ -250,7 +266,7 @@ $(document).ready(function () {
     }
 
     function SaveOrder(jsonEncabezado, jsonDetalles, fel, esCredito) {
-        
+
         CallLoadingFire('Procesando venta...');
         $.ajax({
             /*
@@ -411,6 +427,12 @@ $(document).ready(function () {
                         $('#hfPrecioCosto').val(PROD.PRECIO_COSTO);
                         $('#txtPrecio').attr('title', 'PRECIO COSTO:  ' + PROD.PRECIO_COSTO);
                         $('#hfPrecioVenta').val(PROD.PRECIO_VENTA);
+
+                        $('#txtDescuentoTotal').val('');
+                        $('#txtConDescuento').val('');
+                        $('#txtSinDescuento').val('');
+                        $('#txtDescuento').val('');
+                        $('#txtCantidad').val('');
                     }
                 }
                 else if (state == -1) {
@@ -532,6 +554,7 @@ $(document).ready(function () {
         ClearCustomer();
         ClearProduct();
         $('#tbodyDetalleVenta').empty();
+        $('#txtTotal').html('TOTAL: 0.00');
     });
     $('#btnGuardarVenta').on('click', function (e) {
         e.preventDefault();
@@ -544,8 +567,8 @@ $(document).ready(function () {
         var totalIva = 0;
         var totalDescuento = $('#hfTotalDescuento').val();
         var esCredito = 0;
-        
-        if ($('#checkFormaPago').is(':checked')) {            
+
+        if ($('#checkFormaPago').is(':checked')) {
             esCredito = 1;
         }
 
@@ -567,7 +590,7 @@ $(document).ready(function () {
 
         console.log(listDetalles)
 
-        
+
         if (idCliente == '' || idCliente == null) {
             ShowAlertMessage('info', 'Debes seleccionar un cliente para la venta.');
             return;
@@ -622,13 +645,24 @@ $(document).ready(function () {
         var descuento = $(this).val();
         var total = 0, subtotal = 0;
 
+        var idCategoriaCliente = $('#hfIdCategoriaCliente').val();
+        var porcentaje = 0;
+
+        if (idCategoriaCliente == 3)
+            porcentaje = 30;
+        else if (idCategoriaCliente == 2)
+            porcentaje = 28;
+        else
+            porcentaje = 25;
+
+
         if (descuento == '')
             descuento = 0;
-        if (!$('#checkAutorizaDescuento').is(':checked')) {
-            if (parseFloat(descuento) > 35) {
+        if (!$('#checkAutorizaDescuento').is(':checked') && idCategoriaCliente == 3) {
+            if (parseFloat(descuento) > porcentaje) {
                 $('#txtDescuento').val();
                 descuento = 0;
-                ShowAlertMessage('warning', 'El máximo descuento a aplicar es de 35%.');
+                ShowAlertMessage('warning', 'El máximo descuento a aplicar es de 30%.');
                 $('#txtDescuentoTotal').val('');
                 $('#txtConDescuento').val('');
                 $('#txtSinDescuento').val('');
@@ -642,13 +676,30 @@ $(document).ready(function () {
         if ($('#txtPrecio').val() == '')
             $('#txtPrecio').val() = 0;
 
-        total = parseFloat(precio) * parseFloat(cantidad);
-        var totalAux = total;
-        descuento = (descuento / 100) * total;
-        total = total - descuento;
-        $('#txtDescuentoTotal').val(formatNumber(parseFloat(descuento).toFixed(2)));
-        $('#txtConDescuento').val(formatNumber(parseFloat(total).toFixed(2)));
-        $('#txtSinDescuento').val(formatNumber(parseFloat(totalAux).toFixed(2)));
+        debugger;
+        if (parseFloat(descuento) > porcentaje && idCategoriaCliente!=3) {
+            descuento = 0;
+            $('#txtDescuentoTotal').val('');
+            $('#txtConDescuento').val('');
+            $('#txtSinDescuento').val('');
+            $('#txtDescuento').val('');
+            $('#txtCantidad').val('');
+
+            if (idCategoriaCliente == 1)
+                ShowAlertMessage('warning', 'El máximo descuento a aplicar es de 25%.');
+            else if (idCategoriaCliente == 2)
+                ShowAlertMessage('warning', 'El máximo descuento a aplicar es de 28%.');
+        }
+        else {
+            total = parseFloat(precio) * parseFloat(cantidad);
+            var totalAux = total;
+            descuento = (descuento / 100) * total;
+            total = total - descuento;
+            $('#txtDescuentoTotal').val(formatNumber(parseFloat(descuento).toFixed(2)));
+            $('#txtConDescuento').val(formatNumber(parseFloat(total).toFixed(2)));
+            $('#txtSinDescuento').val(formatNumber(parseFloat(totalAux).toFixed(2)));
+        }
+
     });
     $('#txtCantidad').on('keyup', function (e) {
         e.preventDefault();
@@ -657,8 +708,6 @@ $(document).ready(function () {
         var descuento = $('#txtDescuento').val();
         var total = 0, subtotal = 0;
 
-
-
         if (descuento == '') {
             descuento = 0;
         }
@@ -666,7 +715,7 @@ $(document).ready(function () {
             if (parseFloat(descuento) > 35) {
                 $('#txtDescuento').val();
                 descuento = 0;
-                ShowAlertMessage('warning', 'El máximo descuento a aplicar es de 35%.');
+                //ShowAlertMessage('warning', 'El máximo descuento a aplicar es de 35%.');
                 $('#txtDescuentoTotal').val('');
                 $('#txtConDescuento').val('');
                 $('#txtSinDescuento').val('');
@@ -680,6 +729,12 @@ $(document).ready(function () {
         if ($('#txtPrecio').val() == '')
             $('#txtPrecio').val() = 0;
 
+        $('#txtDescuentoTotal').val('');
+        $('#txtConDescuento').val('');
+        $('#txtSinDescuento').val('');
+        $('#txtDescuento').val('');
+
+        /*
         total = parseFloat(precio) * parseFloat(cantidad);
         var totalAux = total;
         descuento = (descuento / 100) * total;
@@ -687,6 +742,7 @@ $(document).ready(function () {
         $('#txtDescuentoTotal').val(formatNumber(parseFloat(descuento).toFixed(2)));
         $('#txtConDescuento').val(formatNumber(parseFloat(total).toFixed(2)));
         $('#txtSinDescuento').val(formatNumber(parseFloat(totalAux).toFixed(2)));
+        */
     });
 
     $("#txtCodigo").keypress(function (e) {
@@ -703,6 +759,15 @@ $(document).ready(function () {
     });
     $('#checkAutorizaDescuento').on('change', function (e) {
         e.preventDefault();
+
+        var idCategoriaCliente = $('#hfIdCategoriaCliente').val();
+
+        if (idCategoriaCliente != 3) {
+            $('#checkAutorizaDescuento').prop('checked', false);
+            ShowAlertMessage('warning', 'El cliente seleccionado NO es mayorista.');
+            return;
+        }
+
         if ($('#checkAutorizaDescuento').is(':checked')) {
             $('#txtUser').val('');
             $('#txtPassword').val('');
@@ -1025,6 +1090,11 @@ $(document).ready(function () {
                 $('#hfDescripcion').val(e.data["DESCRIPCION"]);
                 $('#hfPrecioCosto').val(e.data["PRECIO_COSTO"]);
                 $('#hfPrecioVenta').val(e.data["PRECIO_VENTA"]);
+                $('#txtDescuentoTotal').val('');
+                $('#txtConDescuento').val('');
+                $('#txtSinDescuento').val('');
+                $('#txtDescuento').val('');
+                $('#txtCantidad').val('');
                 $('#modalProductos').modal('hide');
             }
         }).dxDataGrid('instance');

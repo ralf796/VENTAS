@@ -53,6 +53,7 @@ namespace Ventas_BE
         public string ESTADO_STRING { get; set; }
         public string NOMBRE_MARCA_VEHICULO { get; set; }
         public string NOMBRE_SERIE_VEHICULO { get; set; }
+        public string NOMBRE_MARCA_REPUESTO { get; set; }
         public decimal GANANCIA { get; set; }
         public int ANIO_INICIAL { get; set; }
         public int ANIO_FINAL { get; set; }

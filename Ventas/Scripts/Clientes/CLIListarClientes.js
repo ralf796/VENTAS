@@ -72,11 +72,13 @@
                             $("<span>").addClass(classBTN1).prop('title', 'Editar').appendTo(container);
                             $('.edit' + cont).click(function (e) {
                                 var id = fieldData.ID_CLIENTE;
-                                var nombre = $(this).closest("tr").find("td").eq(1).text();
-                                var direccion = $(this).closest("tr").find("td").eq(2).text();
-                                var telefono = $(this).closest("tr").find("td").eq(3).text();
-                                var email = $(this).closest("tr").find("td").eq(4).text();
-                                var nit = $(this).closest("tr").find("td").eq(5).text();
+                                var nombre = $(this).closest("tr").find("td").eq(2).text();
+                                var direccion = $(this).closest("tr").find("td").eq(3).text();
+                                var telefono = $(this).closest("tr").find("td").eq(4).text();
+                                var email = $(this).closest("tr").find("td").eq(5).text();
+                                var nit = $(this).closest("tr").find("td").eq(6).text();
+                                var id_categoria_cliente = $(this).closest("tr").find("td").eq(7).text();
+                                
                                 $('#hfID').val(id);
                                 $('#hfOpcion').val(2);
                                 $('#txtGuardarNombre').val(nombre);
@@ -84,6 +86,7 @@
                                 $('#txtGuardarTelefono').val(telefono);
                                 $('#txtGuardarEmail').val(email);
                                 $('#txtGuardarNit').val(nit);
+                                $('#selCategoriaCliente').val(id_categoria_cliente);
                                 $('#modalCliente').modal('show');
 
                             })
@@ -98,6 +101,10 @@
                         }
                         cont++;
                     }
+                },
+                {
+                    dataField: "NOMBRE_CATEGORIA",
+                    caption: "CATEGORIA"
                 },
                 {
                     dataField: "ID_CLIENTE",
@@ -126,6 +133,10 @@
                     dataField: "NIT",
                     caption: "NIT",
                     alignment: "center"
+                },
+                {
+                    dataField: "ID_CATEGORIA_CLIENTE",
+                    caption: "ID_CATEGORIA"
                 }
             ]
         }).dxDataGrid('instance');
@@ -133,14 +144,14 @@
     }
 
     // funcion guardar datos
-    function guardarCliente(nombre, direccion, telefono, email, nit) {
+    function guardarCliente(nombre, direccion, telefono, email, nit, id_categoria) {
         $.ajax({
             type: 'GET',
             url: "/CLIListarClientes/GuardarCliente",
             contentType: "application/json; charset=utf-8",
             dataType: 'json',
             data: {
-                nombre, direccion, telefono, email, nit
+                nombre, direccion, telefono, email, nit, id_categoria
             },
             cache: false,
             success: function (data) {
@@ -162,13 +173,13 @@
         });
     }
     //funcion actualizar cliente
-    function Update_Delete(id, nombre, direccion, telefono, email, nit) {
+    function Update_Delete(id, nombre, direccion, telefono, email, nit, id_categoria) {
         $.ajax({
             type: 'GET',
             url: "/CLIListarClientes/UpdateClientes",
             contentType: "application/json; charset=utf-8",
             dataType: 'json',
-            data: { id, nombre, direccion, telefono, email, nit },
+            data: { id, nombre, direccion, telefono, email, nit, id_categoria },
             cache: false,
             success: function (data) {
                 var state = data["State"];
@@ -235,6 +246,7 @@
         var telefono = $('#txtGuardarTelefono').val();
         var email = $('#txtGuardarEmail').val();
         var nit = $('#txtGuardarNit').val();
+        var id_categoria = $('#selCategoriaCliente').val();
         if (nombre == "" || telefono == "" || nit == "") {
             ShowAlertMessage('warning', 'Los campos nombre, telefono y nit son obligatorios')
         }
@@ -243,10 +255,10 @@
                 const regex = /^\w+([.-_+]?\w+)*@\w+([.-]?\w+)*(\.\w{2,10})+$/
                 if (regex.test(email) && email!='' && email!=null) {
                     if (opcion == 1) {
-                        guardarCliente(nombre, direccion, telefono, email, nit);
+                        guardarCliente(nombre, direccion, telefono, email, nit, id_categoria);
                     }
                     else if (opcion == 2) {
-                        Update_Delete(id, nombre, direccion, telefono, email, nit);
+                        Update_Delete(id, nombre, direccion, telefono, email, nit, id_categoria);
                     }
                 }
                 else {
@@ -255,10 +267,10 @@
             }
             else {
                 if (opcion == 1) {
-                    guardarCliente(nombre, direccion, telefono, email, nit);
+                    guardarCliente(nombre, direccion, telefono, email, nit, id_categoria);
                 }
                 else if (opcion == 2) {
-                    Update_Delete(id, nombre, direccion, telefono, email, nit);
+                    Update_Delete(id, nombre, direccion, telefono, email, nit, id_categoria);
                 }
             }
 

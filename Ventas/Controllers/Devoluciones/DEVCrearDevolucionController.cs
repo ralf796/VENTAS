@@ -126,6 +126,7 @@ namespace Ventas.Controllers.Devoluciones
             item.TOTAL_DESCUENTO = descuento;
             item.CREADO_POR = usuario;
             item.FEL = fel;
+            item.FECHA_FACTURA = DateTime.Now;
             var resultHeader = GetDatosSP_Ventas(item);
 
             if (resultHeader != null)
@@ -150,6 +151,7 @@ namespace Ventas.Controllers.Devoluciones
             item.TOTAL = total;
             item.TOTAL_DESCUENTO = descuento;
             item.SUBTOTAL = subtotal;
+            item.FECHA_FACTURA = DateTime.Now;
             var resultDetail = GetDatosSP_Ventas(item);
 
             if (resultDetail != null)
@@ -168,6 +170,7 @@ namespace Ventas.Controllers.Devoluciones
             var item = new Ventas__BE();
             item.MTIPO = 6;
             item.ID_VENTA = idVenta;
+            item.FECHA_FACTURA = DateTime.Now;
             var resultDetail = GetDatosSP_Ventas(item);
 
             if (resultDetail != null)
@@ -186,6 +189,7 @@ namespace Ventas.Controllers.Devoluciones
             var item = new Ventas__BE();
             item.MTIPO = 7;
             item.ID_VENTA = idVenta;
+            item.FECHA_FACTURA = DateTime.Now;
             var resultHeader = GetDatosSP_Ventas(item);
 
             if (resultHeader != null)
@@ -211,6 +215,7 @@ namespace Ventas.Controllers.Devoluciones
 
                 var itemID = new Ventas__BE();
                 itemID.MTIPO = 6;
+                itemID.FECHA_FACTURA = DateTime.Now;
                 item.ID_VENTA = GetDatosSP_Ventas(itemID).FirstOrDefault().ID_VENTA;
 
                 if (SaveHeader(Convert.ToInt32(item.ID_VENTA), "", 1, item.ID_CLIENTE, item.TOTAL, item.TOTAL_DESCUENTO, item.SUBTOTAL, usuario, fel) == true)

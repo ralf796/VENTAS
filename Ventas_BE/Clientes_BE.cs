@@ -10,6 +10,8 @@ namespace Ventas_BE
     {
 
         public int? ID_CLIENTE { get; set; }
+        public int ID_CATEGORIA_CLIENTE { get; set; }
+        public string NOMBRE_CATEGORIA { get; set; }
         public string NOMBRE { get; set; }
         public string DIRECCION { get; set; }
         public string TELEFONO { get; set; }

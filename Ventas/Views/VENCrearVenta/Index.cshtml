@@ -19,7 +19,7 @@
                 this.NOMBRE= NOMBRE;
                 this.DIRECCION= DIRECCION;
             }
-            function DETALLE(ID_PRODUCTO, CANTIDAD, PRECIO_VENTA, TOTAL, IVA, TOTAL_DESCUENTO, SUBTOTAL, CODIGO, CODIGO2, NOMBRE_MARCA_REPUESTO, NOMBRE_PRODUCTO) {
+            function DETALLE(ID_PRODUCTO, CANTIDAD, PRECIO_VENTA, TOTAL, IVA, TOTAL_DESCUENTO, SUBTOTAL, CODIGO, CODIGO2, NOMBRE_MARCA_REPUESTO, NOMBRE_PRODUCTO, DESCUENTO) {
                 this.ID_PRODUCTO = ID_PRODUCTO;
                 this.CANTIDAD = CANTIDAD;
                 this.PRECIO_VENTA = PRECIO_VENTA;
@@ -31,6 +31,7 @@
                 this.CODIGO2 = CODIGO2;
                 this.NOMBRE_MARCA_REPUESTO = NOMBRE_MARCA_REPUESTO;
                 this.NOMBRE_PRODUCTO = NOMBRE_PRODUCTO;
+                this.DESCUENTO = DESCUENTO;
             }
 
             function PDF() {
@@ -61,7 +62,8 @@
                     var vCodigo2 = $(this).find("td").eq(8).text();
                     var marca = $(this).find("td").eq(9).text();
                     var nombre = $(this).find("td").eq(2).text();
-                    var listado = new DETALLE(vId, vCantidad, vPrecio, vTotal, vIva, vDescuento, vSubtotal, vCodigo1, vCodigo2, marca, nombre);
+                    var VDESCUENTO2 = $(this).find("td").eq(5).text();
+                    var listado = new DETALLE(vId, vCantidad, vPrecio, vTotal, vIva, vDescuento, vSubtotal, vCodigo1, vCodigo2, marca, nombre, VDESCUENTO2);
                     jsonDetalles.push(listado);
                 });
 
@@ -163,7 +165,7 @@
             </div>
             <div class="card-body">
                 <div class="row">
-                    <div class="col-12 col-sm-12 col-md-3 col-lg-3 col-xl-2">
+                    <div class="col-12 col-sm-12 col-md-3 col-lg-3 col-xl-3">
                         <label for="divNit">NIT</label>
                         <div class="input-group mb-3" id="divNit">
                             <div class="input-group-prepend">
@@ -173,17 +175,22 @@
                             <input type="text" class="form-control" id="txtNit">
                         </div>
                     </div>
-                    <div class="col-12 col-sm-12 col-md-9 col-lg-9 col-xl-5">
+                    <div class="col-12 col-sm-12 col-md-9 col-lg-9 col-xl-9">
                         <label for="txtNombreCliente">CLIENTE</label>
                         <input class="form-control" id="txtNombreCliente" name="txtNombreCliente" type="text" disabled>
                         <input id="hfIdCliente" type="hidden">
                     </div>
-                    <div class="col-12 col-sm-12 col-md-9 col-lg-9 col-xl-5">
+                    <div class="col-12 col-sm-12 col-md-9 col-lg-9 col-xl-3">
+                        <label for="txtCategoriaCliente">CATEGORIA</label>
+                        <input class="form-control" id="txtCategoriaCliente" name="txtCategoriaCliente" type="text" disabled>
+                        <input id="hfIdCategoriaCliente" type="hidden">
+                    </div>
+                    <div class="col-12 col-sm-12 col-md-9 col-lg-9 col-xl-9">
                         <label for="txtNombreCliente">DIRECCION</label>
                         <input class="form-control" id="txtDireccion" name="txtDireccion" type="text" disabled>
                     </div>
                 </div>
-                <div class="row" style="margin-top:-17px">
+                <div class="row" style="margin-top:0px">
                     <div class="col-12 col-sm-12 col-md-3 col-lg-3 col-xl-3">
                         <label for="divCodigo">CODIGO</label>
                         <div class="input-group mb-3" id="divCodigo">
@@ -268,7 +275,7 @@
                     <div class="col-12 col-sm-6 col-md-3 col-lg-3 col-xl-3">
                         <label for="txtDescuento">CON DESCUENTO (Q)</label>
                         <input class="form-control text-center text-success font-weight-bold" id="txtConDescuento" name="txtConDescuento" type="text" readonly>
-                    </div>                    
+                    </div>
                 </div>
                 <div class="row justify-content-end">
                     <div class="col-12 col-sm-6 col-md-3 col-lg-3 col-xl-2 justify-content-end text-right" style="margin-top:18px">
@@ -276,7 +283,7 @@
                             <div class="icheck-primary d-inline">
                                 <input type="checkbox" id="checkFormaPago">
                                 <label for="checkFormaPago">
-                                    Aplica Crédito
+                                    APLICA CREDITO
                                 </label>
                             </div>
                         </div>

@@ -41,7 +41,7 @@ namespace Ventas.Controllers.Clientes
             }
         }
 
-        public JsonResult GuardarCliente(string nombre = "", string direccion = "", string telefono = "", string email = "", string nit = "")
+        public JsonResult GuardarCliente(string nombre = "", string direccion = "", string telefono = "", string email = "", string nit = "", int id_categoria = 0)
         {
             try
             {
@@ -54,6 +54,7 @@ namespace Ventas.Controllers.Clientes
                 item.NIT = nit;
                 item.CREADO_POR = Session["usuario"].ToString();
                 item.MTIPO = 1;
+                item.ID_CATEGORIA_CLIENTE = id_categoria;
                 var lista = GetDatosCliente_(item);
 
                 if (lista.Count > 0)
@@ -72,7 +73,7 @@ namespace Ventas.Controllers.Clientes
             }
         }
 
-        public JsonResult UpdateClientes(int id = 0, string nombre = "", string direccion = "", string telefono = "", string email = "", string nit = "")
+        public JsonResult UpdateClientes(int id = 0, string nombre = "", string direccion = "", string telefono = "", string email = "", string nit = "", int id_categoria = 0)
         {
             try
             {
@@ -85,6 +86,7 @@ namespace Ventas.Controllers.Clientes
                 item.TELEFONO = telefono;
                 item.EMAIL = email;
                 item.NIT = nit;
+                item.ID_CATEGORIA_CLIENTE = id_categoria;
                 var lista = GetDatosCliente_(item);
                 if (lista.Count > 0)
                 {

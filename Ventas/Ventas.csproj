@@ -2827,9 +2827,11 @@
     <Compile Include="Controllers\Reportes\REPProdCasaComercialController.cs" />
     <Compile Include="Controllers\Reportes\REPProductosController.cs" />
     <Compile Include="Controllers\Reportes\REPProductosGeneralController.cs" />
+    <Compile Include="Controllers\Reportes\REPProductosPorVentaController.cs" />
     <Compile Include="Controllers\Reportes\REPProductosSinStockController.cs" />
     <Compile Include="Controllers\Reportes\REPProductosVendidosController.cs" />
     <Compile Include="Controllers\Reportes\REPProductoUnicoController.cs" />
+    <Compile Include="Controllers\Reportes\REPVendedoresController.cs" />
     <Compile Include="Controllers\Reportes\REPVentasController.cs" />
     <Compile Include="Controllers\Soporte\SOPGeneralController.cs" />
     <Compile Include="Controllers\Usuarios\USUListarUsuarioController.cs" />
@@ -3528,6 +3530,8 @@
     <Content Include="Views\COMRegistrarCompra\Index.cshtml" />
     <Content Include="Views\COMListarCompras\Index.cshtml" />
     <Content Include="Views\DEVCrearFactura\Index.cshtml" />
+    <Content Include="Views\REPVendedores\Index.cshtml" />
+    <Content Include="Views\REPProductosPorVenta\Index.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

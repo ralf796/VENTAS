@@ -16,6 +16,7 @@ namespace Ventas_DAL
             using (var model = new Base_SQL("sp_clientes"))
             {
                 model.Command.Parameters.AddWithValue("@ID_CLIENTE", item.ID_CLIENTE);
+                model.Command.Parameters.AddWithValue("@ID_CATEGORIA", item.ID_CATEGORIA_CLIENTE);
                 model.Command.Parameters.AddWithValue("@NOMBRE", item.NOMBRE);
                 model.Command.Parameters.AddWithValue("@DIRECCION", item.DIRECCION);
                 model.Command.Parameters.AddWithValue("@TELEFONO", item.TELEFONO);

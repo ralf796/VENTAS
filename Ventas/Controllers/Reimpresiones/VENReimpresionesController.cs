@@ -26,7 +26,7 @@ namespace Ventas.Controllers.Ventas
             lista = Reportes_BLL.GetSPReportes(item);
             return lista;
         }
-        public JsonResult GetDatos(string fecha = "")
+        public JsonResult GetDatos(string fecha = "")  
         {
             try
             {

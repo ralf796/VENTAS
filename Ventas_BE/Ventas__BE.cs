@@ -58,5 +58,7 @@ namespace Ventas_BE
         public int ANIO_FINAL { get; set; }
         public int FEL { get; set; }
         public DateTime FECHA_FACTURA { get; set; }
+        public int ID_CATEGORIA_CLIENTE{ get; set; }
+        public string NOMBRE_CATEGORIA_CLIENTE{ get; set; }
     }
 }
