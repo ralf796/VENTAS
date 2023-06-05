@@ -46,6 +46,12 @@
                 var nit = $('#txtNit').val();
                 var nombre = $('#txtNombreCliente').val();
                 var direccion = $('#hfDireccion').val();
+                var esCredito = 0;
+                var fel = 0;
+
+                if ($('#checkFormaPago').is(':checked')) {
+                    esCredito = 1;
+                }
 
                 var jsonEncabezado = new ENCABEZADO(serie, correlativo, idCliente, total, subtotal, totalIva, totalDescuento, nombre,nit, direccion);
 
@@ -74,7 +80,9 @@
 
                 $.post('@Url.Action("GetCotizacion")', {
                     encabezado: JSON.stringify(jsonEncabezado),
-                    detalles: JSON.stringify(jsonDetalles)
+                    detalles: JSON.stringify(jsonDetalles),
+                    fel: fel,
+                    esCredito: esCredito
                 }, function (result) {
                     var pom = document.createElement('a');
                     pom.setAttribute('href', 'data:' + result.MimeType + ';base64,' + result.File);
@@ -90,6 +98,7 @@
                     CallToast('Descarga realizada con éxito.', true, 2300, '#9EC600')
                 });
             }
+
 
             $('#btnCrearCotizacion').on('click', function (e) {
                 e.preventDefault();

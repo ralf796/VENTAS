@@ -87,6 +87,34 @@ namespace Ventas.Controllers.Ventas
 
             return respuesta;
         }
+        private bool SaveHeaderCotizacion(int idVenta = 0, string serie = "", decimal correlativo = 0, int idCliente = 0, decimal total = 0, decimal descuento = 0, decimal subtotal = 0, string usuario = "", int fel = 0, int esCredito = 0)
+        {
+            bool respuesta = false;
+            var item = new Ventas__BE();
+            item.FECHA_FACTURA = DateTime.Now;
+            item.MTIPO = 14;
+            item.ID_VENTA = idVenta;
+            item.SERIE = serie;
+            item.CORRELATIVO = correlativo;
+            item.ID_CLIENTE = idCliente;
+            item.TOTAL = total;
+            item.SUBTOTAL = subtotal;
+            item.TOTAL_DESCUENTO = descuento;
+            item.CREADO_POR = usuario;
+            item.FEL = fel;
+            item.ID_PRODUCTO = esCredito;
+            var resultHeader = GetDatosSP_(item);
+
+            if (resultHeader != null)
+            {
+                if (resultHeader.FirstOrDefault().CODIGO_RESPUESTA == "01")
+                    respuesta = true;
+            }
+            else
+                respuesta = false;
+
+            return respuesta;
+        }
         private bool DeleteOrder(int idVenta = 0)
         {
             bool respuesta = false;
@@ -191,6 +219,7 @@ namespace Ventas.Controllers.Ventas
                         item = new Ventas__BE();
                         item.MTIPO = tipo;
                         item.NIT = nit.Trim();
+                        item.FECHA_FACTURA = DateTime.Now;
                         item = GetDatosSP_(item).FirstOrDefault();
                     }
                 }
@@ -500,7 +529,7 @@ namespace Ventas.Controllers.Ventas
         #endregion
 
         #region COTIZACION
-        public ActionResult GetCotizacion(string encabezado = "", string detalles = "")
+        public ActionResult GetCotizacion(string encabezado = "", string detalles = "", int fel = 0, int esCredito = 0)
         {
             var item = JsonConvert.DeserializeObject<Ventas__BE>(encabezado);
             List<Ventas__BE> listaDetalles = JsonConvert.DeserializeObject<List<Ventas__BE>>(detalles);
@@ -619,15 +648,18 @@ namespace Ventas.Controllers.Ventas
 
             PdfDocument doc = converter.ConvertHtmlString(html.ToString());
             string fileDirectorio = Server.MapPath(@"~\Files\Cotizaciones");
-            
+
 
             MemoryStream fileStream = new MemoryStream();
             doc.Save(fileStream);
 
             string file64 = Convert.ToBase64String(fileStream.ToArray());
             var file = new { File = file64, MimeType = "application/pdf", FileName = $"{nameFile}.pdf" };
-            string link=Utils.SavePDF(doc, fileDirectorio, nameFile);
-            SaveCotizacion(item.ID_CLIENTE, link, nameFile, item.CREADO_POR);
+            string link = Utils.SavePDF(doc, fileDirectorio, nameFile);
+
+            int id_venta = SaveOrderCotizacion(encabezado, detalles, fel, esCredito);
+
+            SaveCotizacion(item.ID_CLIENTE, link, nameFile, item.CREADO_POR, id_venta);
             doc.Close();
             return Json(file);
         }
@@ -878,7 +910,7 @@ namespace Ventas.Controllers.Ventas
             return respuesta;
         }
 
-        public void SaveCotizacion(int id_cliente, string link, string correlativo, string usuario)
+        public void SaveCotizacion(int id_cliente, string link, string correlativo, string usuario, int id_venta)
         {
             var item = new Ventas__BE();
             item.FECHA_FACTURA = DateTime.Now;
@@ -887,7 +919,55 @@ namespace Ventas.Controllers.Ventas
             item.NOMBRE_MODELO = link;
             item.NOMBRE_MARCA_VEHICULO = correlativo;
             item.CREADO_POR = usuario;
+            item.ID_VENTA = id_venta;
             GetDatosSP_(item);
+        }
+
+        public int SaveOrderCotizacion(string encabezado = "", string detalles = "", int fel = 0, int esCredito = 0)
+        {
+            int id_venta = 0;
+            try
+            {
+                var item = JsonConvert.DeserializeObject<Ventas__BE>(encabezado);
+                List<Ventas__BE> listaDetalles = JsonConvert.DeserializeObject<List<Ventas__BE>>(detalles);
+                string usuario = Session["usuario"].ToString();
+                item.CREADO_POR = usuario;
+                bool banderaDetail = false;
+                var itemID = new Ventas__BE();
+                itemID.FECHA_FACTURA = DateTime.Now;
+                itemID.MTIPO = 6;
+                item.ID_VENTA = GetDatosSP_(itemID).FirstOrDefault().ID_VENTA;
+
+                if (SaveHeaderCotizacion(Convert.ToInt32(item.ID_VENTA), "", 1, item.ID_CLIENTE, item.TOTAL, item.TOTAL_DESCUENTO, item.SUBTOTAL, usuario, fel, esCredito) == true)
+                {
+                    foreach (var row in listaDetalles)
+                    {
+                        if (banderaDetail == false)
+                        {
+                            if (SaveDetail(Convert.ToInt32(item.ID_VENTA), row.ID_PRODUCTO, row.CANTIDAD, row.PRECIO_VENTA, row.TOTAL, row.TOTAL_DESCUENTO, row.SUBTOTAL) == false)
+                            {
+                                DeleteOrder(Convert.ToInt32(item.ID_VENTA));
+                                banderaDetail = true;
+                            }
+                        }
+                    }
+                }
+                /*
+                if (banderaDetail == true)
+                    state = 2;
+                else
+                {
+                    DescontProduct(Convert.ToInt32(item.ID_VENTA));
+                }
+                */
+
+                id_venta = Convert.ToInt32(item.ID_VENTA);
+            }
+            catch
+            {
+                id_venta = 0;
+            }
+            return id_venta;
         }
     }
 }

@@ -22,6 +22,8 @@
                 selectedDates: [new Date()]
             });
 
+
+            var cont = 0;
             function GetReporte(fechaInicial) {
                 var customStore = new DevExpress.data.CustomStore({
                     load: function (loadOptions) {
@@ -98,6 +100,11 @@
                     },
                     columns: [
                         {
+                            dataField: "ID_VENTA",
+                            caption: "VENTA",
+                            alignment: "center"
+                        },
+                        {
                             dataField: "ID_COTIZACION",
                             caption: "COTIZACION",
                             alignment: "center"
@@ -129,7 +136,41 @@
                         {
                             dataField: "NIT",
                             caption: "NIT"
-                        }
+                        },
+                        {
+                            caption: "CREAR VENTA",
+                            alignment: "center",
+                            cellTemplate: function (container, options) {
+                                var fieldData = options.data;
+                                var classTmp = 'save' + cont;
+                                var classBTN = 'hvr-grow fal fa-check-circle btn btn-success text-white ' + classTmp;
+
+                                $("<span>").addClass(classBTN).prop('title', 'CREAR VENTA').appendTo(container);
+                                $('.save' + cont).click(function (e) {
+                                    var id_venta = parseInt(fieldData.ID_VENTA);
+
+                                    Swal.fire({
+                                        title: 'CREAR VENTA',
+                                        html: 'Selecciona una opción',
+                                        icon: 'info',
+                                        showCloseButton: true,
+                                        showCancelButton: true,
+                                        confirmButtonColor: '#3085d6',
+                                        cancelButtonColor: '#d33',
+                                        confirmButtonText: 'Si',
+                                        cancelButtonText: 'No'
+                                    }).then((result) => {
+                                        if (result.isConfirmed) {
+                                            SaveOrder(id_venta);
+                                        }
+                                        else if (result.dismiss === Swal.DismissReason.cancel) {
+                                            //alert(2);
+                                        }
+                                    })
+                                })
+                                cont++;
+                            }
+                        },
                     ],
                     onCellPrepared: function (e) {
                         if (e.rowType === 'header') {
@@ -139,6 +180,37 @@
                         }
                     }
                 }).dxDataGrid('instance');
+            }
+
+            function SaveOrder(id_venta) {
+
+                CallLoadingFire('Procesando venta...');
+                $.ajax({
+                    cache: false,
+                    type: 'POST',
+                    url: '@Url.Action("SaveOrder")',
+                    data: { id_venta},
+                    cache: false,
+                    success: function (data) {
+                        var state = data["State"];
+                        var compra = data["ORDEN_COMPRA"];
+                        if (state == 1) {
+                            Swal.fire({
+                                icon: 'success',
+                                type: 'success',
+                                html: 'Se creó la orden de compra: ' + id_venta,
+                                showCancelButton: true,
+                                cancelButtonText: 'Cerrar',
+                                showConfirmButton: false,
+                            });
+                            $('#botonInforme').click();
+                        }
+                        else if (state == -1) {
+                            ShowAlertMessage('warning', data['Message'])
+                            return;
+                        }
+                    }
+                });
             }
 
             /*----------------------------boton informe-----------------------------*/

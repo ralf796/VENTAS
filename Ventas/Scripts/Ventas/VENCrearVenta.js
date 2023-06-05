@@ -658,7 +658,7 @@ $(document).ready(function () {
 
         if (descuento == '')
             descuento = 0;
-        if (!$('#checkAutorizaDescuento').is(':checked') && idCategoriaCliente == 3) {
+        if (!$('#checkAutorizaDescuento').is(':checked') ) {
             if (parseFloat(descuento) > porcentaje) {
                 $('#txtDescuento').val();
                 descuento = 0;
@@ -672,12 +672,12 @@ $(document).ready(function () {
         }
 
         if ($('#txtCantidad').val() == '')
-            $('#txtCantidad').val() = 0;
+            $('#txtCantidad').val(0);
         if ($('#txtPrecio').val() == '')
-            $('#txtPrecio').val() = 0;
+            $('#txtPrecio').val(0);
 
         debugger;
-        if (parseFloat(descuento) > porcentaje && idCategoriaCliente!=3) {
+        if (parseFloat(descuento) > porcentaje && !$('#checkAutorizaDescuento').is(':checked') /*&& idCategoriaCliente!=3*/) {
             descuento = 0;
             $('#txtDescuentoTotal').val('');
             $('#txtConDescuento').val('');
@@ -761,13 +761,13 @@ $(document).ready(function () {
         e.preventDefault();
 
         var idCategoriaCliente = $('#hfIdCategoriaCliente').val();
-
+        /*
         if (idCategoriaCliente != 3) {
             $('#checkAutorizaDescuento').prop('checked', false);
             ShowAlertMessage('warning', 'El cliente seleccionado NO es mayorista.');
             return;
         }
-
+        */
         if ($('#checkAutorizaDescuento').is(':checked')) {
             $('#txtUser').val('');
             $('#txtPassword').val('');
