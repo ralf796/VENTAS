@@ -247,7 +247,7 @@ namespace Ventas.Controllers.Ventas
                 return Json(new { State = -1, Message = ex.Message }, JsonRequestBehavior.AllowGet);
             }
         }
-        public JsonResult GetList(int tipo = 0, int ID_MARCA_REPUESTO = 0, int ID_SUBCATEGORIA = 0, int ID_CATEGORIA = 0, int ID_SERIE_VEHICULO = 0, int ID_MARCA_VEHICULO = 0, int ID_MODELO = 0)
+        public JsonResult GetList(int tipo = 0, int ID_MARCA_REPUESTO = 0, int ID_SUBCATEGORIA = 0, int ID_CATEGORIA = 0, int ID_SERIE_VEHICULO = 0, int ID_MARCA_VEHICULO = 0, int ID_MODELO = 0, string nombre="")
         {
             try
             {
@@ -268,6 +268,7 @@ namespace Ventas.Controllers.Ventas
                     item.ID_MODELO = ID_MODELO;
 
                 item.FECHA_FACTURA = DateTime.Now;
+                item.SERIE = nombre;
                 var lista = GetDatosSP_(item);
 
                 return Json(new { State = 1, data = lista }, JsonRequestBehavior.AllowGet);
@@ -634,7 +635,7 @@ namespace Ventas.Controllers.Ventas
             </div>");
             html.AppendLine("</body>");
             html.AppendLine("</html>");
-            // instantiate a html to pdf converter object
+            
             HtmlToPdf converter = new HtmlToPdf();
             converter.Options.PdfPageSize = PdfPageSize.Letter;
             converter.Options.PdfPageOrientation = PdfPageOrientation.Portrait;
@@ -646,21 +647,30 @@ namespace Ventas.Controllers.Ventas
             converter.Options.MarginLeft = 7;
             converter.Options.MarginRight = 7;
 
-            PdfDocument doc = converter.ConvertHtmlString(html.ToString());
-            string fileDirectorio = Server.MapPath(@"~\Files\Cotizaciones");
+            PdfDocument doc2 = converter.ConvertHtmlString(html.ToString());
 
+            PdfDocument doc = converter.ConvertHtmlString(html.ToString());
+            string directory = Server.MapPath(@"~\Files\Cotizaciones");
+            if (!Directory.Exists(directory))
+                Directory.CreateDirectory(directory);
+
+            string rute = $@"{directory}\{nameFile}.pdf";
+            doc.Save(rute);
 
             MemoryStream fileStream = new MemoryStream();
-            doc.Save(fileStream);
+            doc2.Save(fileStream);
 
             string file64 = Convert.ToBase64String(fileStream.ToArray());
             var file = new { File = file64, MimeType = "application/pdf", FileName = $"{nameFile}.pdf" };
-            string link = Utils.SavePDF(doc, fileDirectorio, nameFile);
+            doc.Close();
+            doc2.Close();
+
+            var urlBuilder1 = new System.UriBuilder(Request.Url.AbsoluteUri) { Path = Url.Content($@"~\Files\Cotizaciones\{nameFile}.pdf"), Query = null, };
+            Uri uri1 = urlBuilder1.Uri;
+            string link = urlBuilder1.ToString();
 
             int id_venta = SaveOrderCotizacion(encabezado, detalles, fel, esCredito);
-
             SaveCotizacion(item.ID_CLIENTE, link, nameFile, item.CREADO_POR, id_venta);
-            doc.Close();
             return Json(file);
         }
         #endregion

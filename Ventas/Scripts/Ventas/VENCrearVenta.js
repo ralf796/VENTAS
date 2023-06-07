@@ -1,4 +1,5 @@
 ﻿var gridProductos = null;
+var gridClientes = null;
 $(document).ready(function () {
     //CallLoadingFire('Cargandoo-.')
     //GetListProductos();
@@ -94,7 +95,7 @@ $(document).ready(function () {
             }
         });
     }
-    function GetListClientes() {
+    function GetListClientes(nombre) {
         var tipo = 3;
         var customStore = new DevExpress.data.CustomStore({
             load: function (loadOptions) {
@@ -104,12 +105,12 @@ $(document).ready(function () {
                     url: '/VENCrearVenta/GetList',
                     contentType: "application/json; charset=utf-8",
                     dataType: 'json',
-                    data: { tipo },
+                    data: { tipo, nombre },
                     cache: false,
                     success: function (data) {
                         var state = data["State"];
                         if (state == 1) {
-                            $('#modalClientes').modal('show');
+                            //$('#modalClientes').modal('show');
                             data = JSON && JSON.parse(JSON.stringify(data)) || $.parseJSON(data);
                             d.resolve(data);
                         }
@@ -123,7 +124,7 @@ $(document).ready(function () {
                 return d.promise();
             }
         });
-        var salesPivotGrid = $("#gridClientes").dxDataGrid({
+        gridClientes = $("#gridClientes").dxDataGrid({
             dataSource: new DevExpress.data.DataSource(customStore),
             showBorders: true,
             loadPanel: {
@@ -195,7 +196,7 @@ $(document).ready(function () {
                     dataField: "ID_CATEGORIA_CLIENTE",
                     caption: "ID_CATEGORIA",
                     alignment: "center",
-                    visible:false
+                    visible: false
                 }
             ],
             onRowDblClick: function (e) {
@@ -476,7 +477,15 @@ $(document).ready(function () {
         $('#hfMarcaR').val('');
         $('#hfNombre').val('');
     }
-
+    //GetListClientes();
+    $("#txtFiltroCliente").on('keyup', function (e) {
+        e.preventDefault();
+        var valor = $(this).val();
+        var valorInt = $(this).val().length;
+        if (valorInt > 3) {
+            GetListClientes(valor);
+        }
+    });
     $("#txtNit").keypress(function (e) {
         var code = (e.keyCode ? e.keyCode : e.which);
         if (code == 13) {
@@ -493,7 +502,11 @@ $(document).ready(function () {
         e.preventDefault();
         //ImprimirScript()
         //window.open('/VENCrearVenta/ImprimirFactura');
-        GetListClientes();
+        //GetListClientes();
+        if (gridClientes != null)
+            gridClientes.option('dataSource', []);
+        $('#modalClientes').modal('show');
+        $('#txtFiltroCliente').val('');
     });
     $('#btnBuscarProductos').on('click', function (e) {
         e.preventDefault();
@@ -658,7 +671,7 @@ $(document).ready(function () {
 
         if (descuento == '')
             descuento = 0;
-        if (!$('#checkAutorizaDescuento').is(':checked') ) {
+        if (!$('#checkAutorizaDescuento').is(':checked')) {
             if (parseFloat(descuento) > porcentaje) {
                 $('#txtDescuento').val();
                 descuento = 0;

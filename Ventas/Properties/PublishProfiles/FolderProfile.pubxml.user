@@ -10,10 +10,10 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
   </PropertyGroup>
   <ItemGroup>
     <File Include="bin/App_global.asax.compiled">
-      <publishTime>06/04/2023 18:34:27</publishTime>
+      <publishTime>06/04/2023 20:26:12</publishTime>
     </File>
     <File Include="bin/App_global.asax.dll">
-      <publishTime>06/04/2023 18:34:27</publishTime>
+      <publishTime>06/04/2023 20:26:12</publishTime>
     </File>
     <File Include="bin/conectorNETv2.dll">
       <publishTime>11/28/2022 12:28:16</publishTime>
@@ -331,10 +331,10 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>05/16/2021 02:35:58</publishTime>
     </File>
     <File Include="bin/Ventas.dll">
-      <publishTime>06/04/2023 18:34:05</publishTime>
+      <publishTime>06/04/2023 20:25:44</publishTime>
     </File>
     <File Include="bin/Ventas.pdb">
-      <publishTime>06/04/2023 18:34:05</publishTime>
+      <publishTime>06/04/2023 20:25:44</publishTime>
     </File>
     <File Include="bin/Ventas_BE.dll">
       <publishTime>05/19/2023 22:16:50</publishTime>
@@ -10711,7 +10711,7 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>10/30/2022 14:22:18</publishTime>
     </File>
     <File Include="PrecompiledApp.config">
-      <publishTime>06/04/2023 18:34:11</publishTime>
+      <publishTime>06/04/2023 20:25:50</publishTime>
     </File>
     <File Include="Scripts/Anulaciones/ANUCrearAnulacionVenta.js">
       <publishTime>01/23/2023 19:51:05</publishTime>
@@ -10861,7 +10861,7 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>10/14/2022 19:27:22</publishTime>
     </File>
     <File Include="Scripts/Ventas/VENCrearVenta.js">
-      <publishTime>06/04/2023 18:31:41</publishTime>
+      <publishTime>06/04/2023 20:10:55</publishTime>
     </File>
     <File Include="Scripts/Ventas/VENPendientes.js">
       <publishTime>11/11/2022 17:22:49</publishTime>
@@ -11026,7 +11026,7 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>06/04/2023 18:20:33</publishTime>
     </File>
     <File Include="Views/VENCrearVenta/Index.cshtml">
-      <publishTime>06/04/2023 17:59:53</publishTime>
+      <publishTime>06/04/2023 19:53:19</publishTime>
     </File>
     <File Include="Views/VENPendientes/Index.cshtml">
       <publishTime>11/11/2022 17:23:08</publishTime>

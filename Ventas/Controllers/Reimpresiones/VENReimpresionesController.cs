@@ -149,7 +149,7 @@ namespace Ventas.Controllers.Ventas
             </div>
             <div class='row pt-5'>
                 <div class='col-md-12 text-center border-dark border-top'>
-                   
+                   <b style='color:red'>Aceptamos devoluciones/cambios no mayores a las 48 horas posteriores a su compra. </b><br>
                 </div>
             </div>");
             html.AppendLine("</body>");
