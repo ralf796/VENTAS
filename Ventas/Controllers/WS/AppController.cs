@@ -73,5 +73,25 @@ namespace Ventas.Controllers.WS
                 return Json(new { State = -1, Message = ex.Message }, JsonRequestBehavior.AllowGet);
             }
         }
+
+
+        [HttpPost]
+        public JsonResult GetProductosWS()
+        {
+            try
+            {
+                var item = new Ventas__BE();
+                item.FECHA_FACTURA = DateTime.Now;
+                item.MTIPO = 16;
+                var lista = GetDatosSP_(item);
+                var json = Json(lista);
+                json.MaxJsonLength = Int32.MaxValue;
+                return json;
+            }
+            catch (Exception ex)
+            {
+                return Json(-1);
+            }
+        }
     }
 }
