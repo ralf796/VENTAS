@@ -12,7 +12,7 @@
 <!-- ChartJS -->
 <script src="~/Content/Admin LTE 3.2/plugins/chart.js/Chart.min.js"></script>
 <!-- Sparkline -->
-<script src="~/Content/Admin LTE 3.2/plugins/sparklines/sparkline.js"></script>
+@*<script src="~/Content/Admin LTE 3.2/plugins/sparklines/sparkline.js"></script>*@
 <!-- JQVMap -->
 <script src="~/Content/Admin LTE 3.2/plugins/jqvmap/jquery.vmap.min.js"></script>
 <script src="~/Content/Admin LTE 3.2/plugins/jqvmap/maps/jquery.vmap.usa.js"></script>
@@ -30,9 +30,9 @@
 <!-- AdminLTE App -->
 <script src="~/Content/Admin LTE 3.2/dist/js/adminlte.js"></script>
 <!-- AdminLTE for demo purposes -->
-<script src="~/Content/Admin LTE 3.2/dist/js/demo.js"></script>
+@*<script src="~/Content/Admin LTE 3.2/dist/js/demo.js"></script>*@
 <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
-<script src="~/Content/Admin LTE 3.2/dist/js/pages/dashboard.js"></script>
+@*<script src="~/Content/Admin LTE 3.2/dist/js/pages/dashboard.js"></script>*@
 
 <script src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>
 <script src="https://cdn.datatables.net/1.12.1/js/dataTables.bootstrap4.min.js"></script>
@@ -53,7 +53,7 @@
 <!--ALERTIFY-->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/AlertifyJS/1.13.1/alertify.min.js" integrity="sha512-JnjG+Wt53GspUQXQhc+c4j8SBERsgJAoHeehagKHlxQN+MtCCmFDghX9/AcbkkNRZptyZU4zC8utK59M5L45Iw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/babel-polyfill/7.4.0/polyfill.min.js"></script>
+@*<script src="https://cdnjs.cloudflare.com/ajax/libs/babel-polyfill/7.4.0/polyfill.min.js"></script>*@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/exceljs/4.1.1/exceljs.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.2/FileSaver.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.0.0/jspdf.umd.min.js"></script>
@@ -91,11 +91,20 @@
         })
         */
 
+        Swal.fire({
+            icon: icon,
+            html: descripcion,
+            showCancelButton: true,
+            cancelButtonText: 'Cerrar',
+            showConfirmButton: false,
+        })
+        /*
         alertify.set('notifier', 'position', 'top-center');
         if (icon == 'success')
             alertify.success(descripcion, 'position')
         else
             alertify.error(descripcion, 'position');
+            */
     }
 
     function formatNumber(num) {

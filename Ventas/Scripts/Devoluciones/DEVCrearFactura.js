@@ -839,7 +839,8 @@ $(document).ready(function () {
                     console.log(VENTA)
                     if (VENTA == null) {
                         ShowAlertMessage('warning', 'La órden de compra ' + ID_VENTA + ' no existe o no es venta al crédito.');
-                        ClearDatos();
+                        ClearCustomer();
+                        ClearProduct();
                     }
                     else {
                         debugger

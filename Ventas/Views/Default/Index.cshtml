@@ -1,5 +1,10 @@
 ﻿@{
     Layout = "~/Views/Shared/_Layout.cshtml";
+
+    DateTime fechaVencimiento = new DateTime(2023, 10, 15);
+    DateTime now = DateTime.Now;
+    TimeSpan ts = fechaVencimiento.Subtract(now);
+    double diff = ts.TotalDays;
 }
 
 @section scripts{
@@ -18,6 +23,10 @@
 
 <div class="container-fluid justify-content-center text-center">
     <h2>BIENVENIDO A SALESMENT</h2>
+    <p class="badge badge-danger w-100 mb-2 h1 text-center">
+        <i class="fas fa-info-circle "></i> ¡Información! <i class="fas fa-info-circle "></i><br /> En @diff.ToString("N0") días vencerá el servicio de su sistema.<br />        
+        Contacte a su administrador para poder proceder con su renovación.
+    </p>
     <div class="row justify-content-center">
         <div class="col-lg-4 col-6 hvr-grow">
             <div class="small-box bg-info">

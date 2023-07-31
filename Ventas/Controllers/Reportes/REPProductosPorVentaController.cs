@@ -17,6 +17,11 @@ namespace Ventas.Controllers.Reportes
         {
             return View();
         }
+        [SessionExpireFilter]
+        public ActionResult ReporteCaja()
+        {
+            return View();
+        }
         private List<Reportes_BE> GetSPReportes_(Reportes_BE item)
         {
             List<Reportes_BE> lista = new List<Reportes_BE>();
@@ -39,7 +44,27 @@ namespace Ventas.Controllers.Reportes
             catch (Exception ex)
             {
                 return Json(new { State = -1, Message = ex.Message }, JsonRequestBehavior.AllowGet);
-
+            }
+        }
+        public JsonResult GetReporteCaja(string fechaInicial = "", string fechaFinal = "")
+        {
+            try
+            {
+                var item = new Reportes_BE();
+                item.MTIPO = 36;
+                item.FECHA_INICIAL = Convert.ToDateTime(fechaInicial);
+                item.FECHA_FINAL = Convert.ToDateTime(fechaFinal);
+                var lista = GetSPReportes_(item);
+                foreach (var row in lista)
+                {
+                    row.FECHA_CREACION_STRING = row.FECHA_CREACION.ToString("dd/MM/yyyy hh:mm tt");
+                    row.FECHA_VENTA_STRING= row.FECHA_CORTE.ToString("dd/MM/yyyy");
+                }
+                return Json(new { State = 1, data = lista }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                return Json(new { State = -1, Message = ex.Message }, JsonRequestBehavior.AllowGet);
             }
         }
     }

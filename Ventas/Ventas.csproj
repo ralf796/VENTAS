@@ -3534,6 +3534,7 @@
     <Content Include="Views\REPVendedores\Index.cshtml" />
     <Content Include="Views\REPProductosPorVenta\Index.cshtml" />
     <Content Include="Views\VENCotizaciones\Index.cshtml" />
+    <Content Include="Views\REPProductosPorVenta\ReporteCaja.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

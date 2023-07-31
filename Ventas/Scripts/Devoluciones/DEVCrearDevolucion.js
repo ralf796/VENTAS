@@ -17,8 +17,8 @@ $(document).ready(function () {
                     var LISTA = data["data_lista"];
                     console.log(VENTA)
                     if (VENTA == null) {
-                        ShowAlertMessage('warning', 'La órden de compra ' + ID_VENTA + ' no existe o no es venta al crédito.');
-                        ClearDatos();
+                        ShowAlertMessage('warning', 'La órden de compra ' + ID_VENTA + ' no existe, está anulada o no es venta al crédito.');
+                        ClearData();
                     }
                     else {
                         debugger

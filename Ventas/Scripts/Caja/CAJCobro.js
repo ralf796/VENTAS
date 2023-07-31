@@ -33,8 +33,66 @@ $(document).ready(function () {
     var jsonEncabezado;
     var jsonDetalles = [];
     DevExpress.localization.locale(navigator.language);
-    GetDatos();
+    GetDatos();    
     var cont = 0;
+
+    function GetModalCreditos() {
+        $.ajax({
+            type: 'GET',
+            url: '/CAJCobro/GetCobro',
+            contentType: "application/json; charset=utf-8",
+            dataType: 'json',
+            data: {},
+            cache: false,
+            success: function (data) {
+                var state = data["State"];
+                if (state == 1) {
+                    var lista = data["CREDITOS"];
+                    $('#tbodyListado').empty();
+                    var cont = 1;
+                    $.each(lista, function (i, l) {
+                        $('#tbodyListado').append('<tr>' +
+                            '<td class="text-center">' + l.ID_ESTADO_CUENTA + '</td>' +
+                            '<td class="text-center">' + l.ID_VENTA + '</td>' +
+                            '<td>' + l.NOMBRE_CLIENTE + '</td>' +
+                            '<td class="text-center">' + l.FECHA_CREACION_STRING + '</td>' +
+                            '</tr>'
+                        );
+                        cont++;
+                    });
+                    $('#modalCreditos').modal('show');
+                    $("#tdDatos").dataTable({
+                        scrollY: '250px',
+                        scrollX: true,
+                        scrollCollapse: true,
+                        fixedHeader: true,
+                        language: {
+                            "lengthMenu": "Registros por pagina _MENU_",
+                            "zeroRecords": "No existen registros",
+                            "info": "Pagina _PAGE_ de _PAGES_",
+                            "infoEmpty": "No existen registros",
+                            "search": "<strong>Buscar por nombre de cliente</strong>",
+                            "paginate": {
+                                "first": "Primero",
+                                "last": "Ultimo",
+                                "next": "Siguiente",
+                                "previous": "Anterior"
+                            },
+                        },
+                        "lengthMenu": [[20, 25, 50, -1], [20, 25, 50, "Todos"]],
+                        ordering: false,
+                        info: false,
+                        paginate: false,
+                        searching: false
+                    });
+                }
+            },
+            error: function (jqXHR, exception) {
+                getErrorMessage(jqXHR, exception);
+            }
+        });
+    }
+
     function GetDatos() {
         var customStore = new DevExpress.data.CustomStore({
             load: function (loadOptions) {
@@ -49,25 +107,6 @@ $(document).ready(function () {
                     success: function (data) {
                         var state = data["State"];
                         if (state == 1) {
-                            var lista = data["CREDITOS"];
-
-                            if (lista.length == 0)
-                                $('#divCreditos').addClass('d-none')
-
-                            $('#tbodyListado').empty();
-                            var cont = 1;
-                            $.each(lista, function (i, l) {
-                                $('#tbodyListado').append('<tr>' +
-                                    '<td class="text-center">' + l.ID_ESTADO_CUENTA + '</td>' +
-                                    '<td class="text-center">' + l.ID_VENTA + '</td>' +
-                                    '<td>' + l.NOMBRE_CLIENTE + '</td>' +
-                                    '<td class="text-center">' + l.FECHA_CREACION_STRING + '</td>' +
-                                    '</tr>'
-                                );
-                                cont++;
-                            });
-
-
                             data = JSON && JSON.parse(JSON.stringify(data)) || $.parseJSON(data);
                             d.resolve(data);
                         }
@@ -489,7 +528,12 @@ $(document).ready(function () {
         let id = $('#hfID').val();
         var fel = $('#hfFel').val();
         anularVenta(id, fel)
-    })
+    });
+
+    $('#btnCreditos').on('click', function (e) {
+        e.preventDefault();
+        GetModalCreditos();
+    });
 
     $('#selTipoPago').on('change', function (e) {
         e.preventDefault();
