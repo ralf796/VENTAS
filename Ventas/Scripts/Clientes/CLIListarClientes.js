@@ -239,6 +239,21 @@
     // boton para recibir datos desde el modal ------------------
     $('#guardarClienteModal').on('click', function (e) {
         e.preventDefault();
+        var id_categoria = $('#selCategoriaCliente').val();
+        if (id_categoria == 3) {
+            $('#modalValidarAutorizacion').modal('show');
+        }
+        else {
+            GuardarConValidacion();
+        }
+    });
+
+    $('#btnValidarUsuario').on('click', function (e) {
+        e.preventDefault();
+        ValidarLogin();
+    });
+
+    function GuardarConValidacion() {
         var opcion = $('#hfOpcion').val();
         var id = $('#hfID').val();
         var nombre = $('#txtGuardarNombre').val();
@@ -251,9 +266,9 @@
             ShowAlertMessage('warning', 'Los campos nombre, telefono y nit son obligatorios')
         }
         else {
-            if (email.trim() != '' && email.trim()!=null) {
+            if (email.trim() != '' && email.trim() != null) {
                 const regex = /^\w+([.-_+]?\w+)*@\w+([.-]?\w+)*(\.\w{2,10})+$/
-                if (regex.test(email) && email!='' && email!=null) {
+                if (regex.test(email) && email != '' && email != null) {
                     if (opcion == 1) {
                         guardarCliente(nombre, direccion, telefono, email, nit, id_categoria);
                     }
@@ -276,12 +291,54 @@
 
         }
 
-
-    });
+    }
 
     //boton para abrir modal
     $('#btnAbrirModal').on('click', function (e) {
         e.preventDefault();
         GetOpcion(1);
+    });
+
+
+    function ValidarLogin() {
+        var usuario = $('#txtUser').val();
+        var password = $('#txtPassword').val();
+        $.ajax({
+            type: 'GET',
+            url: '/VENCrearVenta/ValidarLogin',
+            contentType: "application/json; charset=utf-8",
+            dataType: 'json',
+            data: { usuario, password },
+            cache: false,
+            success: function (data) {
+                var state = data["State"];
+                if (state == 1) {
+                    $('#checkAutorizaDescuento').prop('checked', true)
+                    $('#modalValidarAutorizacion').modal('hide');
+                    GuardarConValidacion();
+                }
+                else {
+                    $('#checkAutorizaDescuento').prop('checked', false);
+                    $('#txtUser').val('');
+                    $('#txtPassword').val('');
+                }
+            }
+        });
+    }
+
+    $('#checkAutorizaDescuento').on('change', function (e) {
+        e.preventDefault();
+        if ($('#checkAutorizaDescuento').is(':checked')) {
+            $('#txtUser').val('');
+            $('#txtPassword').val('');
+            $('#modalValidarAutorizacion').modal('show');
+            $('#checkAutorizaDescuento').prop('checked', false);
+        }
+        else {
+            $('#txtDescuentoTotal').val('');
+            $('#txtConDescuento').val('');
+            $('#txtSinDescuento').val('');
+            $('#txtDescuento').val('');
+        }
     });
 });
