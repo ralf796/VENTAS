@@ -59,6 +59,7 @@ namespace Ventas_BE
         public int FEL { get; set; }
         public DateTime FECHA_FACTURA { get; set; }
         public int ID_CATEGORIA_CLIENTE{ get; set; }
+        public int FRECUENCIA{ get; set; }
         public string NOMBRE_CATEGORIA_CLIENTE{ get; set; }
     }
 }

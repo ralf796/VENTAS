@@ -21,6 +21,7 @@ namespace Ventas_BE
         public int? MTIPO { get; set; }
         public int? ESTADO { get; set; }
         public string RESPUESTA { get; set; }
+        public int FRECUENCIA { get; set; }
 
     }
 }

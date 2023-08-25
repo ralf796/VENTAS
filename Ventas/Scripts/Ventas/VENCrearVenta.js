@@ -29,6 +29,7 @@ $(document).ready(function () {
         $('#checkAutorizaDescuento').prop('checked', false);
     }
     function GetCliente(nit) {
+        
         var tipo = 2;
         $.ajax({
             type: 'GET',
@@ -49,9 +50,42 @@ $(document).ready(function () {
                     else {
                         $('#hfIdCliente').val(CLIENTE.ID_CLIENTE);
                         $('#txtNombreCliente').val(CLIENTE.NOMBRE);
+                        //$('#txtNombreCliente').val(CLIENTE.FRECUENCIA);
                         $('#txtDireccion').val(CLIENTE.DIRECCION);
                         $('#txtCategoriaCliente').val(CLIENTE.NOMBRE_CATEGORIA_CLIENTE);
                         $('#hfIdCategoriaCliente').val(CLIENTE.ID_CATEGORIA_CLIENTE);
+
+                        $('#txtNombreCliente').removeClass('border border-success border-warning border-danger');
+                        $('#txtDireccion').removeClass('border border-success border-warning border-danger');
+                        $('#txtCategoriaCliente').removeClass('border border-success border-warning border-danger');
+
+                        if (CLIENTE.FRECUENCIA == 3) {
+                            //$('#txtNombreCliente').addClass('border border-success');
+                            //$('#txtDireccion').addClass('border border-success');
+                            //$('#txtCategoriaCliente').addClass('border border-success');
+
+                            $('#txtNombreCliente').css('border', '3px solid green');
+                            $('#txtDireccion').css('border', '3px solid green');
+                            $('#txtCategoriaCliente').css('border', '3px solid green');
+                        }
+                        else if (CLIENTE.FRECUENCIA == 2) {
+                            //$('#txtNombreCliente').addClass('border border-warning');
+                            //$('#txtDireccion').addClass('border border-warning');
+                            //$('#txtCategoriaCliente').addClass('border border-warning');
+
+                            $('#txtNombreCliente').css('border', '3px solid yellow');
+                            $('#txtDireccion').css('border', '3px solid yellow');
+                            $('#txtCategoriaCliente').css('border', '3px solid yellow');
+                        }
+                        else {
+                            //$('#txtNombreCliente').addClass('border border-danger');
+                            //$('#txtDireccion').addClass('border border-danger');
+                            //$('#txtCategoriaCliente').addClass('border border-danger');
+
+                            $('#txtNombreCliente').css('border', '3px solid red');
+                            $('#txtDireccion').css('border', '3px solid red');
+                            $('#txtCategoriaCliente').css('border', '3px solid red');
+                        }
                     }
                 }
                 else if (state == -1) {
@@ -197,6 +231,12 @@ $(document).ready(function () {
                     caption: "ID_CATEGORIA",
                     alignment: "center",
                     visible: false
+                },
+                {
+                    dataField: "FRECUENCIA",
+                    caption: "FRECUENCIA",
+                    alignment: "center",
+                    visible: false
                 }
             ],
             onRowDblClick: function (e) {
@@ -208,6 +248,31 @@ $(document).ready(function () {
                 $('#txtCategoriaCliente').val(e.data["NOMBRE_CATEGORIA_CLIENTE"]);
                 $('#hfIdCategoriaCliente').val(e.data["ID_CATEGORIA_CLIENTE"]);
                 $('#modalClientes').modal('hide');
+
+                if (e.data["FRECUENCIA"] == 3) {
+                    //$('#txtNombreCliente').addClass('border border-success');
+                    //$('#txtDireccion').addClass('border border-success');
+                    //$('#txtCategoriaCliente').addClass('border border-success');
+                    $('#txtNombreCliente').css('border', '3px solid green');
+                    $('#txtDireccion').css('border', '3px solid green');
+                    $('#txtCategoriaCliente').css('border', '3px solid green');
+                }
+                else if (e.data["FRECUENCIA"] == 2) {
+                    //$('#txtNombreCliente').addClass('border border-warning');
+                    //$('#txtDireccion').addClass('border border-warning');
+                    //$('#txtCategoriaCliente').addClass('border border-warning');
+                    $('#txtNombreCliente').css('border', '3px solid yellow');
+                    $('#txtDireccion').css('border', '3px solid yellow');
+                    $('#txtCategoriaCliente').css('border', '3px solid yellow');
+                }
+                else {
+                    //$('#txtNombreCliente').addClass('border border-danger');
+                    //$('#txtDireccion').addClass('border border-danger');
+                    //$('#txtCategoriaCliente').addClass('border border-danger');
+                    $('#txtNombreCliente').css('border', '3px solid red');
+                    $('#txtDireccion').css('border', '3px solid red');
+                    $('#txtCategoriaCliente').css('border', '3px solid red');
+                }
             },
             onCellPrepared: function (e) {
                 if (e.rowType === 'header') {
