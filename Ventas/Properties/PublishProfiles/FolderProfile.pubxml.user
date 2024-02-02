@@ -5,15 +5,15 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
 <Project>
   <PropertyGroup>
     <_PublishTargetUrl>C:\Development\Ventas\Ventas\bin\app.publish\</_PublishTargetUrl>
-    <History>True|2023-08-16T03:52:53.8441496Z;True|2023-08-09T22:34:13.4357319-06:00;True|2023-06-09T23:36:28.6871433-06:00;True|2023-01-23T21:28:14.6672295-06:00;True|2022-12-06T22:59:54.9278381-06:00;False|2022-12-06T22:58:38.2756884-06:00;True|2022-10-18T11:37:48.5369406-06:00;False|2022-10-17T16:21:09.2332763-06:00;False|2022-10-17T16:18:24.4682995-06:00;False|2022-10-17T16:17:29.2465713-06:00;False|2022-10-17T16:17:20.5420601-06:00;False|2022-10-17T16:16:58.4624842-06:00;False|2022-10-17T16:16:25.0387971-06:00;True|2022-10-14T19:28:38.6437709-06:00;True|2022-10-13T17:41:32.6459599-06:00;</History>
+    <History>True|2024-01-24T15:43:17.2844843Z;True|2023-09-05T20:16:12.8028345-06:00;True|2023-08-15T21:52:53.8441496-06:00;True|2023-08-09T22:34:13.4357319-06:00;True|2023-06-09T23:36:28.6871433-06:00;True|2023-01-23T21:28:14.6672295-06:00;True|2022-12-06T22:59:54.9278381-06:00;False|2022-12-06T22:58:38.2756884-06:00;True|2022-10-18T11:37:48.5369406-06:00;False|2022-10-17T16:21:09.2332763-06:00;False|2022-10-17T16:18:24.4682995-06:00;False|2022-10-17T16:17:29.2465713-06:00;False|2022-10-17T16:17:20.5420601-06:00;False|2022-10-17T16:16:58.4624842-06:00;False|2022-10-17T16:16:25.0387971-06:00;True|2022-10-14T19:28:38.6437709-06:00;True|2022-10-13T17:41:32.6459599-06:00;</History>
     <LastFailureDetails />
   </PropertyGroup>
   <ItemGroup>
     <File Include="bin/App_global.asax.compiled">
-      <publishTime>08/15/2023 21:52:35</publishTime>
+      <publishTime>01/24/2024 09:43:00</publishTime>
     </File>
     <File Include="bin/App_global.asax.dll">
-      <publishTime>08/15/2023 21:52:35</publishTime>
+      <publishTime>01/24/2024 09:43:00</publishTime>
     </File>
     <File Include="bin/conectorNETv2.dll">
       <publishTime>11/28/2022 12:28:16</publishTime>
@@ -271,7 +271,7 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>03/21/2022 00:55:22</publishTime>
     </File>
     <File Include="bin/stdole.dll">
-      <publishTime>08/27/2022 15:42:54</publishTime>
+      <publishTime>08/16/2015 03:38:38</publishTime>
     </File>
     <File Include="bin/System.Buffers.dll">
       <publishTime>02/19/2020 04:05:18</publishTime>
@@ -331,28 +331,28 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>05/16/2021 02:35:58</publishTime>
     </File>
     <File Include="bin/Ventas.dll">
-      <publishTime>08/15/2023 20:39:52</publishTime>
+      <publishTime>01/24/2024 09:19:08</publishTime>
     </File>
     <File Include="bin/Ventas.pdb">
-      <publishTime>08/15/2023 20:39:52</publishTime>
+      <publishTime>01/24/2024 09:19:08</publishTime>
     </File>
     <File Include="bin/Ventas_BE.dll">
-      <publishTime>08/15/2023 20:39:51</publishTime>
+      <publishTime>01/24/2024 08:20:55</publishTime>
     </File>
     <File Include="bin/Ventas_BE.pdb">
-      <publishTime>08/15/2023 20:39:51</publishTime>
+      <publishTime>01/24/2024 08:20:55</publishTime>
     </File>
     <File Include="bin/Ventas_BLL.dll">
-      <publishTime>08/15/2023 20:39:52</publishTime>
+      <publishTime>01/24/2024 09:19:07</publishTime>
     </File>
     <File Include="bin/Ventas_BLL.pdb">
-      <publishTime>08/15/2023 20:39:52</publishTime>
+      <publishTime>01/24/2024 09:19:07</publishTime>
     </File>
     <File Include="bin/Ventas_DAL.dll">
-      <publishTime>08/15/2023 20:39:52</publishTime>
+      <publishTime>01/24/2024 09:19:07</publishTime>
     </File>
     <File Include="bin/Ventas_DAL.pdb">
-      <publishTime>08/15/2023 20:39:52</publishTime>
+      <publishTime>01/24/2024 09:19:07</publishTime>
     </File>
     <File Include="Content/Admin LTE 3.2/.babelrc.js">
       <publishTime>09/02/2022 16:46:53</publishTime>
@@ -10711,7 +10711,7 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>10/30/2022 14:22:18</publishTime>
     </File>
     <File Include="PrecompiledApp.config">
-      <publishTime>08/15/2023 21:52:22</publishTime>
+      <publishTime>01/24/2024 09:42:47</publishTime>
     </File>
     <File Include="Scripts/Anulaciones/ANUCrearAnulacionVenta.js">
       <publishTime>01/23/2023 19:51:05</publishTime>
@@ -10780,7 +10780,7 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>12/09/2022 08:44:56</publishTime>
     </File>
     <File Include="Scripts/Inventario/ListarProductos.js">
-      <publishTime>12/17/2022 19:32:19</publishTime>
+      <publishTime>10/18/2023 21:33:45</publishTime>
     </File>
     <File Include="Scripts/Inventario/MarcaRepuesto.js">
       <publishTime>10/30/2022 17:40:06</publishTime>
@@ -10790,6 +10790,9 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
     </File>
     <File Include="Scripts/Inventario/Modelo.js">
       <publishTime>10/30/2022 17:38:12</publishTime>
+    </File>
+    <File Include="Scripts/Inventario/ModificarPrecios.js">
+      <publishTime>01/24/2024 09:15:39</publishTime>
     </File>
     <File Include="Scripts/Inventario/Proveedor.js">
       <publishTime>10/30/2022 17:38:00</publishTime>
@@ -10924,7 +10927,7 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>12/09/2022 08:37:35</publishTime>
     </File>
     <File Include="Views/INVMantenimiento/IndexListarProductos.cshtml">
-      <publishTime>12/14/2022 23:14:59</publishTime>
+      <publishTime>10/18/2023 21:33:46</publishTime>
     </File>
     <File Include="Views/INVMantenimiento/IndexMantenimiento.cshtml">
       <publishTime>10/15/2022 23:03:04</publishTime>
@@ -10949,6 +10952,9 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
     </File>
     <File Include="Views/INVMantenimiento/IndexTipo.cshtml">
       <publishTime>10/17/2022 13:11:45</publishTime>
+    </File>
+    <File Include="Views/INVModificarPreciosMasivo/Index.cshtml">
+      <publishTime>01/24/2024 08:23:59</publishTime>
     </File>
     <File Include="Views/REPAbonos/Index.cshtml">
       <publishTime>02/03/2023 09:43:09</publishTime>
@@ -11014,7 +11020,7 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>07/30/2023 17:05:47</publishTime>
     </File>
     <File Include="Views/Shared/_Layout.cshtml">
-      <publishTime>08/09/2023 21:22:08</publishTime>
+      <publishTime>01/24/2024 09:13:51</publishTime>
     </File>
     <File Include="Views/Shared/_LoadingFire.cshtml">
       <publishTime>10/30/2022 14:22:19</publishTime>

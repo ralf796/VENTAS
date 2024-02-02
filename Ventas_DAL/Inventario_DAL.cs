@@ -38,6 +38,7 @@ namespace Ventas_DAL
                 model.Command.Parameters.AddWithValue("@ANIO_INICIAL", item.ANIO_INICIAL);
                 model.Command.Parameters.AddWithValue("@ANIO_FINAL", item.ANIO_FINAL);
                 model.Command.Parameters.AddWithValue("@MTIPO", item.MTIPO);
+                model.Command.Parameters.AddWithValue("@CODIGO_INTERNO", item.CODIGO_INTERNO);
                 result = model.GetData<Inventario_BE>();
             }
             return result;

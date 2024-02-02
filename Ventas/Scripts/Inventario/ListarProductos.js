@@ -1,5 +1,10 @@
 ﻿var gridProductos = null;
 $(document).ready(function () {
+    var id_delete;
+    var nombre_delete;
+
+
+
     DevExpress.localization.locale(navigator.language);
     var cont = 0;
     function GetDatosGridProductos() {
@@ -132,7 +137,10 @@ $(document).ready(function () {
                                     cancelButtonText: 'No'
                                 }).then((result) => {
                                     if (result.isConfirmed) {
-                                        Update_Delete_Producto(id, fieldData.NOMBRE, fieldData.STOCK, fieldData.PRECIO_COSTO, fieldData.PRECIO_VENTA, fieldData.PATH_IMAGEN, 3, '')
+                                        $('#modalValidarAutorizacion2').modal('show');
+                                        id_delete = id;
+                                        nombre_delete=fieldData.NOMBRE
+                                        //Update_Delete_Producto(id, fieldData.NOMBRE, fieldData.STOCK, fieldData.PRECIO_COSTO, fieldData.PRECIO_VENTA, fieldData.PATH_IMAGEN, 3, '')
                                     }
                                 })
                             })
@@ -321,6 +329,29 @@ $(document).ready(function () {
             }
         });
     }
+    function ValidarLogin2() {
+        var usuario = $('#txtUser2').val();
+        var password = $('#txtPassword2').val();
+        $.ajax({
+            type: 'GET',
+            url: '/VENCrearVenta/ValidarLogin',
+            contentType: "application/json; charset=utf-8",
+            dataType: 'json',
+            data: { usuario, password },
+            cache: false,
+            success: function (data) {
+                var state = data["State"];
+                if (state == 1) {
+                    Update_Delete_Producto(id_delete, nombre_delete, 0, 0, 0, '', 3, '')
+                    $('#modalValidarAutorizacion2').modal('hide');
+                }
+                else {
+                    $('#txtUser2').val('');
+                    $('#txtPassword2').val('');
+                }
+            }
+        });
+    }
 
     $("#txtFiltro").keypress(function (e) {
         var code = (e.keyCode ? e.keyCode : e.which);
@@ -405,7 +436,6 @@ $(document).ready(function () {
     });
     $('#btnValidarUsuario').on('click', function (e) {
         e.preventDefault();
-
         var ID_PRODUCTO = $('#hfIdProducto').val();
         var NOMBRE = '';
         var STOCK = $('#txtNuevoStock').val();
@@ -415,8 +445,11 @@ $(document).ready(function () {
         var PATH = '';
         var tipo = 6;
         var nuevo = parseFloat(STOCK_actual) + parseFloat(STOCK);
-
         ValidarLogin(nuevo, STOCK_actual, ID_PRODUCTO, NOMBRE, STOCK, PRECIO_COSTO, PRECIO_VENTA, PATH, tipo)
+    });
+    $('#btnValidarUsuario2').on('click', function (e) {
+        e.preventDefault();
+        ValidarLogin2()
 
     });
 });

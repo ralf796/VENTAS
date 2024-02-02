@@ -2816,6 +2816,7 @@
     <Compile Include="Controllers\Devoluciones\DEVCrearDevolucionController.cs" />
     <Compile Include="Controllers\Devoluciones\DEVCrearFacturaController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\Inventario\INVModificarPreciosMasivoController.cs" />
     <Compile Include="Controllers\Inventario\INVMantenimientoController.cs" />
     <Compile Include="Controllers\Reportes\REPAbonosController.cs" />
     <Compile Include="Controllers\Reportes\REPAntiguedadSaldosController.cs" />
@@ -3536,6 +3537,7 @@
     <Content Include="Views\VENCotizaciones\Index.cshtml" />
     <Content Include="Views\REPProductosPorVenta\ReporteCaja.cshtml" />
     <Content Include="Views\REPProductosPorVenta\ReporteSemaforo.cshtml" />
+    <Content Include="Views\INVModificarPreciosMasivo\Index.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -3566,6 +3568,7 @@
   </ItemGroup>
   <ItemGroup>
     <TypeScriptCompile Include="Content\air-datepicker-3\dist\air-datepicker.d.ts" />
+    <Content Include="Scripts\Inventario\ModificarPrecios.js" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />
