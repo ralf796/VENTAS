@@ -1,6 +1,9 @@
-﻿using SelectPdf;
+﻿using Gma.QrCodeNet.Encoding.Windows.Render;
+using Gma.QrCodeNet.Encoding;
+using SelectPdf;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Web;
@@ -8,6 +11,7 @@ using System.Web.Mvc;
 using Ventas.Class;
 using Ventas_BE;
 using Ventas_BLL;
+using System.Drawing.Imaging;
 
 namespace Ventas.Controllers.Ventas
 {
@@ -50,7 +54,7 @@ namespace Ventas.Controllers.Ventas
             }
         }
 
-        public ActionResult GetComprobante(int id_venta = 0)
+        public ActionResult GetComprobante(int id_venta = 0, string uuid="")
         {
             var item = new Reportes_BE();
             var itemHeader = new Reportes_BE();
@@ -75,14 +79,32 @@ namespace Ventas.Controllers.Ventas
             html.AppendLine("<meta charset='utf-8' />");
             html.AppendLine(@"<link rel='stylesheet' href='https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css' integrity='sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm' crossorigin='anonymous'>");
             html.AppendLine("<script src='http://code.jquery.com/jquery-latest.min.js'></script>");
+            html.AppendLine("<script src='https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js' integrity='sha512-CNgIRecGo7nphbeZ04Sc13ka07paqdeTu0WR1IM4kNcpmBAUSHSQX0FslNhTDadL4O5SAGapGt4FodqL8My0mA==' crossorigin='anonymous' referrerpolicy='no-referrer'></script>");
             html.AppendLine("</head>");
             html.AppendLine("<body class='pt-4' >");
+            html.AppendLine(@"
+                        <script>
+                            $(document).ready(function () {                                
+                                var qrcode = new QRCode('qrcode');
+
+                            function makeCode () {		
+	                            var elText = document.getElementById('text');
+	                            qrcode.makeCode(elText.value);
+                            }
+
+                            makeCode();
+
+                            $('#text').
+	                            on('blur', function () { makeCode(); });
+                            });
+                        </script>
+                        ");
             html.AppendLine($@"
             <div class='row' style='font-size:45px'>
                 <div class='form-group col-md-3 text-center' style='margin-top:-35px'>
                     <img style='margin-top:10px' src='https://distribuidorarepuestoseleden.com/Varios/LogoElEden.jpeg' height='180' width='250' />
                 </div>
-                <div class='form-group col-md-7 text-center' style='margin-top:30px'>
+                <div class='form-group col-md-6 text-center' style='margin-top:30px'>
                     <div class='row'>
                         <div class='form-group col-md-12'>
                             <h6 style='font-size:25px'>DISTRIBUIDORA DE REPUESTOS EL EDEN</h6>
@@ -91,12 +113,18 @@ namespace Ventas.Controllers.Ventas
                             <h6 style='font-size:22px; margin-top:-20px'>CALZADA EL MOSQUITO 2-05 ZONA 3 SAN PEDRO SACATEPEQUEZ, SAN MARCOS</h6>
                         </div>
                         <div class='form-group col-md-12'>
-                            <h6 style='font-size:22px; margin-top:-20px'>NIT: 74974324</h6>
+                            <h6 style='font-size:22px; margin-top:-20px'>NIT: 74974327</h6>
                         </div>
                         <div class='form-group col-md-12'>
                             <h6 style='font-size: 22px; margin-top:-20px'>7760-8499</h6>
                         </div>
                     </div>
+                </div>
+                <div class='form-group col-md-3 text-center'>
+                        <div id='qrcode' style=' width:30px; height:30px; margin-top:-5px;'></div>
+                        <script type='text/javascript'>
+                            new QRCode(document.getElementById('qrcode'), 'https://report.feel.com.gt/ingfacereport/ingfacereport_documento?uuid={uuid}');
+                        </script>                        
                 </div>
             </div>
             <div class='row' style='font-size:20px'>

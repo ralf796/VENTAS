@@ -54,11 +54,13 @@ $(document).ready(function () {
                         $('#txtDireccion').val(CLIENTE.DIRECCION);
                         $('#txtCategoriaCliente').val(CLIENTE.NOMBRE_CATEGORIA_CLIENTE);
                         $('#hfIdCategoriaCliente').val(CLIENTE.ID_CATEGORIA_CLIENTE);
+                        $('#selCategoriaCliente').val(CLIENTE.ID_CATEGORIA_CLIENTE);
 
                         $('#txtNombreCliente').removeClass('border border-success border-warning border-danger');
                         $('#txtDireccion').removeClass('border border-success border-warning border-danger');
                         $('#txtCategoriaCliente').removeClass('border border-success border-warning border-danger');
 
+                        console.log(CLIENTE.FRECUENCIA)
                         if (CLIENTE.FRECUENCIA == 3) {
                             //$('#txtNombreCliente').addClass('border border-success');
                             //$('#txtDireccion').addClass('border border-success');
@@ -247,6 +249,7 @@ $(document).ready(function () {
                 $('#txtDireccion').val(e.data["DIRECCION"]);
                 $('#txtCategoriaCliente').val(e.data["NOMBRE_CATEGORIA_CLIENTE"]);
                 $('#hfIdCategoriaCliente').val(e.data["ID_CATEGORIA_CLIENTE"]);
+                $('#selCategoriaCliente').val(e.data["ID_CATEGORIA_CLIENTE"]);
                 $('#modalClientes').modal('hide');
 
                 if (e.data["FRECUENCIA"] == 3) {
@@ -959,7 +962,10 @@ $(document).ready(function () {
         var filtro = $('#txtFiltro').val();
         var anioI = $('#anioI').val();
         var anioF = $('#anioF').val();
+        var descuento = $('#txtPorcentajeDesc').val();
 
+        if (descuento == '' || descuento == null)
+            descuento = 0;
 
         if (filtro.length < 4) {
             if (gridProductos != null) {
@@ -981,7 +987,7 @@ $(document).ready(function () {
                     url: '/VENCrearVenta/GetProductosTable',
                     contentType: "application/json; charset=utf-8",
                     dataType: 'json',
-                    data: { filtro, anioI, anioF },
+                    data: { filtro, anioI, anioF, descuento },
                     cache: false,
                     success: function (data) {
                         var state = data["State"];
@@ -1091,6 +1097,13 @@ $(document).ready(function () {
                     width: 115
                 },
                 {
+                    dataField: "DESCUENTO",
+                    caption: "CON DESCUENTO",
+                    alignment: "right",
+                    format: "###,###.00",
+                    width: 115
+                },
+                {
                     dataField: "PRECIO_COSTO",
                     caption: "PRECIO COSTO",
                     alignment: "right",
@@ -1189,6 +1202,13 @@ $(document).ready(function () {
         e.preventDefault();
         GetDatosGridProductos();
     });
+    $("#txtPorcentajeDesc").keypress(function (e) {
+        var code = (e.keyCode ? e.keyCode : e.which);
+        if (code == 13) {
+            e.preventDefault();
+            GetDatosGridProductos();
+        }
+    });
     $('#anioI').on('keyup', function (e) {
         e.preventDefault();
         var anioI = $('#anioI').val();
@@ -1232,6 +1252,43 @@ $(document).ready(function () {
                     var PROD = data["data"];
                     console.log(PROD)
                     Popup(PROD)
+                }
+                else if (state == -1) {
+                    ShowAlertMessage('warning', data['Message'])
+                }
+            }
+        });
+    }
+
+
+
+    $('#btnModalModificarCatCliente').on('click', function (e) {
+        e.preventDefault();
+        var categoria = $('#hfIdCategoriaCliente').val();
+        console.log(categoria);
+        $('#modalModificarCategoria').modal('show');
+    });
+
+    $('#selCategoriaCliente').on('change', function (e) {
+        e.preventDefault();
+        var id_categoria = $(this).val();
+        var id_cliente = $('#hfIdCliente').val();
+        ModificarCategoriaCliente(id_cliente, id_categoria);
+    });
+
+    function ModificarCategoriaCliente(id_cliente, id_categoria) {
+        $.ajax({
+            type: 'GET',
+            url: "/VENCrearVenta/ModificarCategoriaCliente",
+            contentType: "application/json; charset=utf-8",
+            dataType: 'json',
+            data: { id_cliente, id_categoria },
+            cache: false,
+            success: function (data) {
+                var state = data["State"];
+                if (state == 1) {
+                    $('#hfIdCategoriaCliente').val(id_categoria);
+                    //ShowAlertMessage('success', 'Cliente actualizado correctamente');
                 }
                 else if (state == -1) {
                     ShowAlertMessage('warning', data['Message'])

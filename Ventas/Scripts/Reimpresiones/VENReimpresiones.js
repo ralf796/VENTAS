@@ -105,7 +105,8 @@ $(document).ready(function () {
                                     $("<span>").addClass(classBTN2).prop('title', 'Reimpresión comprobante').appendTo(container);
                                     $('.imprimir' + cont).click(function (e) {
                                         var id_venta = parseInt(fieldData.ID_VENTA);
-                                        GenerarComprobante(id_venta);
+                                        var uuid = fieldData.UUID;
+                                        GenerarComprobante(id_venta, uuid);
                                     })
                                 }
 
@@ -178,9 +179,9 @@ $(document).ready(function () {
         GetDatos(DateFormat(fecha.lastSelectedDate));
     })
 
-    function GenerarComprobante(id_venta) {
+    function GenerarComprobante(id_venta, uuid) {
         CallLoadingFire('Generando comprobante, por favor espera...');
-        $.post("/VENReimpresiones/GetComprobante", { id_venta }, function (result) {
+        $.post("/VENReimpresiones/GetComprobante", { id_venta, uuid }, function (result) {
             var pom = document.createElement('a');
             pom.setAttribute('href', 'data:' + result.MimeType + ';base64,' + result.File);
             pom.setAttribute('download', result.FileName);

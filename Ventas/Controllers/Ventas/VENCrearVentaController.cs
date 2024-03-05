@@ -247,7 +247,7 @@ namespace Ventas.Controllers.Ventas
                 return Json(new { State = -1, Message = ex.Message }, JsonRequestBehavior.AllowGet);
             }
         }
-        public JsonResult GetList(int tipo = 0, int ID_MARCA_REPUESTO = 0, int ID_SUBCATEGORIA = 0, int ID_CATEGORIA = 0, int ID_SERIE_VEHICULO = 0, int ID_MARCA_VEHICULO = 0, int ID_MODELO = 0, string nombre="")
+        public JsonResult GetList(int tipo = 0, int ID_MARCA_REPUESTO = 0, int ID_SUBCATEGORIA = 0, int ID_CATEGORIA = 0, int ID_SERIE_VEHICULO = 0, int ID_MARCA_VEHICULO = 0, int ID_MODELO = 0, string nombre = "")
         {
             try
             {
@@ -506,7 +506,7 @@ namespace Ventas.Controllers.Ventas
                 return Json(new { State = -1, Message = ex.Message }, JsonRequestBehavior.AllowGet);
             }
         }
-        public JsonResult GetProductosTable(string filtro = "", int anioI = 0, int anioF = 0)
+        public JsonResult GetProductosTable(string filtro = "", int anioI = 0, int anioF = 0, int descuento = 0)
         {
             try
             {
@@ -520,6 +520,21 @@ namespace Ventas.Controllers.Ventas
                 item.ANIO_INICIAL = anioI;
                 item.ANIO_FINAL = anioF;
                 lista = GetDatosSP_(item);
+
+                decimal porcDesc = 0;
+                if (descuento > 0)
+                {
+                    porcDesc = descuento / (decimal)(100);
+                }
+
+                foreach (var row in lista)
+                {
+                    if (porcDesc > 0)
+                        row.DESCUENTO = row.PRECIO_VENTA-(row.PRECIO_VENTA * porcDesc);
+                    else
+                        row.DESCUENTO = row.PRECIO_VENTA;
+                }
+
                 return Json(new { State = 1, data = lista }, JsonRequestBehavior.AllowGet);
             }
             catch (Exception ex)
@@ -635,7 +650,7 @@ namespace Ventas.Controllers.Ventas
             </div>");
             html.AppendLine("</body>");
             html.AppendLine("</html>");
-            
+
             HtmlToPdf converter = new HtmlToPdf();
             converter.Options.PdfPageSize = PdfPageSize.Letter;
             converter.Options.PdfPageOrientation = PdfPageOrientation.Portrait;
@@ -979,5 +994,32 @@ namespace Ventas.Controllers.Ventas
             }
             return id_venta;
         }
+
+        public JsonResult ModificarCategoriaCliente(int id_cliente = 0, int id_categoria = 0)
+        {
+            try
+            {
+                string respuesta = "";
+                var item = new Clientes_BE();
+                item.MTIPO = 5;
+                item.ID_CLIENTE = id_cliente;
+                item.ID_CATEGORIA_CLIENTE = id_categoria;
+                var lista = GetDatosCliente_(item);
+                if (lista.Count > 0)
+                {
+                    if (lista.FirstOrDefault().RESPUESTA != "")
+                    {
+                        respuesta = lista.FirstOrDefault().RESPUESTA;
+                    }
+                }
+                return Json(new { State = 1 }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                return Json(new { State = -1, Message = ex.Message }, JsonRequestBehavior.AllowGet);
+
+            }
+        }
+
     }
 }

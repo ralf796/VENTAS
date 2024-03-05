@@ -37,5 +37,28 @@ namespace Ventas.Controllers.Reportes
 
             }
         }
+
+
+        public ActionResult IndexHistorialProductos()
+        {
+            return View();
+        }
+        public JsonResult HistorialProductos(string fechaInicial = "", string fechaFinal = "")
+        {
+            try
+            {
+                var item = new Reportes_BE();
+                item.MTIPO = 3;
+                item.FECHA_INICIAL = Convert.ToDateTime(fechaInicial);
+                item.FECHA_FINAL = Convert.ToDateTime(fechaFinal);
+                var lista = GetSPReportes_(item);
+                return Json(new { State = 1, data = lista }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                return Json(new { State = -1, Message = ex.Message }, JsonRequestBehavior.AllowGet);
+
+            }
+        }
     }
 }

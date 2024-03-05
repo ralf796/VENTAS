@@ -191,8 +191,15 @@
                     </div>
                     <div class="col-12 col-sm-12 col-md-9 col-lg-9 col-xl-3">
                         <label for="txtCategoriaCliente">CATEGORIA</label>
-                        <input class="form-control" id="txtCategoriaCliente" name="txtCategoriaCliente" type="text" disabled>
-                        <input id="hfIdCategoriaCliente" type="hidden">
+                        <div class="input-group" style="margin-top:-10px">                            
+                            <select class="form-control" id="selCategoriaCliente" required>
+                                <option value="1">PUBLICO</option>
+                                <option value="2">MECANICO</option>
+                                <option value="3">MAYOREO</option>
+                            </select>
+                            <input class="form-control d-none" id="txtCategoriaCliente" name="txtCategoriaCliente" type="text" disabled>
+                            <input id="hfIdCategoriaCliente" type="hidden">
+                        </div>
                     </div>
                     <div class="col-12 col-sm-12 col-md-9 col-lg-9 col-xl-9">
                         <label for="txtNombreCliente">DIRECCION</label>
@@ -356,7 +363,23 @@
                     <span class="badge badge-pill badge-secondary">LISTADO DE PRODUCTOS</span>
                     <div class="card-body">
                         <div class="row justify-content-center">
-                            <div class="col-12 col-sm-12 col-md-8 col-lg-8 col-xl-8">
+                            <div class="col-6">
+                                <label for="txtFiltro">INGRESE SU BUSQUEDA</label>
+                                <input type="text" class="form-control" id="txtFiltro" style="margin-top:-10px">
+                            </div>
+                            <div class="col-3">
+                                <label for="txtPorcentajeDesc">% DESCUENTO</label>
+                                <input type="text" class="form-control" id="txtPorcentajeDesc" style="margin-top:-10px">
+                            </div>
+                            <div class="col-3">
+                                <label for="txtPorcentajeDesc">MODELO</label>
+                                <input type="text" class="form-control text-center" id="anioI" maxlength="4" onkeypress="return valideKey(event);" style="margin-top:-10px">
+                                <input type="text" class="form-control text-center d-none" id="anioF" maxlength="4" onkeypress="return valideKey(event);" style="margin-top:1px">
+                            </div>
+
+
+
+                            @*<div class="col-12 col-sm-12 col-md-8 col-lg-8 col-xl-8">
                                 <div class="input-group">
                                     <div class="input-group-prepend">
                                         <div class="input-group-text">INGRESE SU BUSQUEDA</div>
@@ -372,8 +395,8 @@
                                     <input type="text" class="form-control text-center" id="anioI" maxlength="4" onkeypress="return valideKey(event);" style="margin-top:1px">
                                     <input type="text" class="form-control text-center d-none" id="anioF" maxlength="4" onkeypress="return valideKey(event);" style="margin-top:1px">
                                 </div>
-                            </div>
-                            <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                            </div>*@
+                            <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12" style="">
                                 <div class="demo-container">
                                     <div id="exportButton"></div>
                                     <div id="gridContainer"></div>
@@ -477,6 +500,35 @@
         </div>
     </div>
 </div>
+
+@*<div class="modal fade" id="modalModificarCategoria">
+    <div class="modal-dialog">
+        <div class="modal-content  bg-secondary">
+            <div class="modal-header">
+                <h5 class="modal-title">MODIFICAR CATEGORIA</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-12">
+                        <label class="form-label" for="nit">CATEGORIA:</label>
+                        <select class="form-control select2bs4" id="selCategoriaCliente" required>
+                            <option value="1">PUBLICO</option>
+                            <option value="2">MECANICO</option>
+                            <option value="3">MAYOREO</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer justify-content-center">
+                <button type="button" class="btn btn-danger" data-dismiss="modal">CERRAR</button>
+                <button type="button" class="btn btn-success" id="btnModificarCatCliente">GUARDAR</button>
+            </div>
+        </div>
+    </div>
+</div>*@
 
 <div class="modal fade" id="modalValidarAutorizacion">
     <div class="modal-dialog modal-sm">
